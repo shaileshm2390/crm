@@ -8,7 +8,7 @@
         port: 3308
     },
     app: {
-        name: "MEAN Stack Relational - Development"
+        name: "MEAN Stack Relational - Production"
     },
     // You will need to get your own client id's before this will work properly
     facebook: {

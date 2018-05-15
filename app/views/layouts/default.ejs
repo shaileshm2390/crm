@@ -1,0 +1,360 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base href="/">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon.png">
+    <title>CRM</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="/css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="/css/lib/bootstrap/docs/assets/css/bootstrap.css" rel="stylesheet"> -->
+
+    <link href="/css/common.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+
+    <link href="/css/lib/calendar2/semantic.ui.min.css" rel="stylesheet">
+    <link href="/css/lib/calendar2/pignose.calendar.min.css" rel="stylesheet">
+    <link href="/css/lib/owl.carousel.min.css" rel="stylesheet" />
+    <link href="/css/lib/owl.theme.default.min.css" rel="stylesheet" />
+    <link href="/css/helper.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:** -->
+    <!--[if lt IE 9]>
+    <script src="https:**oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https:**oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body class="fix-header fix-sidebar">
+    <!-- Preloader - style you can find in spinners.css -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+
+    <!-- Main wrapper  -->
+    <div id="main-wrapper">
+        <!-- header header  -->
+        <div class="header">
+            <nav class="navbar top-navbar navbar-expand-md navbar-light">
+                <!-- Logo -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">
+                        <!-- Logo icon -->
+                        <b>
+                            <img src="/img/logo.png" alt="homepage" class="dark-logo" /></b>
+                        <!--End Logo icon -->
+                        <!-- Logo text -->
+                        <span>
+                            <!-- <img src="/img/logo-text.png" alt="homepage" class="dark-logo" /> -->
+                            <strong>CRM</strong>
+                        </span>
+                    </a>
+                </div>
+                <!-- End Logo -->
+                <div class="navbar-collapse">
+                    <!-- toggle and nav items -->
+                    <ul class="navbar-nav mr-auto mt-md-0">
+                        <!-- This is  -->
+                        <li class="nav-item"><a class="nav-link nav-toggler hidden-md-up text-muted  " href="javascript:void(0)"><i class="mdi mdi-menu"></i></a></li>
+                        <li class="nav-item m-l-10"><a class="nav-link sidebartoggler hidden-sm-down text-muted  " href="javascript:void(0)"><i class="ti-menu"></i></a></li>
+                        <!-- Messages -->
+
+                        <!-- End Messages -->
+                    </ul>
+                    <!-- User profile and search -->
+                    <ul class="navbar-nav my-lg-0">
+
+                        <li class="nav-item dropdown">
+                            <div class="navbar-inner" data-ng-controller="HeaderController">
+                               <!-- <ul class="nav  pull-left">
+
+                                    <li data-ng-repeat="item in menu" data-ng-show="global.user" ui-route="/{{item.link}}" ng-class="{active: $uiRoute}">|	&nbsp; <a ui-sref="{{item.state}}">{{item.title}}</a>
+                                    </li>
+                                </ul> -->
+                                <ul class="nav pull-right" data-ng-hide="global.authenticated">
+                                  <!--  <li>|	&nbsp; <a ui-sref="SignUp">Signup</a>
+                                    </li>-->
+                                    <li class="divider-vertical"></li>
+                                    <li>|	&nbsp; <a ui-sref="SignIn">Signin</a>
+                                    </li>
+                                </ul>
+                                <ul class="nav pull-right" data-ng-show="global.authenticated">
+                                    <li class="dropdown"><strong><a class="dropdown-toggle" data-toggle="dropdown" href="#">Hiya, {{global.user.firstName}}  </strong><b class="caret"></b>
+                                    </a>
+                                        <li>|	<a ng-click="SignOut()" href="#">Signout</a>
+                                        </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!-- End header header -->
+        <!-- Left Sidebar  -->
+        <div data-ng-controller="HeaderController">
+
+            <div class="left-sidebar">
+                <!-- Sidebar scroll-->
+                <div class="scroll-sidebar">
+                    <!-- Sidebar navigation-->
+                    <nav class="sidebar-nav">
+
+                        <ul class="sidebarnav" data-ng-hide="global.user">
+                            <li class="nav-label"><a ui-sref="SignIn">Signin</a></li>
+                            <li class="nav-devider"></li>
+                          <!--  <li class="nav-label"><a ui-sref="SignUp">Signup</a> </li>-->
+                        </ul>
+                        <ul id="sidebarnav" data-ng-show="global.user">
+                            <li class="nav-devider"></li>
+                            <li class="nav-label">Home</li>
+                            <li><a " href="/"><i class="fa fa-tachometer"></i>Dashboard
+                                <!--<span class="hide-menu"> 
+                               <span class="label label-rouded label-primary pull-right">2</span></span>-->
+                                </a>
+                               <!-- <ul aria-expanded="false" class="collapse">
+                                    <li><a href="index.html">Ecommerce </a></li>
+                                    <li><a href="index1.html">Analytics </a></li>
+                                </ul>-->
+                            </li>
+                            <li class="nav-label">Admin Section</li>
+                            <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-object-group"></i><span class="hide-menu">Departments</span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li><a href="/department">List</a></li>
+                                    <li><a href="/department/create">Add</a></li>
+                                </ul>
+                            </li>
+                            <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-users"></i><span class="hide-menu">Users</span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li><a href="/user">List</a></li>
+                                    <li><a href="/user/create">Add</a></li>
+                                </ul>
+                            </li>
+                            <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-bar-chart"></i><span class="hide-menu">Charts</span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li><a href="chart-flot.html">Flot</a></li>
+                                    <li><a href="chart-morris.html">Morris</a></li>
+                                    <li><a href="chart-chartjs.html">ChartJs</a></li>
+                                    <li><a href="chart-chartist.html">Chartist </a></li>
+                                    <li><a href="chart-amchart.html">AmChart</a></li>
+                                    <li><a href="chart-echart.html">EChart</a></li>
+                                    <li><a href="chart-sparkline.html">Sparkline</a></li>
+                                    <li><a href="chart-peity.html">Peity</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-label">Features</li>
+                            <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-suitcase"></i><span class="hide-menu">Bootstrap UI <span class="label label-rouded label-warning pull-right">6</span></span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li><a href="ui-alert.html">Alert</a></li>
+                                    <li><a href="ui-button.html">Button</a></li>
+                                    <li><a href="ui-dropdown.html">Dropdown</a></li>
+                                    <li><a href="ui-progressbar.html">Progressbar</a></li>
+                                    <li><a href="ui-tab.html">Tab</a></li>
+                                    <li><a href="ui-typography.html">Typography</a></li>
+                                </ul>
+                            </li>
+                            <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-suitcase"></i><span class="hide-menu">Components <span class="label label-rouded label-danger pull-right">6</span></span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li><a href="uc-calender.html">Calender</a></li>
+                                    <li><a href="uc-datamap.html">Datamap</a></li>
+                                    <li><a href="uc-nestedable.html">Nestedable</a></li>
+                                    <li><a href="uc-sweetalert.html">Sweetalert</a></li>
+                                    <li><a href="uc-toastr.html">Toastr</a></li>
+                                    <li><a href="uc-weather.html">Weather</a></li>
+                                </ul>
+                            </li>
+                            <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-wpforms"></i><span class="hide-menu">Forms</span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li><a href="form-basic.html">Basic Forms</a></li>
+                                    <li><a href="form-layout.html">Form Layout</a></li>
+                                    <li><a href="form-validation.html">Form Validation</a></li>
+                                    <li><a href="form-editor.html">Editor</a></li>
+                                    <li><a href="form-dropzone.html">Dropzone</a></li>
+                                </ul>
+                            </li>
+                            <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-table"></i><span class="hide-menu">Tables</span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li><a href="table-bootstrap.html">Basic Tables</a></li>
+                                    <li><a href="table-datatable.html">Data Tables</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-label">Layout</li>
+                            <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-columns"></i><span class="hide-menu">Layout</span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li><a href="layout-blank.html">Blank</a></li>
+                                    <li><a href="layout-boxed.html">Boxed</a></li>
+                                    <li><a href="layout-fix-header.html">Fix Header</a></li>
+                                    <li><a href="layout-fix-sidebar.html">Fix Sidebar</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-label">EXTRA</li>
+                            <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-book"></i><span class="hide-menu">Pages <span class="label label-rouded label-success pull-right">8</span></span></a>
+                                <ul aria-expanded="false" class="collapse">
+
+                                    <li><a href="#" class="has-arrow">Authentication <span class="label label-rounded label-success">6</span></a>
+                                        <ul aria-expanded="false" class="collapse">
+                                            <li><a href="page-login.html">Login</a></li>
+                                            <li><a href="page-register.html">Register</a></li>
+                                            <li><a href="page-invoice.html">Invoice</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#" class="has-arrow">Error Pages</a>
+                                        <ul aria-expanded="false" class="collapse">
+                                            <li><a href="page-error-400.html">400</a></li>
+                                            <li><a href="page-error-403.html">403</a></li>
+                                            <li><a href="page-error-404.html">404</a></li>
+                                            <li><a href="page-error-500.html">500</a></li>
+                                            <li><a href="page-error-503.html">503</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-map-marker"></i><span class="hide-menu">Maps</span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li><a href="map-google.html">Google</a></li>
+                                    <li><a href="map-vector.html">Vector</a></li>
+                                </ul>
+                            </li>
+                            <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-level-down"></i><span class="hide-menu">Multi level dd</span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li><a href="#">item 1.1</a></li>
+                                    <li><a href="#">item 1.2</a></li>
+                                    <li><a class="has-arrow" href="#" aria-expanded="false">Menu 1.3</a>
+                                        <ul aria-expanded="false" class="collapse">
+                                            <li><a href="#">item 1.3.1</a></li>
+                                            <li><a href="#">item 1.3.2</a></li>
+                                            <li><a href="#">item 1.3.3</a></li>
+                                            <li><a href="#">item 1.3.4</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">item 1.4</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- End Sidebar navigation -->
+                </div>
+                <!-- End Sidebar scroll-->
+            </div>
+        </div>
+        <!-- End Left Sidebar  -->
+        <!-- Page wrapper  -->
+        <div class="page-wrapper">
+            <!-- Bread crumb -->
+           <!-- <div class="row page-titles">
+                <div class="col-md-5 align-self-center">
+                    <h3 class="text-primary">Dashboard</h3>
+                </div>
+                <div class="col-md-7 align-self-center">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                        <li class="breadcrumb-item active">Dashboard</li>
+                    </ol>
+                </div>
+            </div>-->
+            <!-- End Bread crumb -->
+            <!-- Container fluid  -->
+            <div class="container-fluid">
+                <br />
+                <!-- Start Page Content -->
+                <%- content %>
+
+                <!-- End PAge Content -->
+            </div>
+            <!-- End Container fluid  -->
+            <!-- footer -->
+            <footer class="footer">© 2018 All rights reserved. </footer>
+            <!-- End footer -->
+        </div>
+        <!-- End Page wrapper  -->
+    </div>
+
+    <!-- End Wrapper -->
+    <!-- All Jquery -->
+    <script src="/js/lib/jquery/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <!--   <script src="/js/lib/bootstrap/js/popper.min.js"></script>
+   <script src="/js/lib/bootstrap/js/bootstrap.min.js"></script> -->
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="/js/jquery.slimscroll.js"></script>
+    <!--Menu sidebar -->
+    <script src="/js/sidebarmenu.js"></script>
+    <!--stickey kit -->
+    <script src="/js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <!--Custom JavaScript -->
+
+
+    <!-- Amchart 
+     <script src="/js/lib/morris-chart/raphael-min.js"></script>
+    <script src="/js/lib/morris-chart/morris.js"></script>
+    <script src="/js/lib/morris-chart/dashboard1-init.js"></script>-->
+
+
+    <script src="/js/lib/calendar-2/moment.latest.min.js"></script>
+    <!-- scripit init-->
+    <script src="/js/lib/calendar-2/semantic.ui.min.js"></script>
+    <!-- scripit init-->
+    <script src="/js/lib/calendar-2/prism.min.js"></script>
+    <!-- scripit init-->
+    <script src="/js/lib/calendar-2/pignose.calendar.min.js"></script>
+    <!-- scripit init-->
+    <script src="/js/lib/calendar-2/pignose.init.js"></script>
+
+    <script src="/js/lib/owl-carousel/owl.carousel.min.js"></script>
+    <script src="/js/lib/owl-carousel/owl.carousel-init.js"></script>
+    <script src="/js/scripts.js"></script>
+    <!-- scripit init-->
+
+    <!--<script src="/js/custom.min.js"></script> -->
+
+    <!--AngularJS-->
+
+    <script src="/lib/angular/angular.js"></script>
+    <script src="/lib/angular-cookies/angular-cookies.js"></script>
+    <script src="/lib/angular-resource/angular-resource.js"></script>
+    <script src="/lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+
+    <!--Angular UI-->
+    <script src="/lib/angular-bootstrap/ui-bootstrap.js"></script>
+    <script src="/lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="/lib/angular-ui-utils/modules/route/route.js"></script>
+    <script src="/lib/satellizer/satellizer.min.js"></script>
+    <script src="/js/FbSdk.js"></script>
+    <script src="/lib/social/angular-fblogin.js"></script>
+
+    <!--Application Init-->
+    <script src="/js/app.js"></script>
+    <script src="/js/config.js"></script>
+    <script src="/js/directives.js"></script>
+    <script src="/js/filters.js"></script>
+
+    <!--	   Application Services-->
+    <script src="/js/services/global.js"></script>
+    <script src="/js/services/departments.js"></script>
+    <script src="/js/services/authenticate.js"></script>
+      <script src="/js/services/users.js"></script>
+
+    <!--	  Application Controllers-->
+        <script src="/js/controllers/users.js"></script>
+      <script src="/js/controllers/departments.js"></script>
+    <script src='/js/controllers/index.js'></script>
+    <script src='/js/controllers/header.js'></script>
+    <script src='/js/controllers/users/auth.js'></script>
+    <script src='/js/controllers/users/signIn.js'></script>
+    <script src='/js/controllers/users/signUp.js'></script>
+    <script src='/js/init.js'></script>
+
+</body>
+
+</html>

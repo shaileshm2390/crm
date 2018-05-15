@@ -1,0 +1,42 @@
+<h1>Users</h1>
+
+<div class="card">
+    <div class="pull-right">
+        <a href="/user/create" class="btn btn-primary">Add User</a>
+    </div>
+    <div class="clearfix"></div> <br />
+    <section data-ng-init="find()" class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Department</th>
+                    <th>Created</th>
+                    <th style="text-align:center">Active</th>
+                    <th style="text-align:center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--<tr data-ng-repeat="user in users" data-ng-if="user.id != global.user.id">-->
+                <tr data-ng-repeat="user in users">
+                    <td>
+                        <label><a class="btn" ui-sref="editUsers({userId : user.id})">{{user.firstName}} {{user.lastName}}</a></label>
+                    </td>
+                    <th><label>{{user.email}}</label></th>
+                    <th><label>{{user.contact}}</label></th>
+                    <th><label>{{user.Department.name}}</label></th>
+                    <td> <span>{{user.updatedAt | date:'medium'}}</span></td>
+                    <td style="text-align:center">
+                        <span>{{user.active == true ? "Yes" : "No"}}</span>
+                    </td>
+                    <td style="text-align:center">
+                        <a class="btn" data-ng-click="remove(user);"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>        
+        <h1 data-ng-hide="!users || users.length == 1">No user yet. <br> Why don't you <a ui-sref="createUser">Create One</a>?</h1>
+    </section>
+</div>

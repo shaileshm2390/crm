@@ -1,0 +1,40 @@
+<h1>Add User</h1>
+<section>
+    <form class="form-horizontal" data-ng-submit="create()">
+        <div class="control-group">
+            <label for="name" class="control-label">First name</label>
+            <div class="controls">
+                <input id="firstName" type="text" name="firstName" class="form-control" placeholder="First name" ng-model="user.firstName" required>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="name" class="control-label">Last name</label>
+            <div class="controls">
+                <input id="lastName" type="text" name="lastName" class="form-control" placeholder="Last name" ng-model="user.lastName" required>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="email" class="control-label">Email</label>
+            <div class="controls">
+                <input id="email" type="email" class="form-control" name="email" placeholder="Email" ng-model="user.email" required>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="email" class="control-label">Contact</label>
+            <div class="controls">
+                <input id="contact" type="text" class="form-control" name="contact" placeholder="Contact" ng-model="user.contact" required>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="password" class="control-label">Password</label>
+            <div class="controls">
+                <input id="password" type="password" class="form-control" name="password" placeholder="Password" ng-model="user.password" required>
+            </div>
+        </div>
+        <div class="clear"></div><br />
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save</button> 
+            <a class="btn btn-secondary" href="/user">Cancel</a>
+        </div>
+    </form>
+</section>

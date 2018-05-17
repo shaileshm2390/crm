@@ -20,6 +20,7 @@ angular.module('mean.customers').controller('CustomersController', ['$scope', '$
         this.company = "";
         this.name = "";
         this.contact = "";
+       
     };
 
     $scope.remove = function (customer) {

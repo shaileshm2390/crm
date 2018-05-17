@@ -1,17 +1,12 @@
-<script>
-function Ctrl($scope) {
-  //$scope.text = 'me@example.com';
-  $scope.emailFormat = /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/;
-}
-</script>
 <h1>Manage Customer</h1>
 <section>
-	<form class="form-horizontal" data-ng-submit="create()" name="myForm">
+	<form class="form-horizontal" data-ng-submit="create()" name="myForm" id="myForm">
 		<div class="control-group">
 			<label class="control-label" for="email">Email</label>
 			<div class="controls">
-				<input type="email" data-ng-model="email" name="email" id="email" placeholder="Email" class="form-control col-sm-6" data-ng-pattern="emailFormat" required>
+				<input type="text" data-ng-model="email" name="email" id="email" placeholder="Email" class="form-control col-sm-6 txtEmail">
 			</div>
+            <span class="errorEmail" style="color:red;"></span>
 		</div>	
         <br />
 
@@ -19,32 +14,37 @@ function Ctrl($scope) {
         <div class="control-group">
             <label class="control-label" for="company">Company</label>
             <div class="controls">
-                <input type="text" data-ng-model="company" id="company" name="company" placeholder="Company" class="form-control col-sm-6" required>
+                <input type="text" data-ng-model="company" id="company" name="company" placeholder="Company" class="form-control col-sm-6 txtCompany">
             </div>
+            <span class="errorCompany" style="color:red;"></span>
         </div>	
         <br />
 
         <div class="control-group">
             <label class="control-label" for="name">Name</label>
             <div class="controls">
-                <input type="text" data-ng-model="name" id="name" name="name" placeholder="Name" class="form-control col-sm-6" required>
+                <input type="text" data-ng-model="name" id="name" name="name" placeholder="Name" class="form-control col-sm-6 txtName">
             </div>
+            <span class="errorName" style="color:red;"></span>
         </div>	
         <br />
 
         <div class="control-group">
             <label class="control-label" for="contact">Contact Number</label>
             <div class="controls">
-                <input type="tel" data-ng-model="contact" id="contact" name="contact" placeholder="Contact Number" class="form-control col-sm-6" required>
+                <input type="tel" data-ng-model="contact" id="contact" name="contact" placeholder="Contact Number" class="form-control col-sm-6 txtContact">
             </div>
+            <span class="errorContact" style="color:red;"></span>
         </div>
       
         <div class="clear clearfix" ></div><br />
 		<div class="control-group">
             <div class="controls">
-                <input type="submit" class="btn btn-primary" value="Save">
+                <input type="submit" class="btn btn-primary btn-Save" value="Save">
                 <a class="btn btn-secondary" href="/department">Cancel</a>
             </div>
 		</div>
 	</form>
 </section>
+
+<script src="/js/validation/customer.js"></script>

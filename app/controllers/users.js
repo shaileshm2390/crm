@@ -55,7 +55,7 @@ exports.all = function (req, res) {
     });
 };
 
-exports.show = function (req, res) {
+exports.show = function (req, res) {  
     return res.jsonp(req.user);
 };
 
@@ -148,11 +148,12 @@ exports.me = function (req, res) {
  * Find user by id
  */
 exports.user = function (req, res, next, id) {
-    db.User.find({where: {id: id}}).then(function (user) {
+    db.User.find({ where: { id: id } }).then(function (user) {
         if (!user) {
             return next(new Error('Failed to load User ' + id));
         }
         req.profile = user;
+        req.user = user;
         next();
     }).catch(function (err) {
         next(err);

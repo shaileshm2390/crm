@@ -1,8 +1,8 @@
 ﻿'use strict';
 
-angular.module('mean.departments').controller('DepartmentsController', ['$scope', '$stateParams', 'Global', 'Departments', '$state', '$window', function ($scope, $stateParams, Global, Departments, $state, $window) {
+angular.module('mean.departments').controller('DepartmentsController', ['$scope', '$location', '$stateParams', 'Global', 'Departments', '$state', '$window', function ($scope, $location, $stateParams, Global, Departments, $state, $window) {
     $scope.global = Global;
-
+  
     $scope.create = function () {
         var department = new Departments({
             name: this.name,

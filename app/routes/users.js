@@ -16,7 +16,7 @@ module.exports = function (app) {
         .get(users.requiresLogin, users.all)
         .post(users.requiresLogin, users.create);
     app.route('/users/:userId')
-        .get(users.requiresLogin, users.show)
+        .get(users.show)
         .put(users.requiresLogin, users.hasAuthorization, users.update)
         .delete(users.requiresLogin, users.hasAuthorization, users.destroy);
 

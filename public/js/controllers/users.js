@@ -4,7 +4,6 @@ angular.module('mean.users').controller('UsersController', ['$scope', '$statePar
     $scope.global = Global;
 
     $scope.create = function () {
-        isLoggedIn();
         var user = new Users({
             firstName: this.user.firstName,
             lastName: this.user.lastName,
@@ -12,7 +11,7 @@ angular.module('mean.users').controller('UsersController', ['$scope', '$statePar
             contact: this.user.contact,
             password: this.user.password,
             active: 1,
-            DepartmentId: 1
+            DepartmentId: this.user.DepartmentId
         });
        
         user.$save(function (response) {
@@ -31,13 +30,12 @@ angular.module('mean.users').controller('UsersController', ['$scope', '$statePar
     };
 
     $scope.remove = function (user) {
-        isLoggedIn();
         var deleteUser = $window.confirm('Are you absolutely sure you want to delete?');
         if (deleteUser) {
             if (user) {
                 user.$remove();
 
-                for (var i in $scope.departments) {
+                for (var i in $scope.users) {
                     if ($scope.users[i] === user) {
                         $scope.users.splice(i, 1);
                     }
@@ -51,7 +49,6 @@ angular.module('mean.users').controller('UsersController', ['$scope', '$statePar
     };
 
     $scope.update = function () {
-        isLoggedIn();
         var user = $scope.user;
         if (!user.updated) {
             user.updated = [];
@@ -63,27 +60,17 @@ angular.module('mean.users').controller('UsersController', ['$scope', '$statePar
         });
     };
 
-    $scope.find = function () {
-        isLoggedIn();
-       // console.log($scope.global);       
+    $scope.find = function () {    
         Users.query(function (users) {            
             $scope.users = users;
         });
     };
 
     $scope.findOne = function () {
-        isLoggedIn();
         Users.get({
-            userId: $stateParams.usersId
+            userId: $stateParams.userId
         }, function (user) {
             $scope.user = user;
         });
     };
-
-    function isLoggedIn() {
-        if (!$scope.global.authenticated) {
-            $window.location.href = '/signin';
-        }
-    }
-
 }]);

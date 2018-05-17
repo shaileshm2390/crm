@@ -5,39 +5,34 @@
         <a href="/department/create" class="btn btn-primary">Add Department</a>
     </div>
     <div class="clearfix"></div> <br />
-    <section data-ng-init="find()" class="table-responsive">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Created</th>
-                     <th style="text-align:center">Active</th>
-                    <th style="text-align:center">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr data-ng-repeat="department in departments" data-ng-if="department.name!='Admin'">
-                    <td>
-                      <!--  <label><a ui-sref="viewDepartment({departmentId : department.id})">{{department.name}}</a></label>-->
-                        <label><a class="btn" ui-sref="editDepartments({departmentId : department.id})">{{department.name}}</a></label>
-                    </td>
-                    <td> <span>{{department.updatedAt | date:'medium'}}</span></td>
-                    <td style="text-align:center">
-                        <span>{{department.status == true ? "Yes" : "No"}}</span>
-                    </td>
-                    <td style="text-align:center">                      
-                        <a class="btn" data-ng-click="remove(department);"><i class="fa fa-trash"></i></a>
-                    </td>                    
-                </tr>
-            </tbody>
-        </table>
-        <!--<ul class="departments unstyled">
-            <li data-ng-repeat="department in departments">
-                <h2><a ui-sref="viewDepartment({departmentId : department.id})">{{department.name}}</a></h2>
-                <span>{{department.updatedAt | date:'medium'}}</span>
-                <div class="clearfix"></div><br />
-            </li>
-        </ul>-->
-        <h1 data-ng-hide="!departments || departments.length">No department yet. <br> Why don't you <a ui-sref="createDepartment">Create One</a>?</h1>
-    </section>
+                                 <section data-ng-init="find()" class="table-responsive">                               
+                                     <div class="clearfix clear"></div><br />
+                                     <table class="table table-bordered">
+                                         <thead>
+                                             <tr>
+                                                 <th>Name</th>
+                                                 <th>Created</th>
+                                                 <th style="text-align:center">Active</th>
+                                                 <th style="text-align:center">Action</th>
+                                             </tr>
+                                         </thead>
+                                         <tbody>
+                                             <tr data-ng-repeat="department in departments" data-ng-if="department.name!='Admin'">
+                                                 <td>
+                                                     <!--  <label><a ui-sref="viewDepartment({departmentId : department.id})">{{department.name}}</a></label>-->
+                                                     <label><a class="btn" ui-sref="editDepartments({departmentId : department.id})">{{department.name}}</a></label>
+                                                 </td>
+                                                 <td> <span>{{department.updatedAt | date:'medium'}}</span></td>
+                                                 <td style="text-align:center">
+                                                     <span>{{department.status == true ? "Yes" : "No"}}</span>
+                                                 </td>
+                                                 <td style="text-align:center">
+                                                     <a class="btn" data-ng-click="remove(department);"><i class="fa fa-trash"></i></a>
+                                                 </td>
+                                             </tr>
+                                         </tbody>
+                                     </table>
+
+                                     <h1 data-ng-hide="!departments || departments.length">| No department yet. <br> Why don't you <a ui-sref="createDepartment">Create One</a>?</h1>
+                                 </section>
 </div>

@@ -1,0 +1,48 @@
+<h1>Edit Customer</h1>
+<section data-ng-init="findOne()">
+	<form class="form-horizontal" data-ng-submit="update()">
+		<div class="control-group">
+			<label class="control-label" for="email">Email</label>
+
+			<div class="controls">
+				<input type="email" data-ng-model="customer.email" id="title" placeholder="Email" class="form-control col-sm-6" required />			
+			</div>
+		</div>
+        <br />
+
+        <div class="control-group">
+            <label class="control-label" for="company">Company</label>
+
+            <div class="controls">
+                <input type="text" data-ng-model="customer.company" id="company" placeholder="Company" class="form-control col-sm-6" required />
+            </div>
+        </div>
+        <br />
+
+        <div class="control-group">
+            <label class="control-label" for="name">Name</label>
+
+            <div class="controls">
+                <input type="text" data-ng-model="customer.name" id="title" placeholder="Name" class="form-control col-sm-6" required />
+            </div>
+        </div>
+        <br />
+
+        <div class="control-group">
+            <label class="control-label" for="contact">Contact Number</label>
+
+            <div class="controls">
+                <input type="text" data-ng-model="customer.contact" id="contact" placeholder="Contact" class="form-control col-sm-6" required />
+            </div>
+        </div>
+        <br />
+      
+            <div class="clearfix"></div><br />
+            <div class="control-group">
+                <div class="controls">
+                    <input type="submit" class="btn btn-primary" value="Save">
+                    <a class="btn btn-secondary" href="/department">Cancel</a>
+                </div>
+            </div>
+</form>
+</section>

@@ -1,0 +1,51 @@
+<h1>Customers</h1>
+
+<div class="card">
+    <div class="pull-right">
+        <a href="/customer/create" class="btn btn-primary">Add Customer</a>
+    </div>
+    <div class="clearfix"></div> <br />
+    <section data-ng-init="find()" class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <!--<th>Email</th>-->
+                    <th style="text-align:center">Customer Name</th>
+                    <th style="text-align:center">Company</th>
+                     
+                    <!--<th style="text-align:center">Contact</th>
+                    <th style="text-align:center">Created</th>-->
+                    <th style="text-align:center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="customer in customers" data-ng-if="customer.name!='Admin'">
+                    <!--<td>
+                        <label><a class="btn" ui-sref="editCustomers({customerId : customer.id})">{{customer.email}}</a></label>
+                    </td>-->
+                    <td style="text-align:center">
+                        <label><a class="btn" ui-sref="editCustomers({customerId : customer.id})">{{customer.name}}</a></label>
+                    </td>
+
+                    <td style="text-align:center">
+                        <span>{{customer.company}}</span>
+                    </td>
+
+                    <!--<td>
+                        <span>{{customer.contact}}</span>
+                    </td>
+
+                    <td> 
+                        <span>{{customer.updatedAt | date:'medium'}}</span>
+                    </td>-->
+                    
+                    <td style="text-align:center">                      
+                        <a class="btn" data-ng-click="remove(customer);"><i class="fa fa-trash"></i></a>
+                    </td>                    
+                </tr>
+            </tbody>
+        </table>
+      
+        <h1 data-ng-hide="!customers || customers.length">No customers yet. <br> Why don't you <a ui-sref="createCustomer">Create One</a>?</h1>
+    </section>
+</div>

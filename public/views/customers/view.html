@@ -1,0 +1,7 @@
+<section data-ng-init="findOne()">
+    <span>{{customer.updatedAt | date:'medium'}}</span>
+    <h2>{{customer.name}}</h2>
+    <a class="btn btn-secondary" ui-sref="editCustomers({customerId : customer.id})">Edit</a>
+    <a class="btn btn-inverse" data-ng-click="remove();">Delete</a>
+    <a class="btn btn-info" href="/customer">List</a>
+</section>

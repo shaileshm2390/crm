@@ -42,6 +42,7 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             templateUrl: 'views/departments/view.html'
         })       
 
+        //user 
         .state('users', {
             url: '/user',
             controller: 'UsersController',
@@ -62,6 +63,28 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             controller: 'UsersController',
             templateUrl: 'views/users/view.html'
         })      
+
+        //customer
+        .state('customers', {
+            url: '/customer',
+            controller: 'CustomersController',
+            templateUrl: 'views/customers/list.html'
+        })
+        .state('createCustomer', {
+            url: '/customer/create',
+            controller: 'CustomersController',
+            templateUrl: 'views/customers/create.html'
+        })
+        .state('editCustomers', {
+            url: '/customer/{customerId}/edit',
+            controller: 'CustomersController',
+            templateUrl: 'views/customers/edit.html'
+        })
+        .state('viewCustomer', {
+            url: '/customer/{customerId}',
+            controller: 'CustomersController',
+            templateUrl: 'views/customers/view.html'
+        })
 
         .state('404', {
             templateUrl: 'views/404.html'

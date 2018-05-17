@@ -2040,6 +2040,10 @@ textarea {
 .footer {
   /*left: 240px;*/
   text-align: center;
+  position: fixed;
+  bottom: 0;
+  height: 50px;
+  margin: 0px !important;
 }
 #chartdiv3 {
   height: 450px;

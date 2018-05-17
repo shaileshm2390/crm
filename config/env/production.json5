@@ -1,14 +1,14 @@
 {
     // This is your MYSQL Database configuration
     db: {
-        name: "raise",
+        name: "crm",
         password: "",
         username: "root",
-        host: "localhost",
+        host: "192.168.6.21",
         port: 3308
     },
     app: {
-        name: "MEAN Stack Relational - Production"
+        name: "CRM"
     },
     // You will need to get your own client id's before this will work properly
     facebook: {

@@ -164,7 +164,7 @@ exports.user = function (req, res, next, id) {
  */
 exports.requiresLogin = function (req, res, next) {
     if (!req.isAuthenticated()) {
-        return res.status(401).send('User is not authorized');
+        return res.status(401).send('User is not authorized');       
     }
     next();
 };

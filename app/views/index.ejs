@@ -1,9 +1,3 @@
 ﻿<% extend('layouts/default') %>
 
 <div ui-view></div>
-
-  <% if (typeof user == 'object' && user) { %>
-    <script type="text/javascript"> 
-		window.user = {id:<%= user.id %>, email:'<%= user.email %>', firstName:'<%= user.firstName %>', lastName:'<%= user.lastName %>'};
-		</script>
-  <% } %>

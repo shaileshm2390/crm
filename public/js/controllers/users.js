@@ -6,21 +6,28 @@ angular.module('mean.users').controller('UsersController', ['$scope', '$statePar
     $scope.create = function () {
         isLoggedIn();
         var user = new Users({
-            firstName: this.firstName,
-            lastName: this.lastName,
-            email: this.email,
-            contact: this.contact,
+            firstName: this.user.firstName,
+            lastName: this.user.lastName,
+            email: this.user.email,
+            contact: this.user.contact,
+            password: this.user.password,
             active: 1,
-            DepartmentId: this.DepartmentId
+            DepartmentId: 1
         });
-
+       
         user.$save(function (response) {
             // $state.go('viewDepartment', { departmentId: response.id })
             $state.go('users');
         });
 
-        this.name = "";
-        this.status = 1;
+        this.user.firstName = "";
+        this.user.lastName = "";
+        this.user.email = "";
+        this.user.contact = "";
+        this.user.active = 1;
+        this.user.password = "";
+        this.user.DepartmentId = 0;
+
     };
 
     $scope.remove = function (user) {

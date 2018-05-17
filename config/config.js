@@ -1,5 +1,5 @@
 'use strict';
-
+ 
 var nconf = require('nconf'),
     json5 = require('json5'),
     _ = require('lodash'),

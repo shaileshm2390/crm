@@ -19,8 +19,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!--<tr data-ng-repeat="user in users" data-ng-if="user.id != global.user.id">-->
-                <tr data-ng-repeat="user in users">
+                <tr data-ng-repeat="user in users" data-ng-if="user.id != global.user.id">                
                     <td>
                         <label><a class="btn" ui-sref="editUsers({userId : user.id})">{{user.firstName}} {{user.lastName}}</a></label>
                     </td>
@@ -36,7 +35,6 @@
                     </td>
                 </tr>
             </tbody>
-        </table>        
-        <h1 data-ng-hide="!users || users.length == 1">No user yet. <br> Why don't you <a ui-sref="createUser">Create One</a>?</h1>
+        </table>              
     </section>
 </div>

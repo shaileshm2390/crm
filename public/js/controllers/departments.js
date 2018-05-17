@@ -10,7 +10,6 @@ angular.module('mean.departments').controller('DepartmentsController', ['$scope'
         });
 
         department.$save(function (response) {
-           // $state.go('viewDepartment', { departmentId: response.id })
             $state.go('departments');           
         });
 
@@ -46,12 +45,18 @@ angular.module('mean.departments').controller('DepartmentsController', ['$scope'
         department.$update(function () {
             //$state.go('viewDepartment', { departmentId: department.id })
             $state.go('departments');
+        }, function (error) {
+            console.log(error);
+            $window.location.href = "/signin";
         });
     };
 
-    $scope.find = function () {
-        Departments.query(function (departments) {
+    $scope.find = function () {        
+        Departments.query(function (departments) {   
             $scope.departments = departments;
+        }, function (error) {
+            console.log(error);
+            $window.location.href = "/signin";
         });
     };
 
@@ -60,7 +65,10 @@ angular.module('mean.departments').controller('DepartmentsController', ['$scope'
             departmentId: $stateParams.departmentId
         }, function (department) {
             $scope.department = department;
-        });
+            }, function (error) {
+                console.log(error);
+                $window.location.href = "/signin";
+            });
     };
 
 }]);

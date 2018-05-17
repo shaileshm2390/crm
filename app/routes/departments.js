@@ -6,6 +6,8 @@
 var users = require('../../app/controllers/users'),
     departments = require('../../app/controllers/departments');
 
+
+
 module.exports = function (app) {
     // Department Routes
     app.route('/departments')

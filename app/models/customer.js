@@ -7,7 +7,7 @@ module.exports = function (sequelize, DataTypes) {
         company: DataTypes.STRING,
         name: DataTypes.STRING,
         contact: DataTypes.STRING
-    },
+    }, 
         {
             //associate: function (models) {
             //    Department.belongsTo(models.User);

@@ -86,7 +86,7 @@
                                   <!--  <li>|	&nbsp; <a ui-sref="SignUp">Signup</a>
                                     </li>-->
                                     <li class="divider-vertical"></li>
-                                    <li>|	&nbsp; <a ui-sref="SignIn">Signin</a>
+                                    <li>|	&nbsp; <a ui-sref="SignIn"  target="_self">Signin</a>
                                     </li>
                                 </ul>
                                 <ul class="nav pull-right" data-ng-show="global.authenticated">
@@ -112,7 +112,7 @@
                     <nav class="sidebar-nav">
 
                         <ul class="sidebarnav" data-ng-hide="global.user">
-                            <li class="nav-label"><a ui-sref="SignIn">Signin</a></li>
+                            <li class="nav-label"><a ui-sref="SignIn"  target="_self">Signin</a></li>
                             <li class="nav-devider"></li>
                           <!--  <li class="nav-label"><a ui-sref="SignUp">Signup</a> </li>-->
                         </ul>
@@ -264,6 +264,7 @@
                 </div>
             </div>-->
             <!-- End Bread crumb -->
+              <% if ((typeof user == 'object' && user.id != null) || req.originalUrl == "/signin") { %>
             <!-- Container fluid  -->
             <div class="container-fluid">
                 <br />
@@ -272,6 +273,15 @@
 
                 <!-- End PAge Content -->
             </div>
+            <% } else { %>
+            <div>
+            <div class="card">
+                    <br />
+                    <h1>You don't have permission to view this page</h1>
+                    <p>Please <strong><a href="/signin" target="_self">click here</a></strong> to logged in or contact your administrator </p>
+                </div>
+            </div>
+            <% } %>
             <!-- End Container fluid  -->
             <!-- footer -->
             <footer class="footer">© 2018 All rights reserved. </footer>
@@ -356,6 +366,12 @@
     <script src='/js/controllers/users/signUp.js'></script>
 	<script src="/js/controllers/customers.js"></script>
     <script src='/js/init.js'></script>
+
+  <% if (typeof user == 'object' && user) { %>
+    <script type="text/javascript"> 
+		window.user = {id:<%= user.id %>, email:'<%= user.email %>', firstName:'<%= user.firstName %>', lastName:'<%= user.lastName %>'};
+		</script>
+  <% } %>
 
 </body>
 

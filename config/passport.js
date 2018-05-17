@@ -14,13 +14,13 @@ passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done) {
+passport.deserializeUser(function (id, done) {
     db.User.find({where: {id: id}}).then(function(user){
         if(!user){
             winston.warn('Logged in user not in database, user possibly deleted post-login');
             return done(null, false);
         }
-        winston.info('Session: { id: ' + user.id + ', username: ' + user.username + ' }');
+        winston.info('Session: { id: ' + user.id + ', username: ' + user.email + ' }');
         done(null, user);
     }).catch(function(err){
         done(err, null);

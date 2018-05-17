@@ -10,6 +10,8 @@ angular.module('mean.auth').controller('signIn', ['$scope', '$window', 'Global',
             password: user.password
         });
 
+        console.log(logIn);
+
         logIn.$save(function (response) {               
             if(response.status === 'success'){
                 $window.location.href = '/';

@@ -4,11 +4,11 @@
         name: "crm",
         password: "",
         username: "root",
-        host: "http://192.168.6.21", 
+        host: "192.168.6.21", 
         port: 3308
     },
     app: {
-        name: "MEAN Stack Relational - Development"
+        name: "CRM"
     },
     // You will need to get your own client id's before this will work properly
     facebook: {

@@ -5,6 +5,7 @@
  */
 var StandardError = require('standard-error');
 var db = require('../../config/sequelize');
+var _ = require('lodash');
 
 /**
  * Find department by id
@@ -73,7 +74,6 @@ exports.destroy = function (req, res) {
 
     // create a new variable to hold the department that was placed on the req object.
     var department = req.department;
-
     department.destroy().then(function () {
         return res.jsonp(department);
     }).catch(function (err) {
@@ -98,7 +98,7 @@ exports.show = function (req, res) {
  */
 exports.all = function (req, res) {
     db.Department.findAll().then(function (departments) {
-        return res.jsonp(departments );
+        return res.jsonp(departments);
     }).catch(function (err) {
         return res.render('error', {
             error: err,

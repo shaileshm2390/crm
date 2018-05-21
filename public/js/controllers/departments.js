@@ -2,6 +2,7 @@
 
 var app = angular.module('mean.departments').controller('DepartmentsController', ['$scope', '$location', '$stateParams', 'Global', 'Departments', '$state', '$window', '$filter', function ($scope, $location, $stateParams, Global, Departments, $state, $window, $filter) {
     $scope.global = Global;
+
     $scope.currentPage = 0;
     $scope.pageSize = 10;
     $scope.data = [];
@@ -101,6 +102,39 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
                 $window.location.href = "/signin";
             });
     };
+
+}]);
+
+app.controller('MyCtrl', ['$scope', '$filter', function ($scope, $filter) {
+    $scope.currentPage = 0;
+    $scope.pageSize = 3;
+    $scope.data = [];
+
+$scope.getData = function () {
+    // needed for the pagination calc
+    // https://docs.angularjs.org/api/ng/filter/filter
+    return $filter('filter')($scope.departments)
+    /* 
+      // manual filter
+      // if u used this, remove the filter from html, remove above line and replace data with getData()
+      
+       var arr = [];
+       if($scope.q == '') {
+           arr = $scope.data;
+       } else {
+           for(var ea in $scope.data) {
+               if($scope.data[ea].indexOf($scope.q) > -1) {
+                   arr.push( $scope.data[ea] );
+               }
+           }
+       }
+       return arr;
+      */
+}
+
+$scope.numberOfPages = function () {
+    return Math.ceil($scope.getData().length / $scope.pageSize);
+}
 
 }]);
 

@@ -1,8 +1,10 @@
 <h1>Customers</h1>
 
-<div class="card">
+<div class="card" ng-controller="MyCtrl">
     <div class="pull-right">
         <a href="/customer/create" class="btn btn-primary">Add Customer</a>
+        <input type="search" data-ng-model="searchString" style="float:right;" />
+        <img src="/img/search.png" style="float:right;" />
     </div>
     <div class="clearfix"></div> <br />
     <section data-ng-init="find()" class="table-responsive">
@@ -18,10 +20,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr data-ng-repeat="customer in customers">
-
-                    <td >
-                        <label><a class="btn" ui-sref="viewCustomer({customerId : customer.id})">{{customer.name}}</a></label>
+                <tr data-ng-repeat="customer in customers | filter: {name : searchString} | startFrom:currentPage*pageSize | limitTo:pageSize" data-ng-if="customer.name!='Admin'">
+                    <!--<td>
+                        <label><a class="btn" ui-sref="editCustomers({customerId : customer.id})">{{customer.email}}</a></label>
+                    </td>-->
+                    <td style="text-align:center">
+                        <label><a class="btn" ui-sref="editCustomers({customerId : customer.id})">{{customer.name}}</a></label>
                     </td>
                     <td>
                         <label>{{customer.email}}</label>
@@ -45,6 +49,15 @@
                     </td>
                 </tr>
             </tbody>
-        </table>      
+        </table>
+      
+        <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+            Previous
+        </button>
+        {{currentPage+1}}/{{numberOfPages()}}
+        <button ng-disabled="currentPage >= customers.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+            Next
+        </button>
+        <h1 data-ng-hide="!customers || customers.length">No customers yet. <br> Why don't you <a ui-sref="createCustomer">Create One</a>?</h1>
     </section>
 </div>

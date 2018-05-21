@@ -12,6 +12,5 @@ module.exports = function (app) {
     // watchdogs Routes
     app.route('/watchdogs')     
         .post(users.requiresLogin, watchdogs.create); 
-    app.param('watchdogId', watchdogs.watchdog);
 };
 

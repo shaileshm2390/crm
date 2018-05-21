@@ -1,29 +1,62 @@
-<h1>Edit Deparments</h1>
+<h1>Edit User</h1>
 <section data-ng-init="findOne()">
-	<form class="form-horizontal" data-ng-submit="update()">
-		<div class="control-group">
-			<label class="control-label" for="title">Name</label>
-
-			<div class="controls">
-				<input type="text" data-ng-model="department.name" id="title" placeholder="Name" class="form-control col-sm-6" required />			
-			</div>
-		</div>
-        <br />
+    <form class="form-horizontal" data-ng-submit="update()">
         <div class="control-group">
-            <div class="checkbox">               
-                <label class="control-label" for="status"><input type="checkbox" data-ng-model="department.status" id="status" /> Active</label>              
+            <label for="name" class="control-label">First name</label>
+            <div class="controls">
+                <input id="firstName" type="text" name="firstName" class="form-control" placeholder="First name" data-ng-model="user.firstName" required>
             </div>
+        </div>
+        <div class="control-group">
+            <label for="name" class="control-label">Last name</label>
+            <div class="controls">
+                <input id="lastName" type="text" name="lastName" class="form-control" placeholder="Last name" data-ng-model="user.lastName" required>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="email" class="control-label">Email</label>
+            <div class="controls">
+                <input id="email" type="email" class="form-control" name="email" placeholder="Email" data-ng-model="user.email" required>
+            </div>
+        </div>
+        <div class="control-group">
+            <label for="email" class="control-label">Contact</label>
+            <div class="controls">
+                <input id="contact" type="text" class="form-control" name="contact" placeholder="Contact" data-ng-model="user.contact" required>
+            </div>
+        </div>
 
-                <!--<div class="controls">
-            <input type="checkbox" data-ng-model="department.status" id="status" />
-        </div>-->
-            </div>
-            <div class="clearfix"></div><br />
-            <div class="control-group">
-                <div class="controls">
-                    <input type="submit" class="btn btn-primary" value="Save">
-                    <a class="btn btn-secondary" href="/department">Cancel</a>
+        <input type="hidden" class="form-control hdnDepartmentId" value="{{user.DepartmentId}}">
+
+        <div class="control-group">
+            <label for="department" class="control-label">Department</label>
+            <div class="controls">
+                <div ng-controller="DepartmentsController" ng-init="find()">
+                    <select class="form-control ddlDepartment" required name="DepartmentId" data-ng-model="user.DepartmentId">
+                        <option value="">Select Department </option>
+                        <option ng-repeat="department in departments" value="{{department.id}}" >{{department.name}}</option>
+                    </select>
                 </div>
             </div>
-</form>
+        </div>
+
+
+
+        <div class="clear"></div><br />
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a class="btn btn-secondary" href="/user">Cancel</a>
+        </div>
+    </form>
 </section>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        setTimeout(
+            function () {
+                $(".ddlDepartment option[selected]").remove();
+                $(".ddlDepartment").val($(".hdnDepartmentId").val());
+            }, 500);
+        
+    });
+</script>

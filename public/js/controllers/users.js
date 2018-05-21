@@ -4,7 +4,6 @@ var app = angular.module('mean.users').controller('UsersController', ['$scope', 
     $scope.global = Global;
 
     $scope.create = function () {
-        isLoggedIn();
         var user = new Users({
             firstName: this.user.firstName,
             lastName: this.user.lastName,
@@ -12,11 +11,10 @@ var app = angular.module('mean.users').controller('UsersController', ['$scope', 
             contact: this.user.contact,
             password: this.user.password,
             active: 1,
-            DepartmentId: 1
+            DepartmentId: this.user.DepartmentId
         });
        
         user.$save(function (response) {
-            // $state.go('viewDepartment', { departmentId: response.id })
             $state.go('users');
         });
 
@@ -31,13 +29,12 @@ var app = angular.module('mean.users').controller('UsersController', ['$scope', 
     };
 
     $scope.remove = function (user) {
-        isLoggedIn();
         var deleteUser = $window.confirm('Are you absolutely sure you want to delete?');
         if (deleteUser) {
             if (user) {
                 user.$remove();
 
-                for (var i in $scope.departments) {
+                for (var i in $scope.users) {
                     if ($scope.users[i] === user) {
                         $scope.users.splice(i, 1);
                     }
@@ -50,8 +47,22 @@ var app = angular.module('mean.users').controller('UsersController', ['$scope', 
         }
     };
 
+    $scope.resetPassword = function (user) {
+        if ($window.confirm('Are you absolutely sure you want to reset the password?')) {
+            if (user.id > 0) {
+                $http.get("/users/reset/" + user.id)
+                    .then(function (response) {
+                        console.log(response);
+                        $scope.message = response.statusText;
+                    }, function (response) {
+                        //Second function handles error
+                        $scope.errorMessage = response.statusText;
+                    });
+            }            
+        }
+    };
+
     $scope.update = function () {
-        isLoggedIn();
         var user = $scope.user;
         if (!user.updated) {
             user.updated = [];
@@ -63,29 +74,19 @@ var app = angular.module('mean.users').controller('UsersController', ['$scope', 
         });
     };
 
-    $scope.find = function () {
-        isLoggedIn();
-       // console.log($scope.global);       
+    $scope.find = function () {    
         Users.query(function (users) {            
             $scope.users = users;
         });
     };
 
     $scope.findOne = function () {
-        isLoggedIn();
         Users.get({
-            userId: $stateParams.usersId
+            userId: $stateParams.userId
         }, function (user) {
             $scope.user = user;
         });
     };
-
-    function isLoggedIn() {
-        if (!$scope.global.authenticated) {
-            $window.location.href = '/signin';
-        }
-    }
-
 }]);
 
 app.controller('MyCtrl', ['$scope', '$filter', function ($scope, $filter) {

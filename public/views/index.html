@@ -1,7 +1,7 @@
 <section>
     <div class="navbar-inner" data-ng-controller="HeaderController">
         <div data-ng-hide="global.authenticated">
-            <h1>Start with login</h1>
+            <h1>Login</h1>
             <div class="col-6">
                 <div ng-controller="signIn">
                     <form ng-submit="signIn(user)" class="signin form-horizontal" name="signInForm">
@@ -20,7 +20,6 @@
                         <div class="clear"></div><br />
                         <div class="form-actions">
                             <button type="submit" class="btn btn-primary">Sign in&nbsp;</button>
-                            or&nbsp;<a ui-sref="SignUp" class="show-signup">Sign up</a>
                         </div>
                     </form>
                 </div>

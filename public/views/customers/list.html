@@ -11,12 +11,11 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <!--<th>Email</th>-->
-                    <th style="text-align:center">Customer Name</th>
-                    <th style="text-align:center">Company</th>
-                     
-                    <!--<th style="text-align:center">Contact</th>
-                    <th style="text-align:center">Created</th>-->
+                    <th>Customer Name</th>
+                    <th>Email</th>
+                    <th>Company</th>
+                    <th>Contact</th>
+                    <th>Created</th>
                     <th style="text-align:center">Action</th>
                 </tr>
             </thead>
@@ -28,22 +27,26 @@
                     <td style="text-align:center">
                         <label><a class="btn" ui-sref="editCustomers({customerId : customer.id})">{{customer.name}}</a></label>
                     </td>
+                    <td>
+                        <label>{{customer.email}}</label>
+                    </td>
 
-                    <td style="text-align:center">
+                    <td>
                         <span>{{customer.company}}</span>
                     </td>
 
-                    <!--<td>
+                    <td>
                         <span>{{customer.contact}}</span>
                     </td>
 
-                    <td> 
-                        <span>{{customer.updatedAt | date:'medium'}}</span>
-                    </td>-->
-                    
-                    <td style="text-align:center">                      
-                        <a class="btn" data-ng-click="remove(customer);"><i class="fa fa-trash"></i></a>
-                    </td>                    
+                    <td>
+                        <span>{{customer.createdAt | date:'medium'}}</span>
+                    </td>
+
+                    <td style="text-align:center">
+                        <a  ui-sref="editCustomers({customerId : customer.id})"  title="Edit"><i class="fa fa-pencil"></i></a>
+                        <a class="btn" data-ng-click="remove(customer);" title="Delete"><i class="fa fa-trash"></i></a>
+                    </td>
                 </tr>
             </tbody>
         </table>

@@ -1,7 +1,46 @@
-<section data-ng-init="findOne()">
-    <span>{{customer.updatedAt | date:'medium'}}</span>
-    <h2>{{customer.name}}</h2>
-    <a class="btn btn-secondary" ui-sref="editCustomers({customerId : customer.id})">Edit</a>
-    <a class="btn btn-inverse" data-ng-click="remove();">Delete</a>
-    <a class="btn btn-info" href="/customer">List</a>
-</section>
+<div class="card">
+    <h1>Customer Detail</h1>
+    <section data-ng-init="findOne()">
+        <div class="row pull-right">
+            <div>
+                <a  class="btn btn-primary" ui-sref="editCustomers({customerId : customer.id})">Edit</a>
+                <a class="btn btn-danger" href="/customer">Cancel</a>
+            </div>
+        </div>
+
+        <div class="clear clearfix"></div><br />
+
+        <div class="row">
+            <div class="col col-lg-6" style="background-color: linen;">
+                <div class="clear clearfix"></div><br />
+                <div class="row">
+                    <div class="col col-lg-6">
+                        <p><label>Customer Name: </label><strong>{{customer.name}}</strong></p>
+                        <p><label>Email: </label><strong>{{customer.email}}</strong></p>
+                        <p><label>Contact: </label><strong>{{customer.contact}}</strong></p>
+                    </div>
+                    <div class="col col-lg-6">
+                        <p><label>Comapny: </label><strong>{{customer.company}}</strong></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-lg-4">
+                        <img src="/img/no-image.png" class="img-responsive" />
+                    </div>
+                    <div class="col col-lg-4">
+                        <img src="/img/no-image.png" class="img-responsive"  />
+                    </div>
+                    <div class="col col-lg-4">
+                        <img src="/img/no-image.png" class="img-responsive"  />
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-6">              
+            </div>
+        </div>
+
+
+
+    </section>
+</div>

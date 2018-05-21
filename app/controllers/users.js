@@ -128,8 +128,9 @@ exports.resetPassword = function (req, res) {
     model.hashedPassword = model.encryptPassword(newPassword, model.salt);
 
     user.updateAttributes({  
-        hashedPassword: model.hashedPassword,
-        salt: model.salt
+        //remove this comment to allow reset password
+        //hashedPassword: model.hashedPassword,
+        //salt: model.salt
     }).then(function (a) {
        // sendResetMail(newPassword, user.email);
         return res.jsonp(a);

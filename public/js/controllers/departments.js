@@ -3,7 +3,7 @@
 var app = angular.module('mean.departments').controller('DepartmentsController', ['$scope', '$location', '$stateParams', 'Global', 'Departments', '$state', '$window', '$filter', function ($scope, $location, $stateParams, Global, Departments, $state, $window, $filter) {
     $scope.global = Global;
     $scope.currentPage = 0;
-    $scope.pageSize = 1;
+    $scope.pageSize = 10;
     $scope.data = [];
     $scope.q = '';
 

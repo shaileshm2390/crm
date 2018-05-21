@@ -1,5 +1,5 @@
 "use strict";
-angular.module('mean', ['ngCookies', 'ngResource', 'ui.router', 'ui.bootstrap', 'ui.route', 'mean.system', 'mean.auth', 'mean.departments', 'mean.customers', 'mean.users', 'satellizer', 'angularFblogin'])
+angular.module('mean', ['ngCookies', 'ngResource', 'ui.router', 'ui.bootstrap', 'ui.route', 'mean.system', 'mean.auth', 'mean.departments', 'mean.customers', 'mean.customercomments', 'mean.users', 'mean.buyers', 'satellizer', 'angularFblogin'])
 .config(function ($authProvider) {
 
     $authProvider.twitter({
@@ -23,3 +23,5 @@ angular.module('mean.departments', []);
 angular.module('mean.users', []);
 angular.module('mean.auth', []);
 angular.module('mean.customers', []);
+angular.module('mean.customercomments', []);
+angular.module('mean.buyers', []);

@@ -36,7 +36,6 @@ cookieExpirationDate.setDate(cookieExpirationDate.getDate() + cookieExpirationDa
 
 app.dynamicHelpers({
     user: function (req, res) {
-        console.log("Shailesh ************************ ", req.originalUrl);
         var roles, firstName, id, email; 
             if (req.user) {
                 roles = ['member'];

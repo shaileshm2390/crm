@@ -10,39 +10,37 @@
         <div class="control-group">
             <label for="name" class="control-label">Last name</label>
             <div class="controls">
-                <input id="lastName" type="text" name="lastName" class="form-control" placeholder="Last name"  data-ng-model="user.lastName" required>
+                <input id="lastName" type="text" name="lastName" class="form-control" placeholder="Last name" data-ng-model="user.lastName" required>
             </div>
         </div>
         <div class="control-group">
             <label for="email" class="control-label">Email</label>
             <div class="controls">
-                <input id="email" type="email" class="form-control" name="email" placeholder="Email"  data-ng-model="user.email" required>
+                <input id="email" type="email" class="form-control" name="email" placeholder="Email" data-ng-model="user.email" required>
             </div>
         </div>
         <div class="control-group">
             <label for="email" class="control-label">Contact</label>
             <div class="controls">
-                <input id="contact" type="text" class="form-control" name="contact" placeholder="Contact"  data-ng-model="user.contact" required>
+                <input id="contact" type="text" class="form-control" name="contact" placeholder="Contact" data-ng-model="user.contact" required>
             </div>
         </div>
-        <div class="control-group">
-            <label for="password" class="control-label">Password</label>
-            <div class="controls">
-                <input id="password" type="password" class="form-control" name="password" placeholder="Password"  data-ng-model="user.password" required>
-            </div>
-        </div>
+
+        <input type="hidden" class="form-control hdnDepartmentId" value="{{user.DepartmentId}}">
 
         <div class="control-group">
             <label for="department" class="control-label">Department</label>
             <div class="controls">
                 <div ng-controller="DepartmentsController" ng-init="find()">
-                    <select class="form-control"  data-ng-model="user.DepartmentId" required>
+                    <select class="form-control ddlDepartment" required name="DepartmentId" data-ng-model="user.DepartmentId">
                         <option value="">Select Department </option>
-                        <option ng-repeat="department in departments" value="{{department.id}}">{{department.name}}</option>
+                        <option ng-repeat="department in departments" value="{{department.id}}" >{{department.name}}</option>
                     </select>
                 </div>
             </div>
         </div>
+
+
 
         <div class="clear"></div><br />
         <div class="form-actions">
@@ -51,3 +49,14 @@
         </div>
     </form>
 </section>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        setTimeout(
+            function () {
+                $(".ddlDepartment option[selected]").remove();
+                $(".ddlDepartment").val($(".hdnDepartmentId").val());
+            }, 500);
+        
+    });
+</script>

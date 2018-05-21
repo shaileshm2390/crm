@@ -135,25 +135,19 @@
                                     <li><a href="/department/create">Add</a></li>
                                 </ul>
                             </li>
-                            <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-users"></i><span class="hide-menu">Users</span></a>
+                            <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-user-secret"></i><span class="hide-menu">Users</span></a>
                                 <ul aria-expanded="false" class="collapse">
                                     <li><a href="/user">List</a></li>
                                     <li><a href="/user/create">Add</a></li>
                                 </ul>
                             </li>
-                            <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-bar-chart"></i><span class="hide-menu">Charts</span></a>
+                            <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-users "></i><span class="hide-menu">Customers</span></a>
                                 <ul aria-expanded="false" class="collapse">
-                                    <li><a href="chart-flot.html">Flot</a></li>
-                                    <li><a href="chart-morris.html">Morris</a></li>
-                                    <li><a href="chart-chartjs.html">ChartJs</a></li>
-                                    <li><a href="chart-chartist.html">Chartist </a></li>
-                                    <li><a href="chart-amchart.html">AmChart</a></li>
-                                    <li><a href="chart-echart.html">EChart</a></li>
-                                    <li><a href="chart-sparkline.html">Sparkline</a></li>
-                                    <li><a href="chart-peity.html">Peity</a></li>
+                                    <li><a href="/customer">List</a></li>
+                                    <li><a href="/customer/create">Add</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-label">Features</li>
+                            <!--<li class="nav-label">Features</li>
                             <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-suitcase"></i><span class="hide-menu">Bootstrap UI <span class="label label-rouded label-warning pull-right">6</span></span></a>
                                 <ul aria-expanded="false" class="collapse">
                                     <li><a href="ui-alert.html">Alert</a></li>
@@ -240,7 +234,7 @@
                                     </li>
                                     <li><a href="#">item 1.4</a></li>
                                 </ul>
-                            </li>
+                            </li>-->
                         </ul>
                     </nav>
                     <!-- End Sidebar navigation -->
@@ -264,7 +258,7 @@
                 </div>
             </div>-->
             <!-- End Bread crumb -->
-              <% if ((typeof user == 'object' && user.id != null) || req.originalUrl == "/signin") { %>
+              <% if ((typeof user == 'object' && user.id != null) || req.originalUrl == "/signin" || req.originalUrl == "/") { %>
             <!-- Container fluid  -->
             <div class="container-fluid">
                 <br />

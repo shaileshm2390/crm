@@ -4,7 +4,12 @@
     <div class="pull-right">
         <a href="/user/create" class="btn btn-primary">Add User</a>
     </div>
+
     <div class="clearfix"></div> <br />
+    <div class="alert alert-success" ng-show="message.length > 0">{{message}}</div>
+    <div class="alert alert-danger" ng-show="errorMessage.length > 0">{{errorMessage}}</div>
+    <div class="clearfix"></div> <br />
+
     <section data-ng-init="find()" class="table-responsive">
         <table class="table table-bordered">
             <thead>
@@ -19,7 +24,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr data-ng-repeat="user in users" data-ng-if="user.id != global.user.id">                
+                <tr data-ng-repeat="user in users" data-ng-if="user.id != global.user.id">
                     <td>
                         <label><a class="btn" ui-sref="editUsers({userId : user.id})">{{user.firstName}} {{user.lastName}}</a></label>
                     </td>
@@ -31,10 +36,11 @@
                         <span>{{user.active == true ? "Yes" : "No"}}</span>
                     </td>
                     <td style="text-align:center">
-                        <a class="btn" data-ng-click="remove(user);"><i class="fa fa-trash"></i></a>
+                        <a class="btn" data-ng-click="remove(user);" title="Delete"><i class="fa fa-trash"></i></a>
+                        <a class="btn" data-ng-click="resetPassword(user);" title="Reset Password"><i class="fa fa-key"></i></a>
                     </td>
                 </tr>
             </tbody>
-        </table>              
+        </table>
     </section>
 </div>

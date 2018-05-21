@@ -8,7 +8,6 @@ var nconf = require('nconf'),
     fs = require('fs'),
     StandardError = require('standard-error');
 
-
 var rootPath = path.normalize(__dirname + '/..');
 
 // Load app configuration
@@ -107,3 +106,6 @@ module.exports.getCSSAssets = function() {
 	var output = this.getGlobbedFiles(this.assets.lib.css.concat(this.assets.css), 'public/');
 	return output;
 };
+
+
+module.exports.enableSequelizeLog = 'false';

@@ -7,8 +7,35 @@ var db = require('../../config/sequelize'),
     request = require('request'),
     qs = require('querystring'),
     config = require('../../config/config'),
-    passport = require('passport');
+    passport = require('passport'),
+    randomstring = require("randomstring"),
+    nodemailer = require('nodemailer');
 
+
+var sendResetMail = function (newPassword, email) {
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'gmail address',
+            pass: 'gmail passowrd'
+        }
+    });
+
+    var mailOptions = {
+        from: 'youremail@gmail.com',
+        to: email,
+        subject: 'Reset Password',
+        html: '<h1>Hi User,</h1><p>Your new password is : ' + newPassword + '</p><br /> <br /> <a href="localhost:3000/">click here</a> to sign in.'
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+}
 /**
  * Auth callback
  */
@@ -63,7 +90,7 @@ exports.update = function (req, res) {
 
     // create a new variable to hold the user that was placed on the req object.
     var user = req.user;
-
+    
     user.updateAttributes({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -71,10 +98,10 @@ exports.update = function (req, res) {
         contact: req.body.contact,
         active: req.body.active,        
         DepartmentId: req.body.DepartmentId
-
     }).then(function (a) {
         return res.jsonp(a);
-    }).catch(function (err) {
+        }).catch(function (err) {
+            console.log(err);
         return res.render('error', {
             error: err,
             status: 500
@@ -82,6 +109,38 @@ exports.update = function (req, res) {
     });
 };
 
+
+/**
+ * Reset Password of user
+ */
+exports.resetPassword = function (req, res) {
+    var user = req.user;
+    var newPassword = randomstring.generate({
+        length: 8,
+        charset: 'alphabetic'
+    });
+
+    console.log(newPassword);
+
+    var model = db.User.build(req.body);
+    model.provider = 'local';
+    model.salt = user.makeSalt();
+    model.hashedPassword = model.encryptPassword(newPassword, model.salt);
+
+    user.updateAttributes({  
+        hashedPassword: model.hashedPassword,
+        salt: model.salt
+    }).then(function (a) {
+       // sendResetMail(newPassword, user.email);
+        return res.jsonp(a);
+    }).catch(function (err) {
+        console.log(err);
+        return res.render('error', {
+            error: err,
+            status: 500
+        });
+    });
+}; 
 /**
  * Delete an user
  */

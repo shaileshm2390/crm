@@ -19,6 +19,7 @@ module.exports = function (app) {
         .get(users.show)
         .put(users.requiresLogin, users.hasAuthorization, users.update)
         .delete(users.requiresLogin, users.hasAuthorization, users.destroy);
+    app.get('/users/reset/:userId', users.requiresLogin, users.hasAuthorization, users.resetPassword);     
 
 // Setting up the users api
   //  app.post('/users', users.create);

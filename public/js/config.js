@@ -62,7 +62,7 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             url: '/user/{userId}',
             controller: 'UsersController',
             templateUrl: 'views/users/view.html'
-        })      
+        })  
 
         //customer
         .state('customers', {

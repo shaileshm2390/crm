@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-angular.module('mean.users').controller('UsersController', ['$scope', '$stateParams', 'Global', 'Users', '$state', '$window', function ($scope, $stateParams, Global, Users, $state, $window) {
+angular.module('mean.users').controller('UsersController', ['$scope', '$stateParams', 'Global', 'Users', '$state', '$window', '$http', function ($scope, $stateParams, Global, Users, $state, $window, $http) {
     $scope.global = Global;
 
     $scope.create = function () {
@@ -15,7 +15,6 @@ angular.module('mean.users').controller('UsersController', ['$scope', '$statePar
         });
        
         user.$save(function (response) {
-            // $state.go('viewDepartment', { departmentId: response.id })
             $state.go('users');
         });
 
@@ -45,6 +44,21 @@ angular.module('mean.users').controller('UsersController', ['$scope', '$statePar
                 $scope.user.$remove();
                 $state.go('users');
             }
+        }
+    };
+
+    $scope.resetPassword = function (user) {
+        if ($window.confirm('Are you absolutely sure you want to reset the password?')) {
+            if (user.id > 0) {
+                $http.get("/users/reset/" + user.id)
+                    .then(function (response) {
+                        console.log(response);
+                        $scope.message = response.statusText;
+                    }, function (response) {
+                        //Second function handles error
+                        $scope.errorMessage = response.statusText;
+                    });
+            }            
         }
     };
 

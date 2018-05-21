@@ -9,10 +9,6 @@
     </div>
 
     <div class="clearfix"></div> <br />
-                                 <div class=" pull-right col-lg-6">
-                                     <input ng-model="searchString" id="search" class="form-control" placeholder="Search">
-                                 </div>
-    <div class="clearfix"></div> <br />
     <section data-ng-init="find()" class="table-responsive">
         <div class="clearfix clear"></div><br />
         <table class="table table-bordered">
@@ -48,7 +44,7 @@
         {{currentPage+1}}/{{numberOfPages()}}
         <button ng-disabled="currentPage >= departments.length/pageSize - 1" ng-click="currentPage=currentPage+1">
             Next
-        </button>       
+        </button>          
         <!--<ul class="departments unstyled">
             <li data-ng-repeat="department in departments">
                 <h2><a ui-sref="viewDepartment({departmentId : department.id})">{{department.name}}</a></h2>

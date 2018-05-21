@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-angular.module('mean.customers').controller('CustomersController', ['$scope', '$stateParams', 'Global', 'Customers', '$state', '$window', function ($scope, $stateParams, Global, Customers, $state, $window) {
+var app = angular.module('mean.customers').controller('CustomersController', ['$scope', '$stateParams', 'Global', 'Customers', '$state', '$window', function ($scope, $stateParams, Global, Customers, $state, $window) {
     $scope.global = Global;
 
     $scope.create = function () {
@@ -69,3 +69,45 @@ angular.module('mean.customers').controller('CustomersController', ['$scope', '$
     };
 
 }]);
+
+app.controller('MyCtrl', ['$scope', '$filter', function ($scope, $filter) {
+    $scope.currentPage = 0;
+    $scope.pageSize = 3;
+    $scope.data = [];
+
+    $scope.getData = function () {
+        // needed for the pagination calc
+        // https://docs.angularjs.org/api/ng/filter/filter
+        return $filter('filter')($scope.customers)
+        /* 
+          // manual filter
+          // if u used this, remove the filter from html, remove above line and replace data with getData()
+          
+           var arr = [];
+           if($scope.q == '') {
+               arr = $scope.data;
+           } else {
+               for(var ea in $scope.data) {
+                   if($scope.data[ea].indexOf($scope.q) > -1) {
+                       arr.push( $scope.data[ea] );
+                   }
+               }
+           }
+           return arr;
+          */
+    }
+
+    $scope.numberOfPages = function () {
+        return Math.ceil($scope.getData().length / $scope.pageSize);
+    }
+
+}]);
+
+//We already have a limitTo filter built-in to angular,
+//let's make a startFrom filter
+app.filter('startFrom', function () {
+    return function (input, start) {
+        start = +start; //parse to int
+        return input.slice(start);
+    }
+});

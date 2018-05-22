@@ -4,34 +4,18 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
     $scope.global = Global;
 
     $scope.currentPage = 0;
-    $scope.pageSize = 10;
+    $scope.pageSize = 2;
     $scope.data = [];
-    $scope.q = '';
+    $scope.searchString = "";
 
     $scope.getData = function () {
-        // needed for the pagination calc
-        // https://docs.angularjs.org/api/ng/filter/filter
-        return $filter('filter')($scope.departments, $scope.q)
-        /* 
-          // manual filter
-          // if u used this, remove the filter from html, remove above line and replace data with getData()
-          
-           var arr = [];
-           if($scope.q == '') {
-               arr = $scope.data;
-           } else {
-               for(var ea in $scope.data) {
-                   if($scope.data[ea].indexOf($scope.q) > -1) {
-                       arr.push( $scope.data[ea] );
-                   }
-               }
-           }
-           return arr;
-          */
+        return $filter('filter')($scope.departments, $scope.searchString);       
     }
 
     $scope.numberOfPages = function () {
-        return Math.ceil($scope.getData().length / $scope.pageSize);
+        if (typeof $scope.getData() != 'undefined') {
+            return Math.ceil($scope.getData().length / $scope.pageSize);
+        }
     }
 
 
@@ -63,7 +47,8 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
             }
             else {
                 $scope.department.$remove();
-                $state.go('departments');
+                //$state.go('departments');
+                $window.location.href = "/department";
             }
         }   
     };
@@ -105,42 +90,11 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
 
 }]);
 
-app.controller('MyCtrl', ['$scope', '$filter', function ($scope, $filter) {
-    $scope.currentPage = 0;
-    $scope.pageSize = 3;
-    $scope.data = [];
-
-$scope.getData = function () {
-    // needed for the pagination calc
-    // https://docs.angularjs.org/api/ng/filter/filter
-    return $filter('filter')($scope.departments)
-    /* 
-      // manual filter
-      // if u used this, remove the filter from html, remove above line and replace data with getData()
-      
-       var arr = [];
-       if($scope.q == '') {
-           arr = $scope.data;
-       } else {
-           for(var ea in $scope.data) {
-               if($scope.data[ea].indexOf($scope.q) > -1) {
-                   arr.push( $scope.data[ea] );
-               }
-           }
-       }
-       return arr;
-      */
-}
-
-$scope.numberOfPages = function () {
-    return Math.ceil($scope.getData().length / $scope.pageSize);
-}
-
-}]);
-
 app.filter('startFrom', function () {
     return function (input, start) {
-        start = +start; //parse to int
-        return input.slice(start);
+        if (typeof(input) != 'undefined') {
+            start = +start; //parse to int
+            return input.slice(start);
+        }
     }
 });

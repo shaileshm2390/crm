@@ -23,4 +23,6 @@ angular.module('mean.departments', []);
 angular.module('mean.users', []);
 angular.module('mean.auth', []);
 angular.module('mean.customers', []);
+angular.module('mean.customercomments', []);
+angular.module('mean.buyers', []);
 angular.module('mean.watchdogs', []);

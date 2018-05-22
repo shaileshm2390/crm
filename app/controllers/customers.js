@@ -33,12 +33,12 @@ exports.create = function (req, res) {
     // save and return and instance of customer on the res object.
     db.Customer.create(req.body).then(function (customer) {
         if (!customer) {
-            return res.send('users/signup', { errors: new StandardError('Customer could not be created') });
+            return res.send('/signin', { errors: new StandardError('Customer could not be created') });
         } else {
             return res.jsonp(customer);
         }
     }).catch(function (err) {
-        return res.send('users/signup', {
+        return res.send('/signin', {
             errors: err,
             status: 500
         });

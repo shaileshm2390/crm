@@ -3,12 +3,25 @@
 var app = angular.module('mean.departments').controller('DepartmentsController', ['$scope', '$location', '$stateParams', 'Global', 'Departments', '$state', '$window', '$filter', '$controller', '$rootScope', '$http', function ($scope, $location, $stateParams, Global, Departments, $state, $window, $filter, $controller, $rootScope, $http) {
     $scope.global = Global;
 
-    var url = "//freegeoip.net/json/";
+    $scope.currentPage = 0;
+    $scope.pageSize = 2;
+    $scope.data = [];
+    $scope.searchString = "";
+
+    $scope.getData = function () {
+        return $filter('filter')($scope.departments, $scope.searchString);       
+    }
+
+    $scope.numberOfPages = function () {
+        if (typeof $scope.getData() != 'undefined') {
+            return Math.ceil($scope.getData().length / $scope.pageSize);
+        }
+    }
+var url = "//freegeoip.net/json/";
     $http.get(url).then(function (response) {
         $rootScope.ip = response.data.ip;
         console.log("IP start  -->   " + $rootScope.ip);
     });
-
     $scope.create = function () {
         var department = new Departments({
             name: this.name,
@@ -37,7 +50,8 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
             }
             else {
                 $scope.department.$remove();
-                $state.go('departments');
+                //$state.go('departments');
+                $window.location.href = "/department";
             }
         }   
     };
@@ -101,50 +115,11 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
 
 }]);
 
-app.controller('MyCtrl', ['$scope', '$filter', function ($scope, $filter) {
-    $scope.currentPage = 0;
-    $scope.pageSize = 3;
-    $scope.data = [];
-
-$scope.getData = function () {
-    // needed for the pagination calc
-    // https://docs.angularjs.org/api/ng/filter/filter
-    return $filter('filter')($scope.departments)
-    /* 
-      // manual filter
-      // if u used this, remove the filter from html, remove above line and replace data with getData()
-      
-       var arr = [];
-       if($scope.q == '') {
-           arr = $scope.data;
-       } else {
-           for(var ea in $scope.data) {
-               if($scope.data[ea].indexOf($scope.q) > -1) {
-                   arr.push( $scope.data[ea] );
-               }
-           }
-       }
-       return arr;
-      */
-}
-
-$scope.numberOfPages = function () {
-    return Math.ceil($scope.getData().length / $scope.pageSize);
-}
-
-}]);
-
 app.filter('startFrom', function () {
     return function (input, start) {
+        if (typeof(input) != 'undefined') {
         start = +start; //parse to int
         return input.slice(start);
     }
-});
-
-angular.module("myApp", []).run(function ($rootScope, $http) {
-    var url = "//freegeoip.net/json/";
-    $http.get(url).then(function (response) {
-        console.log(response.data.ip);
-        $rootScope.ip = response.data.ip;
-    });
+    }
 });

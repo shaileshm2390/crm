@@ -34,12 +34,12 @@ exports.create = function (req, res) {
     // save and return and instance of department on the res object.
     db.Department.create(req.body).then(function (department) {
         if (!department) {
-            return res.send('users/signup', { errors: new StandardError('Department could not be created') });
+            return res.send('/signin', { errors: new StandardError('Department could not be created') });
         } else {
             return res.jsonp(department);
         }
     }).catch(function (err) {
-        return res.send('users/signup', {
+        return res.send('/signin', {
             errors: err,
             status: 500
         });
@@ -73,13 +73,16 @@ exports.update = function (req, res) {
 exports.destroy = function (req, res) {
 
     // create a new variable to hold the department that was placed on the req object.
+    console.log(req.department.id)
     var department = req.department;
-    department.destroy().then(function () {
-        return res.jsonp(department);
-    }).catch(function (err) {
-        return res.render('error', {
-            error: err,
-            status: 500
+    db.User.destroy({ where: { DepartmentId: req.department.id } }).then(function () {
+        department.destroy().then(function () {
+            return res.jsonp(department);
+        }).catch(function (err) {
+            return res.render('error', {
+                error: err,
+                status: 500
+            });
         });
     });
 };

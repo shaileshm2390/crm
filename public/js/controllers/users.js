@@ -1,7 +1,21 @@
 ﻿'use strict';
 
-var app = angular.module('mean.users').controller('UsersController', ['$scope', '$stateParams', 'Global', 'Users', '$state', '$window', function ($scope, $stateParams, Global, Users, $state, $window) {
+var app = angular.module('mean.users').controller('UsersController', ['$scope', '$stateParams', 'Global', 'Users', '$state', '$window','$filter', function ($scope, $stateParams, Global, Users, $state, $window, $filter) {
     $scope.global = Global;
+    $scope.currentPage = 0;
+    $scope.pageSize = 3;
+    $scope.data = [];
+    $scope.searchString = "";
+
+    $scope.getData = function () {
+        return $filter('filter')($scope.users, $scope.searchString);
+    }
+
+    $scope.numberOfPages = function () {
+        if (typeof $scope.getData() != 'undefined') {
+            return Math.ceil($scope.getData().length / $scope.pageSize);
+        }
+    }
 
     $scope.create = function () {
         var user = new Users({
@@ -89,44 +103,13 @@ var app = angular.module('mean.users').controller('UsersController', ['$scope', 
     };
 }]);
 
-app.controller('MyCtrl', ['$scope', '$filter', function ($scope, $filter) {
-    $scope.currentPage = 0;
-    $scope.pageSize = 3;
-    $scope.data = [];
-
-    $scope.getData = function () {
-        // needed for the pagination calc
-        // https://docs.angularjs.org/api/ng/filter/filter
-        return $filter('filter')($scope.users)
-        /* 
-          // manual filter
-          // if u used this, remove the filter from html, remove above line and replace data with getData()
-          
-           var arr = [];
-           if($scope.q == '') {
-               arr = $scope.data;
-           } else {
-               for(var ea in $scope.data) {
-                   if($scope.data[ea].indexOf($scope.q) > -1) {
-                       arr.push( $scope.data[ea] );
-                   }
-               }
-           }
-           return arr;
-          */
-    }
-
-    $scope.numberOfPages = function () {
-        return Math.ceil($scope.getData().length / $scope.pageSize);
-    }
-
-}]);
-
 //We already have a limitTo filter built-in to angular,
 //let's make a startFrom filter
 app.filter('startFrom', function () {
     return function (input, start) {
-        start = +start; //parse to int
-        return input.slice(start);
+        if (typeof(input) != 'undefined') {
+            start = +start; //parse to int
+            return input.slice(start);
+        }
     }
 });

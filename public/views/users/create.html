@@ -1,5 +1,5 @@
 <h1>Add User</h1>
-<section>
+<section class="card">
     <form class="form-horizontal" data-ng-submit="create()">
         <div class="control-group">
             <label for="name" class="control-label">First name</label>
@@ -35,8 +35,8 @@
         <div class="control-group">
             <label for="department" class="control-label">Department</label>
             <div class="controls">
-                <div ng-controller="DepartmentsController" ng-init="find()" >
-                    <select class="form-control" ng-model="user.DepartmentId" required >
+                <div ng-controller="DepartmentsController" ng-init="find()">
+                    <select class="form-control" ng-model="user.DepartmentId" required>
                         <option value="" selected>Select Department </option>
                         <option ng-repeat="department in departments" value="{{department.id}}">{{department.name}}</option>
 
@@ -44,11 +44,11 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="clear"></div><br />
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">Save</button>
             <a class="btn btn-secondary" href="/user">Cancel</a>
         </div>
     </form>
-</section>
+    </section>

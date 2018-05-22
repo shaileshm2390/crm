@@ -84,19 +84,16 @@ var app = angular.module('mean.customers').controller('CustomersController', ['$
         }
         //get previous data from URL
         $http.get("/customers/" + customer.id).then(function (response) {
-            console.log("previous data  -->  " + JSON.stringify(response));
             $scope.previousCustomer = JSON.stringify(response.data);
         });
         customer.updated.push(new Date().getTime());
         customer.$update(function () {
-            //$state.go('viewDepartment', { departmentId: department.id })
-            //$state.go('customers');
-
+       
             ///get updated data from URL
             $http.get("/customers/" + customer.id).then(function (response) {
                 $scope.updatedCustomer = JSON.stringify(response.data);
 
-                $state.go('customers');
+                $state.go('viewCustomer', { customerId: customer.id })
                 var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
 
                 //watchdog calling

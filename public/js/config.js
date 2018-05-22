@@ -99,7 +99,7 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             templateUrl: 'views/buyers/edit.html'
         })
         .state('viewBuyer', {
-            url: '/buyer/{buyerId}',
+            url: '/customer/{customerId}/buyer/{buyerId}',
             controller: 'BuyersController',
             templateUrl: 'views/buyers/view.html'
         })

@@ -27,7 +27,13 @@ angular.module('mean.buyers').controller('BuyersController', ['$scope', '$stateP
         var deleteBuyer = $window.confirm('Are you absolutely sure you want to delete?');
         if (deleteBuyer) {
             if (buyer) {
-                buyer.$remove();
+                $http.delete("/buyers/edit/" + buyer.id, buyer)
+                    .then(function (response) {
+                        $window.location.href = "/customer/" + $stateParams.customerId;
+                    }, function (error) {
+                        console.log(error);
+                        $scope.errorMessage = error;
+                    });
 
                 for (var i in $scope.buyers) {
                     if ($scope.buyers[i] === buyer) {
@@ -35,11 +41,7 @@ angular.module('mean.buyers').controller('BuyersController', ['$scope', '$stateP
                     }
                 }
             }
-            else {
-                $scope.buyer.$remove();
-                //$state.go('departments');
-                $window.location.href = "/customer/" + $stateParams.customerId;
-            }
+            $window.location.href = "/customer/" + $stateParams.customerId;
         }
     };
 
@@ -51,7 +53,7 @@ angular.module('mean.buyers').controller('BuyersController', ['$scope', '$stateP
         buyer.updated.push(new Date().getTime());
         $http.put("/buyers/edit/" + $stateParams.buyerId, buyer)
             .then(function (response) {
-                $window.location.href = "/customer/" + $stateParams.customerId;
+                $window.location.href = "/customer/" + $stateParams.customerId + "/buyer/" + $stateParams.buyerId;
             }, function (error) {
                 console.log(error);
                 $window.location.href = "/signin";

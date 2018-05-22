@@ -93,7 +93,7 @@
                                 <tr ng-repeat="buyer in buyers| orderBy : '-createdAt'">
 
                                     <td>
-                                        <label><a class="btn">{{buyer.name}}</a></label>
+                                        <label><a class="btn" ui-sref="viewBuyer({buyerId : buyer.id, customerId: customer.id})">{{buyer.name}}</a></label>
                                     </td>
                                     <td>
                                         <label>{{buyer.email}}</label>
@@ -110,7 +110,7 @@
 
                                     <td style="text-align:center">
                                         <a ui-sref="editBuyers({buyerId : buyer.id, customerId: customer.id})" title="Edit"><i class="fa fa-pencil"></i></a>
-                                        <a class="btn" title="Delete"><i class="fa fa-trash"></i></a>
+                                        <a class="btn" data-ng-click="remove(buyer);" title="Delete"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             </tbody>

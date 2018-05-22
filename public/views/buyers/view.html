@@ -1,10 +1,10 @@
 <div class="card">
-    <h1>Customer Detail</h1>
+    <h1>Buyer Detail</h1>
     <section data-ng-init="findOne()">
         <div class="row pull-right">
             <div>
-                <a class="btn btn-primary" ui-sref="editCustomers({customerId : customer.id})">Edit</a>
-                <a class="btn btn-danger" href="/customer">Cancel</a>
+                <a class="btn btn-primary" ui-sref="editBuyers({buyerId : buyer.id})">Edit</a>
+                <a class="btn btn-danger"  ui-sref="viewCustomer({customerId : buyer.CustomerId})">Cancel</a>
             </div>
         </div>
 
@@ -15,12 +15,12 @@
                 <div class="clear clearfix"></div><br />
                 <div class="row">
                     <div class="col col-lg-9">
-                        <p><label>Customer Name: </label><strong>{{customer.name}}</strong></p>
-                        <p><label>Email: </label><strong>{{customer.email}}</strong></p>
-                        <p><label>Contact: </label><strong>{{customer.contact}}</strong></p>
+                        <p><label>Buyer Name: </label><strong>{{buyer.name}}</strong></p>
+                        <p><label>Email: </label><strong>{{buyer.email}}</strong></p>
+                        <p><label>Contact: </label><strong>{{buyer.contact}}</strong></p>
                     </div>
                     <div class="col col-lg-3">
-                        <p><label>Company: </label><strong>{{customer.company}}</strong></p>
+                        <p><label>Company: </label><strong>{{buyer.Customer.company}}</strong></p>
                     </div>
                 </div>
                 <div class="row">
@@ -38,16 +38,16 @@
             </div>
             <div class="col-lg-6">
                 <h4 align="center"><strong>Comments</strong></h4>
-                <div ng-controller="CustomercommentsController">
+                <div ng-controller="BuyercommentsController">
                     <div ng-init="find()" style="height:150px; overflow-y:auto; border:1px solid #000; padding:5px;">
                         <ul>
-                            <li ng-repeat="customercomment in customercomments| orderBy : '-createdAt'">
+                            <li ng-repeat="buyercomment in buyercomments| orderBy : '-createdAt'">
                                 <div class="pull-left">
-                                    {{customercomment.User.firstName}} {{customercomment.User.lastName}} <small>({{customercomment.User.email}})</small>
-                                    <br />&raquo; <small> {{customercomment.comment}}</small>
+                                    {{buyercomment.User.firstName}} {{buyercomment.User.lastName}} <small>({{buyercomment.User.email}})</small>
+                                    <br />&raquo; <small> {{buyercomment.comment}}</small>
                                 </div>
                                 <small class="pull-right">
-                                    <i>{{customercomment.createdAt  | date:'medium'}}</i>
+                                    <i>{{buyercomment.createdAt  | date:'medium'}}</i>
                                 </small>
                                 <div class="clear clearfix fc-clear"></div>
                                 <hr />
@@ -68,7 +68,7 @@
 
         <div class="clear clearfix"></div> <br />
         <hr />
-        <h3>Buyers</h3>
+        <h3>RFQs</h3>
         <div class="row">
             <div class="col col-lg-12">
                 <section data-ng-init="find()" class="table-responsive" ng-controller="BuyersController">

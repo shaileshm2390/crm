@@ -13,7 +13,6 @@ var _ = require('lodash');
  * Its purpose is to preload the department on the req object then call the next function.
  */
 exports.department = function (req, res, next, id) {
-    console.log('id => ' + id); 
     db.Department.find({ where: { id: id } }).then(function (department) {
         if (!department) {
             return next(new Error('Failed to load department ' + id));

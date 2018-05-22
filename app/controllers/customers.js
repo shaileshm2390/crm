@@ -12,7 +12,6 @@ var db = require('../../config/sequelize');
  * Its purpose is to preload the customer on the req object then call the next function.
  */
 exports.customer = function (req, res, next, id) {
-    console.log('id => ' + id);
     db.Customer.find({ where: { id: id } }).then(function (customer) {
         if (!customer) {
             return next(new Error('Failed to load customer ' + id));

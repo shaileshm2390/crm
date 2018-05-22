@@ -1,5 +1,5 @@
 <h1>Edit User</h1>
-<section data-ng-init="findOne()">
+<section data-ng-init="findOne()" class="card">
     <form class="form-horizontal" data-ng-submit="update()">
         <div class="control-group">
             <label for="name" class="control-label">First name</label>
@@ -34,7 +34,7 @@
                 <div ng-controller="DepartmentsController" ng-init="find()">
                     <select class="form-control ddlDepartment" required name="DepartmentId" data-ng-model="user.DepartmentId">
                         <option value="">Select Department </option>
-                        <option ng-repeat="department in departments" value="{{department.id}}" >{{department.name}}</option>
+                        <option ng-repeat="department in departments" value="{{department.id}}">{{department.name}}</option>
                     </select>
                 </div>
             </div>
@@ -57,6 +57,6 @@
                 $(".ddlDepartment option[selected]").remove();
                 $(".ddlDepartment").val($(".hdnDepartmentId").val());
             }, 500);
-        
+
     });
 </script>

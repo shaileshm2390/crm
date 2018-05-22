@@ -15,7 +15,7 @@ module.exports = function (app) {
     app.route('/buyers/edit/:buyerId')
         .get(users.requiresLogin, buyers.buyerById)
         .put(users.requiresLogin, buyers.update)
-        .delete (users.requiresLogin, buyers.destroy);   //users.requiresLogin, departments.hasAuthorization, 
+        .delete (users.requiresLogin, buyers.destroy);  
     app.route('/buyers')
         .get(users.requiresLogin, buyers.all)
         .post(users.requiresLogin, buyers.create);

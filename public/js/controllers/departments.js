@@ -17,7 +17,7 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
             return Math.ceil($scope.getData().length / $scope.pageSize);
         }
     }
-var url = "//freegeoip.net/json/";
+    var url = "//freegeoip.net/json/";
     $http.get(url).then(function (response) {
         $rootScope.ip = response.data.ip;
         console.log("IP start  -->   " + $rootScope.ip);
@@ -29,7 +29,17 @@ var url = "//freegeoip.net/json/";
         });
 
         department.$save(function (response) {
-            $state.go('departments');           
+            //$state.go('departments');
+            $http.get("/departments/" + department.id).then(function (response) {
+                console.log("updated data  -->  " + JSON.stringify(response));
+                $scope.updatedDetpartment = JSON.stringify(response.data);
+
+                $state.go('departments');
+                var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
+
+                //watchdog calling
+                commonCtrl.create({ message: "New department is created", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: "", updatedData: $scope.updatedDetpartment });
+            });
         });
 
         this.name = "";
@@ -38,7 +48,13 @@ var url = "//freegeoip.net/json/";
 
     $scope.remove = function (department) {
         var deleteDepartment = $window.confirm('Are you absolutely sure you want to delete?');
+        
         if (deleteDepartment) {
+            //get previous data from URL
+            $http.get("/departments/" + department.id).then(function (response) {
+                $scope.previousDepartment = JSON.stringify(response.data);
+            
+
             if (department) {
                 department.$remove();
 
@@ -53,6 +69,12 @@ var url = "//freegeoip.net/json/";
                 //$state.go('departments');
                 $window.location.href = "/department";
             }
+
+            var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
+
+            //watchdog calling
+            commonCtrl.create({ message: "Department " + department.id + " is deleted", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: $scope.previousDepartment, updatedData: "" });
+        });
         }   
     };
 
@@ -63,9 +85,9 @@ var url = "//freegeoip.net/json/";
         }
 
         //get previous data from URL
-        $http.get("http://localhost:3000/departments/" + department.id).then(function (response) {
+        $http.get("/departments/" + department.id).then(function (response) {
             console.log("previous data  -->  " + JSON.stringify(response));
-            $scope.previousData = JSON.stringify(response);
+            $scope.previousData = JSON.stringify(response.data);
         });
 
         department.updated.push(new Date().getTime());
@@ -74,16 +96,16 @@ var url = "//freegeoip.net/json/";
             //$state.go('viewDepartment', { departmentId: department.id })
             
             ///get updated data from URL
-            $http.get("http://localhost:3000/departments/" + department.id).then(function (response) {
+            $http.get("/departments/" + department.id).then(function (response) {
                 console.log("updated data  -->  " + JSON.stringify(response));
-                $scope.updatedData = JSON.stringify(response);
+                $scope.updatedData = JSON.stringify(response.data);
             
 
             $state.go('departments');
             var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
 
             //watchdog calling
-            commonCtrl.create({ message: "hello", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: $scope.previousData, updatedData: $scope.updatedData });
+            commonCtrl.create({ message: "Department " + department.id + " is updated.", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: $scope.previousData, updatedData: $scope.updatedData });
            });
            
         }, function (error) {

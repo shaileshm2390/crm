@@ -22,7 +22,7 @@ var app = angular.module('mean.watchdogs').controller('WatchdogsController', ['$
         this.message = "";
         this.ipAddress = "";
         this.pageUrl = "";
-        this.userId = "";
+        this.userId = user.id;
         this.previousData = "";
         this.updatedData = "";
     };

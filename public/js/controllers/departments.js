@@ -1,7 +1,13 @@
 ﻿'use strict';
 
-var app = angular.module('mean.departments').controller('DepartmentsController', ['$scope', '$location', '$stateParams', 'Global', 'Departments', '$state', '$window', '$filter', function ($scope, $location, $stateParams, Global, Departments, $state, $window, $filter) {
+var app = angular.module('mean.departments').controller('DepartmentsController', ['$scope', '$location', '$stateParams', 'Global', 'Departments', '$state', '$window', '$filter', '$controller', '$rootScope', '$http', function ($scope, $location, $stateParams, Global, Departments, $state, $window, $filter, $controller, $rootScope, $http) {
     $scope.global = Global;
+
+    var url = "//freegeoip.net/json/";
+    $http.get(url).then(function (response) {
+        $rootScope.ip = response.data.ip;
+        console.log("IP start  -->   " + $rootScope.ip);
+    });
 
     $scope.create = function () {
         var department = new Departments({
@@ -41,10 +47,31 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
         if (!department.updated) {
             department.updated = [];
         }
+
+        //get previous data from URL
+        $http.get("http://localhost:3000/departments/" + department.id).then(function (response) {
+            console.log("previous data  -->  " + JSON.stringify(response));
+            $scope.previousData = JSON.stringify(response);
+        });
+
         department.updated.push(new Date().getTime());
+
         department.$update(function () {
             //$state.go('viewDepartment', { departmentId: department.id })
+            
+            ///get updated data from URL
+            $http.get("http://localhost:3000/departments/" + department.id).then(function (response) {
+                console.log("updated data  -->  " + JSON.stringify(response));
+                $scope.updatedData = JSON.stringify(response);
+            
+
             $state.go('departments');
+            var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
+
+            //watchdog calling
+            commonCtrl.create({ message: "hello", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: $scope.previousData, updatedData: $scope.updatedData });
+           });
+           
         }, function (error) {
             console.log(error);
             $window.location.href = "/signin";
@@ -54,6 +81,7 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
     $scope.find = function () {        
         Departments.query(function (departments) {   
             $scope.departments = departments;
+            
         }, function (error) {
             console.log(error);
             $window.location.href = "/signin";
@@ -111,4 +139,12 @@ app.filter('startFrom', function () {
         start = +start; //parse to int
         return input.slice(start);
     }
+});
+
+angular.module("myApp", []).run(function ($rootScope, $http) {
+    var url = "//freegeoip.net/json/";
+    $http.get(url).then(function (response) {
+        console.log(response.data.ip);
+        $rootScope.ip = response.data.ip;
+    });
 });

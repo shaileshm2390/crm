@@ -57,7 +57,7 @@ exports.signin = function (req, res) {
  * Show sign up form
  */
 exports.signup = function (req, res) {
-    res.render('users/signup', {
+    res.render('/signin', {
         title: 'Sign up',
     });
 };
@@ -190,7 +190,7 @@ exports.create = function (req, res, next) {
             // res.redirect('/');
         });
     }).catch(function (err) {
-        res.render('users/signup', {
+        res.render('/signin', {
             message: message,
             user: user
         });

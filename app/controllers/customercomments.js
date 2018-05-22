@@ -14,7 +14,7 @@ exports.create = function (req, res) {
     db.Customercomment.create(req.body).then(function (customercomment) {
         return res.jsonp(customercomment);
     }).catch(function (err) {
-        return res.send('users/signup', {
+        return res.send('/signin', {
             errors: err,
             status: 500
         });

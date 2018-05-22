@@ -14,7 +14,7 @@ exports.create = function (req, res) {
     db.Buyer.create(req.body).then(function (buyer) {
         return res.jsonp(buyer);
     }).catch(function (err) {
-        return res.send('users/signup', {
+        return res.send('/signin', {
             errors: err,
             status: 500
         });

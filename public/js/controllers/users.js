@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var app = angular.module('mean.users').controller('UsersController', ['$scope', '$stateParams', 'Global', 'Users', '$state', '$window', function ($scope, $stateParams, Global, Users, $state, $window) {
+var app = angular.module('mean.users').controller('UsersController', ['$scope', '$stateParams', 'Global', 'Users', '$state', '$window','$filter', function ($scope, $stateParams, Global, Users, $state, $window, $filter) {
     $scope.global = Global;
     $scope.currentPage = 0;
     $scope.pageSize = 3;

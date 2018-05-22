@@ -3,7 +3,7 @@
 var app = angular.module('mean.customers').controller('CustomersController', ['$scope', '$stateParams', 'Global', 'Customers', '$state', '$window', '$filter', function ($scope, $stateParams, Global, Customers, $state, $window, $filter) {
     $scope.global = Global;
     $scope.currentPage = 0;
-    $scope.pageSize = 3;
+    $scope.pageSize = $window.document.getElementById('hdnPageSize').value;
     $scope.data = [];
     $scope.getData = function () {
         return $filter('filter')($scope.customers, $scope.searchString);

@@ -7,7 +7,7 @@
     </div>
 
     <div class="clearfix"></div> <br />
-    <section data-ng-init="find()" class="table-responsive">
+    <section data-ng-init="findExceptAdmin()" class="table-responsive">
         <div class="clearfix clear"></div><br />
         <div data-ng-show="departments && departments.length">
             <table class="table table-bordered">
@@ -21,7 +21,7 @@
                 </thead>
                 <tbody>
                     <!--<tr data-ng-repeat="department in departments | filter:{name:searchString} | startFrom:currentPage*pageSize | limitTo:pageSize" data-ng-if="department.name!='Admin'">-->
-                    <tr data-ng-repeat="department in departments | filter:{name:searchString} | startFrom:currentPage*pageSize | limitTo:pageSize" >
+                    <tr ng-repeat="department in departments | filter:{name:searchString} | startFrom:currentPage*pageSize | limitTo:pageSize | orderBy:'name'" >
                         <td>
                             <label><a class="btn" ui-sref="editDepartments({departmentId : department.id})">{{department.name}}</a></label>
                         </td>

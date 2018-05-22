@@ -11,7 +11,7 @@ var users = require('../../app/controllers/users'),
 module.exports = function (app) {
     // Department Routes
     app.route('/departments')
-        .get(departments.all)   //users.requiresLogin, 
+        .get(users.requiresLogin,departments.all)   //users.requiresLogin, 
         .post(users.requiresLogin, departments.hasAuthorization, departments.create);  //users.requiresLogin, 
     app.route('/departments/:departmentId')
         .get(departments.show)  //users.requiresLogin, 

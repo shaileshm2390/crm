@@ -4,7 +4,7 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
     $scope.global = Global;
 
     $scope.currentPage = 0;
-    $scope.pageSize = 2;
+    $scope.pageSize = $window.document.getElementById('hdnPageSize').value;
     $scope.data = [];
     $scope.searchString = "";
 
@@ -47,9 +47,8 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
             }
             else {
                 $scope.department.$remove();
-                //$state.go('departments');
-                $window.location.href = "/department";
             }
+            $window.location.href = "/department";
         }   
     };
 
@@ -76,6 +75,20 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
             $window.location.href = "/signin";
         });
     };
+
+    $scope.findExceptAdmin = function () {
+        Departments.query(function (departments) {
+            for (var i in departments) {
+                if (departments[i].name === 'Admin') {
+                    departments.splice(departments[i], 1);
+                }
+            }
+            $scope.departments = departments;
+        }, function (error) {
+            console.log(error);
+            $window.location.href = "/signin";
+        });
+    };    
 
     $scope.findOne = function () {
         Departments.get({

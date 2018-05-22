@@ -1,0 +1,42 @@
+<h1>Create Buyer</h1>
+
+<div class="alert alert-danger" ng-show="errorMessage.length > 0">{{errorMessage}}</div>
+
+<section>
+    <form class="form-horizontal" data-ng-submit="create()" name="myForm" id="myForm">
+        <div class="control-group">
+            <label class="control-label" for="email">Email</label>
+
+            <div class="controls">
+                <input type="email" ng-model="buyer.email" id="title" placeholder="Email" class="form-control col-sm-6" required />
+            </div>
+        </div>
+        <br />
+
+        <div class="control-group">
+            <label class="control-label" for="name">Name</label>
+            
+            <div class="controls">
+                <input type="text" ng-model="buyer.name" id="title" placeholder="Name" class="form-control col-sm-6" required />
+            </div>
+        </div>
+        <br />
+
+        <div class="control-group">
+            <label class="control-label" for="contact">Contact Number</label>
+
+            <div class="controls">
+                <input type="text" ng-model="buyer.contact" id="contact" placeholder="Contact" class="form-control col-sm-6" required />
+            </div>
+        </div>
+        <br />
+
+        <div class="clearfix"></div><br />
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" class="btn btn-primary" value="Save">
+                <a class="btn btn-secondary" href="javascript:window.history.back();">Cancel</a>
+            </div>
+        </div>
+    </form>
+</section>

@@ -48,7 +48,7 @@ exports.buyer = function (req, res, next, id) {
 };
 
 exports.buyerEdit = function (req, res, next, id) {
-    db.Buyer.findAll({
+    db.Buyer.find({
         where: { id: id }, include: [{ model: db.Customer, attributes: ['id', 'name', 'company', 'email'] }]
     }).then(function (buyer) {
         if (!buyer) {
@@ -69,4 +69,45 @@ exports.buyerByCustomerId = function (req, res) {
 
 exports.buyerById = function (req, res) {
     return res.jsonp(req.buyer);
+};
+
+
+/**
+ * Update a Buyer
+ */
+exports.update = function (req, res) {
+    console.log(req.body);
+    // create a new variable to hold the department that was placed on the req object.
+    var buyer = req.buyer;
+
+    buyer.updateAttributes({
+        name: req.body.name,
+        emai: req.body.email,
+        contact: req.body.contact
+    }).then(function (a) {
+        return res.jsonp(a);
+    }).catch(function (err) {
+        return res.render('error', {
+            error: err,
+            status: 500
+        });
+    });
+};
+
+/**
+ * Delete an Buyer
+ */
+exports.destroy = function (req, res) {
+
+    // create a new variable to hold the department that was placed on the req object.    
+    var buyer = req.buyer;
+    
+    buyer.destroy().then(function () {
+        return res.jsonp(buyer);
+    }).catch(function (err) {
+        return res.render('error', {
+            error: err,
+            status: 500
+        });
+    });
 };

@@ -10,12 +10,12 @@ var users = require('../../app/controllers/users'),
 module.exports = function (app) {
     // Department Routes
     app.route('/customers')
-        .get(customers.all)   //users.requiresLogin, 
-        .post(customers.create);  //users.requiresLogin, 
+        .get(users.requiresLogin,customers.all)   //users.requiresLogin, 
+        .post(users.requiresLogin,customers.create);  //users.requiresLogin, 
     app.route('/customers/:customerId')
-        .get(customers.show)  //users.requiresLogin, 
-        .put(customers.update)    //users.requiresLogin, customers.hasAuthorization, 
-        .delete(customers.destroy);   //users.requiresLogin, customers.hasAuthorization, 
+        .get(users.requiresLogin,customers.show)  //users.requiresLogin, 
+        .put(users.requiresLogin,customers.update)    //users.requiresLogin, customers.hasAuthorization, 
+        .delete(users.requiresLogin,customers.destroy);   //users.requiresLogin, customers.hasAuthorization, 
 
     // Finish with setting up the articleId param
     // Note: the articles.article function will be called everytime then it will call the next function.

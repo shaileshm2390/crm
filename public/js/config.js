@@ -86,6 +86,24 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             templateUrl: 'views/customers/view.html'
         })
 
+        // buyer
+      
+        .state('createBuyer', {
+            url: '/customer/{customerId}/buyer/create',
+            controller: 'BuyersController',
+            templateUrl: 'views/buyers/create.html'
+        })
+        .state('editBuyers', {
+            url: '/customer/{customerId}/buyer/{buyerId}/edit',
+            controller: 'BuyersController',
+            templateUrl: 'views/buyers/edit.html'
+        })
+        .state('viewBuyer', {
+            url: '/buyer/{buyerId}',
+            controller: 'BuyersController',
+            templateUrl: 'views/buyers/view.html'
+        })
+
         .state('404', {
             templateUrl: 'views/404.html'
         });

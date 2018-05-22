@@ -71,51 +71,43 @@
         <h3>Buyers</h3>
         <div class="row">
             <div class="col col-lg-12">
-                <div class="row pull-right">
-                    <div class="col-lg-2">
-                        <a ui-sref="createBuyer({customerId: customer.id})" class="btn btn-primary"><span>Add Buyer</span></a>
-                    </div>
-                </div>
-                <div class="clear clearfix"></div><br />
                 <section data-ng-init="find()" class="table-responsive" ng-controller="BuyersController">
-                    <div ng-show="buyers.length">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Contact</th>
-                                    <th>Created</th>
-                                    <th style="text-align:center">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="buyer in buyers| orderBy : '-createdAt'">
+                    <table class="table table-bordered" ng-show="buyers.length">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Contact</th>
+                                <th>Created</th>
+                                <th style="text-align:center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="buyer in buyers">
 
-                                    <td>
-                                        <label><a class="btn">{{buyer.name}}</a></label>
-                                    </td>
-                                    <td>
-                                        <label>{{buyer.email}}</label>
-                                    </td>
+                                <td>
+                                    <label><a class="btn">{{buyer.name}}</a></label>
+                                </td>
+                                <td>
+                                    <label>{{buyer.email}}</label>
+                                </td>
 
 
-                                    <td>
-                                        <span>{{buyer.contact}}</span>
-                                    </td>
+                                <td>
+                                    <span>{{buyer.contact}}</span>
+                                </td>
 
-                                    <td>
-                                        <span>{{buyer.createdAt | date:'medium'}}</span>
-                                    </td>
+                                <td>
+                                    <span>{{buyer.createdAt | date:'medium'}}</span>
+                                </td>
 
-                                    <td style="text-align:center">
-                                        <a ui-sref="editBuyers({buyerId : buyer.id, customerId: customer.id})" title="Edit"><i class="fa fa-pencil"></i></a>
-                                        <a class="btn" title="Delete"><i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                                <td style="text-align:center">
+                                    <a ui-sref="" title="Edit"><i class="fa fa-pencil"></i></a>
+                                <a class="btn" title="Delete"><i class="fa fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <div ng-show="!buyers.length" class="alert alert-danger">No requirement from this customer</div>
                 </section>
             </div>

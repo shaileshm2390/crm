@@ -15,8 +15,8 @@ module.exports = function (app) {
         .post(users.requiresLogin, departments.hasAuthorization, departments.create);  //users.requiresLogin, 
     app.route('/departments/:departmentId')
         .get(departments.show)  //users.requiresLogin, 
-        .put(users.requiresLogin, departments.hasAuthorization,departments.update)    //users.requiresLogin, departments.hasAuthorization, 
-        .delete(users.requiresLogin, departments.hasAuthorization, departments.destroy);   //users.requiresLogin, departments.hasAuthorization, 
+        .put(departments.update)    //users.requiresLogin, departments.hasAuthorization, 
+        .delete(departments.destroy);   //users.requiresLogin, departments.hasAuthorization, 
 
     // Finish with setting up the articleId param
     // Note: the articles.article function will be called everytime then it will call the next function.

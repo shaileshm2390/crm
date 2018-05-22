@@ -351,6 +351,7 @@
 	  <script src="/js/services/customers.js"></script>
      <script src="/js/services/customercomments.js"></script>
          <script src="/js/services/buyers.js"></script>
+<script src="/js/services/watchdogs.js"></script>
 
     <!--	  Application Controllers-->
         <script src="/js/controllers/users.js"></script>
@@ -364,10 +365,11 @@
     <script src="/js/controllers/customercomments.js"></script>
      <script src="/js/controllers/buyers.js"></script>
     <script src='/js/init.js'></script>
+	<script src="/js/controllers/watchdogs.js"></script>
 
   <% if (typeof user == 'object' && user) { %>
     <script type="text/javascript"> 
-		window.user = {id:<%= user.id %>, email:'<%= user.email %>', firstName:'<%= user.firstName %>', lastName:'<%= user.lastName %>'};
+	window.user = {id:<%= user.id %>, email:'<%= user.email %>', firstName:'<%= user.firstName %>', lastName:'<%= user.lastName %>'};
 		</script>
   <% } %>
 

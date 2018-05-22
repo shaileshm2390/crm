@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var app = angular.module('mean.departments').controller('DepartmentsController', ['$scope', '$location', '$stateParams', 'Global', 'Departments', '$state', '$window', '$filter', function ($scope, $location, $stateParams, Global, Departments, $state, $window, $filter) {
+var app = angular.module('mean.departments').controller('DepartmentsController', ['$scope', '$location', '$stateParams', 'Global', 'Departments', '$state', '$window', '$filter', '$controller', '$rootScope', '$http', function ($scope, $location, $stateParams, Global, Departments, $state, $window, $filter, $controller, $rootScope, $http) {
     $scope.global = Global;
 
     $scope.currentPage = 0;
@@ -18,6 +18,10 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
         }
     }
 
+    var url = "//freegeoip.net/json/";
+    $http.get(url).then(function (response) {
+        $rootScope.ip = response.data.ip;
+    });
 
     $scope.create = function () {
         var department = new Departments({
@@ -26,7 +30,17 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
         });
 
         department.$save(function (response) {
-            $state.go('departments');           
+            //$state.go('departments');
+            $http.get("/departments/" + department.id).then(function (response) {
+                console.log("updated data  -->  " + JSON.stringify(response));
+                $scope.updatedDetpartment = JSON.stringify(response.data);
+
+                $state.go('departments');
+                var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
+
+                //watchdog calling
+                commonCtrl.create({ message: "New department is created", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: "", updatedData: $scope.updatedDetpartment });
+            });
         });
 
         this.name = "";
@@ -35,21 +49,40 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
 
     $scope.remove = function (department) {
         var deleteDepartment = $window.confirm('Are you absolutely sure you want to delete?');
-        if (deleteDepartment) {
-            if (department) {
-                department.$remove();
 
-                for (var i in $scope.departments) {
-                    if ($scope.departments[i] === department) {
-                        $scope.departments.splice(i, 1);
+        if (deleteDepartment) {
+            //get previous data from URL
+            $http.get("/departments/" + department.id).then(function (response) {
+                $scope.previousDepartment = JSON.stringify(response.data);
+
+
+                if (department) {
+                    department.$remove();
+
+                    for (var i in $scope.departments) {
+                        if ($scope.departments[i] === department) {
+                            $scope.departments.splice(i, 1);
+                        }
                     }
                 }
-            }
-            else {
-                $scope.department.$remove();
-            }
-            $window.location.href = "/department";
-        }   
+                else {
+                    $scope.department.$remove();
+                }
+
+                var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
+
+                //watchdog calling
+                commonCtrl.create({
+                    message: "Department " + department.id + " is deleted",
+                    ipAddress: $rootScope.ip,
+                    pageUrl: $location.url(),
+                    userId: user.id,
+                    previousData: $scope.previousDepartment,
+                    updatedData: ""
+                });
+                $window.location.href = "/department";
+            });
+        }
     };
 
     $scope.update = function () {
@@ -57,10 +90,31 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
         if (!department.updated) {
             department.updated = [];
         }
+
+        //get previous data from URL
+        $http.get("/departments/" + department.id).then(function (response) {
+            console.log("previous data  -->  " + JSON.stringify(response));
+            $scope.previousData = JSON.stringify(response.data);
+        });
+
         department.updated.push(new Date().getTime());
+
         department.$update(function () {
             //$state.go('viewDepartment', { departmentId: department.id })
+            
+            ///get updated data from URL
+            $http.get("/departments/" + department.id).then(function (response) {
+                console.log("updated data  -->  " + JSON.stringify(response));
+                $scope.updatedData = JSON.stringify(response.data);
+            
+
             $state.go('departments');
+            var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
+
+            //watchdog calling
+            commonCtrl.create({ message: "Department " + department.id + " is updated.", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: $scope.previousData, updatedData: $scope.updatedData });
+           });
+           
         }, function (error) {
             console.log(error);
             $window.location.href = "/signin";
@@ -70,6 +124,7 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
     $scope.find = function () {        
         Departments.query(function (departments) {   
             $scope.departments = departments;
+            
         }, function (error) {
             console.log(error);
             $window.location.href = "/signin";
@@ -106,8 +161,8 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
 app.filter('startFrom', function () {
     return function (input, start) {
         if (typeof(input) != 'undefined') {
-            start = +start; //parse to int
-            return input.slice(start);
-        }
+        start = +start; //parse to int
+        return input.slice(start);
+    }
     }
 });

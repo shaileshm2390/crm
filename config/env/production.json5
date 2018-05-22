@@ -4,8 +4,8 @@
         name: "crm",
         password: "",
         username: "root",
-        host: "192.168.6.21",
-        port: 3308
+        host: "localhost",
+       // port: 3308
     },
     app: {
         name: "CRM"

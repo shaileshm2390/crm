@@ -15,6 +15,11 @@ var app = angular.module('mean.customers').controller('CustomersController', ['$
         }
     }
 
+    $scope.add = function () {
+        $state.go('createCustomerImage');
+        //$window.location.href = "/createCustomerImage";
+    };
+
     //get ip address
     var url = "//freegeoip.net/json/";
     $http.get(url).then(function (response) {

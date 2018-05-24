@@ -94,8 +94,7 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             templateUrl: 'views/customerimages/create.html'
         })
 
-        // buyer
-      
+        // buyer      
         .state('createBuyer', {
             url: '/customer/{customerId}/buyer/create',
             controller: 'BuyersController',
@@ -110,6 +109,13 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             url: '/customer/{customerId}/buyer/{buyerId}',
             controller: 'BuyersController',
             templateUrl: 'views/buyers/view.html'
+        })
+
+        // RFQs
+        .state('viewRfq', {
+            url: '/customer/{customerId}/buyer/{buyerId}/rfq/{rfqId}',
+            controller: 'RfqsController',
+            templateUrl: 'views/rfqs/view.html'
         })
 
         .state('404', {

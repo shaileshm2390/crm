@@ -72,7 +72,6 @@ angular.module('mean.buyers').controller('BuyersController', ['$scope', '$stateP
     $scope.findOne = function () {     
         $http.get("/buyers/edit/" + $stateParams.buyerId)
             .then(function (response) {
-                console.log(response.data);
                 $scope.buyer = response.data;
             }, function (error) {
                 console.log(error, $stateParams.buyerId);

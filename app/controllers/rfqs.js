@@ -10,7 +10,7 @@ var _ = require('lodash');
 /**
  * Create a department
  */
-exports.create = function (req, res) {
+exports.create = function (req, res) {    
     db.Rfq.create(req.body).then(function (rfq) {
         return res.jsonp(rfq);
     }).catch(function (err) {
@@ -21,11 +21,35 @@ exports.create = function (req, res) {
     });
 };
 
+exports.update = function (req, res) {
+    if (req.body.UserId == "") {
+        req.body.UserId = null;
+    }
+    var rfq = req.rfq;
+    rfq.updateAttributes({
+        UserId: req.body.UserId        
+    }).then(function (a) {
+        return res.jsonp(a);
+    }).catch(function (err) {
+        return res.render('/signin', {
+            error: err,
+            status: 500
+        });
+    });
+};
+
 exports.all = function (req, res) {
     db.Rfq.findAll({
         include: [
-            { model: db.User, attributes: ['id', 'email', 'firstName', 'lastName'] },
-            { model: db.Buyer, attributes: ['id', 'name', 'contact', 'email']  }
+            {
+                model: db.User,
+                attributes: ['id', 'email', 'firstName', 'lastName']
+            },
+            {
+                model: db.Buyer,
+                attributes: ['id', 'name', 'contact', 'email', 'CustomerId'],
+                include: [{ model: db.Customer, attributes: ['id', 'name', 'email', 'company', 'contact'] }]
+            }
         ]
     }).then(function (rfqs) {
         return res.jsonp(rfqs);
@@ -40,8 +64,15 @@ exports.all = function (req, res) {
 exports.rfq = function (req, res, next, id) {
     db.Rfq.find({
         where: { id: id }, include: [
-            { model: db.User, attributes: ['id', 'email', 'firstName', 'lastName'] },
-            { model: db.Buyer, attributes: ['id', 'name', 'contact', 'email'] }
+            {
+                model: db.User,
+                attributes: ['id', 'email', 'firstName', 'lastName']
+            },
+            {
+                model: db.Buyer,
+                attributes: ['id', 'name', 'contact', 'email', 'CustomerId'],
+                include: [{ model: db.Customer, attributes: ['id', 'name', 'email', 'company', 'contact'] }]
+            }
         ]
     }).then(function (rfq) {
         if (!rfq) {
@@ -58,8 +89,15 @@ exports.rfq = function (req, res, next, id) {
 exports.rfqByBuyer = function (req, res, next, id) {
     db.Rfq.findAll({
         where: { BuyerId: id }, include: [
-            { model: db.User, attributes: ['id', 'email', 'firstName', 'lastName'] },
-            { model: db.Buyer, attributes: ['id', 'name', 'contact', 'email'] }
+            {
+                model: db.User,
+                attributes: ['id', 'email', 'firstName', 'lastName']
+            },
+            {
+                model: db.Buyer,
+                attributes: ['id', 'name', 'contact', 'email', 'CustomerId'],
+                include: [{ model: db.Customer, attributes: ['id', 'name', 'email', 'company', 'contact'] }]
+            }
         ]
     }).then(function (rfq) {
         if (!rfq) {
@@ -76,8 +114,15 @@ exports.rfqByBuyer = function (req, res, next, id) {
 exports.rfqByUser = function (req, res, next, id) {
     db.Rfq.findAll({
         where: { UserId: id }, include: [
-            { model: db.User, attributes: ['id', 'email', 'firstName', 'lastName'] },
-            { model: db.Buyer, attributes: ['id', 'name', 'contact', 'email'] }
+            {
+                model: db.User,
+                attributes: ['id', 'email', 'firstName', 'lastName']
+            },
+            {
+                model: db.Buyer,
+                attributes: ['id', 'name', 'contact', 'email', 'CustomerId'],
+                include: [{ model: db.Customer, attributes: ['id', 'name', 'email', 'company', 'contact'] }]
+            }
         ]
     }).then(function (rfq) {
         if (!rfq) {

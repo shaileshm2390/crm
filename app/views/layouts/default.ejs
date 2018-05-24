@@ -28,7 +28,7 @@
     <link href="/css/style.css" rel="stylesheet">
 
     <link rel="stylesheet" href="/css/pagination.css" />
-
+    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:** -->
     <!--[if lt IE 9]>
@@ -265,9 +265,8 @@
             <!-- Container fluid  -->
             <div class="container-fluid">
                 <br />
-                <!-- Start Page Content -->
-                <%- content %>
-
+                  <!-- Start Page Content -->                 
+                        <%- content %>
                 <!-- End PAge Content -->
             </div>
             <% } else { %>
@@ -374,6 +373,8 @@
 	<script src="/js/controllers/watchdogs.js"></script>
 
     <script src="/js/controllers/customerimages.js"></script>
+      <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+                
 
   <% if (typeof user == 'object' && user) { %>
     <script type="text/javascript"> 
@@ -381,14 +382,6 @@
 		</script>
   <% } %>
 
-    <!--<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
-    <form action="/customerimages" class="dropzone" enctype="multipart/form-data">
-        <div class="fallback">
-            <input name="file" type="file" multiple />
-        </div>
-    </form>
-
-    <script src="/js/dropzone/dropzone.js"></script>-->
 </body>
 
 </html>

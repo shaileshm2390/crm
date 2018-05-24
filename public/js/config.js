@@ -89,8 +89,8 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
 
         //customer image
         .state('createCustomerImage', {
-            url: '/customerImage/create',
-           // controller: 'CustomerImagesController',
+            url: '/customerimages/create',
+           controller: 'CustomerImagesController',
             templateUrl: 'views/customerimages/create.html'
         })
 

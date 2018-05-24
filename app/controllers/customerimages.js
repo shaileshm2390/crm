@@ -29,9 +29,15 @@ exports.customerimage = function (req, res, next, id) {
  * Create a department
  */
 exports.create = function (req, res) {
-  
-        console.log("Uploaded image  -->  ", req.files);
-       
+    var sampleFile = req.files;
+    sampleFile.file.mv(__dirname + '/../../public/temp/' + sampleFile.file.name, function (err) {
+        if (err) {
+            console.log(err);
+            res.status(500).send(err);
+        } else {
+            res.send('File uploaded!');
+        }
+    });
 };
 
 

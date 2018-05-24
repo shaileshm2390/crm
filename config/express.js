@@ -16,6 +16,7 @@ var path = require('path');
 var sessionMiddleware = require('./middlewares/session');
 var config = require('./config');
 var winston = require('./winston');
+var fileUpload = require('express-fileupload');
 
 module.exports = function(app, passport) {
 
@@ -37,6 +38,8 @@ module.exports = function(app, passport) {
     //Setting the fav icon and static folder
     app.use(favicon(config.root + '/public/img/icons/favicon.ico'));
     app.use(express.static(config.root + '/public'));
+
+    app.use(fileUpload());
 
     //Don't use logger for test env
     if (config.NODE_ENV !== 'test') {

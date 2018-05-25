@@ -12,12 +12,36 @@ var db = require('../../config/sequelize');
  * Its purpose is to preload the customer on the req object then call the next function.
  */
 exports.customerimage = function (req, res, next, id) {
-    console.log('id => ' + id);
-    db.Customerimage.find({ where: { id: id } }).then(function (customerimage) {
+    db.CustomerImage.find({ where: { id: id } }).then(function (customerimage) {
         if (!customerimage) {
             return next(new Error('Failed to load customer image ' + id));
         } else {
             req.customerimage = customerimage;
+            return next();
+        }
+    }).catch(function (err) {
+        return next(err);
+    });
+};
+
+exports.all = function (req, res) {
+    db.CustomerImage.findAll({ include: [{ model: db.Customer }] }).then(function (customerimages) {
+        return res.jsonp(customerimages);
+    }).catch(function (err) {
+        //return res.render('error', {
+        //    error: err,
+        //    status: 500
+        //});
+        console.log(err);
+    });
+};
+
+exports.imagesByCustomerId = function (req, res, next, id) {
+    db.CustomerImage.findAll({ where: { CustomerId: id } }).then(function (customerimages) {
+        if (!customerimages) {
+            return next(new Error('Failed to load customer image ' + id));
+        } else {
+            req.customerimages = customerimages;
             return next();
         }
     }).catch(function (err) {
@@ -41,9 +65,11 @@ exports.create = function (req, res) {
         }
     });
 };
+ 
 
-
-
+exports.customerImagesByCustomerId = function (req, res) {
+    return res.jsonp(req.customerimages);
+};
 
 
 

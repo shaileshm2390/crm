@@ -9,9 +9,10 @@ module.exports = function (sequelize, DataTypes) {
             associate: function (models) {
                 Rfq.belongsTo(models.User);
                 Rfq.belongsTo(models.Buyer);
+                Rfq.hasMany(models.RfqImage);
             }
         }
     );
-
+     
     return Rfq;
 };

@@ -2,7 +2,7 @@
 
 module.exports = function (sequelize, DataTypes) {
 
-    var CustomerImage = sequelize.define('CustomerImage', {
+    var RfqImage = sequelize.define('RfqImage', {
         imagePath: DataTypes.TEXT
     }
         //{
@@ -12,5 +12,5 @@ module.exports = function (sequelize, DataTypes) {
         //}
     );
 
-    return CustomerImage;
+    return RfqImage;
 };

@@ -24,15 +24,12 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col col-lg-4">
-                        <img src="/img/no-image.png" class="img-responsive" />
-                    </div>
-                    <div class="col col-lg-4">
-                        <img src="/img/no-image.png" class="img-responsive" />
-                    </div>
-                    <div class="col col-lg-4">
-                        <img src="/img/no-image.png" class="img-responsive" />
-                    </div>
+                    <ul id="carousel" class="elastislide">
+                        <li data-ng-repeat="image in buyer.BuyerImages| orderBy : '-createdAt'">
+                            <a href="#"><img src="{{image.imagePath}}" alt="image{{image.id}}"  class="img-responsive" /></a>
+                        </li>
+
+                    </ul>
                 </div>
 
             </div>
@@ -115,3 +112,13 @@
         </div>
     </section>
 </div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        setTimeout(function () {
+            if ($(".elastislide").length > 0) {
+                $('.elastislide').elastislide();
+            }
+        }, 500);
+    });
+</script>

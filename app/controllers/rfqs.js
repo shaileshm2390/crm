@@ -49,6 +49,9 @@ exports.all = function (req, res) {
                 model: db.Buyer,
                 attributes: ['id', 'name', 'contact', 'email', 'CustomerId'],
                 include: [{ model: db.Customer, attributes: ['id', 'name', 'email', 'company', 'contact'] }]
+            },
+            {
+                model: db.RfqImage
             }
         ]
     }).then(function (rfqs) {
@@ -72,6 +75,9 @@ exports.rfq = function (req, res, next, id) {
                 model: db.Buyer,
                 attributes: ['id', 'name', 'contact', 'email', 'CustomerId'],
                 include: [{ model: db.Customer, attributes: ['id', 'name', 'email', 'company', 'contact'] }]
+            },
+            {
+                model: db.RfqImage
             }
         ]
     }).then(function (rfq) {
@@ -97,6 +103,9 @@ exports.rfqByBuyer = function (req, res, next, id) {
                 model: db.Buyer,
                 attributes: ['id', 'name', 'contact', 'email', 'CustomerId'],
                 include: [{ model: db.Customer, attributes: ['id', 'name', 'email', 'company', 'contact'] }]
+            },
+            {
+                model: db.RfqImage
             }
         ]
     }).then(function (rfq) {
@@ -122,6 +131,9 @@ exports.rfqByUser = function (req, res, next, id) {
                 model: db.Buyer,
                 attributes: ['id', 'name', 'contact', 'email', 'CustomerId'],
                 include: [{ model: db.Customer, attributes: ['id', 'name', 'email', 'company', 'contact'] }]
+            },
+            {
+                model: db.RfqImage
             }
         ]
     }).then(function (rfq) {

@@ -26,6 +26,7 @@
     <link href="/css/lib/owl.theme.default.min.css" rel="stylesheet" />
     <link href="/css/helper.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/elastislide.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="/css/pagination.css" />
     <link rel="stylesheet" href="/css/dropzone.css" />
@@ -342,6 +343,10 @@
     <!--    Dropzone JS    -->
     <script src="/js/dropzone/dropzone.js"></script>
 
+    <!-- Elastic Slide -->    
+    <script src="/js/modernizr.custom.js"></script>
+    <script src="/js/jquery.elastislide.js"></script>
+
     <!--Application Init-->
     <script src="/js/app.js"></script>
     <script src="/js/config.js"></script>
@@ -387,7 +392,6 @@
 	window.user = {id:<%= user.id %>, email:'<%= user.email %>', firstName:'<%= user.firstName %>', lastName:'<%= user.lastName %>'};
 		</script>
   <% } %>
-
 </body>
 
 </html>

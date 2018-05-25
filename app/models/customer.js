@@ -9,9 +9,9 @@ module.exports = function (sequelize, DataTypes) {
         contact: DataTypes.STRING
     }, 
         {
-            //associate: function (models) {
-            //    Department.belongsTo(models.User);
-            //}
+            associate: function (models) {
+                Customer.hasMany(models.CustomerImage);
+           }
         }
     );
 

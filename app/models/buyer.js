@@ -10,6 +10,7 @@ module.exports = function (sequelize, DataTypes) {
         {
             associate: function (models) {
                 Buyer.belongsTo(models.Customer);
+                Buyer.hasMany(models.BuyerImage);
             }
         }
     );

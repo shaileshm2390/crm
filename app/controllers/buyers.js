@@ -22,7 +22,11 @@ exports.create = function (req, res) {
 };
 
 exports.all = function (req, res) {
-    db.Buyer.findAll({ include: [{ model: db.Customer, attributes: ['id', 'name', 'company', 'email'] }] }).then(function (buyers) {
+    db.Buyer.findAll({
+        include: [
+            { model: db.Customer, attributes: ['id', 'name', 'company', 'email'] },
+            { model: db.BuyerImage }
+        ]}).then(function (buyers) {
         return res.jsonp(buyers);
     }).catch(function (err) {
         return res.render('error', {
@@ -34,7 +38,10 @@ exports.all = function (req, res) {
 
 exports.buyer = function (req, res, next, id) {
     db.Buyer.findAll({
-        where: { CustomerId: id }, include: [{ model: db.Customer, attributes: ['id', 'name', 'company', 'email'] }]
+        where: { CustomerId: id }, include: [
+            { model: db.Customer, attributes: ['id', 'name', 'company', 'email'] },
+            { model: db.BuyerImage }
+        ]
     }).then(function (buyer) {
         if (!buyer) {
             return next(new Error('Failed to load customercomment ' + id));
@@ -49,7 +56,10 @@ exports.buyer = function (req, res, next, id) {
 
 exports.buyerEdit = function (req, res, next, id) {
     db.Buyer.find({
-        where: { id: id }, include: [{ model: db.Customer, attributes: ['id', 'name', 'company', 'email'] }]
+        where: { id: id }, include: [
+            { model: db.Customer, attributes: ['id', 'name', 'company', 'email'] },
+            { model: db.BuyerImage }
+        ]
     }).then(function (buyer) {
         if (!buyer) {
             return next(new Error('Failed to load customercomment ' + id));

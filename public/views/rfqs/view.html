@@ -33,15 +33,12 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col col-lg-4">
-                        <img src="/img/no-image.png" class="img-responsive" />
-                    </div>
-                    <div class="col col-lg-4">
-                        <img src="/img/no-image.png" class="img-responsive" />
-                    </div>
-                    <div class="col col-lg-4">
-                        <img src="/img/no-image.png" class="img-responsive" />
-                    </div>
+                    <ul id="carousel" class="elastislide">
+                        <li data-ng-repeat="image in rfq.RfqImages| orderBy : '-createdAt'">
+                            <a href="#"><img src="{{image.imagePath}}" alt="image{{image.id}}"  class="img-responsive" /></a>
+                        </li>
+
+                    </ul>
                 </div>
 
             </div>
@@ -108,8 +105,12 @@
                 if ($(".hdnUserId").val() != "") {
                     $(".ddlUser option[selected]").remove();
                     $(".ddlUser").val($(".hdnUserId").val());
+
+                    if ($(".elastislide").length > 0) {
+                        $('.elastislide').elastislide();
+                    }
                 }
-            }, 500);     
+            }, 500);
 
         $(".ddlUser").on('change', function () {
             var rfqId = $('.hdnRfqId').val();

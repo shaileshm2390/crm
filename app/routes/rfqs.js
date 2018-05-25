@@ -13,7 +13,8 @@ module.exports = function (app) {
     app.route('/rfqs')
         .get(rfqs.all);
     app.route('/rfqs/:rfqId')
-        .get(rfqs.rfqs);
+        .get(rfqs.rfqs)
+        .put(users.requiresLogin, rfqs.update);
     app.route('/buyersrfqs/:buyerId')
         .get(rfqs.rfqs);
     app.route('/userrfqs/:userId')

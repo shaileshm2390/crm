@@ -71,44 +71,45 @@
         <h3>RFQs</h3>
         <div class="row">
             <div class="col col-lg-12">
-                <section data-ng-init="find()" class="table-responsive" ng-controller="BuyersController">
-                    <table class="table table-bordered" ng-show="buyers.length">
+                <section data-ng-init="findByBuyer()" class="table-responsive" ng-controller="RfqsController">
+                    <table class="table table-bordered" ng-show="rfqs.length">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Contact</th>
+                                <th>Sr.No</th>
+                                <th>Buyer</th>
+                                <th>Customer</th>
+                                <th>Assign To</th>
                                 <th>Created</th>
-                                <th style="text-align:center">Action</th>
+                                <th>View</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr data-ng-repeat="buyer in buyers">
-
+                            <tr ng-repeat="rfq in rfqs | orderBy : '-createdAt'">
                                 <td>
-                                    <label><a class="btn">{{buyer.name}}</a></label>
+                                    <a target="_self"  title="View" class="btn" ui-sref="viewRfq({customerId: rfq.Buyer.CustomerId , buyerId: rfq.BuyerId, rfqId : rfq.id})">{{rfq.id}}</a>
                                 </td>
                                 <td>
-                                    <label>{{buyer.email}}</label>
+                                    {{rfq.Buyer.name}}
                                 </td>
-
+                                <td>
+                                    {{rfq.Buyer.Customer.company}}
+                                </td>
+                                <td>
+                                    <label>{{rfq.User.firstName || "-"}}</label>
+                                </td>
 
                                 <td>
-                                    <span>{{buyer.contact}}</span>
+                                    <span>{{rfq.createdAt | date:'medium'}}</span>
                                 </td>
-
                                 <td>
-                                    <span>{{buyer.createdAt | date:'medium'}}</span>
-                                </td>
-
-                                <td style="text-align:center">
-                                    <a ui-sref="" title="Edit"><i class="fa fa-pencil"></i></a>
-                                <a class="btn" title="Delete"><i class="fa fa-trash"></i></a>
+                                    <a  target="_self" class="btn" ui-sref="viewRfq({customerId: rfq.Buyer.CustomerId , buyerId: rfq.BuyerId, rfqId : rfq.id})" title="View">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <div ng-show="!buyers.length" class="alert alert-danger">No requirement from this customer</div>
+                    <div ng-show="!rfqs.length" class="alert alert-danger">No requirement from this buyer</div>
                 </section>
             </div>
         </div>

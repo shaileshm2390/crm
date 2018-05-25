@@ -1,0 +1,126 @@
+<div class="card">
+    <h1>RFQ Detail</h1>
+    <section data-ng-init="findOneByRfqId()">
+        <div class="row pull-right">
+            <div>
+                <a class="btn btn-danger" ui-sref="viewBuyer({buyerId : rfq.BuyerId, customerId: rfq.Buyer.CustomerId})">Cancel</a>
+            </div>
+        </div>
+
+        <div class="clear clearfix"></div><br />
+
+        <div class="row">
+            <div class="col col-lg-6" style="background-color: linen;">
+                <div class="clear clearfix"></div><br />
+                <div class="row">
+                    <div class="col col-lg-8">
+                        <p><label>Buyer: </label><strong>{{rfq.Buyer.name}}</strong></p>
+                        <p><label>Email: </label><strong>{{rfq.Buyer.email}}</strong></p>                      
+                            <p>
+                                <label>Assigned: </label>
+                                <input type="hidden" class="hdnUserId" value="{{rfq.UserId}}">
+                                <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
+                                <select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser" required name="UserId" data-ng-model="rfq.UserId">
+                                    <option value="">Select </option>
+                                    <option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
+                                </select>
+                                <div class="lblMsg" style="color:#155724"></div>
+                            </p>
+                    </div>
+                    <div class="col col-lg-4">
+                        <p><label>Company: </label><strong>{{rfq.Buyer.Customer.company}}</strong></p>
+                        <p><label>Owner: </label><strong>{{rfq.Buyer.Customer.name}}</strong></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-lg-4">
+                        <img src="/img/no-image.png" class="img-responsive" />
+                    </div>
+                    <div class="col col-lg-4">
+                        <img src="/img/no-image.png" class="img-responsive" />
+                    </div>
+                    <div class="col col-lg-4">
+                        <img src="/img/no-image.png" class="img-responsive" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-6">
+                <h4 align="center"><strong>Comments</strong></h4>
+                <div ng-controller="RfqcommentsController">
+                    <div ng-init="find()" style="height:150px; overflow-y:auto; border:1px solid #000; padding:5px;">
+                        <ul>
+                            <li ng-repeat="rfqcomment in rfqcomments| orderBy : '-createdAt'">
+                                <div class="pull-left">
+                                    {{rfqcomment.User.firstName}} {{rfqcomment.User.lastName}} <small>({{rfqcomment.User.email}})</small>
+                                    <br />&raquo; <small> {{rfqcomment.comment}}</small>
+                                </div>
+                                <small class="pull-right">
+                                    <i>{{rfqcomment.createdAt  | date:'medium'}}</i>
+                                </small>
+                                <div class="clear clearfix fc-clear"></div>
+                                <hr />
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clearfix clear"></div>
+                    <hr />
+                    <form class="form-horizontal" data-ng-submit="create()" name="myForm" id="myForm">
+                        <div class="row" style=" padding:5px;">
+                            <textarea data-ng-model="comment" name="comment" id="comment" placeholder="Add new comment" class="form-control col-lg-10"></textarea>
+                            <input type="submit" class="btn btn-secondary col-lg-2" value="Comment">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="clear clearfix"></div> <br />
+        <hr />
+
+        <div class="row">
+            <div class="col col-lg-3 "  style="border-right:1px solid #000;">
+                <h3><strong>Action</strong></h3>
+                <div class="sidebar-nav">
+                    <ul>
+                        <li><a href="#">Cost Sheet Preparation</a><hr /></li>
+                        <li><a href="#">Quotation</a><hr /></li>
+                        <li><a href="#">Sample Submission</a><hr /></li>
+                        <li><a href="#">Receive PO</a><hr /></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col col-lg-9">
+                <h3><strong>Email Content</strong></h3>
+                <div class="clear clearfix"></div> <br />
+                <div style=" overflow:auto; max-height: 300px" >
+                    <p ng-bind-html="trustAsHtml(rfq.content)"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        setTimeout(
+            function () {
+                if ($(".hdnUserId").val() != "") {
+                    $(".ddlUser option[selected]").remove();
+                    $(".ddlUser").val($(".hdnUserId").val());
+                }
+            }, 500);     
+
+        $(".ddlUser").on('change', function () {
+            var rfqId = $('.hdnRfqId').val();
+            var ddlUserId = $(this).val();
+            $.ajax({
+                url: '/rfqs/' + rfqId,
+                method: "PUT",
+                data: { UserId: ddlUserId, id: rfqId }
+            }).done(function (response) {
+                $(".lblMsg").html("<span>Updated successfully !!!</span>");
+            });
+        });
+    });
+</script>

@@ -112,6 +112,14 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             templateUrl: 'views/buyers/view.html'
         })
 
+        //purchase order
+        .state('createPurchaseOrder', {
+            url: '/purchaseorder/create',
+            controller: 'PurchaseordersController',
+            templateUrl: 'views/purchaseorders/create.html'
+        })
+
+
         .state('404', {
             templateUrl: 'views/404.html'
         });

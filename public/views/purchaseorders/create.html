@@ -1,0 +1,28 @@
+<h1>Add Purchase Order</h1>
+
+<div id="myId" class="dropzone">   <!--id="dropzone-form" -->
+    <!--<div id="myId">Drop here</div>-->
+</div>
+
+<br/><br />
+<div class="control-group">
+    <label for="status" class="control-label">Status</label>
+    <div class="controls">
+        <div>
+            <select class="form-control" ng-model="selectedStatus" ng-change="create();" required>
+                <option value="" selected>---- Select Status ----</option>
+                <option ng-repeat="status in Status" value="{{status}}">{{status}}</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var myDropzone = new Dropzone('#myId', {
+            url: "/customerimages/"
+        });
+    });
+</script>
+

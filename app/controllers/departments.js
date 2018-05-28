@@ -72,7 +72,6 @@ exports.update = function (req, res) {
 exports.destroy = function (req, res) {
 
     // create a new variable to hold the department that was placed on the req object.
-    console.log(req.department.id)
     var department = req.department;
     db.User.destroy({ where: { DepartmentId: req.department.id } }).then(function () {
         department.destroy().then(function () {

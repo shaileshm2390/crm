@@ -43,18 +43,28 @@
                 <li data-ng-repeat="image in customer.CustomerImages| orderBy : '-createdAt'" style="width:700px; margin-left:5px; margin-bottom:10px;" id="cutomerImage">
                     <a href="#"><img src="{{image.imagePath}}" alt="image{{image.id}}" class="img-responsive" /></a>
                     <br />
-                    <a class="btn btn-danger deleteImage" data-id="{{image.id}}" style="color:white;">Delete - {{image.id}}</a>
+                    <a class="btn btn-danger deleteImage" data-id="{{image.id}}" style="color:white;" >Delete</a>
                 </li>
 
             </ul>
         </div>
-
         <br />
+
+        <div class="control-group">
+            <label class="control-label" for="contact">Images</label>
+            <div class="controls">
+                <div id="myId" class="dropzone col-sm-6"></div>
+            </div>
+        </div>
+
+        <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
+
+        <br /><br />
       
             <div class="clearfix"></div><br />
             <div class="control-group">
                 <div class="controls">
-                    <input type="submit" class="btn btn-primary" value="Save">
+                    <input type="submit" class="btn btn-primary btn-Save" value="Save">
                     <a class="btn btn-secondary" href="/customer">Cancel</a>
                 </div>
             </div>
@@ -64,6 +74,21 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
+
+        var imagesArray = [];
+        var myDropzone = new Dropzone('#myId', {
+            url: "/customerimages/"
+        });
+        myDropzone.on("success", function (file, response) {
+            console.log(response);
+            imagesArray.push(response.pathFromRoot);
+        });
+
+        $(".btn-Save").on('click', function () {
+            console.log("imagesArray  html  -->" + imagesArray);
+            $(".hdnImages").val(imagesArray.join(",")).trigger('change');;
+        });
+
         setTimeout(function () {
             if ($(".elastislide").length > 0) {
                 $('.elastislide').elastislide();

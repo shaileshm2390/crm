@@ -52,7 +52,6 @@ exports.create = function (req, res) {
                     imagePath: imageArray[index].replace("/temp/", "/uploads/"),
                     CustomerId: customer.id
                 };
-                console.log(request);   
                 db.CustomerImage.create(request);
             }
             return res.jsonp(customer);

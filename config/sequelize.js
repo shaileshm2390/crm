@@ -13,7 +13,7 @@ winston.info('Initializing Sequelize...');
 
 // create your instance of sequelize
 var onHeroku = !!process.env.DYNO;
-winston.info('Checking if running on Heroku: ',onHeroku);
+//winston.info('Checking if running on Heroku: ',onHeroku);
 
 var sequelize =  onHeroku ?
     new Sequelize(process.env.DATABASE_URL, {
@@ -39,7 +39,7 @@ fs.readdirSync(config.modelsDir)
     })
     // import model files and save model names
     .forEach(function (file) {
-        winston.info('Loading model file ' + file);
+        //winston.info('Loading model file ' + file);
         var model = sequelize.import(path.join(config.modelsDir, file));
         db[model.name] = model;
     });

@@ -16,16 +16,16 @@
                     <div class="col col-lg-8">
                         <p><label>Buyer: </label><strong>{{rfq.Buyer.name}}</strong></p>
                         <p><label>Email: </label><strong>{{rfq.Buyer.email}}</strong></p>                      
-                            <p>
-                                <label>Assigned: </label>
-                                <input type="hidden" class="hdnUserId" value="{{rfq.UserId}}">
-                                <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
-                                <select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser" required name="UserId" data-ng-model="rfq.UserId">
-                                    <option value="">Select </option>
-                                    <option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
-                                </select>
-                                <div class="lblMsg" style="color:#155724"></div>
-                            </p>
+                        <p class="row">
+                            <label class="col-lg-4">Assigned: </label>
+                            <select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser col-lg-8" required name="UserId" data-ng-model="rfq.UserId">
+                                <option value="">Select </option>
+                                <option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
+                            </select>
+                            <div class="lblMsg" style="color:#155724"></div>
+                            <input type="hidden" class="hdnUserId" value="{{rfq.UserId}}">
+                            <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
+                        </p>
                     </div>
                     <div class="col col-lg-4">
                         <p><label>Company: </label><strong>{{rfq.Buyer.Customer.company}}</strong></p>
@@ -35,7 +35,7 @@
                 <div class="row">
                     <ul id="carousel" class="elastislide">
                         <li data-ng-repeat="image in rfq.RfqImages| orderBy : '-createdAt'">
-                            <a href="#"><img src="{{image.imagePath}}" alt="image{{image.id}}"  class="img-responsive" /></a>
+                            <a data-fancybox="gallery"  href="{{image.imagePath}}"><img src="{{image.imagePath}}" alt="image{{image.id}}"  height="150" /></a>
                         </li>
 
                     </ul>
@@ -78,14 +78,7 @@
         <div class="row">
             <div class="col col-lg-3 "  style="border-right:1px solid #000;">
                 <h3><strong>Action</strong></h3>
-                <div class="sidebar-nav">
-                    <ul>
-                        <li><a href="/rfq/{{rfq.id}}/costsheet/">Cost Sheet Preparation</a><hr /></li>
-                        <li><a href="#">Quotation</a><hr /></li>
-                        <li><a href="/rfq/{{rfq.id}}/samplesubmission">Sample Submission</a><hr /></li>
-                        <li><a href="/rfq/{{rfq.id}}/purchaseorder">Receive PO</a><hr /></li>
-                    </ul>
-                </div>
+                <div ng-include="'views/rfqs/rfqLeftNavigation.htm'"></div>
             </div>
             <div class="col col-lg-9">
                 <h3><strong>Email Content</strong></h3>

@@ -1,0 +1,174 @@
+<div class="card" ng-controller="RfqsController">
+    <h1>RFQ Detail</h1>
+    <section data-ng-init="findOneByRfqId()">
+        <div class="row pull-right">
+            <div>
+                <a class="btn btn-danger" ui-sref="viewBuyer({buyerId : rfq.BuyerId, customerId: rfq.Buyer.CustomerId})">Cancel</a>
+            </div>
+        </div>
+
+        <div class="clear clearfix"></div><br />
+
+        <div class="row">
+            <div class="col col-lg-6" style="background-color: linen;">
+                <div class="clear clearfix"></div><br />
+                <div class="row">
+                    <div class="col col-lg-8">
+                        <p><label>Buyer: </label><strong>{{rfq.Buyer.name}}</strong></p>
+                        <p><label>Email: </label><strong>{{rfq.Buyer.email}}</strong></p>
+                        <p>
+                            <label>Assigned: </label>
+                            <strong>{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
+                            <input type="hidden" class="hdnUserId" value="{{rfq.UserId}}">
+                            <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
+                        </p>
+                    </div>
+                    <div class="col col-lg-4">
+                        <p><label>Company: </label><strong>{{rfq.Buyer.Customer.company}}</strong></p>
+                        <p><label>Owner: </label><strong>{{rfq.Buyer.Customer.name}}</strong></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <ul id="carousel" class="elastislide">
+                        <li data-ng-repeat="image in rfq.RfqImages| orderBy : '-createdAt'">
+                            <a data-fancybox="gallery" href="{{image.imagePath}}"><img src="{{image.imagePath}}" alt="image{{image.id}}" height="150" /></a>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+            <div class="col-lg-6">
+                <h4 align="center"><strong>Comments</strong></h4>
+                <div ng-controller="RfqcommentsController">
+                    <div ng-init="find()" style="height:150px; overflow-y:auto; border:1px solid #000; padding:5px;">
+                        <ul>
+                            <li ng-repeat="rfqcomment in rfqcomments| orderBy : '-createdAt'">
+                                <div class="pull-left">
+                                    {{rfqcomment.User.firstName}} {{rfqcomment.User.lastName}} <small>({{rfqcomment.User.email}})</small>
+                                    <br />&raquo; <small> {{rfqcomment.comment}}</small>
+                                </div>
+                                <small class="pull-right">
+                                    <i>{{rfqcomment.createdAt  | date:'medium'}}</i>
+                                </small>
+                                <div class="clear clearfix fc-clear"></div>
+                                <hr />
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clearfix clear"></div>
+                    <hr />
+                    <form class="form-horizontal" data-ng-submit="create()" name="myForm" id="myForm">
+                        <div class="row" style="padding:5px;">
+                            <textarea data-ng-model="comment" name="comment" id="comment" placeholder="Add new comment" class="form-control col-lg-10"></textarea>
+                            <input type="submit" class="btn btn-secondary col-lg-2" value="Comment">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="clear clearfix"></div> <br />
+        <hr />
+
+        <div class="row">
+            <div class="col col-lg-3 " style="border-right:1px solid #000;">
+                <h3><strong>Action</strong></h3>
+                <div ng-include="'views/rfqs/rfqLeftNavigation.htm'"></div>
+            </div>
+            <div class="col col-lg-9">
+                <h3><strong>Prepare Standard Format Cost Sheet</strong></h3>
+                <div class="clear clearfix"></div> <br />
+                <div class="pnlParameter">
+                    <div class="row">
+                        <div class="col col-lg-5">
+                            <input type="text" class="txtName form-control" placeholder="Name" required />
+                        </div>
+                        <div class="col col-lg-5">
+                            <input type="text" class="txtValue form-control" placeholder="Value" required />
+                        </div>
+                        <div class="col col-lg-2">
+                            <a href="#" class="btn btn-outline-primary lnkAdd">
+                                <span><i class="fa fa-plus-circle"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="clear clearfix"></div> <br />
+                </div>
+                <div class="row">
+                    <div class="col col-lg-3 center">
+                        <a href="#" class="btnSubmit btn btn-primary"><span>Submit</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var bindRemoveParameter = function () {
+            $(".lnkRemove").on('click', function () {
+                $(this).parent().parent().next().remove(".clearfix");
+                $(this).parent().parent().next().remove("br");
+                $(this).parent().parent().remove();
+            });
+        };
+
+        var createDynamicTextFields = function (callback) {
+
+            var inputName = $("<input />", { class: 'txtName form-control', type: 'text', placeholder: 'Name', required: 'required' });
+            var inputValue = $("<input />", { class: 'txtValue form-control', type: 'text', placeholder: 'Value', required: 'required' });
+
+            var divCol5Name = $('<div>', { class: 'col col-lg-5' }).html(inputName);
+            var divCol5Value = $('<div>', { class: 'col col-lg-5' }).html(inputValue);
+            var divCol2Space = $('<div>', { class: 'col col-lg-2' }).html('<a href="#" class="btn btn-outline-primary lnkRemove"><span><i class="fa fa-minus-circle"></i></span></a >');
+
+            var divRow = $('<div>', { class: 'row' }).append(divCol5Name, divCol5Value, divCol2Space);
+            var divClear = $("<div>", { class: 'clear clearfix' });
+            var breakLine = $("<br />");
+
+            $(".pnlParameter").append(divRow, divClear, breakLine);
+            $(inputName).focus();
+            bindRemoveParameter();
+            typeof callback === 'function' && callback();
+        };
+        setTimeout(
+            function () {
+                if ($(".hdnUserId").val() != "") {
+                    $(".ddlUser option[selected]").remove();
+                    $(".ddlUser").val($(".hdnUserId").val());
+
+                    if ($(".elastislide").length > 0) {
+                        $('.elastislide').elastislide();
+                    }
+                }
+
+                $(".lnkAdd").on('click', function () {                   
+                    createDynamicTextFields();
+                    return false;
+                });
+
+                $(".btnSubmit").on('click', function () {
+                    var nameValuePair = {};         
+                    for (var index = 0; index < $(".txtName").length; index++) {
+                        nameValuePair[$($(".txtName")[index]).val()] = $($(".txtValue")[index]).val();
+                    }
+                    return false;
+                });
+
+                //var rfqId = $('.hdnRfqId').val();
+                //var ddlUserId = $(this).val();
+                //$(".ddlUser").on('change', function () {
+
+                //    $.ajax({
+                //        url: '/rfqs/' + rfqId,
+                //        method: "PUT",
+                //        data: { UserId: ddlUserId, id: rfqId }
+                //    }).done(function (response) {
+                //        $(".lblMsg").html("<span>Updated successfully !!!</span>");
+                //    });
+                //});
+            }, 500);
+    });
+</script>

@@ -118,6 +118,13 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             templateUrl: 'views/rfqs/view.html'
         })
 
+        // CostSheets
+        .state('viewCostSheet', {
+            url: '/rfq/{rfqId}/costsheet/prepare',
+            controller: 'CostSheetsController',
+            templateUrl: 'views/costsheets/create.html'
+        })
+
         //purchase order
         .state('createPurchaseOrder', {
             url: '/rfq/{rfqId}/purchaseorder',

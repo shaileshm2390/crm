@@ -26,7 +26,7 @@
                 <div class="row">
                     <ul id="carousel" class="elastislide">
                         <li data-ng-repeat="image in buyer.BuyerImages| orderBy : '-createdAt'">
-                            <a href="#"><img src="{{image.imagePath}}" alt="image{{image.id}}"  class="img-responsive" /></a>
+                            <a data-fancybox="gallery" href="{{image.imagePath}}"><img src="{{image.imagePath}}" alt="image{{image.id}}" class="img-responsive" /></a>
                         </li>
 
                     </ul>

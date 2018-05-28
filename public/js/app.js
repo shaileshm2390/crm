@@ -1,5 +1,5 @@
 "use strict";
-angular.module('mean', ['ngCookies', 'ngResource', 'ui.router', 'ui.bootstrap', 'ui.route', 'mean.system', 'mean.auth', 'mean.departments', 'mean.customers', 'mean.customercomments', 'mean.buyercomments', 'mean.users', 'mean.buyers', 'mean.rfqs', 'satellizer', 'angularFblogin', 'mean.watchdogs', 'mean.rfqcomments', 'mean.purchaseorders', 'mean.purchaseorderimages', 'mean.samplesubmissions'])
+angular.module('mean', ['ngCookies', 'ngResource', 'ui.router', 'ui.bootstrap', 'ui.route', 'mean.system', 'mean.auth', 'mean.departments', 'mean.customers', 'mean.customercomments', 'mean.buyercomments', 'mean.users', 'mean.buyers', 'mean.rfqs', 'satellizer', 'angularFblogin', 'mean.watchdogs', 'mean.rfqcomments', 'mean.purchaseorders', 'mean.purchaseorderimages', 'mean.samplesubmissions', 'mean.costsheets'])
 .config(function ($authProvider) {
 
     $authProvider.twitter({
@@ -32,3 +32,4 @@ angular.module('mean.rfqcomments', []);
 angular.module('mean.purchaseorders', []);
 angular.module('mean.purchaseorderimages', []);
 angular.module('mean.samplesubmissions', []);
+angular.module('mean.costsheets', []);

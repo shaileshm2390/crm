@@ -72,7 +72,6 @@ exports.customerImagesByCustomerId = function (req, res) {
 };
 
 
-
 /**
  *customer authorizations routing middleware
  */

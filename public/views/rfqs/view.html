@@ -63,7 +63,7 @@
                     <div class="clearfix clear"></div>
                     <hr />
                     <form class="form-horizontal" data-ng-submit="create()" name="myForm" id="myForm">
-                        <div class="row" style=" padding:5px;">
+                        <div class="row" style="padding:5px;">
                             <textarea data-ng-model="comment" name="comment" id="comment" placeholder="Add new comment" class="form-control col-lg-10"></textarea>
                             <input type="submit" class="btn btn-secondary col-lg-2" value="Comment">
                         </div>
@@ -82,8 +82,8 @@
                     <ul>
                         <li><a href="#">Cost Sheet Preparation</a><hr /></li>
                         <li><a href="#">Quotation</a><hr /></li>
-                        <li><a href="#">Sample Submission</a><hr /></li>
-                        <li><a href="#">Receive PO</a><hr /></li>
+                        <li><a href="/rfq/{{rfq.id}}/samplesubmission">Sample Submission</a><hr /></li>
+                        <li><a href="/rfq/{{rfq.id}}/purchaseorder">Receive PO</a><hr /></li>
                     </ul>
                 </div>
             </div>

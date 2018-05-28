@@ -16,22 +16,24 @@ var app = angular.module('mean.purchaseorders').controller('PurchaseordersContro
         console.log("create method.");
         var purchaseorder = new Purchaseorders({
            // image: this.image,
-            status: this.selectedStatus
+            status: this.selectedStatus,
+            RfqId: $stateParams.rfqId
         });
-        db.purchaseorder.update(purchaseorder);
-        /*purchaseorder.$save(function (response) {
+        console.log("parameter -->  " + $stateParams.rfqId);
+        //db.purchaseorder.update(purchaseorder);
+        purchaseorder.$save(function (response) {
             //$state.go('departments');
-            $http.get("/purchaseorders/" + purchaseorder.id).then(function (response) {
-                console.log("updated data  -->  " + JSON.stringify(response));
-                $scope.updatedOrder = JSON.stringify(response.data);
+            //$http.get("/purchaseorders/" + purchaseorder.id).then(function (response) {
+            //    console.log("updated data  -->  " + JSON.stringify(response));
+            //    $scope.updatedOrder = JSON.stringify(response.data);
 
-                $state.go('createPurchaseOrder');
-                var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
+            //    $state.go('createPurchaseOrder');
+            //    var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
 
-                //watchdog calling
-                commonCtrl.create({ message: "New purchase order is created", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: "", updatedData: $scope.updatedOrder });
-            });
-        });*/
+            //    //watchdog calling
+            //    commonCtrl.create({ message: "New purchase order is created", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: "", updatedData: $scope.updatedOrder });
+            //});
+        });
 
         // this.image = "";
         

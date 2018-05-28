@@ -35,10 +35,19 @@ exports.customer = function (req, res, next, id) {
 exports.create = function (req, res) {
     // augment the customer by adding the UserId
     // save and return and instance of customer on the res object.
+    console.log(req.body);
     db.Customer.create(req.body).then(function (customer) {
         if (!customer) {
             return res.send('/signin', { errors: new StandardError('Customer could not be created') });
         } else {
+            var imageArray = req.body.imagesString.split(",");
+            for (var index = 0; index < imageArray.length; index++) {
+                var request = {
+                    imagePath: imageArray[index],
+                    CustomerId: customer.id
+                };
+                db.CustomerImage.create(request);
+            }
             return res.jsonp(customer);
         }
     }).catch(function (err) {

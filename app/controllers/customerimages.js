@@ -65,6 +65,23 @@ exports.create = function (req, res) {
     });
 };
  
+exports.destroy = function (req, res) {
+    var customerimage = req.customerimage;
+    var imagePath = (__dirname + customerimage.imagePath).replace(/\//g, "\\").replace("app\\controllers", "public");
+   // console.log(customerimage);
+    var fs = require('fs');
+    if (fs.existsSync(imagePath)) {
+        fs.unlink(imagePath, function (err) { });
+    }
+    customerimage.destroy().then(function () {
+        return res.jsonp(customerimage);
+    }).catch(function (err) {
+        return res.render('error', {
+            error: err,
+            status: 500
+        });
+    });
+};
 
 exports.customerImagesByCustomerId = function (req, res) {
     return res.jsonp(req.customerimages);

@@ -35,7 +35,7 @@ exports.customer = function (req, res, next, id) {
 exports.create = function (req, res) {
     // augment the customer by adding the UserId
     // save and return and instance of customer on the res object.
-    console.log(req.body);
+   // console.log(req.body);
     db.Customer.create(req.body).then(function (customer) {
         if (!customer) {
             return res.send('/signin', { errors: new StandardError('Customer could not be created') });
@@ -65,6 +65,9 @@ exports.update = function (req, res) {
 
     // create a new variable to hold the customer that was placed on the req object.
     var customer = req.customer;
+    //console.log("customer request data 1  -->  " + req);
+
+   // console.log("customer request data 2  -->  " + req.customer);
 
     customer.updateAttributes({
         email: req.body.email,
@@ -136,3 +139,6 @@ exports.hasAuthorization = function (req, res, next) {
     }
     next();
 };
+
+
+

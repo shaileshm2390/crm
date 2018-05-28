@@ -4,12 +4,12 @@ module.exports = function (sequelize, DataTypes) {
 
     var CustomerImage = sequelize.define('CustomerImage', {
         imagePath: DataTypes.TEXT
-    }
-        //{
-        //    associate: function (models) {
-        //        customerImage.belongsTo(models.Customer);
-        //    }
-        //}
+    },
+        {
+            associate: function (models) {
+                CustomerImage.belongsTo(models.Customer);
+            }
+        }
     );
 
     return CustomerImage;

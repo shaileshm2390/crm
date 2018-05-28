@@ -14,6 +14,10 @@ module.exports = function (app) {
         .post(customerimages.create);  //users.requiresLogin, 
     app.route('/customerimages/:customerId')
         .get(customerimages.customerImagesByCustomerId);
+    app.route('/customerimages/:id')
+        .delete(customerimages.destroy);
+
     app.param('customerId', customerimages.imagesByCustomerId);
+    app.param('id', customerimages.customerimage);
 };
 

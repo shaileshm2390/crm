@@ -35,6 +35,20 @@
                 <input type="text" data-ng-model="customer.contact" id="contact" placeholder="Contact" class="form-control col-sm-6" required />
             </div>
         </div>
+
+        <br /><br />
+
+        <div class="row">
+            <ul id="carousel" class="elastislide" style="height:400px; padding:unset;">
+                <li data-ng-repeat="image in customer.CustomerImages| orderBy : '-createdAt'" style="width:700px; margin-left:5px; margin-bottom:10px;" id="cutomerImage">
+                    <a href="#"><img src="{{image.imagePath}}" alt="image{{image.id}}" class="img-responsive" /></a>
+                    <br />
+                    <a class="btn btn-danger deleteImage" data-id="{{image.id}}" style="color:white;">Delete - {{image.id}}</a>
+                </li>
+
+            </ul>
+        </div>
+
         <br />
       
             <div class="clearfix"></div><br />
@@ -46,3 +60,30 @@
             </div>
 </form>
 </section>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        setTimeout(function () {
+            if ($(".elastislide").length > 0) {
+                $('.elastislide').elastislide();
+            }
+
+            $(".deleteImage").on('click', function () {
+                var element = this;
+                $.ajax({
+                    url: '/customerimages/' + $(this).data("id"),
+                    data: { id: $(this).data("id") },
+                    method: "DELETE"
+                }).done(function (response) {
+                    $(".lblmsg").html("<span>deleted successfully !!!</span>");
+                    $(element).parent().remove();
+                });
+                return false;
+            });
+        }, 500);
+
+        
+
+    });
+</script>

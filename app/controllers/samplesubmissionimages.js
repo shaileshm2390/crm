@@ -12,12 +12,12 @@ var _ = require('lodash');
  * Note: This is called every time that the parameter :departmentId is used in a URL.
  * Its purpose is to preload the department on the req object then call the next function.
  */
-exports.purchaseorderimage = function (req, res, next, id) {
-    db.Purchaseorderimage.find({ where: { id: id } }).then(function (purchaseorderimage) {
-        if (!purchaseorderimage) {
-            return next(new Error('Failed to load purchase order ' + id));
+exports.samplesubmissionimage = function (req, res, next, id) {
+    db.Samplesubmissionimage.find({ where: { id: id } }).then(function (samplesubmissionimage) {
+        if (!samplesubmissionimage) {
+            return next(new Error('Failed to load sample submission image ' + id));
         } else {
-            req.purchaseorderimage = purchaseorderimage;
+            req.samplesubmissionimage = samplesubmissionimage;
             return next();
         }
     }).catch(function (err) {
@@ -31,7 +31,7 @@ exports.purchaseorderimage = function (req, res, next, id) {
 exports.create = function (req, res) {
     // augment the department by adding the UserId
     // save and return and instance of department on the res object.
-    db.Purchaseorderimage.create(req.body).then(function (purchaseorderimage) {
+    db.Samplesubmissionimage.create(req.body).then(function (samplesubmissionimage) {
         var sampleFile = req.files;
         var imagePath = { imagePath: "/public/temp/" + sampleFile.file.name };
         sampleFile.file.mv(__dirname + '/../../public/temp/' + sampleFile.file.name, function (err) {
@@ -40,7 +40,7 @@ exports.create = function (req, res) {
                 res.status(500).send(err);
             } else {
                 res.send('File uploaded!');
-                //db.PurchaseOrderImage.create(imagePath);
+                db.Samplesubmissionimage.create(imagePath);
             }
         });
     });
@@ -52,10 +52,9 @@ exports.create = function (req, res) {
 exports.update = function (req, res) {
 
     // create a new variable to hold the department that was placed on the req object.
-    var purchaseorderimage = req.purchaseorderimage;
+    var samplesubmissionimage = req.samplesubmissionimage;
 
-    purchaseorderimage.updateAttributes({
-       // name: req.body.name,
+    samplesubmissionimage.updateAttributes({
         imagePath: req.body.imagePath
     }).then(function (a) {
         return res.jsonp(a);
@@ -73,11 +72,11 @@ exports.update = function (req, res) {
 exports.destroy = function (req, res) {
 
     // create a new variable to hold the department that was placed on the req object.
-    console.log(req.purchaseorderimage.id)
-    var purchaseorderimage = req.purchaseorderimage;
-    db.User.destroy({ where: { PurchaseorderimageId: req.purchaseorderimage.id } }).then(function () {
-        purchaseorderimage.destroy().then(function () {
-            return res.jsonp(purchaseorderimage);
+    console.log(req.samplesubmissionimage.id)
+    var samplesubmissionimage = req.samplesubmissionimage;
+    db.User.destroy({ where: { SamplesubmissionimageId: req.samplesubmissionimage.id } }).then(function () {
+        samplesubmissionimage.destroy().then(function () {
+            return res.jsonp(samplesubmissionimage);
         }).catch(function (err) {
             return res.render('error', {
                 error: err,
@@ -93,15 +92,15 @@ exports.destroy = function (req, res) {
 exports.show = function (req, res) {
     // Sending down the department that was just preloaded by the departments.department function
     // and saves department on the req object.
-    return res.jsonp(req.purchaseorderimage);
+    return res.jsonp(req.samplesubmissionimage);
 };
 
 /**
  * List of department
  */
 exports.all = function (req, res) {
-    db.Purchaseorderimage.findAll().then(function (purchaseorderimages) {
-        return res.jsonp(purchaseorderimages);
+    db.Samplesubmissionimage.findAll().then(function (samplesubmissionimages) {
+        return res.jsonp(samplesubmissionimages);
     }).catch(function (err) {
         return res.render('error', {
             error: err,
@@ -114,8 +113,8 @@ exports.all = function (req, res) {
  *Department authorizations routing middleware
  */
 exports.hasAuthorization = function (req, res, next) {
-    if (req.user.PurchaseorderimageId != 1) {
-        return res.send(401, 'purchase order image is not authorized ');
+    if (req.user.SamplesubmissionimageId != 1) {
+        return res.send(401, 'sample submission image is not authorized ');
     }
     next();
 };

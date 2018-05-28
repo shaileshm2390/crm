@@ -120,15 +120,15 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
 
         //purchase order
         .state('createPurchaseOrder', {
-            url: '/purchaseorder/create',
+            url: '/rfq/{rfqId}/purchaseorder',
             controller: 'PurchaseordersController',
             templateUrl: 'views/purchaseorders/create.html'
         })
 
         //sample submission
         .state('sampleSubmission', {
-            url: '/samplesubmission/create',
-            //controller: 'PurchaseordersController',
+            url: '/rfq/{rfqId}/samplesubmission',
+            controller: 'SampleSubmissionsController',
             templateUrl: 'views/samplesubmission/create.html'
         })
 

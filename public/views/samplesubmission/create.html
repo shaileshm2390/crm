@@ -1,6 +1,26 @@
-<h1>Add Purchase Order</h1>
-<section class="card">
-    <form class="form-horizontal" data-ng-submit="update()">
+<h1>Add Sample Submission</h1>
+<section class="card" ng-controller="SampleSubmissionsController">
+    <form class="form-horizontal" data-ng-submit="create()">
+        <div class="row">
+            <div class="col col-lg-6" style="background-color: linen;">
+                <div class="clear clearfix"></div><br />
+
+                <div class="row">
+                    <div class="col col-lg-4">
+                        <img src="/img/no-image.png" class="img-responsive" />
+                    </div>
+                    <div class="col col-lg-4">
+                        <img src="/img/no-image.png" class="img-responsive" />
+                    </div>
+                    <div class="col col-lg-4">
+                        <img src="/img/no-image.png" class="img-responsive" />
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <br /><br />
         <div id="myId" class="dropzone">
             <!--id="dropzone-form" -->
             <!--<div id="myId">Drop here</div>-->
@@ -10,7 +30,7 @@
         <div class="control-group">
             <label for="status" class="control-label">Status</label>
             <div class="controls">
-                <div>
+                <div style="width:50%;">
                     <select class="form-control" ng-model="selectedStatus" required>
                         <option value="" selected>---- Select Status ----</option>
                         <option ng-repeat="status in Status" value="{{status}}">{{status}}</option>
@@ -18,7 +38,6 @@
                 </div>
             </div>
         </div>
-
         <div class="clear clearfix"></div><br />
         <div class="control-group">
             <div class="controls">
@@ -32,7 +51,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var myDropzone = new Dropzone('#myId', {
-            url: "/purchaseorderimages/"
+            url: "/customerimages/"
         });
     });
 </script>

@@ -25,7 +25,7 @@ angular.module('mean.rfqcomments').controller('RfqcommentsController', ['$scope'
             .then(function (response) {
                 $scope.rfqcomments = response.data;
             }, function (response) {
-                console.log(error, $stateParams.rfqId);
+                console.log(response, $stateParams.rfqId);
             });
     };
 

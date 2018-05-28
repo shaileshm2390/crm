@@ -54,6 +54,7 @@ exports.imagesByCustomerId = function (req, res, next, id) {
  */
 exports.create = function (req, res) {
     var sampleFile = req.files;
+    sampleFile.file.name = Math.floor(Date.now() / 1000) + "-" + sampleFile.file.name;
     sampleFile.file.mv(__dirname + '/../../public/temp/' + sampleFile.file.name, function (err) {
         if (err) {
             console.log(err);

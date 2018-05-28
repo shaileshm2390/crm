@@ -5,7 +5,7 @@
  */
 var StandardError = require('standard-error');
 var db = require('../../config/sequelize');
-
+var fs = require('fs');
 /**
  * Find customer by id
  * Note: This is called every time that the parameter :customerId is used in a URL.
@@ -36,25 +36,33 @@ exports.create = function (req, res) {
     // augment the customer by adding the UserId
     // save and return and instance of customer on the res object.
     console.log(req.body);
+    var imageArray = req.body.imagesString.split(",");
+
     db.Customer.create(req.body).then(function (customer) {
         if (!customer) {
             return res.send('/signin', { errors: new StandardError('Customer could not be created') });
         } else {
             var imageArray = req.body.imagesString.split(",");
             for (var index = 0; index < imageArray.length; index++) {
+                var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
+                var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
+
+                module.exports.move(oldPath, newPath, function () { });
                 var request = {
-                    imagePath: imageArray[index],
+                    imagePath: imageArray[index].replace("/temp/", "/uploads/"),
                     CustomerId: customer.id
                 };
+                console.log(request);   
                 db.CustomerImage.create(request);
             }
             return res.jsonp(customer);
         }
     }).catch(function (err) {
-        return res.send('/signin', {
-            errors: err,
-            status: 500
-        });
+        console.log(err);
+        //return res.send('/signin', {
+        //    errors: err,
+        //    status: 500
+        //});
     });
 };
 
@@ -87,14 +95,23 @@ exports.update = function (req, res) {
 exports.destroy = function (req, res) {
 
     // create a new variable to hold the customer that was placed on the req object.
-    var customer = req.customer;
-
-    customer.destroy().then(function () {
-        return res.jsonp(customer);
-    }).catch(function (err) {
-        return res.render('error', {
-            error: err,
-            status: 500
+    var customer = req.customer;    
+    db.CustomerImage.findAll({ where: { CustomerId: req.customer.id } }).then(function (response) {
+        for (var index = 0; index < response.length; index++) {
+            var imagePath = (__dirname + response[index].imagePath).replace(/\//g, "\\").replace("app\\controllers", "public");
+            if (fs.existsSync(imagePath)) {
+                fs.unlink(imagePath, function (err) { });
+            }
+        }
+    });
+    db.CustomerImage.destroy({ where: { CustomerId: req.customer.id } }).then(function () {
+        customer.destroy().then(function () {
+            return res.jsonp(customer);
+        }).catch(function (err) {
+            return res.render('error', {
+                error: err,
+                status: 500
+            });
         });
     });
 };
@@ -136,3 +153,33 @@ exports.hasAuthorization = function (req, res, next) {
     }
     next();
 };
+
+exports.move = function(oldPath, newPath, callback) {
+
+    fs.rename(oldPath, newPath, function (err) {
+        if (err) {
+            if (err.code === 'EXDEV') {
+                copy();
+            } else {
+                console.log(err);
+                //callback(err);
+            }
+            return;
+        }
+        callback();
+    });
+
+exports.copy = function() {
+        var readStream = fs.createReadStream(oldPath);
+        var writeStream = fs.createWriteStream(newPath);
+
+        readStream.on('error', callback);
+        writeStream.on('error', callback);
+
+        readStream.on('close', function () {
+            fs.unlink(oldPath, callback);
+        });
+
+        readStream.pipe(writeStream);
+    }
+}

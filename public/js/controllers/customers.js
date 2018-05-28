@@ -28,7 +28,6 @@ var app = angular.module('mean.customers').controller('CustomersController', ['$
         $rootScope.ip = response.data.ip;
     });
 
-
     $scope.create = function () {
         var customer = new Customers({
             email: this.email,
@@ -39,7 +38,6 @@ var app = angular.module('mean.customers').controller('CustomersController', ['$
         });
 
         console.log(customer);
-
         customer.$save(function (response) {
             // $state.go('viewDepartment', { departmentId: response.id })
             //$state.go('customers');
@@ -90,7 +88,12 @@ var app = angular.module('mean.customers').controller('CustomersController', ['$
     };
 
     $scope.update = function () {
+        $scope.customer.imagesString = $scope.imagesString;
         var customer = $scope.customer;
+        console.log("customer public controller  -->  " + JSON.stringify(customer));
+        console.log("$scope.imageStrings   -->> " + $scope.imagesString);
+
+        console.log("customer public controller 2 -->  " + JSON.stringify(customer));
         if (!customer.updated) {
             customer.updated = [];
         }
@@ -98,6 +101,7 @@ var app = angular.module('mean.customers').controller('CustomersController', ['$
         $http.get("/customers/" + customer.id).then(function (response) {
             $scope.previousCustomer = JSON.stringify(response.data);
         });
+        
         customer.updated.push(new Date().getTime());
         customer.$update(function () {
        

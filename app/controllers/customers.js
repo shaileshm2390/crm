@@ -35,7 +35,7 @@ exports.customer = function (req, res, next, id) {
 exports.create = function (req, res) {
     // augment the customer by adding the UserId
     // save and return and instance of customer on the res object.
-    console.log(req.body);
+   // console.log(req.body);
     var imageArray = req.body.imagesString.split(",");
 
     db.Customer.create(req.body).then(function (customer) {
@@ -62,7 +62,7 @@ exports.create = function (req, res) {
         //    errors: err,
         //    status: 500
         //});
-    });
+        });
 };
 
 /**
@@ -72,13 +72,30 @@ exports.update = function (req, res) {
 
     // create a new variable to hold the customer that was placed on the req object.
     var customer = req.customer;
+    //console.log("customer request data 1  -->  " + req);
 
+    console.log("imagesString 1  -->  " + JSON.stringify(req.body));
+    
     customer.updateAttributes({
         email: req.body.email,
         company: req.body.company,
         name: req.body.name,
         contact: req.body.contact
     }).then(function (a) {
+        console.log("imagesString  2" + JSON.stringify(req.body));
+        var imageArray = req.body.imagesString.split(",");
+        for (var index = 0; index < imageArray.length; index++) {
+            var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
+            var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
+
+            module.exports.move(oldPath, newPath, function () { });
+            var request = {
+                imagePath: imageArray[index].replace("/temp/", "/uploads/"),
+                CustomerId: customer.id
+            };
+            console.log(request);
+            db.CustomerImage.create(request);
+        }
         return res.jsonp(a);
     }).catch(function (err) {
         return res.render('error', {
@@ -104,14 +121,14 @@ exports.destroy = function (req, res) {
         }
     });
     db.CustomerImage.destroy({ where: { CustomerId: req.customer.id } }).then(function () {
-        customer.destroy().then(function () {
-            return res.jsonp(customer);
-        }).catch(function (err) {
-            return res.render('error', {
-                error: err,
-                status: 500
-            });
+    customer.destroy().then(function () {
+        return res.jsonp(customer);
+    }).catch(function (err) {
+        return res.render('error', {
+            error: err,
+            status: 500
         });
+    });
     });
 };
 

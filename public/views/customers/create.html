@@ -1,13 +1,13 @@
 <h1>Add Customer</h1>
 <section class="card">
-	<form class="form-horizontal" data-ng-submit="create()" name="myForm" id="myForm">
-		<div class="control-group">
-			<label class="control-label" for="email">Email</label>
-			<div class="controls">
-				<input type="text" data-ng-model="email" name="email" id="email" placeholder="Email" class="form-control col-sm-6 txtEmail">
-			</div>
+    <form class="form-horizontal" data-ng-submit="create()" name="myForm" id="myForm">
+        <div class="control-group">
+            <label class="control-label" for="email">Email</label>
+            <div class="controls">
+                <input type="text" data-ng-model="email" name="email" id="email" placeholder="Email" class="form-control col-sm-6 txtEmail">
+            </div>
             <span class="errorEmail" style="color:red;"></span>
-		</div>	
+        </div>
         <br />
 
 
@@ -17,7 +17,7 @@
                 <input type="text" data-ng-model="company" id="company" name="company" placeholder="Company" class="form-control col-sm-6 txtCompany">
             </div>
             <span class="errorCompany" style="color:red;"></span>
-        </div>	
+        </div>
         <br />
 
         <div class="control-group">
@@ -26,7 +26,7 @@
                 <input type="text" data-ng-model="name" id="name" name="name" placeholder="Name" class="form-control col-sm-6 txtName">
             </div>
             <span class="errorName" style="color:red;"></span>
-        </div>	
+        </div>
         <br />
 
         <div class="control-group">
@@ -36,26 +36,41 @@
             </div>
             <span class="errorContact" style="color:red;"></span>
         </div>
-      
-        <div class="clear clearfix" ></div><br />
-		<div class="control-group">
+
+        <div class="control-group">
+            <label class="control-label" for="contact">Images</label>
+            <div class="controls">
+                <div id="myId" class="dropzone col-sm-6"></div>
+            </div>
+        </div>
+       
+        <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString"/>
+
+        <div class="clear clearfix"></div><br />
+        <div class="control-group">
             <div class="controls">
                 <input type="submit" class="btn btn-primary btn-Save" value="Save">
                 <a class="btn btn-secondary" href="/customer">Cancel</a>
             </div>
-		</div>
-	</form>
+        </div>
+    </form>
 </section>
 
 <script src="/js/validation/customer.js"></script>
 
-<form id="dropzone-form" class="dropzone">
-    <div id="myId" class="pull-center">Drop here</div>
-</form>
 <script type="text/javascript">
     $(document).ready(function () {
+        var imagesArray = [];
         var myDropzone = new Dropzone('#myId', {
             url: "/customerimages/"
+        });
+        myDropzone.on("success", function (file, response) {
+            console.log(response);
+            imagesArray.push(response.pathFromRoot);
+        });
+
+        $(".btn-Save").on('click', function () {
+            $(".hdnImages").val(imagesArray.join(",")).trigger('change'); ;
         });
     });
 </script>

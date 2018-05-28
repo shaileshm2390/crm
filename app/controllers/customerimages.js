@@ -54,14 +54,13 @@ exports.imagesByCustomerId = function (req, res, next, id) {
  */
 exports.create = function (req, res) {
     var sampleFile = req.files;
-    var imagePath = { imagePath: "/public/temp/" + sampleFile.file.name };
     sampleFile.file.mv(__dirname + '/../../public/temp/' + sampleFile.file.name, function (err) {
         if (err) {
             console.log(err);
             res.status(500).send(err);
         } else {
-            res.send('File uploaded!');
-            db.PurchaseOrderImage.create(imagePath);
+            var response = { pathFromRoot : "/temp/" + sampleFile.file.name, success: true };                     
+            return res.jsonp(response);  
         }
     });
 };

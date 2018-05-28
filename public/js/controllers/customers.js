@@ -5,6 +5,8 @@ var app = angular.module('mean.customers').controller('CustomersController', ['$
     $scope.currentPage = 0;
     $scope.pageSize = $window.document.getElementById('hdnPageSize').value;
     $scope.data = [];
+    $scope.imagesString = '';
+
     $scope.getData = function () {
         return $filter('filter')($scope.customers, $scope.searchString);
     }
@@ -26,13 +28,17 @@ var app = angular.module('mean.customers').controller('CustomersController', ['$
         $rootScope.ip = response.data.ip;
     });
 
+
     $scope.create = function () {
         var customer = new Customers({
             email: this.email,
             company: this.company,
             name: this.name,
-            contact: this.contact
+            contact: this.contact,
+            imagesString: this.imagesString
         });
+
+        console.log(customer);
 
         customer.$save(function (response) {
             // $state.go('viewDepartment', { departmentId: response.id })
@@ -52,6 +58,7 @@ var app = angular.module('mean.customers').controller('CustomersController', ['$
         this.company = "";
         this.name = "";
         this.contact = "";
+        this.imagesString = "";
        
     };
 

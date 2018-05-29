@@ -15,7 +15,8 @@ var _ = require('lodash');
 exports.samplesubmissionimage = function (req, res, next, id) {
     db.Samplesubmissionimage.find({ where: { id: id } }).then(function (samplesubmissionimage) {
         if (!samplesubmissionimage) {
-            return next(new Error('Failed to load sample submission image ' + id));
+            req.samplesubmissionimage = {};
+            return next();
         } else {
             req.samplesubmissionimage = samplesubmissionimage;
             return next();

@@ -14,7 +14,8 @@ var db = require('../../config/sequelize');
 exports.customerimage = function (req, res, next, id) {
     db.CustomerImage.find({ where: { id: id } }).then(function (customerimage) {
         if (!customerimage) {
-            return next(new Error('Failed to load customer image ' + id));
+            req.customerimages = {};
+            return next();
         } else {
             req.customerimage = customerimage;
             return next();
@@ -39,7 +40,8 @@ exports.all = function (req, res) {
 exports.imagesByCustomerId = function (req, res, next, id) {
     db.CustomerImage.findAll({ where: { CustomerId: id } }).then(function (customerimages) {
         if (!customerimages) {
-            return next(new Error('Failed to load customer image ' + id));
+            req.customerimages = {};
+            return next();
         } else {
             req.customerimages = customerimages;
             return next();
@@ -69,7 +71,6 @@ exports.create = function (req, res) {
 exports.destroy = function (req, res) {
     var customerimage = req.customerimage;
     var imagePath = (__dirname + customerimage.imagePath).replace(/\//g, "\\").replace("app\\controllers", "public");
-   // console.log(customerimage);
     var fs = require('fs');
     if (fs.existsSync(imagePath)) {
         fs.unlink(imagePath, function (err) { });

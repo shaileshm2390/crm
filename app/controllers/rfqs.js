@@ -82,7 +82,8 @@ exports.rfq = function (req, res, next, id) {
         ]
     }).then(function (rfq) {
         if (!rfq) {
-            return next(new Error('Failed to load rfq ' + id));
+            req.rfq = {};
+            return next();
         } else {
             req.rfq = rfq;
             return next();
@@ -110,7 +111,8 @@ exports.rfqByBuyer = function (req, res, next, id) {
         ]
     }).then(function (rfq) {
         if (!rfq) {
-            return next(new Error('Failed to load rfq ' + id));
+            req.rfq = {};
+            return next();
         } else {
             req.rfq = rfq;
             return next();
@@ -138,7 +140,8 @@ exports.rfqByUser = function (req, res, next, id) {
         ]
     }).then(function (rfq) {
         if (!rfq) {
-            return next(new Error('Failed to load rfq ' + id));
+            req.rfq = {};
+            return next();
         } else {
             req.rfq = rfq;
             return next();
@@ -151,43 +154,3 @@ exports.rfqByUser = function (req, res, next, id) {
 exports.rfqs = function (req, res) {
     return res.jsonp(req.rfq);
 };
-
-
-///**
-// * Update a Buyer
-// */
-//exports.update = function (req, res) {
-//    // create a new variable to hold the department that was placed on the req object.
-//    var buyer = req.buyer;
-
-//    buyer.updateAttributes({
-//        name: req.body.name,
-//        emai: req.body.email,
-//        contact: req.body.contact
-//    }).then(function (a) {
-//        return res.jsonp(a);
-//    }).catch(function (err) {
-//        return res.render('error', {
-//            error: err,
-//            status: 500
-//        });
-//    });
-//};
-
-///**
-// * Delete an Buyer
-// */
-//exports.destroy = function (req, res) {
-
-//    // create a new variable to hold the department that was placed on the req object.    
-//    var buyer = req.buyer;
-
-//    buyer.destroy().then(function () {
-//        return res.jsonp(buyer);
-//    }).catch(function (err) {
-//        return res.render('error', {
-//            error: err,
-//            status: 500
-//        });
-//    });
-//};

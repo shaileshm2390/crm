@@ -37,7 +37,8 @@ exports.buyercomment = function (req, res, next, id) {
         where: { BuyerId: id }, include: [{ model: db.User, attributes: ['id', 'email', 'firstName', 'lastName'] }, { model: db.Buyer, attributes: ['id', 'name', 'contact', 'email'] }]
     }).then(function (buyercomment) {
         if (!buyercomment) {
-            return next(new Error('Failed to load buyercomment ' + id));
+            req.buyercomment = {};
+            return next();
         } else {
             req.buyercomment = buyercomment;
             return next();

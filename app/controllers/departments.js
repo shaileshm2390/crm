@@ -15,7 +15,8 @@ var _ = require('lodash');
 exports.department = function (req, res, next, id) {
     db.Department.find({ where: { id: id } }).then(function (department) {
         if (!department) {
-            return next(new Error('Failed to load department ' + id));
+            req.department = {};
+            return next();
         } else {
             req.department = department;          
             return next();

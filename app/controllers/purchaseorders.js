@@ -15,7 +15,8 @@ var _ = require('lodash');
 exports.purchaseorder = function (req, res, next, id) {
     db.PurchaseOrder.find({ where: { id: id } }).then(function (purchaseorder) {
         if (!purchaseorder) {
-            return next(new Error('Failed to load purchase order ' + id));
+            req.purchaseorder = {};
+            return next();
         } else {
             req.purchaseorder = purchaseorder;
             return next();

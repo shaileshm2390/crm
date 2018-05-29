@@ -77,7 +77,8 @@ exports.rfqcomment = function (req, res, next, id) {
         ]
     }).then(function (rfqcomment) {
         if (!rfqcomment) {
-            return next(new Error('Failed to load rfqcomment ' + id));
+            req.rfqcomment = {};
+            return next();
         } else {
             req.rfqcomment = rfqcomment;
             return next();

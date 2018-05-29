@@ -44,7 +44,8 @@ exports.buyer = function (req, res, next, id) {
         ]
     }).then(function (buyer) {
         if (!buyer) {
-            return next(new Error('Failed to load customercomment ' + id));
+            req.buyer = {};
+            return next();
         } else {
             req.buyer = buyer;
             return next();
@@ -62,7 +63,8 @@ exports.buyerEdit = function (req, res, next, id) {
         ]
     }).then(function (buyer) {
         if (!buyer) {
-            return next(new Error('Failed to load customercomment ' + id));
+            req.buyer = {};
+            return next();
         } else {
             req.buyer = buyer;
             return next();

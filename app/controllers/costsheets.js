@@ -77,7 +77,7 @@ exports.costsheetByRfqId = function (req, res, next, id) {
         ]
     }).then(function (costSheets) {
         if (!costSheets) {
-            return next(new Error('Failed to load rfqcomment ' + id));
+            return next(new Error('Failed to load CostSheet ' + id));
         } else {
             req.costSheets = costSheets;
             return next();
@@ -104,18 +104,21 @@ exports.costsheet = function (req, res, next, id) {
                         model: db.Buyer,
                         include: [
                             {
-                                model: db.Customer
+                                model: db.Customer,
+                                required: false
                             }
-                        ]
+                        ],
+                        required: false
                     }
                 ]
             }
         ]
-    }).then(function (CostSheet) {
-        if (!CostSheet) {
-            return next(new Error('Failed to load rfqcomment ' + id));
+    }).then(function (costSheet) {
+        if (!costSheet) {
+            req.costSheet = {};
+            return next();
         } else {
-            req.costSheet = CostSheet;
+            req.costSheet = costSheet;
             return next();
         }
     }).catch(function (err) {

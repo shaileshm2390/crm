@@ -19,7 +19,8 @@ exports.customer = function (req, res, next, id) {
         ]
     }).then(function (customer) {
         if (!customer) {
-            return next(new Error('Failed to load customer ' + id));
+            req.customer = {};
+            return next();
         } else {
             req.customer = customer;
             return next();

@@ -37,7 +37,8 @@ exports.customercomment = function (req, res, next, id) {
         where: { CustomerId: id }, include: [{ model: db.User, attributes: ['id', 'email', 'firstName', 'lastName'] }, { model: db.Customer, attributes: ['id', 'name', 'company', 'email'] }]
     }).then(function (customercomment) {
         if (!customercomment) {
-            return next(new Error('Failed to load customercomment ' + id));
+            req.customercomment = {};
+            return next();
         } else {
             req.customercomment = customercomment;
             return next();

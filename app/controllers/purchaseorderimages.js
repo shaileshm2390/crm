@@ -15,7 +15,8 @@ var _ = require('lodash');
 exports.purchaseorderimage = function (req, res, next, id) {
     db.Purchaseorderimage.find({ where: { id: id } }).then(function (purchaseorderimage) {
         if (!purchaseorderimage) {
-            return next(new Error('Failed to load purchase order ' + id));
+            req.purchaseorderimage = {};
+            return next();
         } else {
             req.purchaseorderimage = purchaseorderimage;
             return next();

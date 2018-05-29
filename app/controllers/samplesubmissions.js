@@ -15,7 +15,8 @@ var _ = require('lodash');
 exports.samplesubmission = function (req, res, next, id) {
     db.Samplesubmission.find({ where: { id: id } }).then(function (samplesubmission) {
         if (!samplesubmission) {
-            return next(new Error('Failed to load sample submission ' + id));
+            req.samplesubmission = {};
+            return next();
         } else {
             req.samplesubmission = samplesubmission;
             return next();

@@ -14,11 +14,12 @@ var app = angular.module('mean.samplesubmissions').controller('SampleSubmissions
         console.log("create method.");
         var samplesubmission = new SampleSubmissions({
             status: this.selectedStatus,
+            imagesString: this.imagesString,
             RfqId: $stateParams.rfqId
         });
         samplesubmission.$save(function (response) {
             //$state.go('departments');
-            console.log("rfqId in sample submission --> " + $stateParams.rfqId);
+            console.log("sample submission data  --> " + JSON.stringify(samplesubmission));
             //$http.get("/samplesubmissions/" + samplesubmission.id).then(function (response) {
             //    console.log("updated data  -->  " + JSON.stringify(response));
             //    $scope.updatedSample = JSON.stringify(response.data);
@@ -32,6 +33,7 @@ var app = angular.module('mean.samplesubmissions').controller('SampleSubmissions
         });
 
         this.status = "";
+        this.imagesString = "";
     };
 
     $scope.remove = function (samplesubmission) {
@@ -130,14 +132,26 @@ var app = angular.module('mean.samplesubmissions').controller('SampleSubmissions
         });
     };
 
+    //$scope.findOne = function () {
+    //    Samplesubmissions.get({
+    //        samplesubmissionId: $stateParams.samplesubmissionId
+    //    }, function (purchaseorder) {
+    //        $scope.samplesubmission = samplesubmission;
+    //    }, function (error) {
+    //        console.log(error);
+    //        $window.location.href = "/signin";
+    //    });
+    //};
+
     $scope.findOne = function () {
-        Pamplesubmissions.get({
-            samplesubmissionId: $stateParams.samplesubmissionId
-        }, function (purchaseorder) {
-            $scope.samplesubmission = samplesubmission;
-        }, function (error) {
-            console.log(error);
-            $window.location.href = "/signin";
+        $http.get("/rfq/samplesubmissions/" + $stateParams.rfqId).then(function (response) {
+            
+            //console.log("response  ->  " + JSON.stringify(response));
+
+            $scope.samplesubmission = response.data;
+
+            //console.log("$scope.samplesubmission  ->  " + JSON.stringify($scope.samplesubmission));
+
         });
     };
 

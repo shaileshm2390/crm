@@ -1,23 +1,15 @@
 <h1>Add Sample Submission</h1>
 <section class="card" ng-controller="SampleSubmissionsController">
     <form class="form-horizontal" data-ng-submit="create()">
-        <div class="row">
-            <div class="col col-lg-6" style="background-color: linen;">
-                <div class="clear clearfix"></div><br />
+        <div class="row" data-ng-init="findOne()">
+            <div class="row">
+                <ul id="carousel" class="elastislide">                    
+                    <li class="img_wrp" data-ng-repeat="image in samplesubmission.Samplesubmissionimages | orderBy : '-createdAt'" style="margin-right:3px;">
+                        <a data-fancybox="gallery" href="{{image.imagePath}}"><img src="{{image.imagePath}}" alt="image{{image.id}}" height="150" /></a>
+                        <i class="close fa fa-close deleteImage" data-id="{{image.id}}" aria-hidden="true" />
+                    </li>
 
-                <div class="row">
-                    <div class="col col-lg-4">
-                        <img src="/img/no-image.png" class="img-responsive" />
-                    </div>
-                    <div class="col col-lg-4">
-                        <img src="/img/no-image.png" class="img-responsive" />
-                    </div>
-                    <div class="col col-lg-4">
-                        <img src="/img/no-image.png" class="img-responsive" />
-                    </div>
-
-                </div>
-
+                </ul>
             </div>
         </div>
         <br /><br />
@@ -38,6 +30,9 @@
                 </div>
             </div>
         </div>
+
+        <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
+
         <div class="clear clearfix"></div><br />
         <div class="control-group">
             <div class="controls">
@@ -50,9 +45,64 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        var imagesArray = [];
         var myDropzone = new Dropzone('#myId', {
-            url: "/customerimages/"
+            url: "/samplesubmissionimages/"
         });
+
+        myDropzone.on("success", function (file, response) {
+            console.log(response);
+            imagesArray.push(response.pathFromRoot);
+        });
+
+        $(".btn-Save").on('click', function () {
+            $(".hdnImages").val(imagesArray.join(",")).trigger('change');
+        });
+
+        setTimeout(function () {
+            if ($(".elastislide").length > 0) {
+                $('.elastislide').elastislide();
+            }
+
+            $(".deleteImage").on('click', function () {
+                var element = this;
+                confirm("Are you sure to delete this image");
+                if (confirm) {
+                    $.ajax({
+                        url: '/samplesubmissionimages/' + $(this).data("id"),
+                        data: { id: $(this).data("id") },
+                        method: "DELETE"
+                    }).done(function (response) {
+                        $(".lblmsg").html("<span>deleted successfully !!!</span>");
+                        // $(element).parent().remove();
+                        window.location.reload(true);
+
+                    });
+                    return false;
+                }
+            });
+        }, 500);
     });
 </script>
+
+<style>
+    .img_wrp {
+        display: inline-block;
+        position: relative;
+    }
+
+    .close {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    .fa-close {
+        background: transparent;
+        border-radius: 5%;
+        height: 5em;
+        width: 1em;
+        color: red;
+    }
+</style>
 

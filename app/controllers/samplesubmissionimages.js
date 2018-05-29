@@ -6,6 +6,7 @@
 var StandardError = require('standard-error');
 var db = require('../../config/sequelize');
 var _ = require('lodash');
+const JSON = require('circular-json');
 
 /**
  * Find department by id
@@ -18,7 +19,9 @@ exports.samplesubmissionimage = function (req, res, next, id) {
             req.samplesubmissionimage = {};
             return next();
         } else {
+            console.log("Data 1 -->>  " + samplesubmissionimage);
             req.samplesubmissionimage = samplesubmissionimage;
+            console.log("Data 2 -->>  " + req.samplesubmissionimage);
             return next();
         }
     }).catch(function (err) {
@@ -32,18 +35,30 @@ exports.samplesubmissionimage = function (req, res, next, id) {
 exports.create = function (req, res) {
     // augment the department by adding the UserId
     // save and return and instance of department on the res object.
-    db.Samplesubmissionimage.create(req.body).then(function (samplesubmissionimage) {
-        var sampleFile = req.files;
-        var imagePath = { imagePath: "/public/temp/" + sampleFile.file.name };
-        sampleFile.file.mv(__dirname + '/../../public/temp/' + sampleFile.file.name, function (err) {
-            if (err) {
-                console.log(err);
-                res.status(500).send(err);
-            } else {
-                res.send('File uploaded!');
-                db.Samplesubmissionimage.create(imagePath);
-            }
-        });
+    //db.Samplesubmissionimage.create(req.body).then(function (samplesubmissionimage) {
+    //    var sampleFile = req.files;
+    //    var imagePath = { imagePath: "/public/temp/" + sampleFile.file.name };
+    //    sampleFile.file.mv(__dirname + '/../../public/temp/' + sampleFile.file.name, function (err) {
+    //        if (err) {
+    //            console.log(err);
+    //            res.status(500).send(err);
+    //        } else {
+    //            res.send('File uploaded!');
+    //            db.Samplesubmissionimage.create(imagePath);
+    //        }
+    //    });
+    //});
+
+    var sampleFile = req.files;
+    sampleFile.file.name = Math.floor(Date.now() / 1000) + "-" + sampleFile.file.name;
+    sampleFile.file.mv(__dirname + '/../../public/temp/' + sampleFile.file.name, function (err) {
+        if (err) {
+            console.log(err);
+            res.status(500).send(err);
+        } else {
+            var response = { pathFromRoot: "/temp/" + sampleFile.file.name, success: true };
+            return res.jsonp(response);
+        }
     });
 }
 
@@ -70,19 +85,22 @@ exports.update = function (req, res) {
 /**
  * Delete an department
  */
-exports.destroy = function (req, res) {
 
-    // create a new variable to hold the department that was placed on the req object.
-    console.log(req.samplesubmissionimage.id)
+exports.destroy = function (req, res) {
+    console.log("in destroy!!!!");
     var samplesubmissionimage = req.samplesubmissionimage;
-    db.User.destroy({ where: { SamplesubmissionimageId: req.samplesubmissionimage.id } }).then(function () {
-        samplesubmissionimage.destroy().then(function () {
-            return res.jsonp(samplesubmissionimage);
-        }).catch(function (err) {
-            return res.render('error', {
-                error: err,
-                status: 500
-            });
+    //console.log(" samplesubmissionimage in destroy  -->  " + JSON.stringify(req));
+    var imagePath;// = (__dirname + samplesubmissionimage.imagePath).replace(/\//g, "\\").replace("app\\controllers", "public");
+    var fs = require('fs');
+    if (fs.existsSync(imagePath)) {
+        fs.unlink(imagePath, function (err) { });
+    }
+    samplesubmissionimage.destroy().then(function () {
+        return res.jsonp(samplesubmissionimage);
+    }).catch(function (err) {
+        return res.render('error', {
+            error: err,
+            status: 500
         });
     });
 };

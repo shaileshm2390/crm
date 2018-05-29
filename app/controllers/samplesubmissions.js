@@ -32,17 +32,31 @@ exports.samplesubmission = function (req, res, next, id) {
 exports.create = function (req, res) {
     // augment the department by adding the UserId
     // save and return and instance of department on the res object.
+    var imageArray = req.body.imagesString.split(",");
     db.Samplesubmission.create(req.body).then(function (samplesubmission) {
         if (!samplesubmission) {
-            return res.send('/signin', { errors: new StandardError('sample submission could not be created') });
+            return res.send('/signin', { errors: new StandardError('Customer could not be created') });
         } else {
+            var imageArray = req.body.imagesString.split(",");
+            for (var index = 0; index < imageArray.length; index++) {
+                var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
+                var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
+
+                module.exports.move(oldPath, newPath, function () { });
+                var request = {
+                    imagePath: imageArray[index].replace("/temp/", "/uploads/"),
+                    SamplesubmissionId: samplesubmission.id
+                };
+                db.Samplesubmissionimage.create(request);
+            }
             return res.jsonp(samplesubmission);
         }
     }).catch(function (err) {
-        return res.send('/signin', {
-            errors: err,
-            status: 500
-        });
+        //return res.send('/signin', {
+        //    errors: err,
+        //    status: 500
+        //});
+        console.log(err);
     });
 };
 
@@ -100,13 +114,27 @@ exports.show = function (req, res) {
  * List of department
  */
 exports.all = function (req, res) {
-    db.Samplesubmission.findAll().then(function (samplesubmissions) {
+    //db.Samplesubmission.findAll().then(function (samplesubmissions) {
+    //    return res.jsonp(samplesubmissions);
+    //}).catch(function (err) {
+    //    return res.render('error', {
+    //        error: err,
+    //        status: 500
+    //    });
+    //});
+
+    db.Samplesubmission.findAll({
+        include: [
+            { model: db.Samplesubmissionimage }
+        ]
+    }).then(function (samplesubmissions) {
         return res.jsonp(samplesubmissions);
     }).catch(function (err) {
-        return res.render('error', {
-            error: err,
-            status: 500
-        });
+        //return res.render('error', {
+        //    error: err,
+        //    status: 500
+        //});
+        console.log(err);
     });
 };
 
@@ -118,4 +146,63 @@ exports.hasAuthorization = function (req, res, next) {
         return res.send(401, 'User is not authorized ');
     }
     next();
+};
+
+exports.move = function (oldPath, newPath, callback) {
+
+    var fs = require('fs');
+    fs.rename(oldPath, newPath, function (err) {
+        if (err) {
+            if (err.code === 'EXDEV') {
+                copy();
+            } else {
+                console.log(err);
+                //callback(err);
+            }
+            return;
+        }
+        callback();
+    });
+}
+exports.copy = function () {
+    var readStream = fs.createReadStream(oldPath);
+    var writeStream = fs.createWriteStream(newPath);
+
+    readStream.on('error', callback);
+    writeStream.on('error', callback);
+
+    readStream.on('close', function () {
+        fs.unlink(oldPath, callback);
+    });
+
+    readStream.pipe(writeStream);
+};
+
+exports.samplesubmissionsByRfqId = function (req, res) {
+    return res.jsonp(req.samplesubmissions);
+};
+
+exports.samplesubmissionByRfqId = function (req, res, next, id) {
+    db.Samplesubmission.find({
+        where: { RfqId: id },
+        include: [
+
+            {
+                model: db.Rfq,
+            
+            },
+            {
+                model: db.Samplesubmissionimage,
+            }
+        ]
+    }).then(function (samplesubmission) {
+        if (!samplesubmission) {
+            return next(new Error('Failed to load samplesubmissions ' + id));
+        } else {
+            req.samplesubmissions = samplesubmission;
+            return next();
+        }
+    }).catch(function (err) {
+        return next(err);
+    });
 };

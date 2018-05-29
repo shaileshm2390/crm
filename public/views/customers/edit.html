@@ -94,17 +94,20 @@
 
             $(".deleteImage").on('click', function () {
                 var element = this;
-                $.ajax({
-                    url: '/customerimages/' + $(this).data("id"),
-                    data: { id: $(this).data("id") },
-                    method: "DELETE"
-                }).done(function (response) {
-                    $(".lblmsg").html("<span>deleted successfully !!!</span>");
-                   // $(element).parent().remove();
-                    window.location.reload(true);
+                confirm("Are you sure to delete this image");
+                if (confirm) {
+                    $.ajax({
+                        url: '/customerimages/' + $(this).data("id"),
+                        data: { id: $(this).data("id") },
+                        method: "DELETE"
+                    }).done(function (response) {
+                        $(".lblmsg").html("<span>deleted successfully !!!</span>");
+                        // $(element).parent().remove();
+                        window.location.reload(true);
 
-                });
-                return false;
+                    });
+                    return false;
+                }
             });
         }, 500);
 

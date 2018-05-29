@@ -12,7 +12,11 @@ module.exports = function (app) {
     // Department Routes
     app.route('/samplesubmissions')
         .get(samplesubmissions.all)   //users.requiresLogin, 
-        .post(samplesubmissions.create);  //users.requiresLogin, purchaseorders.hasAuthorization, 
+        .post(samplesubmissions.create)  //users.requiresLogin, purchaseorders.hasAuthorization, 
+
+    app.route('/rfq/samplesubmissions/:rfqId')
+        .get(samplesubmissions.samplesubmissionsByRfqId)
+
     app.route('/samplesubmissions/:samplesubmissionId')
         .get(samplesubmissions.show)  //users.requiresLogin, 
         .put(samplesubmissions.update)    //users.requiresLogin, departments.hasAuthorization, 
@@ -21,5 +25,6 @@ module.exports = function (app) {
     // Finish with setting up the articleId param
     // Note: the articles.article function will be called everytime then it will call the next function.
     app.param('samplesubmissionId', samplesubmissions.samplesubmission);
+    app.param('rfqId', samplesubmissions.samplesubmissionByRfqId);
 };
 

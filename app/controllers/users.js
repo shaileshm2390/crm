@@ -208,12 +208,13 @@ exports.me = function (req, res) {
  * Find user by id
  */
 exports.user = function (req, res, next, id) {
-    db.User.find({ where: { id: id } }).then(function (user) {
+    db.User.find({ where: { id: id }, include: { model: db.Department, attributes: ['id', 'name'] } }).then(function (user) {
         if (!user) {
-            return next(new Error('Failed to load User ' + id));
+            req.user = {};
         }
         req.profile = user;
         req.user = user;
+        req.isAdmin = (req.user.Department.name == 'Admin') ? true : false;
         next();
     }).catch(function (err) {
         next(err);

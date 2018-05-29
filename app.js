@@ -36,28 +36,31 @@ cookieExpirationDate.setDate(cookieExpirationDate.getDate() + cookieExpirationDa
 
 app.dynamicHelpers({
     user: function (req, res) {
-        var roles, firstName, id, email; 
-            if (req.user) {
-                roles = ['member'];
-                firstName = (req.user) ? req.user.firstName : '';
-                id = (req.user) ? req.user.id : 0;
-                email = (req.user) ? req.user.email : "";
-            }
-            else {
-                roles = ['guest'];
-                firstName = 'Guest';
-                id = null;
-            }
+        var firstName, lastName, id, email, isAdmin;
 
-            return {
-                firstName: firstName,
-                id: id,
-                roles: roles,
-                email: email,
-                isGuest: roles.indexOf('guest') !== -1,
-                isAdmin: roles.indexOf('admin') !== -1
-            }
+        if (req.user) {
+            firstName = req.user.firstName;
+            lastName = req.user.lastName;
+            id = req.user.id;
+            email = req.user.email;
+            isAdmin = (req.user.Department.name == 'Admin') ? true : false;
         }
+        else {
+            firstName = 'Guest';
+            lastName = "";
+            id = null;
+            email = '';
+            isAdmin = false;
+        }
+
+        return {
+            firstName: firstName,
+            lastName: lastName,
+            id: id,
+            email: email,
+            isAdmin: isAdmin
+        }
+    }
     });
 
 

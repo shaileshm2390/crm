@@ -4,9 +4,9 @@
             <a class="has-arrow lnkCostSheetMenu" href="#" aria-expanded="false">
                 <span class="hide-menu">Cost Sheet Preparation</span>
             </a>
-            <ul aria-expanded="false" class="collapse costSheetSubMenu">
+            <ul aria-expanded="false" class="collapse costSheetSubMenu" style="margin-top: 10px;">
                 <li><a href="/rfq/{{rfq.id}}/costsheet/prepare">Prepare &amp; Send for approval</a><br /></li>
-                <li><a href="/rfq/{{rfq.id}}/costsheet/compare">Compare Cost Sheets</a><br /></li>
+                <!--<li><a href="/rfq/{{rfq.id}}/costsheet/compare">Compare Cost Sheets</a><br /></li>-->
                 <li><a href="/rfq/{{rfq.id}}/costsheet/approval">Approved &amp; Send to Customer</a><br /></li>
             </ul>
             <hr />
@@ -22,20 +22,10 @@
 <script type="text/javascript">
     $(document).ready(function () {
         setTimeout(
-            function () {
-                if ($(".hdnUserId").val() != "") {
-                    $(".ddlUser option[selected]").remove();
-                    $(".ddlUser").val($(".hdnUserId").val());
-
-                    if ($(".elastislide").length > 0) {
-                        $('.elastislide').elastislide();
-                    }
-                }
-
+            function () {             
                 $(".lnkCostSheetMenu").on('click', function () {
                     $(".costSheetSubMenu").toggle("fast", function () {
                         $(".lnkCostSheetMenu").attr('aria-expanded', $(".costSheetSubMenu").is(':visible'));
-                        console.log($(".lnkCostSheetMenu").attr('aria-expanded'));
                     });
                 });
             }, 500);

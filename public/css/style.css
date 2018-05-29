@@ -675,7 +675,7 @@ a:focus,
 button:focus,
 a:hover,
 button:hover {
-  color: #252525;
+  /*color: #252525;*/
   outline: none!important;
   text-decoration: none!important;
 }

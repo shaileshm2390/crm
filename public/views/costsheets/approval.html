@@ -1,0 +1,167 @@
+<div class="card" ng-controller="RfqsController">
+    <h1>Approve Cost Sheet</h1>
+    <section data-ng-init="findOneByRfqId()">
+        <div class="row pull-right">
+            <div>
+                <a class="btn btn-danger" ui-sref="viewRfq({buyerId : rfq.BuyerId, customerId: rfq.Buyer.CustomerId, rfqId : rfq.id})">Cancel</a>
+            </div>
+        </div>
+
+        <div class="clear clearfix"></div><br />
+
+        <div class="row">
+            <div class="col col-lg-6" style="background-color: linen;">
+                <div class="clear clearfix"></div><br />
+                <div class="row">
+                    <div class="col col-lg-8">
+                        <p><label>Buyer: </label><strong>{{rfq.Buyer.name}}</strong></p>
+                        <p><label>Email: </label><strong>{{rfq.Buyer.email}}</strong></p>
+                        <p>
+                            <label>Assigned: </label>
+                            <strong>{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
+                            <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
+                        </p>
+                    </div>
+                    <div class="col col-lg-4">
+                        <p><label>Company: </label><strong>{{rfq.Buyer.Customer.company}}</strong></p>
+                        <p><label>Owner: </label><strong>{{rfq.Buyer.Customer.name}}</strong></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <ul id="carousel" class="elastislide">
+                        <li data-ng-repeat="image in rfq.RfqImages| orderBy : '-createdAt'">
+                            <a data-fancybox="gallery" href="{{image.imagePath}}"><img src="{{image.imagePath}}" alt="image{{image.id}}" height="150" /></a>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+            <div class="col-lg-6">
+                <h4 align="center"><strong>Comments</strong></h4>
+                <div ng-controller="RfqcommentsController">
+                    <div ng-init="find()" style="height:150px; overflow-y:auto; border:1px solid #000; padding:5px;">
+                        <ul>
+                            <li ng-repeat="rfqcomment in rfqcomments| orderBy : '-createdAt'">
+                                <div class="pull-left">
+                                    {{rfqcomment.User.firstName}} {{rfqcomment.User.lastName}} <small>({{rfqcomment.User.email}})</small>
+                                    <br />&raquo; <small> {{rfqcomment.comment}}</small>
+                                </div>
+                                <small class="pull-right">
+                                    <i>{{rfqcomment.createdAt  | date:'medium'}}</i>
+                                </small>
+                                <div class="clear clearfix fc-clear"></div>
+                                <hr />
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="clearfix clear"></div>
+                    <hr />
+                    <form class="form-horizontal" data-ng-submit="create()" name="myForm" id="myForm">
+                        <div class="row" style="padding:5px;">
+                            <textarea data-ng-model="comment" name="comment" id="comment" placeholder="Add new comment" class="form-control col-lg-10"></textarea>
+                            <input type="submit" class="btn btn-secondary col-lg-2" value="Comment">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="clear clearfix"></div> <br />
+        <hr />
+
+        <div class="row">
+            <div class="col col-lg-3 " style="border-right:1px solid #000;">
+                <h3><strong>Action</strong></h3>
+                <div ng-include="'views/rfqs/rfqLeftNavigation.htm'"></div>
+            </div>
+            <div class="col col-lg-9">
+                <h3><strong>Prepared Cost Sheet</strong></h3>
+                <div ng-init="findByRfqId()" ng-show="costsheets.length">
+                    <div ng-repeat="costsheet in costsheets | orderBy: '-createdAt'">
+                        <div style="background-color:linen; padding: 5px">
+                            <h6>
+                                Created by: <u>
+                                    <strong> {{costsheet.User.firstName}} {{costsheet.User.lastName}}</strong> <small>({{costsheet.User.email}})</small>
+                                </u>
+                                <small class="pull-right">
+                                    <i>{{costsheet.createdAt | date:'medium'}}</i><br />
+                                    ({{costsheet.status}})
+                                </small>
+                            </h6>
+
+                            <div class="clear clearfix"></div><br />
+
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <hr />
+                                    <strong>Cost Sheet Parameter</strong>
+                                    <hr />
+                                    <div class="clear clearfix"></div><br />
+                                    <div class="row" ng-repeat="(key,value) in stringToObject(costsheet.data, true) ">
+                                        <div class="col col-lg-5">
+                                            {{key}}
+                                        </div>
+                                        <div class="col col-lg-2"> :</div>
+                                        <div class="col col-lg-5">
+                                            {{value}}<br /><br />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4" style="border-left:1px solid rgba(0,0,0,.1)">
+                                    <hr /><p style="text-align:center;"><strong>Action</strong></p><hr />
+                                    <div class="clear clearfix"></div><br />
+                                    <div style="text-align:center;">
+
+                                        <a class="btn btn-primary btn-update" data-parameter="{{stringToObject(costsheet.data, true)}}" href="#" title="Copy and modify">
+                                            <span><i class="fa fa-wrench"></i></span>
+                                        </a>
+
+                                        <a class="btn btn-success lnkUpdateStatus" data-id="{{costsheet.id}}" data-status="approved" href="#" title="Click to approve" ng-hide="costsheet.status == 'approved'">
+                                            <span><i class="fa fa-thumbs-o-up"></i></span>
+                                        </a>
+
+                                        <a class=" btn btn-danger lnkUpdateStatus"  data-id="{{costsheet.id}}" data-status="rejected" href="#" title="Click to reject" ng-hide="costsheet.status == 'rejected'">
+                                            <span><i class="fa fa-ban"></i></span>
+                                        </a>
+                                       
+                                        <a class=" btn btn-warning lnkUpdateStatus" data-id="{{costsheet.id}}" data-status="pending" href="#" title="Click to pending" ng-hide="costsheet.status == 'pending'">
+                                            <span><i class="fa fa-clock-o"></i></span>
+                                        </a>
+
+                                        <br /><br />
+                                        <a class=" btn btn-primary btn-mail" data-id="{{costsheet.id}}" href="#" title="Click to send mail to customer" ng-show="costsheet.status == 'approved'">
+                                            <span><i class="fa fa-envelope"></i> Mail cost sheet to {{rfq.Buyer.name}}</span>
+                                        </a>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clear clearfix"></div><br />
+                    </div>
+                </div>
+
+                <div class="create-costsheet hide">
+                    <div class="alert alert-success lblMsg hide"></div>
+                    <div class="clear clearfix"></div> <br />
+
+                    <a href="#" class="btn btn-outline-primary lnkAdd  pull-right" title="add row">
+                        <span><i class="fa fa-plus-circle"></i></span>
+                    </a>
+                    <div class="clear clearfix"></div> <br />
+
+                    <div class="pnlParameter"></div>
+                    <div class="row">
+                        <div class="col col-lg-3 center">
+                            <a href="#" class="btnSubmit btn btn-primary">Approved</a>
+                            <a href="#" class="btnCancel btn btn-secondary">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script src="/js/view/costsheet.js"></script>

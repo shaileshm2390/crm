@@ -15,12 +15,13 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function (id, done) {
-    db.User.find({where: {id: id}}).then(function(user){
+    db.User.find({ where: { id: id }, include: { model: db.Department } }).then(function(user){
         if(!user){
             winston.warn('Logged in user not in database, user possibly deleted post-login');
             return done(null, false);
         }
        // winston.info('Session: { id: ' + user.id + ', username: ' + user.email + ' }');
+        user.isAdmin = (user.Department.name == 'Admin') ? true : false;
         done(null, user);
     }).catch(function(err){
         done(err, null);

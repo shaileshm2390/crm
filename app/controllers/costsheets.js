@@ -10,12 +10,34 @@ var _ = require('lodash');
 /**
  * Create a department
  */
-exports.create = function (req, res) {
+exports.create = function (req, res) {    
     db.CostSheet.create(req.body).then(function (costSheet) {
         return res.jsonp(costSheet);
     }).catch(function (err) {
         return res.send('/signin', {
             errors: err,
+            status: 500
+        });
+    });
+};
+
+exports.sendMail = function (req, res) {
+    //console.log(req.body);
+    return res.jsonp(req.costSheet);
+};
+
+exports.update = function (req, res) {
+
+    // create a new variable to hold the department that was placed on the req object.
+    var costSheet = req.costSheet;
+
+    costSheet.updateAttributes({
+        status: req.body.status
+    }).then(function (a) {
+        return res.jsonp(a);
+    }).catch(function (err) {
+        return res.render('error', {
+            error: err,
             status: 500
         });
     });

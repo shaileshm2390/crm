@@ -196,7 +196,9 @@ exports.samplesubmissionByRfqId = function (req, res, next, id) {
         ]
     }).then(function (samplesubmission) {
         if (!samplesubmission) {
-            return next(new Error('Failed to load samplesubmissions ' + id));
+            //return next(new Error('Failed to load samplesubmissions ' + id));
+            req.samplesubmissions = {};
+            return next();
         } else {
             req.samplesubmissions = samplesubmission;
             return next();

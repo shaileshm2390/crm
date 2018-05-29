@@ -88,7 +88,6 @@ exports.buyerById = function (req, res) {
  * Update a Buyer
  */
 exports.update = function (req, res) {
-    console.log(req.body);
     // create a new variable to hold the department that was placed on the req object.
     var buyer = req.buyer;
 

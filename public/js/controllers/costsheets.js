@@ -3,17 +3,30 @@
 angular.module('mean.costsheets').controller('CostSheetsController', ['$scope', '$stateParams', 'Global', 'CostSheets', '$state', '$window', '$http', '$sce', function ($scope, $stateParams, Global, CostSheets, $state, $window, $http, $sce) {
     $scope.global = Global;
 
+    $scope.stringToObject = function (strObj, doSort) {
+        if (typeof doSort == 'undefined') doSort = false;
+        var sortedObj = {}
+        var obj = angular.fromJson(strObj);
+        if (doSort) {            
+            Object.keys(obj)
+                .sort()
+                .forEach(function (v, i) {
+                    sortedObj[v] = obj[v];
+                });
+        }
+        return (doSort) ? sortedObj : obj;
+    }
     $scope.trustAsHtml = function (html) {
         return $sce.trustAsHtml(html);
     }
 
-    //$scope.findOneByRfqId = function () {
-    //    $http.get("/rfqs/" + $stateParams.rfqId)
-    //        .then(function (response) {
-    //            $scope.rfq = response.data;
-    //        }, function (error) {
-    //            console.log(error, $stateParams.rfqId);
-    //        });
-    //};
+    $scope.findByRfqId = function () {
+        $http.get("/rfq/costsheets/" + $stateParams.rfqId)
+            .then(function (response) {
+                $scope.costsheets = response.data;
+            }, function (error) {
+               // console.log(error, $stateParams.rfqId);
+            });
+    };
 
 }]);

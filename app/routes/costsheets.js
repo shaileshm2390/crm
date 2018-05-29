@@ -12,11 +12,15 @@ module.exports = function (app) {
     // customercomments Routes
     app.route('/costsheets/:id')
         .get(costsheets.costsheetById)
-    app.route('/costsheets/:rfqId')
+        .put(users.requiresLogin, costsheets.update);
+    app.route('/rfq/costsheets/:rfqId')
         .get(costsheets.costsheetsByRfqId)
     app.route('/costsheets')
         .get(users.requiresLogin, costsheets.all)
         .post(users.requiresLogin, costsheets.create);
+    app.route('/costsheets/mail/:id')
+        .post(users.requiresLogin, costsheets.sendMail);
+        
 
     app.param('id', costsheets.costsheet);
     app.param('rfqId', costsheets.costsheetByRfqId);

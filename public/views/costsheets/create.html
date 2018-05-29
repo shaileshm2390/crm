@@ -1,9 +1,9 @@
 <div class="card" ng-controller="RfqsController">
-    <h1>RFQ Detail</h1>
+    <h1>Prepare Cost sheet</h1>
     <section data-ng-init="findOneByRfqId()">
         <div class="row pull-right">
             <div>
-                <a class="btn btn-danger" ui-sref="viewBuyer({buyerId : rfq.BuyerId, customerId: rfq.Buyer.CustomerId})">Cancel</a>
+                <a class="btn btn-danger" ui-sref="viewRfq({buyerId : rfq.BuyerId, customerId: rfq.Buyer.CustomerId, rfqId : rfq.id})">Cancel</a>
             </div>
         </div>
 
@@ -19,7 +19,6 @@
                         <p>
                             <label>Assigned: </label>
                             <strong>{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
-                            <input type="hidden" class="hdnUserId" value="{{rfq.UserId}}">
                             <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
                         </p>
                     </div>
@@ -78,7 +77,15 @@
             </div>
             <div class="col col-lg-9">
                 <h3><strong>Prepare Standard Format Cost Sheet</strong></h3>
+                <div class="alert alert-success lblMsg hide"></div>
+
                 <div class="clear clearfix"></div> <br />
+
+                <a href="#" class="btn btn-outline-primary lnkAdd  pull-right" title="add row">
+                    <span><i class="fa fa-plus-circle"></i></span>
+                </a>
+                <div class="clear clearfix"></div> <br />
+
                 <div class="pnlParameter">
                     <div class="row">
                         <div class="col col-lg-5">
@@ -88,87 +95,18 @@
                             <input type="text" class="txtValue form-control" placeholder="Value" required />
                         </div>
                         <div class="col col-lg-2">
-                            <a href="#" class="btn btn-outline-primary lnkAdd">
-                                <span><i class="fa fa-plus-circle"></i></span>
-                            </a>
+                            <a href="#" class="btn btn-outline-danger lnkRemove   pull-right" title="remove row"><span><i class="fa fa-minus-circle"></i></span></a>
                         </div>
                     </div>
                     <div class="clear clearfix"></div> <br />
                 </div>
                 <div class="row">
                     <div class="col col-lg-3 center">
-                        <a href="#" class="btnSubmit btn btn-primary"><span>Submit</span></a>
+                        <a href="#" class="btnSubmit btn btn-primary">Send for Approval</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 </div>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        var bindRemoveParameter = function () {
-            $(".lnkRemove").on('click', function () {
-                $(this).parent().parent().next().remove(".clearfix");
-                $(this).parent().parent().next().remove("br");
-                $(this).parent().parent().remove();
-            });
-        };
-
-        var createDynamicTextFields = function (callback) {
-
-            var inputName = $("<input />", { class: 'txtName form-control', type: 'text', placeholder: 'Name', required: 'required' });
-            var inputValue = $("<input />", { class: 'txtValue form-control', type: 'text', placeholder: 'Value', required: 'required' });
-
-            var divCol5Name = $('<div>', { class: 'col col-lg-5' }).html(inputName);
-            var divCol5Value = $('<div>', { class: 'col col-lg-5' }).html(inputValue);
-            var divCol2Space = $('<div>', { class: 'col col-lg-2' }).html('<a href="#" class="btn btn-outline-primary lnkRemove"><span><i class="fa fa-minus-circle"></i></span></a >');
-
-            var divRow = $('<div>', { class: 'row' }).append(divCol5Name, divCol5Value, divCol2Space);
-            var divClear = $("<div>", { class: 'clear clearfix' });
-            var breakLine = $("<br />");
-
-            $(".pnlParameter").append(divRow, divClear, breakLine);
-            $(inputName).focus();
-            bindRemoveParameter();
-            typeof callback === 'function' && callback();
-        };
-        setTimeout(
-            function () {
-                if ($(".hdnUserId").val() != "") {
-                    $(".ddlUser option[selected]").remove();
-                    $(".ddlUser").val($(".hdnUserId").val());
-
-                    if ($(".elastislide").length > 0) {
-                        $('.elastislide').elastislide();
-                    }
-                }
-
-                $(".lnkAdd").on('click', function () {                   
-                    createDynamicTextFields();
-                    return false;
-                });
-
-                $(".btnSubmit").on('click', function () {
-                    var nameValuePair = {};         
-                    for (var index = 0; index < $(".txtName").length; index++) {
-                        nameValuePair[$($(".txtName")[index]).val()] = $($(".txtValue")[index]).val();
-                    }
-                    return false;
-                });
-
-                //var rfqId = $('.hdnRfqId').val();
-                //var ddlUserId = $(this).val();
-                //$(".ddlUser").on('change', function () {
-
-                //    $.ajax({
-                //        url: '/rfqs/' + rfqId,
-                //        method: "PUT",
-                //        data: { UserId: ddlUserId, id: rfqId }
-                //    }).done(function (response) {
-                //        $(".lblMsg").html("<span>Updated successfully !!!</span>");
-                //    });
-                //});
-            }, 500);
-    });
-</script>
+<script src="/js/view/costsheet.js"></script>

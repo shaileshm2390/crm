@@ -6,7 +6,6 @@
 var StandardError = require('standard-error');
 var db = require('../../config/sequelize');
 var _ = require('lodash');
-const JSON = require('circular-json');
 
 /**
  * Find department by id
@@ -19,9 +18,7 @@ exports.samplesubmissionimage = function (req, res, next, id) {
             req.samplesubmissionimage = {};
             return next();
         } else {
-            console.log("Data 1 -->>  " + samplesubmissionimage);
             req.samplesubmissionimage = samplesubmissionimage;
-            console.log("Data 2 -->>  " + req.samplesubmissionimage);
             return next();
         }
     }).catch(function (err) {
@@ -89,8 +86,7 @@ exports.update = function (req, res) {
 exports.destroy = function (req, res) {
     console.log("in destroy!!!!");
     var samplesubmissionimage = req.samplesubmissionimage;
-    //console.log(" samplesubmissionimage in destroy  -->  " + JSON.stringify(req));
-    var imagePath;// = (__dirname + samplesubmissionimage.imagePath).replace(/\//g, "\\").replace("app\\controllers", "public");
+    var imagePath = (__dirname + samplesubmissionimage.imagePath).replace(/\//g, "\\").replace("app\\controllers", "public");
     var fs = require('fs');
     if (fs.existsSync(imagePath)) {
         fs.unlink(imagePath, function (err) { });

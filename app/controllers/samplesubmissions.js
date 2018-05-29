@@ -69,7 +69,6 @@ exports.update = function (req, res) {
     var samplesubmission = req.samplesubmission;
 
     samplesubmission.updateAttributes({
-        //name: req.body.name,
         status: req.body.status
     }).then(function (a) {
         return res.jsonp(a);

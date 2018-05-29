@@ -38,16 +38,16 @@
 
         <br /><br />
 
-        <div class="row">
-            <ul id="carousel" class="elastislide" style="height:400px; padding:unset;">
-                <li data-ng-repeat="image in customer.CustomerImages| orderBy : '-createdAt'" style="width:700px; margin-left:5px; margin-bottom:10px;" id="cutomerImage">
-                    <a href="#"><img src="{{image.imagePath}}" alt="image{{image.id}}" class="img-responsive" /></a>
-                    <br />
-                    <a class="btn btn-danger deleteImage" data-id="{{image.id}}" style="color:white;" >Delete</a>
+        <div class="row" data-ng-show="customer.CustomerImages.length">
+            <ul id="carousel" class="elastislide">
+                <li class="img_wrp" data-ng-repeat="image in customer.CustomerImages | orderBy : '-createdAt'" style="margin-right:3px;">
+                    <a data-fancybox="gallery" href="{{image.imagePath}}"><img src="{{image.imagePath}}" alt="image{{image.id}}" height="150"/></a>
+                    <i class="close fa fa-close deleteImage" data-id="{{image.id}}" aria-hidden="true" />
                 </li>
 
             </ul>
         </div>
+
         <br />
 
         <div class="control-group">
@@ -80,12 +80,10 @@
             url: "/customerimages/"
         });
         myDropzone.on("success", function (file, response) {
-            console.log(response);
             imagesArray.push(response.pathFromRoot);
         });
 
         $(".btn-Save").on('click', function () {
-            console.log("imagesArray  html  -->" + imagesArray);
             $(".hdnImages").val(imagesArray.join(",")).trigger('change');;
         });
 
@@ -102,7 +100,9 @@
                     method: "DELETE"
                 }).done(function (response) {
                     $(".lblmsg").html("<span>deleted successfully !!!</span>");
-                    $(element).parent().remove();
+                   // $(element).parent().remove();
+                    window.location.reload(true);
+
                 });
                 return false;
             });
@@ -112,3 +112,23 @@
 
     });
 </script>
+
+<style>
+    .img_wrp {
+  display: inline-block;
+  position: relative;
+}
+.close {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.fa-close {
+  background: transparent;
+  border-radius: 5%;
+  height: 5em;
+  width: 1em;
+  color:red;
+}
+</style>

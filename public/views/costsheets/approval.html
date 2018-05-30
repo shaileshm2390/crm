@@ -81,16 +81,17 @@
                     <div ng-repeat="costsheet in costsheets | orderBy: '-createdAt'">
                         <div style="background-color:linen; padding: 5px">
                             <h6>
-                                Created by: <u>
-                                    <strong> {{costsheet.User.firstName}} {{costsheet.User.lastName}}</strong> <small>({{costsheet.User.email}})</small>
-                                </u>
-                                <small class="pull-right">
-                                    <i>{{costsheet.createdAt | date:'medium'}}</i><br />
-                                    ({{costsheet.status}})
-                                </small>
+                                Created by:
+                                <strong> {{costsheet.User.firstName}} {{costsheet.User.lastName}}</strong>
+                                <small>({{costsheet.User.email}})</small><br /><br />
+                                <small><i> - {{costsheet.createdAt | date:'medium'}}</i></small>
+
+                                <span class="pull-right">
+                                    <strong>{{costsheet.status | capitalize}}</strong>
+                                </span>
                             </h6>
 
-                            <div class="clear clearfix"></div><br />
+                            <div class="clear clearfix"></div>
 
                             <div class="row">
                                 <div class="col-lg-8">
@@ -102,7 +103,7 @@
                                         <div class="col col-lg-5">
                                             {{key}}
                                         </div>
-                                        <div class="col col-lg-2"> :</div>
+                                        <div class="col col-lg-2">:</div>
                                         <div class="col col-lg-5">
                                             {{value}}<br /><br />
                                         </div>
@@ -121,10 +122,10 @@
                                             <span><i class="fa fa-thumbs-o-up"></i></span>
                                         </a>
 
-                                        <a class=" btn btn-danger lnkUpdateStatus"  data-id="{{costsheet.id}}" data-status="rejected" href="#" title="Click to reject" ng-hide="costsheet.status == 'rejected'">
+                                        <a class=" btn btn-danger lnkUpdateStatus" data-id="{{costsheet.id}}" data-status="rejected" href="#" title="Click to reject" ng-hide="costsheet.status == 'rejected'">
                                             <span><i class="fa fa-ban"></i></span>
                                         </a>
-                                       
+
                                         <a class=" btn btn-warning lnkUpdateStatus" data-id="{{costsheet.id}}" data-status="pending" href="#" title="Click to pending" ng-hide="costsheet.status == 'pending'">
                                             <span><i class="fa fa-clock-o"></i></span>
                                         </a>

@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$stateParams', 'Global', 'Rfqs', '$state', '$window', '$http', '$sce', function ($scope, $stateParams, Global, Rfqs, $state, $window, $http, $sce) {
+var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$stateParams', 'Global', 'Rfqs', '$state', '$window', '$http', '$sce', function ($scope, $stateParams, Global, Rfqs, $state, $window, $http, $sce) {
     $scope.global = Global;
 
     $scope.trustAsHtml = function (html) {
@@ -28,3 +28,9 @@ angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$stateParam
     };
 
 }]);
+
+app.filter('capitalize', function () {
+    return function (input) {
+        return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
+    }
+});

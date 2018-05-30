@@ -155,4 +155,13 @@ var app = angular.module('mean.samplesubmissions').controller('SampleSubmissions
         });
     };
 
+    $scope.deleteImage = function (id) {
+        if ($window.confirm("Are you sure to delete this image")) {
+            $http.delete('/samplesubmissionimages/' + id).then(function (response) {                
+                $state.reload();
+            });
+            return false;
+        }
+    }
+
 }]);

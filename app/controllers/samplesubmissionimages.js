@@ -86,6 +86,7 @@ exports.update = function (req, res) {
 exports.destroy = function (req, res) {
     console.log("in destroy!!!!");
     var samplesubmissionimage = req.samplesubmissionimage;
+    console.log(JSON.stringify(req.samplesubmissionimage));
     var imagePath = (__dirname + samplesubmissionimage.imagePath).replace(/\//g, "\\").replace("app\\controllers", "public");
     var fs = require('fs');
     if (fs.existsSync(imagePath)) {

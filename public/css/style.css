@@ -6937,3 +6937,22 @@ a[data-fancybox='gallery'] {
     padding: 5px;
     margin: 0 1px;
 }
+
+.img_wrp {
+    display: inline-block;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.fa-close {
+    background: transparent;
+    border-radius: 5%;
+    height: 5em;
+    width: 1em;
+    color: red;
+}

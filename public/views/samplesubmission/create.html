@@ -1,160 +1,59 @@
-<h1>Add Sample Submission</h1>
-<section class="card" ng-controller="RfqsController" ng-init="findOneByRfqId()">
-    <div class="row pull-right">
-        <div>
-            <a class="btn btn-danger" ui-sref="viewBuyer({buyerId : rfq.BuyerId, customerId: rfq.Buyer.CustomerId})">Cancel</a>
-        </div>
-    </div>
+<div class="card" ng-controller="RfqsController">
+    <h1>Add Sample Submission</h1>
+    <section ng-init="findOneByRfqId()">
 
-    <div class="clear clearfix"></div><br />
+        <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
 
-    <div class="row">
-        <div class="col col-lg-6" style="background-color: linen;">
-            <div class="clear clearfix"></div><br />
-            <div class="row">
-                <div class="col col-lg-8">
-                    <p><label>Buyer: </label><strong>{{rfq.Buyer.name}}</strong></p>
-                    <p><label>Email: </label><strong>{{rfq.Buyer.email}}</strong></p>
-                    <p class="row">
-                        <label class="col-lg-4">Assigned: </label>
-                        <select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser col-lg-8" required name="UserId" data-ng-model="rfq.UserId">
-                            <option value="">Select </option>
-                            <option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
-                        </select>
-                        <div class="lblMsg" style="color:#155724"></div>
-                        <input type="hidden" class="hdnUserId" value="{{rfq.UserId}}">
-                        <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
-                    </p>
-                </div>
-                <div class="col col-lg-4">
-                    <p><label>Company: </label><strong>{{rfq.Buyer.Customer.company}}</strong></p>
-                    <p><label>Owner: </label><strong>{{rfq.Buyer.Customer.name}}</strong></p>
-                </div>
-            </div>
-            <div class="row">
-                <ul id="carousel" class="elastislide">
-                    <li data-ng-repeat="image in rfq.RfqImages| orderBy : '-createdAt'">
-                        <a data-fancybox="gallery" href="{{image.imagePath}}"><img src="{{image.imagePath}}" alt="image{{image.id}}" height="150" /></a>
-                    </li>
-
-                </ul>
+        <div class="row">
+            <div class="col col-lg-3 " style="border-right:1px solid #000;">
+                <h3><strong>Action</strong></h3>
+                <div ng-include="'views/rfqs/rfqLeftNavigation.htm'"></div>
             </div>
 
-        </div>
-        <div class="col-lg-6">
-            <h4 align="center"><strong>Comments</strong></h4>
-            <div ng-controller="RfqcommentsController">
-                <div ng-init="find()" style="height:150px; overflow-y:auto; border:1px solid #000; padding:5px;">
-                    <ul>
-                        <li ng-repeat="rfqcomment in rfqcomments| orderBy : '-createdAt'">
-                            <div class="pull-left">
-                                {{rfqcomment.User.firstName}} {{rfqcomment.User.lastName}} <small>({{rfqcomment.User.email}})</small>
-                                <br />&raquo; <small> {{rfqcomment.comment}}</small>
-                            </div>
-                            <small class="pull-right">
-                                <i>{{rfqcomment.createdAt  | date:'medium'}}</i>
-                            </small>
-                            <div class="clear clearfix fc-clear"></div>
-                            <hr />
-                        </li>
-                    </ul>
-                </div>
-                <div class="clearfix clear"></div>
-                <hr />
-                <form class="form-horizontal" data-ng-submit="create()" name="myForm" id="myForm">
-                    <div class="row" style="padding:5px;">
-                        <textarea data-ng-model="comment" name="comment" id="comment" placeholder="Add new comment" class="form-control col-lg-10"></textarea>
-                        <input type="submit" class="btn btn-secondary col-lg-2" value="Comment">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+            <div class="col col-lg-9">
+                <div id="YourElementId" data-ng-controller="SampleSubmissionsController" data-ng-init="findOne()">
+                    <div class="row">
+                        <ul  class="elastislide1" >
+                            <li class="img_wrp" data-ng-repeat="image in samplesubmission.Samplesubmissionimages | orderBy : '-createdAt'" style="margin-right:3px;">
+                                <a data-fancybox="gallery" href="{{image.imagePath}}">
+                                <img src="{{image.imagePath}}" alt="image{{image.id}}" /></a>
+                                <a ng-click="deleteImage(image.id)" ><i class="close fa fa-close" aria-hidden="true" /></a>
+                            </li>
 
-    <div class="clear clearfix"></div> <br />
-    <hr />
-
-    <div class="row">
-        <div class="col col-lg-3 " style="border-right:1px solid #000;">
-            <h3><strong>Action</strong></h3>
-            <div ng-include="'views/rfqs/rfqLeftNavigation.htm'"></div>
-        </div>
-
-        <div class="col col-lg-9">
-            <div data-ng-controller="SampleSubmissionsController" data-ng-init="findOne()">
-                <div>
-                    <ul id="carousel" class="elastislide1">
-                        <li class="img_wrp" data-ng-repeat="image in samplesubmission.Samplesubmissionimages | orderBy : '-createdAt'" style="margin-right:3px;">
-                            <a data-fancybox="gallery" href="{{image.imagePath}}"><img src="{{image.imagePath}}" alt="image{{image.id}}" height="150" /></a>
-                            <i class="close fa fa-close deleteImage" data-id="{{image.id}}" aria-hidden="true" />
-                        </li>
-
-                    </ul>
-                </div>
-            </div>
-            <br /><br />
-            <div id="myId" class="dropzone"></div>
-
-            <br />
-            <input type="hidden" class="form-control hdnSamplesubmissionStatus" ng-controller="SampleSubmissionsController" ng-init="findOne()" value="{{samplesubmission.status}}">
-
-            <div class="control-group">
-                <label for="status" class="control-label">Status</label>
-                <div class="controls">
-                    <div style="width:50%;">
-                        <select class="form-control ddlSamplesubmission" id="selectedStatus" ng-init="findOne()" data-ng-model="samplesubmission.status" required>
-                            <option value="">---- Select Status ----</option>
-                            <option ng-repeat="status in Status" value="{{status}}">{{status}}</option>
-                        </select>
+                        </ul>
                     </div>
                 </div>
-            </div>
-            <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
-            <div class="clear clearfix"></div><br />
-            <div class="control-group">
-                <div class="controls">
-                    <input type="submit" class="btn btn-primary btn-Save" value="Save">
-                    <a class="btn btn-secondary" href="javascript:window.history.back();">Cancel</a>
+                <br /><br />
+                <div id="myId" class="dropzone"></div>
+
+                <br />
+                <input type="hidden" class="form-control hdnSamplesubmissionStatus" ng-controller="SampleSubmissionsController" ng-init="findOne()" value="{{samplesubmission.status}}">
+
+                <div class="control-group">
+                    <label for="status" class="control-label">Status</label>
+                    <div class="controls">
+                        <div style="width:50%;">
+                            <select class="form-control ddlSamplesubmission" id="selectedStatus" ng-init="findOne()" data-ng-model="samplesubmission.status" required>
+                                <option value="">---- Select Status ----</option>
+                                <option ng-repeat="status in Status" value="{{status}}">{{status}}</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
+                <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
+                <div class="clear clearfix"></div><br />
+                <div class="control-group">
+                    <div class="controls">
+                        <input type="submit" class="btn btn-primary btn-Save" value="Save">
+                        <a class="btn btn-secondary" href="javascript:window.history.back();">Cancel</a>
+                    </div>
+                </div>
+
+                <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
+                <br />
             </div>
-
-            <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
-            <br />
         </div>
+
+    </section>
     </div>
- 
-</section>
-
-<script type="text/javascript" src="/js/view/samplesubmission.js"></script>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        setTimeout(
-            function () {
-                //$(".ddlSamplesubmission option[selected]").remove();
-                $(".ddlSamplesubmission").val($(".hdnSamplesubmissionStatus").val());
-            }, 500);
-
-    });
-</script>
-
-<style>
-    .img_wrp {
-        display: inline-block;
-        position: relative;
-    }
-
-    .close {
-        position: absolute;
-        top: 0;
-        right: 0;
-    }
-
-    .fa-close {
-        background: transparent;
-        border-radius: 5%;
-        height: 5em;
-        width: 1em;
-        color: red;
-    }
-</style>
+    <script type="text/javascript" src="/js/view/samplesubmission.js"></script>    

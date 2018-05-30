@@ -72,7 +72,8 @@
                     <table class="table table-bordered" ng-show="rfqs.length">
                         <thead>
                             <tr>
-                                <th>Sr.No</th>
+                                <!--<th>Sr.No</th>-->
+                                <th>Subject</th>
                                 <th>Buyer</th>
                                 <th>Customer</th>
                                 <th>Assign To</th>
@@ -82,8 +83,11 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="rfq in rfqs | orderBy : '-createdAt'">
+                                <!--<td>
+                                            <a target="_self"  title="View" class="btn" ui-sref="viewRfq({customerId: rfq.Buyer.CustomerId , buyerId: rfq.BuyerId, rfqId : rfq.id})">{{rfq.id}}</a>
+                                        </td>-->
                                 <td>
-                                    <a target="_self"  title="View" class="btn" ui-sref="viewRfq({customerId: rfq.Buyer.CustomerId , buyerId: rfq.BuyerId, rfqId : rfq.id})">{{rfq.id}}</a>
+                                    <a target="_self" title="View" class="btn" ui-sref="viewRfq({customerId: rfq.Buyer.CustomerId , buyerId: rfq.BuyerId, rfqId : rfq.id})">{{rfq.subject}}</a>
                                 </td>
                                 <td>
                                     {{rfq.Buyer.name}}
@@ -99,7 +103,7 @@
                                     <span>{{rfq.createdAt | date:'medium'}}</span>
                                 </td>
                                 <td>
-                                    <a  target="_self" class="btn" ui-sref="viewRfq({customerId: rfq.Buyer.CustomerId , buyerId: rfq.BuyerId, rfqId : rfq.id})" title="View">
+                                    <a target="_self" class="btn" ui-sref="viewRfq({customerId: rfq.Buyer.CustomerId , buyerId: rfq.BuyerId, rfqId : rfq.id})" title="View">
                                         <i class="fa fa-eye"></i>
                                     </a>
                                 </td>

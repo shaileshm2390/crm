@@ -1,11 +1,14 @@
 <div class="card">
-    <h1>RFQ Detail</h1>
+   
     <section data-ng-init="findOneByRfqId()">
-        <div class="row pull-right">
-            <div>
-                <a class="btn btn-danger" ui-sref="viewBuyer({buyerId : rfq.BuyerId, customerId: rfq.Buyer.CustomerId})">Cancel</a>
-            </div>
-        </div>
+        <h1>RFQ Detail - {{rfq.subject | capitalize}}
+            <span class="row pull-right">
+                <span>
+                    <a class="btn btn-danger" ui-sref="viewBuyer({buyerId : rfq.BuyerId, customerId: rfq.Buyer.CustomerId})">Cancel</a>
+                </span>
+            </span>
+        </h1> 
+        
 
         <div class="clear clearfix"></div><br />
 
@@ -15,7 +18,7 @@
                 <div class="row">
                     <div class="col col-lg-8">
                         <p><label>Buyer: </label><strong>{{rfq.Buyer.name}}</strong></p>
-                        <p><label>Email: </label><strong>{{rfq.Buyer.email}}</strong></p>                      
+                        <p><label>Email: </label><strong>{{rfq.Buyer.email}}</strong></p>
                         <p class="row">
                             <label class="col-lg-4">Assigned: </label>
                             <select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser col-lg-8" required name="UserId" data-ng-model="rfq.UserId">
@@ -35,7 +38,7 @@
                 <div class="row">
                     <ul id="carousel" class="elastislide">
                         <li data-ng-repeat="image in rfq.RfqImages| orderBy : '-createdAt'">
-                            <a data-fancybox="gallery"  href="{{image.imagePath}}"><img src="{{image.imagePath}}" alt="image{{image.id}}" /></a>
+                            <a data-fancybox="gallery" href="{{image.imagePath}}"><img src="{{image.imagePath}}" alt="image{{image.id}}" /></a>
                         </li>
 
                     </ul>
@@ -43,7 +46,7 @@
 
             </div>
             <div class="col-lg-6">
-                <h4 align="center"><strong>Comments</strong></h4>              
+                <h4 align="center"><strong>Comments</strong></h4>
                 <div ng-include="'views/rfqs/rfqComments.html'"></div>
             </div>
         </div>
@@ -52,14 +55,14 @@
         <hr />
 
         <div class="row">
-            <div class="col col-lg-3 "  style="border-right:1px solid #000;">
+            <div class="col col-lg-3 " style="border-right:1px solid #000;">
                 <h3><strong>Action</strong></h3>
                 <div ng-include="'views/rfqs/rfqLeftNavigation.htm'"></div>
             </div>
             <div class="col col-lg-9">
                 <h3><strong>Email Content</strong></h3>
                 <div class="clear clearfix"></div> <br />
-                <div style=" overflow:auto; max-height: 300px" >
+                <div style=" overflow:auto; max-height: 300px">
                     <p ng-bind-html="trustAsHtml(rfq.content)"></p>
                 </div>
             </div>

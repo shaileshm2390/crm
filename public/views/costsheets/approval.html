@@ -1,74 +1,8 @@
 <div class="card" ng-controller="RfqsController">
     <h1>Approve Cost Sheet</h1>
     <section data-ng-init="findOneByRfqId()">
-        <div class="row pull-right">
-            <div>
-                <a class="btn btn-danger" ui-sref="viewRfq({buyerId : rfq.BuyerId, customerId: rfq.Buyer.CustomerId, rfqId : rfq.id})">Cancel</a>
-            </div>
-        </div>
 
-        <div class="clear clearfix"></div><br />
-
-        <div class="row">
-            <div class="col col-lg-6" style="background-color: linen;">
-                <div class="clear clearfix"></div><br />
-                <div class="row">
-                    <div class="col col-lg-8">
-                        <p><label>Buyer: </label><strong>{{rfq.Buyer.name}}</strong></p>
-                        <p><label>Email: </label><strong>{{rfq.Buyer.email}}</strong></p>
-                        <p>
-                            <label>Assigned: </label>
-                            <strong>{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
-                            <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
-                        </p>
-                    </div>
-                    <div class="col col-lg-4">
-                        <p><label>Company: </label><strong>{{rfq.Buyer.Customer.company}}</strong></p>
-                        <p><label>Owner: </label><strong>{{rfq.Buyer.Customer.name}}</strong></p>
-                    </div>
-                </div>
-                <div class="row">
-                    <ul id="carousel" class="elastislide">
-                        <li data-ng-repeat="image in rfq.RfqImages| orderBy : '-createdAt'">
-                            <a data-fancybox="gallery" href="{{image.imagePath}}"><img src="{{image.imagePath}}" alt="image{{image.id}}" height="150" /></a>
-                        </li>
-
-                    </ul>
-                </div>
-
-            </div>
-            <div class="col-lg-6">
-                <h4 align="center"><strong>Comments</strong></h4>
-                <div ng-controller="RfqcommentsController">
-                    <div ng-init="find()" style="height:150px; overflow-y:auto; border:1px solid #000; padding:5px;">
-                        <ul>
-                            <li ng-repeat="rfqcomment in rfqcomments| orderBy : '-createdAt'">
-                                <div class="pull-left">
-                                    {{rfqcomment.User.firstName}} {{rfqcomment.User.lastName}} <small>({{rfqcomment.User.email}})</small>
-                                    <br />&raquo; <small> {{rfqcomment.comment}}</small>
-                                </div>
-                                <small class="pull-right">
-                                    <i>{{rfqcomment.createdAt  | date:'medium'}}</i>
-                                </small>
-                                <div class="clear clearfix fc-clear"></div>
-                                <hr />
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="clearfix clear"></div>
-                    <hr />
-                    <form class="form-horizontal" data-ng-submit="create()" name="myForm" id="myForm">
-                        <div class="row" style="padding:5px;">
-                            <textarea data-ng-model="comment" name="comment" id="comment" placeholder="Add new comment" class="form-control col-lg-10"></textarea>
-                            <input type="submit" class="btn btn-secondary col-lg-2" value="Comment">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="clear clearfix"></div> <br />
-        <hr />
+        <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
 
         <div class="row">
             <div class="col col-lg-3 " style="border-right:1px solid #000;">

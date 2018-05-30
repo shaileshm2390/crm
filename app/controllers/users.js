@@ -9,31 +9,15 @@ var db = require('../../config/sequelize'),
     config = require('../../config/config'),
     passport = require('passport'),
     randomstring = require("randomstring"),
-    nodemailer = require('nodemailer');
+    sm = require("./sendmail");
 
 
-var sendResetMail = function (newPassword, email) {
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'gmail address',
-            pass: 'gmail passowrd'
-        }
-    });
-
-    var mailOptions = {
+var sendResetMail = function (newPassword, email) {       
+    sm.sendMail({
         from: 'youremail@gmail.com',
         to: email,
         subject: 'Reset Password',
         html: '<h1>Hi User,</h1><p>Your new password is : ' + newPassword + '</p><br /> <br /> <a href="localhost:3000/">click here</a> to sign in.'
-    };
-
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
     });
 }
 /**

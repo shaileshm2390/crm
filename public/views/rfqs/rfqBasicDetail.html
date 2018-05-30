@@ -1,0 +1,44 @@
+﻿<div class="row pull-right">
+    <div>
+        <a class="btn btn-danger" ui-sref="viewRfq({buyerId : rfq.BuyerId, customerId: rfq.Buyer.CustomerId, rfqId : rfq.id})">Cancel</a>
+    </div>
+</div>
+
+<div class="clear clearfix"></div><br />
+
+<div class="row">
+    <div class="col col-lg-6" style="background-color: linen;">
+        <div class="clear clearfix"></div><br />
+        <div class="row">
+            <div class="col col-lg-8">
+                <p><label>Buyer: </label><strong>{{rfq.Buyer.name}}</strong></p>
+                <p><label>Email: </label><strong>{{rfq.Buyer.email}}</strong></p>
+                <p>
+                    <label>Assigned: </label>
+                    <strong>{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
+                    <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
+                </p>
+            </div>
+            <div class="col col-lg-4">
+                <p><label>Company: </label><strong>{{rfq.Buyer.Customer.company}}</strong></p>
+                <p><label>Owner: </label><strong>{{rfq.Buyer.Customer.name}}</strong></p>
+            </div>
+        </div>
+        <div class="row">
+            <ul id="carousel" class="elastislide">
+                <li data-ng-repeat="image in rfq.RfqImages| orderBy : '-createdAt'">
+                    <a data-fancybox="gallery" href="{{image.imagePath}}"><img src="{{image.imagePath}}" alt="image{{image.id}}" /></a>
+                </li>
+
+            </ul>
+        </div>
+
+    </div>
+    <div class="col-lg-6">
+        <h4 align="center"><strong>Comments</strong></h4>
+        <div ng-include="'views/rfqs/rfqComments.html'"></div>
+    </div>
+</div>
+
+<div class="clear clearfix"></div> <br />
+<hr />

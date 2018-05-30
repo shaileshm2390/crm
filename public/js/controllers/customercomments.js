@@ -11,7 +11,7 @@ angular.module('mean.customercomments').controller('CustomercommentsController',
         });
 
         customercomment.$save(function (response) {
-            $window.location.href = '/customer/' + $stateParams.customerId;
+            $scope.find();
         });
 
         this.comment = "";

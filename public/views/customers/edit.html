@@ -94,8 +94,7 @@
 
             $(".deleteImage").on('click', function () {
                 var element = this;
-                confirm("Are you sure to delete this image");
-                if (confirm) {
+                if (confirm("Are you sure to delete this image")) {
                     $.ajax({
                         url: '/customerimages/' + $(this).data("id"),
                         data: { id: $(this).data("id") },

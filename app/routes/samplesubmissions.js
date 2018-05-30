@@ -16,6 +16,7 @@ module.exports = function (app) {
 
     app.route('/rfq/samplesubmissions/:rfqId')
         .get(samplesubmissions.samplesubmissionsByRfqId)
+        .put(samplesubmissions.update);
 
     app.route('/samplesubmissions/:samplesubmissionId')
         .get(samplesubmissions.show)  //users.requiresLogin, 

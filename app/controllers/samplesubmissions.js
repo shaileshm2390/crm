@@ -6,6 +6,7 @@
 var StandardError = require('standard-error');
 var db = require('../../config/sequelize');
 var _ = require('lodash');
+const JSON = require('circular-json');
 
 /**
  * Find department by id
@@ -66,11 +67,22 @@ exports.create = function (req, res) {
 exports.update = function (req, res) {
 
     // create a new variable to hold the department that was placed on the req object.
-    var samplesubmission = req.samplesubmission;
-
+    var samplesubmission = req.samplesubmissions;
     samplesubmission.updateAttributes({
         status: req.body.status
     }).then(function (a) {
+        var imageArray = req.body.imagesString.split(",");
+        for (var index = 0; index < imageArray.length; index++) {
+            var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
+            var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
+
+            module.exports.move(oldPath, newPath, function () { });
+            var request = {
+                imagePath: imageArray[index].replace("/temp/", "/uploads/"),
+                SamplesubmissionId: samplesubmission.id
+            };
+            db.Samplesubmissionimage.create(request);
+        }
         return res.jsonp(a);
     }).catch(function (err) {
         return res.render('error', {

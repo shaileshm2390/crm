@@ -1,6 +1,6 @@
 <h1>Add Sample Submission</h1>
 <section class="card" ng-controller="SampleSubmissionsController">
-    <form class="form-horizontal" data-ng-submit="create()">
+    <!--<form class="form-horizontal" data-ng-submit="create()">-->
         <div class="row" data-ng-init="findOne()">
             <div class="row">
                 <ul id="carousel" class="elastislide">                    
@@ -18,21 +18,21 @@
             <!--<div id="myId">Drop here</div>-->
         </div>
 
-        <br /><br />
+        <br /><br /><br />
         <div class="control-group">
             <label for="status" class="control-label">Status</label>
             <div class="controls">
                 <div style="width:50%;">
-                    <select class="form-control" ng-model="selectedStatus" required>
+                    <select class="form-control" id="selectedStatus" required>
                         <option value="" selected>---- Select Status ----</option>
                         <option ng-repeat="status in Status" value="{{status}}">{{status}}</option>
                     </select>
                 </div>
             </div>
         </div>
-
+    <br /><br />
         <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
-
+    <br /><br />
         <div class="clear clearfix"></div><br />
         <div class="control-group">
             <div class="controls">
@@ -40,23 +40,66 @@
                 <a class="btn btn-secondary" href="javascript:window.history.back();">Cancel</a>
             </div>
         </div>
-    </form>
+   
+        <input type="hidden" ng-controller="RfqsController" ng-init="findOneByRfqId()" class="hdnRfqId" value="{{rfq.id}}" />
+    <br />
+    <!--</form>-->
 </section>
 
 <script type="text/javascript">
     $(document).ready(function () {
         var imagesArray = [];
+        var rfqId;
+        var selectedStatus;
+        var imagesString;
+
         var myDropzone = new Dropzone('#myId', {
             url: "/samplesubmissionimages/"
         });
 
         myDropzone.on("success", function (file, response) {
             console.log(response);
+            console.log("path from root  -->>  " + response.pathFromRoot);
             imagesArray.push(response.pathFromRoot);
         });
 
         $(".btn-Save").on('click', function () {
             $(".hdnImages").val(imagesArray.join(",")).trigger('change');
+            rfqId = $(".hdnRfqId").val();
+            imagesString = $("#imagesString").val();
+            selectedStatus = $("#selectedStatus").find("option:selected").text();
+            $.ajax({
+                url: '/rfq/samplesubmissions/' + rfqId,
+                method: "GET"
+            }).done(function (response) {
+                //console.log("ajax response to get sample submission by rfqId  -->  " + JSON.stringify(response) + rfqId);
+                if($.isEmptyObject(response))
+                {
+                    console.log("response is empty");
+                    $.ajax({
+                        url: '/samplesubmissions/',
+                        method: "POST",
+                        data: { status: selectedStatus, imagesString: imagesString, RfqId: rfqId }
+                    }).done(function (response) {
+                        //dfd.resolve(response);
+                        //$(".lblMsg").html("<span>Saved successfully !!!</span>").removeClass("hide");
+                    });
+                    
+                }
+                else
+                {
+                    //console.log("response is not empty  " + selectedStatus);
+                    $.ajax({
+                        url: '/rfq/samplesubmissions/' + rfqId,
+                        method: "PUT",
+                        data: { status: selectedStatus, imagesString: imagesString}
+                    }).done(function (response) {
+                        //window.location.reload();
+                    });
+                }
+
+            });
+            return false;
         });
 
         setTimeout(function () {
@@ -64,10 +107,10 @@
                 $('.elastislide').elastislide();
             }
 
+
             $(".deleteImage").on('click', function () {
                 var element = this;
-                confirm("Are you sure to delete this image");
-                if (confirm) {
+                if (confirm("Are you sure to delete this image")) {
                     $.ajax({
                         url: '/samplesubmissionimages/' + $(this).data("id"),
                         data: { id: $(this).data("id") },

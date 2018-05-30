@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-angular.module('mean.costsheets').controller('CostSheetsController', ['$scope', '$stateParams', 'Global', 'CostSheets', '$state', '$window', '$http', '$sce', function ($scope, $stateParams, Global, CostSheets, $state, $window, $http, $sce) {
+var app = angular.module('mean.costsheets').controller('CostSheetsController', ['$scope', '$stateParams', 'Global', 'CostSheets', '$state', '$window', '$http', '$sce', function ($scope, $stateParams, Global, CostSheets, $state, $window, $http, $sce) {
     $scope.global = Global;
 
     $scope.stringToObject = function (strObj, doSort) {
@@ -30,3 +30,9 @@ angular.module('mean.costsheets').controller('CostSheetsController', ['$scope', 
     };
 
 }]);
+
+app.filter('capitalize', function () {
+    return function (input) {
+        return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
+    }
+});

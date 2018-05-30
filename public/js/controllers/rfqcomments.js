@@ -2,6 +2,7 @@
 
 angular.module('mean.rfqcomments').controller('RfqcommentsController', ['$scope', '$stateParams', 'Global', 'Rfqcomments', '$state', '$window', '$http', function ($scope, $stateParams, Global, Rfqcomments, $state, $window, $http) {
     $scope.global = Global;
+    $scope.userId = $window.user.id;
 
     $scope.create = function () {
         var rfqcomment = new Rfqcomments({
@@ -11,13 +12,13 @@ angular.module('mean.rfqcomments').controller('RfqcommentsController', ['$scope'
         });
 
         rfqcomment.$save(function (response) {
-            $window.location.href = '/customer/' + $stateParams.customerId + '/buyer/' + $stateParams.buyerId + '/rfq/' + $stateParams.rfqId;
+            $scope.find();
         });
 
         this.comment = "";
         this.UserId = "";
         this.RfqId = "";
-
+        
     };
 
     $scope.find = function () {

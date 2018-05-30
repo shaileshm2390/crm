@@ -6,10 +6,10 @@
 var StandardError = require('standard-error');
 var db = require('../../config/sequelize');
 var _ = require('lodash');
-
+var sm = require("./sendmail");
 /**
  * Create a department
- */
+ */ 
 exports.create = function (req, res) {    
     db.CostSheet.create(req.body).then(function (costSheet) {
         return res.jsonp(costSheet);
@@ -21,8 +21,19 @@ exports.create = function (req, res) {
     });
 };
 
+
+
 exports.sendMail = function (req, res) {
-    //console.log(req.body);
+    console.log(JSON.stringify(req.costSheet));
+    var result = sm.sendMail({
+        from: 'info@crm.com',
+        to: req.costSheet.Rfq.Buyer.email,
+        subject: 'Cost Sheet',
+        html: '<h1>Hi ' + req.costSheet.Rfq.Buyer.name + ',</h1><p>Your cost sheet are as follow : ' + req.costSheet.data + '</p>'
+    }, function(error, info) {
+        console.log("Result => ", error, info);
+    });    
+    
     return res.jsonp(req.costSheet);
 };
 

@@ -1,21 +1,30 @@
 ﻿<div class="sidebar-nav">
     <ul>
+        <li><a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}/rfq/{{rfq.id}}"><span>RFQ Detail</span></a><hr /></li>
         <li>
             <a class="has-arrow lnkCostSheetMenu" href="#" aria-expanded="false">
                 <span>Cost Sheet Preparation</span>
             </a>
-            <ul aria-expanded="false" class="collapse costSheetSubMenu" style="margin-top: 10px;">
+            <ul aria-expanded="false" class="collapse costsheet" style="margin-top: 10px;">
                 <li><a href="/rfq/{{rfq.id}}/costsheet/prepare">Prepare &amp; Send for approval</a><br /></li>
-                <!--<li><a href="/rfq/{{rfq.id}}/costsheet/compare">Compare Cost Sheets</a><br /></li>-->
                 <li><a href="/rfq/{{rfq.id}}/costsheet/approval">Approved &amp; Send to Customer</a><br /></li>
             </ul>
             <hr />
         </li>
 
+        <li>
+            <a class="has-arrow lnkCostSheetMenu" href="#" aria-expanded="false">
+                <span>Quotation</span>
+            </a>
+            <ul aria-expanded="false" class="collapse quotation" style="margin-top: 10px;">
+                <li><a href="/rfq/{{rfq.id}}/quotation/short">Short Quotation</a><br /></li>
+                <li><a href="/rfq/{{rfq.id}}/quotation/detail">Detail Quotation</a><br /></li>
+            </ul>
+            <hr />
+        </li>
+        <li><a href="/rfq/{{rfq.id}}/samplesubmission"><span>Sample Submission</span></a><hr /></li>
+        <li><a href="/rfq/{{rfq.id}}/purchaseorder"><span>Receive PO</span></a><hr /></li>
 
-        <li><a href="#">Quotation</a><hr /></li>
-        <li><a href="/rfq/{{rfq.id}}/samplesubmission">Sample Submission</a><hr /></li>
-        <li><a href="/rfq/{{rfq.id}}/purchaseorder">Receive PO</a><hr /></li>
     </ul>
 </div>
 
@@ -24,10 +33,17 @@
         setTimeout(
             function () {             
                 $(".lnkCostSheetMenu").on('click', function () {
-                    $(".costSheetSubMenu").toggle("fast", function () {
-                        $(".lnkCostSheetMenu").attr('aria-expanded', $(".costSheetSubMenu").is(':visible'));
+                    $(this).next("ul").toggle("fast", function () {
+                        $(".lnkCostSheetMenu").attr('aria-expanded', $(this).next("ul").is(':visible'));
                     });
                 });
+
+                if (window.location.href.indexOf("costsheet") > -1) {
+                    $(".costsheet").show().attr("aria-expanded", "true").parent().find(".lnkCostSheetMenu").attr("aria-expanded", "true");
+                }
+                if (window.location.href.indexOf("quotation") > -1) {
+                    $(".quotation").show().attr("aria-expanded", "true").parent().find(".lnkCostSheetMenu").attr("aria-expanded", "true");
+                }
             }, 500);
     });
 </script>

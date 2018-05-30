@@ -26,7 +26,7 @@
                 <div class="row">
                     <ul id="carousel" class="elastislide">
                         <li data-ng-repeat="image in buyer.BuyerImages| orderBy : '-createdAt'">
-                            <a data-fancybox="gallery" href="{{image.imagePath}}"><img src="{{image.imagePath}}" alt="image{{image.id}}" class="img-responsive" /></a>
+                            <a data-fancybox="gallery" href="{{image.imagePath}}"><img src="{{image.imagePath}}" alt="image{{image.id}}"/></a>
                         </li>
 
                     </ul>
@@ -36,9 +36,9 @@
             <div class="col-lg-6">
                 <h4 align="center"><strong>Comments</strong></h4>
                 <div ng-controller="BuyercommentsController">
-                    <div ng-init="find()" style="height:150px; overflow-y:auto; border:1px solid #000; padding:5px;">
+                    <div ng-init="find()" style="max-height:400px; overflow-y:auto; border:1px solid #000; padding:5px;" ng-show="buyercomments.length">
                         <ul>
-                            <li ng-repeat="buyercomment in buyercomments| orderBy : '-createdAt'">
+                            <li ng-repeat="buyercomment in buyercomments| orderBy : '-createdAt'" ng-style=" rfqcomment.User.id === userId && {'margin-left': ''}">
                                 <div class="pull-left">
                                     {{buyercomment.User.firstName}} {{buyercomment.User.lastName}} <small>({{buyercomment.User.email}})</small>
                                     <br />&raquo; <small> {{buyercomment.comment}}</small>

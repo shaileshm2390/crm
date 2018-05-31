@@ -40,7 +40,7 @@
                     <div ng-init="find()" style="max-height:400px; overflow-y:auto; border:1px solid #000; padding:5px;" ng-show="customercomments.length">                 
                         <div class="panel-body">
                             <ul class="chat">
-                                <li ng-repeat="customercomment in customercomments| orderBy : '-createdAt'" ng-class="(customercomment.User.id !== userId ? 'left clearfix' : 'right clearfix')">
+                                <li ng-repeat="customercomment in customercomments| orderBy : 'createdAt'" ng-class="(customercomment.User.id !== userId ? 'left clearfix' : 'right clearfix')">
                                     <span ng-class="(customercomment.User.id !== userId ? 'chat-img pull-left' : 'chat-img pull-right')">
                                         <img src="http://placehold.it/50/{{(customercomment.User.id !== userId ? '5c4ac7': 'FA6F57')}}/fff&text={{customercomment.User.firstName.charAt(0) + customercomment.User.lastName.charAt(0)}}" alt="{{customercomment.User.firstName.charAt(0) + customercomment.User.lastName.charAt(0)}}" class="img-circle" />
                                     </span>

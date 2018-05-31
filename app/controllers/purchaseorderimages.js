@@ -13,7 +13,7 @@ var _ = require('lodash');
  * Its purpose is to preload the department on the req object then call the next function.
  */
 exports.purchaseorderimage = function (req, res, next, id) {
-    db.Purchaseorderimage.find({ where: { id: id } }).then(function (purchaseorderimage) {
+    db.PurchaseOrderImage.find({ where: { id: id } }).then(function (purchaseorderimage) {
         if (!purchaseorderimage) {
             req.purchaseorderimage = {};
             return next();
@@ -32,18 +32,17 @@ exports.purchaseorderimage = function (req, res, next, id) {
 exports.create = function (req, res) {
     // augment the department by adding the UserId
     // save and return and instance of department on the res object.
-    db.Purchaseorderimage.create(req.body).then(function (purchaseorderimage) {
-        var sampleFile = req.files;
-        var imagePath = { imagePath: "/public/temp/" + sampleFile.file.name };
-        sampleFile.file.mv(__dirname + '/../../public/temp/' + sampleFile.file.name, function (err) {
-            if (err) {
-                console.log(err);
-                res.status(500).send(err);
-            } else {
-                res.send('File uploaded!');
-                //db.PurchaseOrderImage.create(imagePath);
-            }
-        });
+
+    var sampleFile = req.files;
+    sampleFile.file.name = Math.floor(Date.now() / 1000) + "-" + sampleFile.file.name;
+    sampleFile.file.mv(__dirname + '/../../public/temp/' + sampleFile.file.name, function (err) {
+        if (err) {
+            console.log(err);
+            res.status(500).send(err);
+        } else {
+            var response = { pathFromRoot: "/temp/" + sampleFile.file.name, success: true };
+            return res.jsonp(response);
+        }
     });
 }
 
@@ -56,7 +55,6 @@ exports.update = function (req, res) {
     var purchaseorderimage = req.purchaseorderimage;
 
     purchaseorderimage.updateAttributes({
-       // name: req.body.name,
         imagePath: req.body.imagePath
     }).then(function (a) {
         return res.jsonp(a);
@@ -73,17 +71,20 @@ exports.update = function (req, res) {
  */
 exports.destroy = function (req, res) {
 
-    // create a new variable to hold the department that was placed on the req object.
-    console.log(req.purchaseorderimage.id)
+    console.log("in destroy!!!!");
     var purchaseorderimage = req.purchaseorderimage;
-    db.User.destroy({ where: { PurchaseorderimageId: req.purchaseorderimage.id } }).then(function () {
-        purchaseorderimage.destroy().then(function () {
-            return res.jsonp(purchaseorderimage);
-        }).catch(function (err) {
-            return res.render('error', {
-                error: err,
-                status: 500
-            });
+    console.log(JSON.stringify(req.purchaseorderimage));
+    var imagePath = (__dirname + purchaseorderimage.imagePath).replace(/\//g, "\\").replace("app\\controllers", "public");
+    var fs = require('fs');
+    if (fs.existsSync(imagePath)) {
+        fs.unlink(imagePath, function (err) { });
+    }
+    purchaseorderimage.destroy().then(function () {
+        return res.jsonp(purchaseorderimage);
+    }).catch(function (err) {
+        return res.render('error', {
+            error: err,
+            status: 500
         });
     });
 };
@@ -101,7 +102,7 @@ exports.show = function (req, res) {
  * List of department
  */
 exports.all = function (req, res) {
-    db.Purchaseorderimage.findAll().then(function (purchaseorderimages) {
+    db.PurchaseOrderImage.findAll().then(function (purchaseorderimages) {
         return res.jsonp(purchaseorderimages);
     }).catch(function (err) {
         return res.render('error', {

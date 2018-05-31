@@ -32,17 +32,32 @@ exports.purchaseorder = function (req, res, next, id) {
 exports.create = function (req, res) {
     // augment the department by adding the UserId
     // save and return and instance of department on the res object.
+
+    var imageArray = req.body.imagesString.split(",");
     db.PurchaseOrder.create(req.body).then(function (purchaseorder) {
         if (!purchaseorder) {
-            return res.send('/signin', { errors: new StandardError('purchase order could not be created') });
+            return res.send('/signin', { errors: new StandardError('purchaseorder could not be created') });
         } else {
+            var imageArray = req.body.imagesString.split(",");
+            for (var index = 0; index < imageArray.length; index++) {
+                var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
+                var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
+
+                module.exports.move(oldPath, newPath, function () { });
+                var request = {
+                    imagePath: imageArray[index].replace("/temp/", "/uploads/"),
+                    PurchaseOrderId: purchaseorder.id
+                };
+                db.PurchaseOrderImage.create(request);
+            }
             return res.jsonp(purchaseorder);
         }
     }).catch(function (err) {
-        return res.send('/signin', {
-            errors: err,
-            status: 500
-        });
+        //return res.send('/signin', {
+        //    errors: err,
+        //    status: 500
+        //});
+        console.log(err);
     });
 };
 
@@ -52,12 +67,23 @@ exports.create = function (req, res) {
 exports.update = function (req, res) {
 
     // create a new variable to hold the department that was placed on the req object.
-    var purchaseorder = req.purchaseorder;
 
+    var purchaseorder = req.purchaseorders;
     purchaseorder.updateAttributes({
-       // image: this.image,
         status: req.body.status
     }).then(function (a) {
+        var imageArray = req.body.imagesString.split(",");
+        for (var index = 0; index < imageArray.length; index++) {
+            var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
+            var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
+
+            module.exports.move(oldPath, newPath, function () { });
+            var request = {
+                imagePath: imageArray[index].replace("/temp/", "/uploads/"),
+                PurchaseOrderId: purchaseorder.id
+            };
+            db.PurchaseOrderImage.create(request);
+        }
         return res.jsonp(a);
     }).catch(function (err) {
         return res.render('error', {
@@ -99,16 +125,22 @@ exports.show = function (req, res) {
 /**
  * List of department
  */
-//exports.all = function (req, res) {
-//    db.Purchaseorder.findAll().then(function (purchaseorders) {
-//        return res.jsonp(purchaseorders);
-//    }).catch(function (err) {
-//        return res.render('error', {
-//            error: err,
-//            status: 500
-//        });
-//    });
-//};
+exports.all = function (req, res) {
+
+    db.PurchaseOrder.findAll({
+        include: [
+            { model: db.PurchaseOrderImage }
+        ]
+    }).then(function (purchaseorders) {
+        return res.jsonp(purchaseorders);
+    }).catch(function (err) {
+        //return res.render('error', {
+        //    error: err,
+        //    status: 500
+        //});
+        console.log(err);
+    });
+};
 
 /**
  *Department authorizations routing middleware
@@ -118,4 +150,65 @@ exports.hasAuthorization = function (req, res, next) {
         return res.send(401, 'User is not authorized ');
     }
     next();
+};
+
+exports.move = function (oldPath, newPath, callback) {
+
+    var fs = require('fs');
+    fs.rename(oldPath, newPath, function (err) {
+        if (err) {
+            if (err.code === 'EXDEV') {
+                copy();
+            } else {
+                console.log(err);
+                //callback(err);
+            }
+            return;
+        }
+        callback();
+    });
+}
+exports.copy = function () {
+    var readStream = fs.createReadStream(oldPath);
+    var writeStream = fs.createWriteStream(newPath);
+
+    readStream.on('error', callback);
+    writeStream.on('error', callback);
+
+    readStream.on('close', function () {
+        fs.unlink(oldPath, callback);
+    });
+
+    readStream.pipe(writeStream);
+};
+
+exports.purchaseordersByRfqId = function (req, res) {
+    return res.jsonp(req.purchaseorders);
+};
+
+exports.purchaseorderByRfqId = function (req, res, next, id) {
+    db.PurchaseOrder.find({
+        where: { RfqId: id },
+        include: [
+
+            {
+                model: db.Rfq,
+
+            },
+            {
+                model: db.PurchaseOrderImage,
+            }
+        ]
+    }).then(function (purchaseorder) {
+        if (!purchaseorder) {
+            //return next(new Error('Failed to load samplesubmissions ' + id));
+            req.purchaseorders = {};
+            return next();
+        } else {
+            req.purchaseorders = purchaseorder;
+            return next();
+        }
+    }).catch(function (err) {
+        return next(err);
+    });
 };

@@ -1,39 +1,65 @@
-<h1>Add Purchase Order</h1>
-<section class="card">
-    <form class="form-horizontal" data-ng-submit="update()">
-        <div id="myId" class="dropzone">
-            <!--id="dropzone-form" -->
-            <!--<div id="myId">Drop here</div>-->
-        </div>
+<div class="card" ng-controller="RfqsController">
+    <h1>Add Purchase Order</h1>
+    <section ng-init="findOneByRfqId()">
 
-        <br /><br />
-        <div class="control-group">
-            <label for="status" class="control-label">Status</label>
-            <div class="controls">
-                <div>
-                    <select class="form-control" ng-model="selectedStatus" required>
-                        <option value="" selected>---- Select Status ----</option>
-                        <option ng-repeat="status in Status" value="{{status}}">{{status}}</option>
-                    </select>
+        <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
+
+
+        <div class="row">
+            <div class="col col-lg-3 " style="border-right:1px solid #000;">
+                <h3><strong>Action</strong></h3>
+                <div ng-include="'views/rfqs/rfqLeftNavigation.htm'"></div>
+            </div>
+
+            <div class="col col-lg-9">
+                <div id="YourElementId" data-ng-controller="PurchaseordersController" data-ng-init="findOne()">
+                    <div class="row">
+                        <ul class="elastislide1">
+                            <li class="img_wrp" data-ng-repeat="image in purchaseorder.PurchaseOrderImages | orderBy : '-createdAt'" style="margin-right:3px;">
+                                <a data-fancybox="gallery" href="{{image.imagePath}}">
+                                    <img src="{{image.imagePath}}" alt="image{{image.id}}" height="180"/>
+                                </a>
+                                <a ng-click="deleteImage(image.id)"><i class="close fa fa-close" aria-hidden="true" /></a>
+                            </li>
+
+                        </ul>
+                    </div>
                 </div>
+                <br /><br />
+                <div id="myId" class="dropzone"></div>
+
+                <br /><br />
+                <input type="hidden" class="form-control hdnPurchaseorderStatus" ng-controller="PurchaseordersController" ng-init="findOne()" value="{{purchaseorder.status}}">
+
+                <div class="control-group">
+                    <label for="status" class="control-label">Status</label>
+                    <div class="controls">
+                        <div style="width:50%;">
+                            <select class="form-control ddlPurchaseorder" id="selectedStatus" ng-init="findOne()" data-ng-model="purchaseorder.status" required>
+                                <option value="">---- Select Status ----</option>
+                                <option ng-repeat="status in Status" value="{{status}}">{{status}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
+
+                <div class="clear clearfix"></div><br />
+                <div class="control-group">
+                    <div class="controls">
+                        <input type="submit" class="btn btn-primary btn-Save" value="Save">
+                        <a class="btn btn-secondary" href="javascript:window.history.back();">Cancel</a>
+                    </div>
+                </div>
+                <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
+                <br />
+
             </div>
         </div>
+    </section>
+</div>
 
-        <div class="clear clearfix"></div><br />
-        <div class="control-group">
-            <div class="controls">
-                <input type="submit" class="btn btn-primary btn-Save" value="Save">
-                <a class="btn btn-secondary" href="javascript:window.history.back();">Cancel</a>
-            </div>
-        </div>
-    </form>
-</section>
+<script type="text/javascript" src="/js/view/purchaseorder.js"></script>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        var myDropzone = new Dropzone('#myId', {
-            url: "/purchaseorderimages/"
-        });
-    });
-</script>
+
 

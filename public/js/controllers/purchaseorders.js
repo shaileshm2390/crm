@@ -140,14 +140,22 @@ var app = angular.module('mean.purchaseorders').controller('PurchaseordersContro
     };
 
     $scope.findOne = function () {
-        Purchaseorders.get({
-            purchaseorderId: $stateParams.purchaseorderId
-        }, function (purchaseorder) {
-            $scope.purchaseorder = purchaseorder;
-        }, function (error) {
-            console.log(error);
-            $window.location.href = "/signin";
+
+        $http.get("/rfq/purchaseorders/" + $stateParams.rfqId).then(function (response) {
+
+            //console.log("response  ->  " + JSON.stringify(response));
+            $scope.purchaseorder = response.data;
+            //console.log("$scope.purchaseorder  ->  " + JSON.stringify($scope.purchaseorder));
         });
+    };
+
+    $scope.deleteImage = function (id) {
+        if ($window.confirm("Are you sure to delete this image")) {
+            $http.delete('/purchaseorderimages/' + id).then(function (response) {
+                $state.reload();
+            });
+            return false;
+        }
     };
 
 }]);

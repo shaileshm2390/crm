@@ -11,8 +11,8 @@ var users = require('../../app/controllers/users'),
 module.exports = function (app) {
     // Department Routes
     app.route('/samplesubmissionimages')
-    .get(samplesubmissionimages.all)   //users.requiresLogin, 
-    .post(samplesubmissionimages.create);  //users.requiresLogin, purchaseorders.hasAuthorization, 
+        .get(samplesubmissionimages.all)   //users.requiresLogin, 
+        .post(samplesubmissionimages.create);  //users.requiresLogin, purchaseorders.hasAuthorization, 
     app.route('/samplesubmissionimages/:samplesubmissionimagesId')
         .get(samplesubmissionimages.show)  //users.requiresLogin, 
         .put(samplesubmissionimages.update);   //users.requiresLogin, departments.hasAuthorization, 

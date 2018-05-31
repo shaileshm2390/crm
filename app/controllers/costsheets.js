@@ -7,17 +7,39 @@ var StandardError = require('standard-error');
 var db = require('../../config/sequelize');
 var _ = require('lodash');
 var sm = require("./sendmail");
+
+const request = require('request');
+var ipAddress;
+request('http://freegeoip.net/json/', { json: true }, (err, res, body) => {
+    if (err) { return console.log(err); }
+    ipAddress = body.ip;
+    //console.log("ip from url  -->> " + ipAddress);
+});
+
 /**
  * Create a department
- */ 
-exports.create = function (req, res) {    
+ */
+exports.create = function (req, res) {
+
     db.CostSheet.create(req.body).then(function (costSheet) {
+       // console.log("costSheet data  -->  " + JSON.stringify(costSheet));
+        var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
+
+        db.Watchdog.create({
+            message: "New Costsheet created",
+            ipAddress: ipAddress,
+            pageUrl: fullUrl,
+            userId: costSheet.UserId,
+            previousData: "",
+            updatedData: JSON.stringify(costSheet)
+        });
         return res.jsonp(costSheet);
     }).catch(function (err) {
-        return res.send('/signin', {
-            errors: err,
-            status: 500
-        });
+        //return res.send('/signin', {
+        //    errors: err,
+        //    status: 500
+        //});
+        console.log(err);
     });
 };
 
@@ -83,6 +105,16 @@ exports.update = function (req, res) {
     costSheet.updateAttributes({
         status: req.body.status
     }).then(function (a) {
+        //var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
+        //console.log("in costsheet update");
+        //db.Watchdog.create({
+        //    message: "Costsheet with id" + costSheet.id + "is updated",
+        //    ipAddress: ipAddress,
+        //    pageUrl: fullUrl,
+        //    userId: costSheet.UserId,
+        //    previousData: "",
+        //    updatedData: JSON.stringify(costSheet)
+        //});
         return res.jsonp(a);
     }).catch(function (err) {
         return res.render('error', {

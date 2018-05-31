@@ -114,6 +114,7 @@ exports.destroy = function (req, res) {
     var buyer = req.buyer;
     
     buyer.destroy().then(function () {
+        console.log("in buyer destroy!!");
         return res.jsonp(buyer);
     }).catch(function (err) {
         return res.render('error', {

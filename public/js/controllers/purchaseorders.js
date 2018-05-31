@@ -150,9 +150,22 @@ var app = angular.module('mean.purchaseorders').controller('PurchaseordersContro
     };
 
     $scope.deleteImage = function (id) {
+        console.log("in PO-image's angular!!");
         if ($window.confirm("Are you sure to delete this image")) {
             $http.delete('/purchaseorderimages/' + id).then(function (response) {
-                $state.reload();
+                console.log("delete purchase order image response  -->> " + JSON.stringify(response));
+                $scope.previousPOImage = JSON.stringify(response.data);
+                var purchaseOrderID = response.PurchaseOrderId
+                $http.get("/purchaseorders/" + purchaseOrderID).then(function (response) {
+                    console.log("updated data  -->  " + JSON.stringify(response));
+
+                    $state.reload();
+
+                    var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
+
+                    //watchdog calling
+                    commonCtrl.create({ message: "Purchase order " + purchaseOrderID + " is updated.", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: $scope.previousPOImage, updatedData: "" });
+                });
             });
             return false;
         }

@@ -37,6 +37,7 @@ var app = angular.module('mean.purchaseorderimages').controller('Purchaseorderim
     };
 
     $scope.remove = function (purchaseorderimage) {
+        console.log("in angular's destroy!!!!");
         var deletePurchaseorderimage = $window.confirm('Are you absolutely sure you want to delete?');
 
         if (deletePurchaseorderimage) {

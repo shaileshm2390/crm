@@ -36,20 +36,27 @@
             <div class="col-lg-6">
                 <h4 align="center"><strong>Comments</strong></h4>
                 <div ng-controller="BuyercommentsController">
-                    <div ng-init="find()" style="max-height:400px; overflow-y:auto; border:1px solid #000; padding:5px;" ng-show="buyercomments.length">
-                        <ul>
-                            <li ng-repeat="buyercomment in buyercomments| orderBy : '-createdAt'" ng-style=" rfqcomment.User.id === userId && {'margin-left': ''}">
-                                <div class="pull-left">
-                                    {{buyercomment.User.firstName}} {{buyercomment.User.lastName}} <small>({{buyercomment.User.email}})</small>
-                                    <br />&raquo; <small> {{buyercomment.comment}}</small>
-                                </div>
-                                <small class="pull-right">
-                                    <i>{{buyercomment.createdAt  | date:'medium'}}</i>
-                                </small>
-                                <div class="clear clearfix fc-clear"></div>
-                                <hr />
-                            </li>
-                        </ul>
+                    <div ng-init="find()" style="max-height:400px; overflow-y:auto; border:1px solid #000; padding:5px;" ng-show="buyercomments.length">                 
+                        <div class="panel-body">
+                            <ul class="chat">
+                                <li ng-repeat="buyercomment in buyercomments| orderBy : '-createdAt'" ng-class="(buyercomment.User.id !== userId ? 'left clearfix' : 'right clearfix')">
+                                    <span ng-class="(buyercomment.User.id !== userId ? 'chat-img pull-left' : 'chat-img pull-right')">
+                                        <img src="http://placehold.it/50/{{(buyercomment.User.id !== userId ? '5c4ac7': 'FA6F57')}}/fff&text={{buyercomment.User.firstName.charAt(0) + buyercomment.User.lastName.charAt(0)}}" alt="{{buyercomment.User.firstName.charAt(0) + buyercomment.User.lastName.charAt(0)}}" class="img-circle" />
+                                    </span>
+                                    <div class="chat-body clearfix">
+                                        <div class="header">
+                                            <strong ng-class="(buyercomment.User.id !== userId ? 'primary-font' : 'primary-font pull-right')"> {{(buyercomment.User.id !== userId ?  (buyercomment.User.firstName + " " + buyercomment.User.lastName).trim() : "Me")}}</strong>
+                                            <small class="{{(buyercomment.User.id !== userId ? 'pull-right' : '')}} text-muted">
+                                                <span class="fa fa-clock-o"></span> {{buyercomment.createdAt  | date:'medium'}}
+                                            </small>
+                                        </div>
+                                        <p style="margin: 2px 0">
+                                            {{buyercomment.comment}}
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="clearfix clear"></div>
                     <hr />

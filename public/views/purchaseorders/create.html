@@ -1,5 +1,5 @@
 <div class="card" ng-controller="RfqsController">
-    <h1>Add Purchase Order</h1>
+    <h1>Purchase Order</h1>
     <section ng-init="findOneByRfqId()">
 
         <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
@@ -12,12 +12,13 @@
             </div>
 
             <div class="col col-lg-9">
-                <div id="YourElementId" data-ng-controller="PurchaseordersController" data-ng-init="findOne()">
+                <h3>Receive Purchase Order</h3>
+                <div data-ng-controller="PurchaseordersController" data-ng-init="findOne()">
                     <div class="row">
                         <ul class="elastislide1">
                             <li class="img_wrp" data-ng-repeat="image in purchaseorder.PurchaseOrderImages | orderBy : '-createdAt'" style="margin-right:3px;">
                                 <a data-fancybox="gallery" href="{{image.imagePath}}">
-                                    <img src="{{image.imagePath}}" alt="image{{image.id}}" height="180"/>
+                                    <img src="{{image.imagePath}}" alt="image{{image.id}}" height="180" />
                                 </a>
                                 <a ng-click="deleteImage(image.id)"><i class="close fa fa-close" aria-hidden="true" /></a>
                             </li>

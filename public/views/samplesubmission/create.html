@@ -1,5 +1,5 @@
 <div class="card" ng-controller="RfqsController">
-    <h1>Add Sample Submission</h1>
+    <h1>Sample Submission</h1>
     <section ng-init="findOneByRfqId()">
 
         <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
@@ -11,7 +11,8 @@
             </div>
 
             <div class="col col-lg-9">
-                <div id="YourElementId" data-ng-controller="SampleSubmissionsController" data-ng-init="findOne()">
+                <h3>Sample Submission</h3>
+                <div data-ng-controller="SampleSubmissionsController" data-ng-init="findOne()">
                     <div class="row">
                         <ul  class="elastislide1" >
                             <li class="img_wrp" data-ng-repeat="image in samplesubmission.Samplesubmissionimages | orderBy : '-createdAt'" style="margin-right:3px;">

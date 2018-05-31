@@ -2,6 +2,7 @@
 
 angular.module('mean.customercomments').controller('CustomercommentsController', ['$scope', '$stateParams', 'Global', 'Customercomments', '$state', '$window', '$http', function ($scope, $stateParams, Global, Customercomments, $state, $window, $http) {
     $scope.global = Global;
+    $scope.userId = $window.user.id;
 
     $scope.create = function () {
         var customercomment = new Customercomments({

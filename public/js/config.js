@@ -131,6 +131,19 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             templateUrl: 'views/costsheets/approval.html'
         })
 
+        // CostSheets
+        .state('shortQuotation', {
+            url: '/rfq/{rfqId}/quotation/short',
+            controller: 'CostSheetsController',
+            templateUrl: 'views/quotations/short.html'
+        })
+
+        .state('detailQuotation', {
+            url: '/rfq/{rfqId}/quotation/detail',
+            controller: 'CostSheetsController',
+            templateUrl: 'views/quotations/detail.html'
+        })
+
         //purchase order
         .state('createPurchaseOrder', {
             url: '/rfq/{rfqId}/purchaseorder',

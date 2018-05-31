@@ -11,6 +11,9 @@
             </div>
             <div class="col col-lg-9">
                 <h3><strong>Prepared Cost Sheet</strong></h3>
+                <div ng-show="!costsheets.length">
+                    <div>This RFQ don't have any cost sheet prepared <br /><br /><a href="/rfq/{{rfq.id}}/costsheet/prepare">Please click here</a> to prepare one</div>
+                </div>
                 <div ng-init="findByRfqId()" ng-show="costsheets.length">
                     <div ng-repeat="costsheet in costsheets | orderBy: '-createdAt'">
                         <div style="background-color:linen; padding: 5px">

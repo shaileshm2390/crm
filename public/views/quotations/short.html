@@ -1,0 +1,46 @@
+﻿<div class="card" ng-controller="RfqsController">
+    <h1>Short Quotation</h1>
+    <section data-ng-init="findOneByRfqId()">
+
+        <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
+
+        <div class="row">
+            <div class="col col-lg-3 " style="border-right:1px solid #000;">
+                <h3><strong>Action</strong></h3>
+                <div ng-include="'views/rfqs/rfqLeftNavigation.htm'"></div>
+            </div>
+            <div class="col col-lg-9">
+                <h3><strong>Prepare Standard Format Cost Sheet</strong></h3>
+                <div class="alert alert-success lblMsg hide"></div>
+
+                <div class="clear clearfix"></div> <br />
+
+                <a href="#" class="btn btn-outline-primary lnkAdd  pull-right" title="add row">
+                    <span><i class="fa fa-plus-circle"></i></span>
+                </a>
+                <div class="clear clearfix"></div> <br />
+
+                <div class="pnlParameter">
+                    <div class="row">
+                        <div class="col col-lg-5">
+                            <input type="text" class="txtName form-control" placeholder="Name" required />
+                        </div>
+                        <div class="col col-lg-5">
+                            <input type="text" class="txtValue form-control" placeholder="Value" required />
+                        </div>
+                        <div class="col col-lg-2">
+                            <a href="#" class="btn btn-outline-danger lnkRemove   pull-right" title="remove row"><span><i class="fa fa-minus-circle"></i></span></a>
+                        </div>
+                    </div>
+                    <div class="clear clearfix"></div> <br />
+                </div>
+                <div class="row">
+                    <div class="col col-lg-3 center">
+                        <a href="#" class="btnSubmit btn btn-primary">Send for Approval</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script src="/js/view/costsheet.js"></script>

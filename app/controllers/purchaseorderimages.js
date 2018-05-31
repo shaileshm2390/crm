@@ -6,6 +6,15 @@
 var StandardError = require('standard-error');
 var db = require('../../config/sequelize');
 var _ = require('lodash');
+const JSON = require('circular-json');
+
+const request = require('request');
+var ipAddress;
+request('http://freegeoip.net/json/', { json: true }, (err, res, body) => {
+    if (err) { return console.log(err); }
+    ipAddress = body.ip;
+    //console.log("ip from url  -->> " + ipAddress);
+});
 
 /**
  * Find department by id
@@ -32,7 +41,7 @@ exports.purchaseorderimage = function (req, res, next, id) {
 exports.create = function (req, res) {
     // augment the department by adding the UserId
     // save and return and instance of department on the res object.
-
+    console.log("in node's create!!!!");
     var sampleFile = req.files;
     sampleFile.file.name = Math.floor(Date.now() / 1000) + "-" + sampleFile.file.name;
     sampleFile.file.mv(__dirname + '/../../public/temp/' + sampleFile.file.name, function (err) {
@@ -41,6 +50,18 @@ exports.create = function (req, res) {
             res.status(500).send(err);
         } else {
             var response = { pathFromRoot: "/temp/" + sampleFile.file.name, success: true };
+
+            var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
+
+            db.Watchdog.create({
+                message: "New Purchase-Order-Image is created.",
+                ipAddress: ipAddress,
+                pageUrl: fullUrl,
+                userId: req.user.id,
+                previousData: "",
+                updatedData: JSON.stringify(response)
+            });
+
             return res.jsonp(response);
         }
     });
@@ -71,7 +92,7 @@ exports.update = function (req, res) {
  */
 exports.destroy = function (req, res) {
 
-    console.log("in destroy!!!!");
+    console.log("in node's destroy!!!!");
     var purchaseorderimage = req.purchaseorderimage;
     console.log(JSON.stringify(req.purchaseorderimage));
     var imagePath = (__dirname + purchaseorderimage.imagePath).replace(/\//g, "\\").replace("app\\controllers", "public");

@@ -1,8 +1,13 @@
 ﻿'use strict';
 
-angular.module('mean.customercomments').controller('CustomercommentsController', ['$scope', '$stateParams', 'Global', 'Customercomments', '$state', '$window', '$http', function ($scope, $stateParams, Global, Customercomments, $state, $window, $http) {
+angular.module('mean.customercomments').controller('CustomercommentsController', ['$scope', '$stateParams', 'Global', 'Customercomments', '$state', '$window', '$http', '$rootScope', '$controller', '$location', function ($scope, $stateParams, Global, Customercomments, $state, $window, $http, $rootScope, $controller, $location) {
     $scope.global = Global;
     $scope.userId = $window.user.id;
+
+    var url = "//freegeoip.net/json/";
+    $http.get(url).then(function (response) {
+        $rootScope.ip = response.data.ip;
+    });
 
     $scope.create = function () {
         var customercomment = new Customercomments({
@@ -12,7 +17,17 @@ angular.module('mean.customercomments').controller('CustomercommentsController',
         });
 
         customercomment.$save(function (response) {
-            $scope.find();
+            $http.get("/customercomments/" + $stateParams.customerId).then(function (response) {
+                console.log("updated data of buyercomments -->  " + JSON.stringify(response));
+                $scope.updatedCustomerComment = JSON.stringify(response.data);
+
+                $scope.find();
+
+                var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
+
+                //watchdog calling
+                commonCtrl.create({ message: "New customer comment is created", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: "", updatedData: $scope.updatedCustomerComment });
+            });
         });
 
         this.comment = "";

@@ -15,6 +15,7 @@ module.exports = function (app) {
     app.route('/buyercomments')
         .get(users.requiresLogin, buyercomments.all)
         .post(users.requiresLogin, buyercomments.create);
+
     app.param('buyerId', buyercomments.buyercomment);
 };
 

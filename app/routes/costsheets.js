@@ -20,9 +20,12 @@ module.exports = function (app) {
         .post(users.requiresLogin, costsheets.create);
     app.route('/costsheets/mail/:id')
         .post(users.requiresLogin, costsheets.sendMail);
-        
+    app.route('/rfq/costsheets/approved/:costsheetId')
+        .get(costsheets.costsheetById)
+
 
     app.param('id', costsheets.costsheet);
     app.param('rfqId', costsheets.costsheetByRfqId);
+    app.param('costsheetId', costsheets.approvedCostsheetByRfqId);
 };
 

@@ -91,7 +91,8 @@ var app = angular.module('mean.users').controller('UsersController', ['$scope', 
                 $http.get("/users/reset/" + user.id)
                     .then(function (response) {
                         console.log(response);
-                        $scope.message = response.statusText;
+                       // $scope.message = response.statusText;
+                        $scope.message = "Mail sent successfully"
                     }, function (response) {
                         //Second function handles error
                         $scope.errorMessage = response.statusText;

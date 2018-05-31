@@ -21,6 +21,44 @@ exports.create = function (req, res) {
     });
 };
 
+exports.approvedCostsheetByRfqId = function (req, res, next, id) {
+    db.CostSheet.find({
+        where: { RfqId: id},
+        order: [['createdAt', 'DESC']],
+        limit: 1,
+        include: [
+            {
+                model: db.User,
+                attributes: ['id', 'email', 'firstName', 'lastName']
+            },
+            {
+                model: db.Rfq,
+                include: [
+                    {
+                        model: db.Buyer,
+                        include: [
+                            {
+                                model: db.Customer,
+                                required: false
+                            }
+                        ],
+                        required: false
+                    }
+                ]
+            }
+        ]
+    }).then(function (costSheet) {
+        if (!costSheet) {
+            req.costSheet = {};
+            return next();
+        } else {
+            req.costSheet = costSheet;
+            return next();
+        }
+    }).catch(function (err) {
+        return next(err);
+    });
+}
 
 
 exports.sendMail = function (req, res) {

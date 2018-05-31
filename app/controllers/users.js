@@ -14,8 +14,9 @@ var db = require('../../config/sequelize'),
 
 var sendResetMail = function (newPassword, email) {       
     sm.sendMail({
-        from: 'youremail@gmail.com',
+        from: 'youremail@crm.com',
         to: email,
+        //to: 'shaileshm@imtsolutions.net',
         subject: 'Reset Password',
         html: '<h1>Hi User,</h1><p>Your new password is : ' + newPassword + '</p><br /> <br /> <a href="localhost:3000/">click here</a> to sign in.'
     });
@@ -112,11 +113,11 @@ exports.resetPassword = function (req, res) {
     model.hashedPassword = model.encryptPassword(newPassword, model.salt);
 
     user.updateAttributes({  
-        //remove this comment to allow reset password
+        ////remove this comment to allow reset password
         //hashedPassword: model.hashedPassword,
         //salt: model.salt
     }).then(function (a) {
-       // sendResetMail(newPassword, user.email);
+      //  sendResetMail(newPassword, user.email);
         return res.jsonp(a);
     }).catch(function (err) {
         console.log(err);

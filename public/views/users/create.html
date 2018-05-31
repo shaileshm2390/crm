@@ -38,8 +38,7 @@
                 <div ng-controller="DepartmentsController" ng-init="find()">
                     <select class="form-control" ng-model="user.DepartmentId" required>
                         <option value="" selected>Select Department </option>
-                        <option ng-repeat="department in departments" value="{{department.id}}">{{department.name}}</option>
-
+                        <option ng-repeat="department in departments"  data-ng-if="department.status!='0'" value="{{department.id}}">{{department.name}}</option>
                     </select>
                 </div>
             </div>

@@ -6,7 +6,6 @@
 var StandardError = require('standard-error');
 var db = require('../../config/sequelize');
 var _ = require('lodash');
-
 /**
  * Find department by id
  * Note: This is called every time that the parameter :departmentId is used in a URL.

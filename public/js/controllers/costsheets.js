@@ -4,17 +4,20 @@ var app = angular.module('mean.costsheets').controller('CostSheetsController', [
     $scope.global = Global;
 
     $scope.stringToObject = function (strObj, doSort) {
-        if (typeof doSort == 'undefined') doSort = false;
-        var sortedObj = {}
-        var obj = angular.fromJson(strObj);
-        if (doSort) {            
-            Object.keys(obj)
-                .sort()
-                .forEach(function (v, i) {
-                    sortedObj[v] = obj[v];
-                });
+        if (typeof strObj != 'undefined' && strObj != null) {
+            if (typeof doSort == 'undefined') doSort = false;
+            var sortedObj = {}
+            var obj = angular.fromJson(strObj);
+            if (doSort) {
+                Object.keys(obj)
+                    .sort()
+                    .forEach(function (v, i) {
+                        sortedObj[v] = obj[v];
+                    });
+            }
+            return (doSort) ? sortedObj : obj;
         }
-        return (doSort) ? sortedObj : obj;
+        return {};
     }
     $scope.trustAsHtml = function (html) {
         return $sce.trustAsHtml(html);
@@ -26,6 +29,15 @@ var app = angular.module('mean.costsheets').controller('CostSheetsController', [
                 $scope.costsheets = response.data;
             }, function (error) {
                // console.log(error, $stateParams.rfqId);
+            });
+    };
+
+    $scope.findApprovedCostSheetByRfqId = function () {
+        $http.get("/rfq/costsheets/approved/" + $stateParams.rfqId)
+            .then(function (response) {
+                $scope.costsheet = response.data;
+            }, function (error) {
+                // console.log(error, $stateParams.rfqId);
             });
     };
 

@@ -33,22 +33,23 @@ exports.samplesubmission = function (req, res, next, id) {
 exports.create = function (req, res) {
     // augment the department by adding the UserId
     // save and return and instance of department on the res object.
-    var imageArray = req.body.imagesString.split(",");
     db.Samplesubmission.create(req.body).then(function (samplesubmission) {
         if (!samplesubmission) {
             return res.send('/signin', { errors: new StandardError('Customer could not be created') });
         } else {
-            var imageArray = req.body.imagesString.split(",");
-            for (var index = 0; index < imageArray.length; index++) {
-                var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
-                var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
+            if (req.body.imagesString.trim() !== "") {
+                var imageArray = req.body.imagesString.split(",");
+                for (var index = 0; index < imageArray.length; index++) {
+                    var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
+                    var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
 
-                module.exports.move(oldPath, newPath, function () { });
-                var request = {
-                    imagePath: imageArray[index].replace("/temp/", "/uploads/"),
-                    SamplesubmissionId: samplesubmission.id
-                };
-                db.Samplesubmissionimage.create(request);
+                    module.exports.move(oldPath, newPath, function () { });
+                    var request = {
+                        imagePath: imageArray[index].replace("/temp/", "/uploads/"),
+                        SamplesubmissionId: samplesubmission.id
+                    };
+                    db.Samplesubmissionimage.create(request);
+                }
             }
             return res.jsonp(samplesubmission);
         }

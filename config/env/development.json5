@@ -4,8 +4,8 @@
         name: "crm",
         password: "",
         username: "root",
-        host: "localhost", 
-        port: 3306
+        host: "localhost",
+        port: 3308
     },
     app: {
         name: "CRM"
@@ -24,5 +24,6 @@
     google: {
         realm: "http://localhost:3000/",
         callbackURL: "http://localhost:3000/auth/google/callback"
-    }
+    },
+	enableSequelizeLog : "false",
 }

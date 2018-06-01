@@ -36,24 +36,24 @@ exports.customer = function (req, res, next, id) {
 exports.create = function (req, res) {
     // augment the customer by adding the UserId
     // save and return and instance of customer on the res object.
-   // console.log(req.body);
-    var imageArray = req.body.imagesString.split(",");
 
     db.Customer.create(req.body).then(function (customer) {
         if (!customer) {
             return res.send('/signin', { errors: new StandardError('Customer could not be created') });
         } else {
-            var imageArray = req.body.imagesString.split(",");
-            for (var index = 0; index < imageArray.length; index++) {
-                var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
-                var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
+            if (req.body.imagesString.trim() !== "") {
+                var imageArray = req.body.imagesString.split(",");
+                for (var index = 0; index < imageArray.length; index++) {
+                    var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
+                    var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
 
-                module.exports.move(oldPath, newPath, function () { });
-                var request = {
-                    imagePath: imageArray[index].replace("/temp/", "/uploads/"),
-                    CustomerId: customer.id
-                };
-                db.CustomerImage.create(request);
+                    module.exports.move(oldPath, newPath, function () { });
+                    var request = {
+                        imagePath: imageArray[index].replace("/temp/", "/uploads/"),
+                        CustomerId: customer.id
+                    };
+                    db.CustomerImage.create(request);
+                }                
             }
             return res.jsonp(customer);
         }

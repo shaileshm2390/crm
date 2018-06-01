@@ -102,7 +102,7 @@ var app = angular.module('mean.purchaseorderimages').controller('Purchaseorderim
                 var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
 
                 //watchdog calling
-                commonCtrl.create({ message: "Purchase order " + purchaseorderimage.id + " is updated.", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: $scope.previousImageOrder, updatedData: $scope.updatedImageOrder });
+                commonCtrl.create({ message: "Purchase order image is updated.", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: $scope.previousImageOrder, updatedData: $scope.updatedImageOrder });
             });
 
         }, function (error) {

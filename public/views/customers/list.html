@@ -53,7 +53,7 @@
             </tbody>
         </table>
         <div class="clearfix"></div> <br />
-        <div class="col-lg-12 center">
+        <div class="col-lg-12 center" data-ng-show="customers.length">
             <button ng-disabled="currentPage == 0" class="btn btn-warning" ng-click="currentPage=currentPage-1">
                 &laquo;
             </button>
@@ -64,7 +64,7 @@
                 &raquo;
             </button>
         </div>
-        <h1 data-ng-hide="!customers || customers.length">No customers yet. <br> Why don't you <a ui-sref="createCustomer">Create One</a>?</h1>
+        <div data-ng-hide="!customers || customers.length" class="alert alert-danger">No customer present</div>
     </section>
 
 </div>

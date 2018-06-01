@@ -17,7 +17,7 @@ module.exports = function(sequelize, DataTypes) {
 			hashedPassword: DataTypes.STRING,
 			provider: DataTypes.STRING,
             salt: DataTypes.STRING,
-            active: DataTypes.BOOLEAN
+            active: { type: DataTypes.BOOLEAN, defaultValue: true }
 		}, 
 		{
 			instanceMethods: {

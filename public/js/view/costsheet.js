@@ -21,8 +21,6 @@
             });
         }
 
-        var hdnQuotType, costSheetId;
-        
         var createDynamicTextFields = function (callback) {
 
             var inputName = $("<input />", { class: 'txtName form-control', type: 'text', placeholder: 'Name', required: 'required' });
@@ -39,21 +37,6 @@
             $(".pnlParameter").append(divRow, divClear, breakLine);
             bindRemoveParameter();
             typeof callback === 'function' && callback();
-        };
-
-        //ajax call to save qoute         
-        var saveQuotation = function (data, quotType, costSheetId) {
-            var dfd = $.Deferred();
-            console.log({ UserId: window.user.id, data: data, RfqId: rfqId, type: quotType, CostSheetId: costSheetId });
-            $.ajax({
-                url: '/quotations/',
-                method: "POST",
-                data: { UserId: window.user.id, data: data, RfqId: rfqId, type: quotType, CostSheetId: costSheetId }
-            }).done(function (response) {
-                dfd.resolve(response);
-                $(".lblMsg").html("<span>Saved successfully !!!</span>").removeClass("hide");
-            });
-            return dfd.promise();
         };
 
         // ajax call to save cost sheet
@@ -73,15 +56,6 @@
         setTimeout(
             function () {
                 rfqId = $(".hdnRfqId").val();
-
-                if ($(".quotType").length) {
-                    var arr = window.location.href.split("/")
-                    if (arr.length > -1) {
-                        hdnQuotType = $(".hdnQuotType").val();
-                        costSheetId = $(".hdnCostSheetId").val();
-                        $(".quotType").html(toTitleCase(arr[arr.length - 1]));
-                    }
-                }
 
                 // slider of images
                 if ($(".elastislide").length > 0) {
@@ -126,20 +100,11 @@
                             }
                         }
                     }
-                    if ($.inArray(false, validField) < 0) {
-                        if ($me.hasClass('btnQuotGeneration')) {
-                            // save quotation
-                            $.when(saveQuotation(JSON.stringify(nameValuePair), hdnQuotType, costSheetId)).then(function () {
-                                //window.location.reload();
-                                $(".pnlParameter, .lnkAdd, .btnSubmit").remove();
-                            });
-                        } else {
+                    if ($.inArray(false, validField) < 0) {                        
                             // save costsheet
                             $.when(saveCostSheet(JSON.stringify(nameValuePair))).then(function () {
                                 window.location.reload();
-                            });
-                        }
-                      
+                            });                      
                     } else {
                         nameValuePair = {};
                     }

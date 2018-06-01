@@ -15,7 +15,7 @@
 
         <div class="control-group">
             <label class="control-label" for="name">Name</label>
-            
+
             <div class="controls">
                 <input type="text" ng-model="buyer.name" id="title" placeholder="Name" class="form-control col-sm-6" required />
             </div>
@@ -31,12 +31,38 @@
         </div>
         <br />
 
+        <div class="control-group">
+            <label class="control-label" for="contact">Images</label>
+            <div class="controls">
+                <div id="myId" class="dropzone col-sm-6"></div>
+            </div>
+        </div>
+
+        <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
+
         <div class="clearfix"></div><br />
         <div class="control-group">
             <div class="controls">
-                <input type="submit" class="btn btn-primary" value="Save">
+                <input type="submit" class="btn btn-primary btnSave" value="Save">
                 <a class="btn btn-secondary" href="javascript:window.history.back();">Cancel</a>
             </div>
         </div>
     </form>
 </section>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var imagesArray = [];
+        var myDropzone = new Dropzone('#myId', {
+            url: "/customerimages/"
+        });
+        myDropzone.on("success", function (file, response) {
+            console.log(response);
+            imagesArray.push(response.pathFromRoot);
+        });
+
+        $(".btnSave").on('click', function () {
+            $(".hdnImages").val(imagesArray.join(",")).trigger('change');
+        });
+    });
+</script>

@@ -1,6 +1,6 @@
 <h1>Edit User</h1>
 <section data-ng-init="findOne()" class="card">
-    <form class="form-horizontal" data-ng-submit="update()">
+    <form class="form-horizontal col-lg-6" data-ng-submit="update()">
         <div class="control-group">
             <label for="name" class="control-label">First name</label>
             <div class="controls">
@@ -26,6 +26,7 @@
             </div>
         </div>
 
+
         <input type="hidden" class="form-control hdnDepartmentId" value="{{user.DepartmentId}}">
 
         <div class="control-group">
@@ -34,11 +35,20 @@
                 <div ng-controller="DepartmentsController" ng-init="find()">
                     <select class="form-control ddlDepartment" required name="DepartmentId" data-ng-model="user.DepartmentId">
                         <option value="">Select Department </option>
-                        <option ng-repeat="department in departments" data-ng-if="department.status!='0'" value="{{department.id}}" >{{department.name}}</option>
+                        <option ng-repeat="department in departments" data-ng-if="department.status!='0'" value="{{department.id}}">{{department.name}}</option>
                     </select>
                 </div>
             </div>
         </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <div class="checkbox">
+                    <label class="control-label" for="active"><input type="checkbox" data-ng-model="user.active" id="active" /> Active</label>
+                </div>
+            </div>
+        </div>
+
 
 
 

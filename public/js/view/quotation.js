@@ -1,109 +1,4 @@
-﻿<section data-ng-init="findOneByRfqId()">
-
-    <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
-
-    <div class="row">
-        <div class="col col-lg-3 " style="border-right:1px solid #000;">
-            <h3><strong>Action</strong></h3>
-            <div ng-include="'views/rfqs/rfqLeftNavigation.htm'"></div>
-        </div>
-        <div class="col col-lg-9">
-            <h3><strong>Approved Costsheet</strong></h3>
-            <div ng-init="findApprovedCostSheetByRfqId()">
-                <div ng-show="costsheet.status != 'approved'" class="alert alert-danger">Cost Sheet is not yet approved. Please get an approval from admin</div>
-                <div ng-show="costsheet.status == 'approved'">
-                    <div style="background-color:linen; padding: 5px">
-                        <h6>
-                            Created by:
-                            <strong> {{costsheet.User.firstName}} {{costsheet.User.lastName}}</strong>
-                            <small>({{costsheet.User.email}})</small>
-                            <small class="pull-right"><i> - {{costsheet.createdAt | date:'medium'}}</i></small>
-                        </h6>
-
-                        <div class="clear clearfix"></div>
-
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <strong>Cost Sheet Parameter</strong>
-                                <hr />
-                                <div class="clear clearfix"></div><br />
-                                <div class="row" ng-repeat="(key,value) in stringToObject(costsheet.data, true) ">
-                                    <div class="col col-lg-5">
-                                        {{key}}
-                                    </div>
-                                    <div class="col col-lg-2">:</div>
-                                    <div class="col col-lg-5">
-                                        {{value}}<br /><br />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <hr />
-
-                    <h3><strong>Prepare <span class="quotType"></span> Quotation</strong></h3>
-
-                    <div class="alert alert-success lblMsg hide"></div>
-
-                    <div class="clear clearfix"></div> <br />
-
-                    <a href="#" class="btn btn-outline-primary lnkAddHeading  pull-right" title="add heading row">
-                        <span><i class="fa fa-plus-circle"></i></span>
-                    </a>
-                    <div class="clear clearfix"></div> <br />
-                    <div class="create-heading">
-                        <div class="pnlHeading">
-                            <div class="row">
-                                <div class="col col-lg-10">
-                                    <input type="text" class="txtHeading form-control" placeholder="Heading" required />
-                                </div>
-                            </div>
-                            <div class="clear clearfix"></div> <br />
-                        </div>
-
-                        <div class="col col-lg-3 center">
-                            <a href="#" class="btnSubmitHeading btn btn-primary">Generate Table</a>
-                        </div>
-                    </div>
-
-                    <div class="pnlQuotTable hide">
-                        <a class="lnkBackToHeadingCreation btn btn-secondary" href="#">Back</a>
-                        <a class="lnkAddRow btn btn-primary pull-right" href="#">Add Row</a>
-                        <div class="clear clearfix"></div> <br />
-                    </div>
-                        <!--<a href="#" class="btn btn-outline-primary lnkAdd  pull-right" title="add row">
-                        <span><i class="fa fa-plus-circle"></i></span>
-                    </a>
-                    <div class="pnlParameter">
-                        <div class="row">
-            <div class="col col-lg-5">
-                <input type="text" class="txtName form-control" placeholder="Name" required />
-            </div>
-            <div class="col col-lg-5">
-                <input type="text" class="txtValue form-control" placeholder="Value" required />
-            </div>
-            <div class="col col-lg-2">
-                <a href="#" class="btn btn-outline-danger lnkRemove   pull-right" title="remove row"><span><i class="fa fa-minus-circle"></i></span></a>
-            </div>
-        </div>
-                        <div class="clear clearfix"></div> <br />
-                    </div>
-                    <div class="row">
-                        <div class="col col-lg-3 center">
-                            <a href="#" class="btnSubmit btn btn-primary">Generate</a>
-                        </div>
-                    </div>-->
-
-                        <input type="hidden" class="hdnCostSheetId" value="{{costsheet.id}}" />
-                    </div>
-                </div>
-        </div>
-    </div>
-</section>
-<!--<script src="/js/view/quotation.js"></script>-->
-<script>
-    $(document).ready(function () {
+﻿    $(document).ready(function () {
         var bindRemoveParameter = function () {
             $(".lnkRemove").on('click', function () {
                 $(this).parent().parent().next().remove(".clearfix");
@@ -117,7 +12,7 @@
                 }
             });
         };
-
+               
         var bindRemoveHeadingParameter = function () {
             $(".lnkHeadingRemove").on('click', function () {
                 $(this).parent().parent().next().remove(".clearfix");
@@ -136,14 +31,14 @@
         bindRemoveHeadingParameter();
         var rfqId;
 
-        var toTitleCase = function (str) {
+        var toTitleCase= function (str) {
             return str.replace(/(?:^|\s)\w/g, function (match) {
                 return match.toUpperCase();
             });
         }
 
         var hdnQuotType, costSheetId;
-
+        
 
         var createDynamicHeadingTextFields = function (callback) {
 
@@ -181,43 +76,19 @@
         };
 
         var createDynamicTableheading = function (callback) {
-            $(".table-quot").remove();
-            var trHeading = $("<tr>");
-            var trInitialRow = $("<tr>");
-            
-            $.each($(".txtHeading"), function (key, value) {
-                var th = $("<th>").html($(value).val());
-                var td = $("<td>").html($("<input />", { class: 'txt' + $(value).val() + ' form-control', type: 'text', placeholder: $(value).val(), required: 'required' }));
-                trHeading.append(th);
-                trInitialRow.append(td);
+            var tr = $("<tr>");
+            $.each($(".txtHeading"), function (key, value) { 
+                var th = $("<th>").html(value);
+                tr.append(th);
             });
-
-            var table = $("<table>", { class: 'table table-hover table-quot' }).append(trHeading, trInitialRow);
-            $(".create-heading, .lnkAddHeading").hide();
+            
+            var table = $("<table>", { class: 'table table-hover table-quot' }).append(tr);
+            $(".create-heading").hide();
             $(".pnlQuotTable").append(table).removeClass("hide");
             $(".lnkBackToHeadingCreation").on('click', function (e) {
                 $(".pnlQuotTable").addClass("hide");
-                $(".create-heading, .lnkAddHeading").show();
+                $(".create-heading").show();
             });
-            typeof callback === 'function' && callback();
-        };
-
-        
-        var createDynamicTableRow = function (callback) {
-            var trInitialRow = $("<tr>");
-
-            $.each($(".txtHeading"), function (key, value) {
-                var td = $("<td>").html($("<input />", { class: 'txt' + $(value).val() + ' form-control', type: 'text', placeholder: $(value).val(), required: 'required' }));              
-                trInitialRow.append(td);
-            });
-
-            $(".table-quot").append(trInitialRow);
-            //$(".create-heading, .lnkAddHeading").hide();
-            //$(".pnlQuotTable").append(table).removeClass("hide");
-            //$(".lnkBackToHeadingCreation").on('click', function (e) {
-            //    $(".pnlQuotTable").addClass("hide");
-            //    $(".create-heading").show();
-            //});
             typeof callback === 'function' && callback();
         };
 
@@ -318,7 +189,7 @@
                 });
 
 
-
+                
                 $(".btnSubmitHeading").on('click', function (e) {
                     var $me = $(this);
                     var headingField = [];
@@ -337,7 +208,7 @@
                                 $($(".txtHeading")[index]).css("border", "1px solid red");
                             } else {
                                 $($(".txtHeading")[index]).css("border", "");
-                            }
+                            }                           
                         }
                     }
                     if ($.inArray(false, validField) < 0) {
@@ -353,13 +224,5 @@
                     $(".pnlParameter").html("");
                     $(".create-costsheet").addClass('hide');
                 });
-
-                $(".lnkAddRow").on('click', function () {
-                    createDynamicTableRow();
-                });
             }, 500);
     });
-
-
-</script>
-

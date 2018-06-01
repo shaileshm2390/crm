@@ -2,6 +2,7 @@
 
 angular.module('mean.buyers').controller('BuyersController', ['$scope', '$stateParams', 'Global', 'Buyers', '$state', '$window', '$http', '$rootScope', '$controller', '$location', function ($scope, $stateParams, Global, Buyers, $state, $window, $http, $rootScope, $controller, $location) {
     $scope.global = Global;
+    $scope.imagesString = '';
 
     var url = "//freegeoip.net/json/";
     $http.get(url).then(function (response) {
@@ -13,7 +14,8 @@ angular.module('mean.buyers').controller('BuyersController', ['$scope', '$stateP
             name: $scope.buyer.name,
             email: $scope.buyer.email,
             contact: $scope.buyer.contact,
-            CustomerId: $stateParams.customerId
+            CustomerId: $stateParams.customerId,
+            imagesString: this.imagesString
         });
         $http.post("/buyers", buyer).then(function (response) {
 
@@ -78,6 +80,7 @@ angular.module('mean.buyers').controller('BuyersController', ['$scope', '$stateP
 
     $scope.update = function () {
         var buyer = $scope.buyer;
+        $scope.buyer.imagesString = $scope.imagesString;
         if (!buyer.updated) {
             buyer.updated = [];
         }

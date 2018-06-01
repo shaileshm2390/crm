@@ -1,13 +1,13 @@
 <h1>Edit Buyer</h1>
 <section data-ng-init="findOne()" class="card">
-	<form class="form-horizontal" data-ng-submit="update()">
-		<div class="control-group">
-			<label class="control-label" for="email">Email</label>
+    <form class="form-horizontal" data-ng-submit="update()">
+        <div class="control-group">
+            <label class="control-label" for="email">Email</label>
 
-			<div class="controls">
-				<input type="email" data-ng-model="buyer.email" id="title" placeholder="Email" class="form-control col-sm-6" required />			
-			</div>
-		</div>
+            <div class="controls">
+                <input type="email" data-ng-model="buyer.email" id="title" placeholder="Email" class="form-control col-sm-6" required />
+            </div>
+        </div>
         <br />
 
         <div class="control-group">
@@ -26,14 +26,78 @@
                 <input type="text" data-ng-model="buyer.contact" id="contact" placeholder="Contact" class="form-control col-sm-6" required />
             </div>
         </div>
+        <br /><br />
+
+        <div class="row" data-ng-show="buyer.BuyerImages.length">
+            <ul id="carousel" class="elastislide">
+                <li class="img_wrp" data-ng-repeat="image in buyer.BuyerImages | orderBy : '-createdAt'" style="margin-right:3px;">
+                    <a data-fancybox="gallery" href="{{image.imagePath}}"><img src="{{image.imagePath}}" alt="image{{image.id}}" height="150" /></a>
+                    <i class="close fa fa-close deleteImage" data-id="{{image.id}}" aria-hidden="true" />
+                </li>
+
+            </ul>
+        </div>
+
         <br />
-      
-            <div class="clearfix"></div><br />
-            <div class="control-group">
-                <div class="controls">
-                    <input type="submit" class="btn btn-primary" value="Save">
-                    <a class="btn btn-secondary" href="javascript:window.history.back();">Cancel</a>
-                </div>
+
+        <div class="control-group">
+            <label class="control-label" for="contact">Images</label>
+            <div class="controls">
+                <div id="myId" class="dropzone col-sm-6"></div>
             </div>
-</form>
+        </div>
+
+        <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
+
+        <div class="clearfix"></div><br />
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" class="btn btn-primary btnSave" value="Save">
+                <a class="btn btn-secondary" href="javascript:window.history.back();">Cancel</a>
+            </div>
+        </div>
+    </form>
 </section>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var imagesArray = [];
+        var myDropzone = new Dropzone('#myId', {
+            url: "/buyerimages/"
+        });
+        myDropzone.on("success", function (file, response) {
+            imagesArray.push(response.pathFromRoot);
+        });
+
+        $(".btnSave").on('click', function () {
+            $(".hdnImages").val(imagesArray.join(",")).trigger('change');;
+        });
+
+        setTimeout(function () {
+            if ($(".elastislide").length > 0) {
+                $('.elastislide').elastislide();
+            }
+
+            $(".deleteImage").on('click', function () {
+                var element = this;
+                if (confirm("Are you sure to delete this image")) {
+                    $.ajax({
+                        url: '/buyerimages/' + $(this).data("id"),
+                        data: { id: $(this).data("id") },
+                        method: "DELETE"
+                    }).done(function (response) {
+                        $(".lblmsg").html("<span>deleted successfully !!!</span>");
+                        // $(element).parent().remove();
+                        window.location.reload(true);
+
+                    });
+                    return false;
+                }
+            });
+        }, 500);
+
+
+
+    });
+</script>

@@ -72,15 +72,17 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+
         setTimeout(
             function () {
+
+                if ($(".elastislide").length > 0) {
+                    $('.elastislide').elastislide();
+                }
+
                 if ($(".hdnUserId").val() != "") {
                     $(".ddlUser option[selected]").remove();
                     $(".ddlUser").val($(".hdnUserId").val());
-
-                    if ($(".elastislide").length > 0) {
-                        $('.elastislide').elastislide();
-                    }
                 }
             }, 500);
 

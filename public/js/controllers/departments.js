@@ -32,7 +32,6 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
         department.$save(function (response) {
             //$state.go('departments');
             $http.get("/departments/" + department.id).then(function (response) {
-                console.log("updated data  -->  " + JSON.stringify(response));
                 $scope.updatedDetpartment = JSON.stringify(response.data);
 
                 $state.go('departments');
@@ -93,7 +92,6 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
 
         //get previous data from URL
         $http.get("/departments/" + department.id).then(function (response) {
-            console.log("previous data  -->  " + JSON.stringify(response));
             $scope.previousData = JSON.stringify(response.data);
         });
 
@@ -104,7 +102,6 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
             
             ///get updated data from URL
             $http.get("/departments/" + department.id).then(function (response) {
-                console.log("updated data  -->  " + JSON.stringify(response));
                 $scope.updatedData = JSON.stringify(response.data);
             
 

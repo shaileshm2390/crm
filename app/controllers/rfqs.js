@@ -10,7 +10,7 @@ var _ = require('lodash');
 /**
  * Create a department
  */
-exports.create = function (req, res) {    
+exports.create = function (req, res) {
     db.Rfq.create(req.body).then(function (rfq) {
         return res.jsonp(rfq);
     }).catch(function (err) {

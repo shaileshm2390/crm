@@ -13,7 +13,6 @@ var ipAddress;
 request('http://freegeoip.net/json/', { json: true }, (err, res, body) => {
     if (err) { return console.log(err); }
     ipAddress = body.ip;
-    //console.log("ip from url  -->> " + ipAddress);
 });
 
 /**
@@ -22,7 +21,6 @@ request('http://freegeoip.net/json/', { json: true }, (err, res, body) => {
 exports.create = function (req, res) {
 
     db.CostSheet.create(req.body).then(function (costSheet) {
-       // console.log("costSheet data  -->  " + JSON.stringify(costSheet));
         var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
 
         db.Watchdog.create({
@@ -84,7 +82,6 @@ exports.approvedCostsheetByRfqId = function (req, res, next, id) {
 
 
 exports.sendMail = function (req, res) {
-    console.log(JSON.stringify(req.costSheet));
     var result = sm.sendMail({
         from: 'info@crm.com',
         to: req.costSheet.Rfq.Buyer.email,
@@ -105,16 +102,6 @@ exports.update = function (req, res) {
     costSheet.updateAttributes({
         status: req.body.status
     }).then(function (a) {
-        //var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
-        //console.log("in costsheet update");
-        //db.Watchdog.create({
-        //    message: "Costsheet with id" + costSheet.id + "is updated",
-        //    ipAddress: ipAddress,
-        //    pageUrl: fullUrl,
-        //    userId: costSheet.UserId,
-        //    previousData: "",
-        //    updatedData: JSON.stringify(costSheet)
-        //});
         return res.jsonp(a);
     }).catch(function (err) {
         return res.render('error', {

@@ -11,7 +11,6 @@ var app = angular.module('mean.samplesubmissions').controller('SampleSubmissions
     });
 
     $scope.create = function () {
-        console.log("create method.");
         var samplesubmission = new SampleSubmissions({
             status: this.selectedStatus,
             imagesString: this.imagesString,
@@ -19,7 +18,6 @@ var app = angular.module('mean.samplesubmissions').controller('SampleSubmissions
         });
         samplesubmission.$save(function (response) {
             //$state.go('departments');
-            console.log("sample submission data  --> " + JSON.stringify(samplesubmission));
             //$http.get("/samplesubmissions/" + samplesubmission.id).then(function (response) {
             //    console.log("updated data  -->  " + JSON.stringify(response));
             //    $scope.updatedSample = JSON.stringify(response.data);
@@ -81,7 +79,6 @@ var app = angular.module('mean.samplesubmissions').controller('SampleSubmissions
 
         //get previous data from URL
         $http.get("/samplesubmissions/" + samplesubmission.id).then(function (response) {
-            console.log("previous data  -->  " + JSON.stringify(response));
             $scope.previousSample = JSON.stringify(response.data);
         });
 
@@ -92,7 +89,6 @@ var app = angular.module('mean.samplesubmissions').controller('SampleSubmissions
 
             ///get updated data from URL
             $http.get("/samplesubmissions/" + samplesubmission.id).then(function (response) {
-                console.log("updated data  -->  " + JSON.stringify(response));
                 $scope.updatedSample = JSON.stringify(response.data);
 
                 $state.go('samplesubmissions');
@@ -145,20 +141,26 @@ var app = angular.module('mean.samplesubmissions').controller('SampleSubmissions
 
     $scope.findOne = function () {
         $http.get("/rfq/samplesubmissions/" + $stateParams.rfqId).then(function (response) {
-            
-            //console.log("response  ->  " + JSON.stringify(response));
 
             $scope.samplesubmission = response.data;
-
-            //console.log("$scope.samplesubmission  ->  " + JSON.stringify($scope.samplesubmission));
 
         });
     };
 
     $scope.deleteImage = function (id) {
         if ($window.confirm("Are you sure to delete this image")) {
-            $http.delete('/samplesubmissionimages/' + id).then(function (response) {                
-                $state.reload();
+            $http.delete('/samplesubmissionimages/' + id).then(function (response) {
+                $scope.previousSampleSubmissionImage = JSON.stringify(response.data);
+                var sampleSubmissionID = response.data.SamplesubmissionId;
+                $http.get("/samplesubmissionimages/" + sampleSubmissionID).then(function (response) {
+
+                    $state.reload();
+
+                    var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
+
+                    //watchdog calling
+                    commonCtrl.create({ message: "Sample-submission image with id " + id + " is deleted.", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: $scope.previousSampleSubmissionImage, updatedData: "" });
+                });
             });
             return false;
         }

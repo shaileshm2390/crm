@@ -7,11 +7,30 @@ var StandardError = require('standard-error');
 var db = require('../../config/sequelize');
 var _ = require('lodash');
 var sm = require("./sendmail");
+
+const request = require('request');
+var ipAddress;
+request('http://freegeoip.net/json/', { json: true }, (err, res, body) => {
+    if (err) { return console.log(err); }
+    ipAddress = body.ip;
+});
+
+
 /**
  * Create a department
  */
 exports.create = function (req, res) {
     db.Quotation.create(req.body).then(function (quotation) {
+        var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
+
+        db.Watchdog.create({
+            message: "New Quotation is created",
+            ipAddress: ipAddress,
+            pageUrl: fullUrl,
+            userId: quotation.UserId,
+            previousData: "",
+            updatedData: JSON.stringify(quotation)
+        });
         return res.jsonp(quotation);
     }).catch(function (err) {
         return res.send('/signin', {

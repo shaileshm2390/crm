@@ -145,7 +145,7 @@ exports.destroy = function (req, res) {
 
     // create a new variable to hold the department that was placed on the req object.    
     var buyer = req.buyer;
-    
+
     db.BuyerImage.findAll({ where: { BuyerId: req.buyer.id } }).then(function (response) {
         module.exports.deletePhysicalFile(response, function () { });
     });

@@ -18,7 +18,6 @@ angular.module('mean.buyercomments').controller('BuyercommentsController', ['$sc
 
         buyercomment.$save(function (response) {
             $http.get("/buyercomments/" + $stateParams.buyerId).then(function (response) {
-                console.log("updated data of buyercomments -->  " + JSON.stringify(response));
                 $scope.updatedBuyerComment = JSON.stringify(response.data);
 
                 $scope.find();

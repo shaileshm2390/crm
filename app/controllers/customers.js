@@ -73,9 +73,6 @@ exports.update = function (req, res) {
 
     // create a new variable to hold the customer that was placed on the req object.
     var customer = req.customer;
-    //console.log("customer request data 1  -->  " + req);
-
-    console.log("imagesString 1  -->  " + JSON.stringify(req.body));
     
     customer.updateAttributes({
         email: req.body.email,
@@ -83,7 +80,6 @@ exports.update = function (req, res) {
         name: req.body.name,
         contact: req.body.contact
     }).then(function (a) {
-        console.log("imagesString  2" + JSON.stringify(req.body));
         if (req.body.imagesString.trim() !== "") {
             var imageArray = req.body.imagesString.split(",");
             for (var index = 0; index < imageArray.length; index++) {
@@ -95,7 +91,6 @@ exports.update = function (req, res) {
                     imagePath: imageArray[index].replace("/temp/", "/uploads/"),
                     CustomerId: customer.id
                 };
-                console.log(request);
                 db.CustomerImage.create(request);
             }
         }

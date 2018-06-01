@@ -17,9 +17,7 @@ angular.module('mean.customercomments').controller('CustomercommentsController',
         });
 
         customercomment.$save(function (response) {
-            $http.get("/customercomments/" + $stateParams.customerId).then(function (response) {
-                console.log("updated data of buyercomments -->  " + JSON.stringify(response));
-                $scope.updatedCustomerComment = JSON.stringify(response.data);
+                $scope.updatedCustomerComment = JSON.stringify(response);
 
                 $scope.find();
 
@@ -27,7 +25,6 @@ angular.module('mean.customercomments').controller('CustomercommentsController',
 
                 //watchdog calling
                 commonCtrl.create({ message: "New customer comment is created", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: "", updatedData: $scope.updatedCustomerComment });
-            });
         });
 
         this.comment = "";
@@ -41,7 +38,7 @@ angular.module('mean.customercomments').controller('CustomercommentsController',
             .then(function (response) {
                 $scope.customercomments = response.data;
             }, function (response) {
-                console.log(error, $stateParams.customerId);
+                console.log(response, $stateParams.customerId);
             });
     };
 

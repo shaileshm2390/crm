@@ -10,7 +10,6 @@ var app = angular.module('mean.purchaseorderimages').controller('Purchaseorderim
     });
 
     $scope.create = function () {
-        console.log("create method.");
         var Purchaseorderimage = new Purchaseorderimages({
             imagePath: this.imagePath,
             //status: this.selectedStatus
@@ -19,7 +18,6 @@ var app = angular.module('mean.purchaseorderimages').controller('Purchaseorderim
         Purchaseorderimage.$save(function (response) {
             //$state.go('departments');
             $http.get("/Purchaseorderimages/" + Purchaseorderimage.id).then(function (response) {
-                console.log("updated data  -->  " + JSON.stringify(response));
                 $scope.updatedImageOrder = JSON.stringify(response.data);
 
                 $state.go('createPurchaseOrder');
@@ -33,11 +31,9 @@ var app = angular.module('mean.purchaseorderimages').controller('Purchaseorderim
         // this.image = "";
 
         this.imagePath = "";
-        console.log("status  -->  " + this.imagePath);
     };
 
     $scope.remove = function (purchaseorderimage) {
-        console.log("in angular's destroy!!!!");
         var deletePurchaseorderimage = $window.confirm('Are you absolutely sure you want to delete?');
 
         if (deletePurchaseorderimage) {
@@ -83,7 +79,6 @@ var app = angular.module('mean.purchaseorderimages').controller('Purchaseorderim
 
         //get previous data from URL
         $http.get("/purchaseorders/" + purchaseorderimage.id).then(function (response) {
-            console.log("previous data  -->  " + JSON.stringify(response));
             $scope.previousImageOrder = JSON.stringify(response.data);
         });
 
@@ -94,7 +89,6 @@ var app = angular.module('mean.purchaseorderimages').controller('Purchaseorderim
 
             ///get updated data from URL
             $http.get("/purchaseorders/" + purchaseorderimage.id).then(function (response) {
-                console.log("updated data  -->  " + JSON.stringify(response));
                 $scope.updatedImageOrder = JSON.stringify(response.data);
 
 

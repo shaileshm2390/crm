@@ -73,9 +73,6 @@ exports.update = function (req, res) {
 
     // create a new variable to hold the customer that was placed on the req object.
     var customer = req.customer;
-    //console.log("customer request data 1  -->  " + req);
-
-    console.log("imagesString 1  -->  " + JSON.stringify(req.body));
     
     customer.updateAttributes({
         email: req.body.email,
@@ -83,19 +80,19 @@ exports.update = function (req, res) {
         name: req.body.name,
         contact: req.body.contact
     }).then(function (a) {
-        console.log("imagesString  2" + JSON.stringify(req.body));
-        var imageArray = req.body.imagesString.split(",");
-        for (var index = 0; index < imageArray.length; index++) {
-            var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
-            var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
+        if (req.body.imagesString.trim() !== "") {
+            var imageArray = req.body.imagesString.split(",");
+            for (var index = 0; index < imageArray.length; index++) {
+                var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
+                var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
 
-            module.exports.move(oldPath, newPath, function () { });
-            var request = {
-                imagePath: imageArray[index].replace("/temp/", "/uploads/"),
-                CustomerId: customer.id
-            };
-            console.log(request);
-            db.CustomerImage.create(request);
+                module.exports.move(oldPath, newPath, function () { });
+                var request = {
+                    imagePath: imageArray[index].replace("/temp/", "/uploads/"),
+                    CustomerId: customer.id
+                };
+                db.CustomerImage.create(request);
+            }
         }
         return res.jsonp(a);
     }).catch(function (err) {

@@ -23,9 +23,7 @@
                 url: '/rfq/samplesubmissions/' + rfqId,
                 method: "GET"
             }).done(function (response) {
-                //console.log("ajax response to get sample submission by rfqId  -->  " + JSON.stringify(response) + rfqId);
                 if ($.isEmptyObject(response)) {
-                    console.log("response is empty");
                     $.ajax({
                         url: '/samplesubmissions/',
                         method: "POST",
@@ -37,7 +35,6 @@
 
                 }
                 else {
-                    //console.log("response is not empty  " + selectedStatus);
                     $.ajax({
                         url: '/rfq/samplesubmissions/' + rfqId,
                         method: "PUT",

@@ -13,13 +13,11 @@ var app = angular.module('mean.purchaseorders').controller('PurchaseordersContro
     });
 
     $scope.create = function () {
-        console.log("create method.");
         var purchaseorder = new Purchaseorders({
            // image: this.image,
             status: this.selectedStatus,
             RfqId: $stateParams.rfqId
         });
-        console.log("parameter -->  " + $stateParams.rfqId);
         //db.purchaseorder.update(purchaseorder);
         purchaseorder.$save(function (response) {
             //$state.go('departments');
@@ -38,7 +36,6 @@ var app = angular.module('mean.purchaseorders').controller('PurchaseordersContro
         // this.image = "";
         
         this.status = "";
-        console.log("status  -->  " + this.status);
     };
 
     $scope.remove = function (purchaseorder) {
@@ -87,7 +84,6 @@ var app = angular.module('mean.purchaseorders').controller('PurchaseordersContro
 
         //get previous data from URL
         $http.get("/purchaseorders/" + purchaseorder.id).then(function (response) {
-            console.log("previous data  -->  " + JSON.stringify(response));
             $scope.previousOrder = JSON.stringify(response.data);
         });
 
@@ -98,7 +94,6 @@ var app = angular.module('mean.purchaseorders').controller('PurchaseordersContro
 
             ///get updated data from URL
             $http.get("/purchaseorders/" + purchaseorder.id).then(function (response) {
-                console.log("updated data  -->  " + JSON.stringify(response));
                 $scope.updatedOrder = JSON.stringify(response.data);
 
 
@@ -150,21 +145,18 @@ var app = angular.module('mean.purchaseorders').controller('PurchaseordersContro
     };
 
     $scope.deleteImage = function (id) {
-        console.log("in PO-image's angular!!");
         if ($window.confirm("Are you sure to delete this image")) {
             $http.delete('/purchaseorderimages/' + id).then(function (response) {
-                console.log("delete purchase order image response  -->> " + JSON.stringify(response));
                 $scope.previousPOImage = JSON.stringify(response.data);
                 var purchaseOrderID = response.PurchaseOrderId
                 $http.get("/purchaseorders/" + purchaseOrderID).then(function (response) {
-                    console.log("updated data  -->  " + JSON.stringify(response));
 
                     $state.reload();
 
                     var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
 
                     //watchdog calling
-                    commonCtrl.create({ message: "Purchase order " + purchaseOrderID + " is updated.", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: $scope.previousPOImage, updatedData: "" });
+                    commonCtrl.create({ message: "Purchase order image with id " + id + " is deleted.", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: $scope.previousPOImage, updatedData: "" });
                 });
             });
             return false;

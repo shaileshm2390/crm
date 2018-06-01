@@ -28,7 +28,6 @@ var app = angular.module('mean.costsheets').controller('CostSheetsController', [
             .then(function (response) {
                 $scope.costsheets = response.data;
             }, function (error) {
-               // console.log(error, $stateParams.rfqId);
             });
     };
 
@@ -37,7 +36,6 @@ var app = angular.module('mean.costsheets').controller('CostSheetsController', [
             .then(function (response) {
                 $scope.costsheet = response.data;
             }, function (error) {
-                // console.log(error, $stateParams.rfqId);
             });
     };
 

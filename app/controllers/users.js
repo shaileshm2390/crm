@@ -51,7 +51,6 @@ exports.signup = function (req, res) {
  * Logout
  */
 exports.signout = function (req, res) {
-    //console.log('Logout: { id: ' + req.user.id + ', username: ' + req.user.firstName + '}');
     req.logout();
     return res.send({status: 'success', message: 'User logout successfully.'});
 };

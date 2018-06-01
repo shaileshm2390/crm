@@ -7,6 +7,8 @@ var StandardError = require('standard-error');
 var db = require('../../config/sequelize');
 var _ = require('lodash');
 
+const JSON = require('circular-json');
+
 /**
  * Find department by id
  * Note: This is called every time that the parameter :departmentId is used in a URL.
@@ -30,21 +32,6 @@ exports.samplesubmissionimage = function (req, res, next, id) {
  * Create a department
  */
 exports.create = function (req, res) {
-    // augment the department by adding the UserId
-    // save and return and instance of department on the res object.
-    //db.Samplesubmissionimage.create(req.body).then(function (samplesubmissionimage) {
-    //    var sampleFile = req.files;
-    //    var imagePath = { imagePath: "/public/temp/" + sampleFile.file.name };
-    //    sampleFile.file.mv(__dirname + '/../../public/temp/' + sampleFile.file.name, function (err) {
-    //        if (err) {
-    //            console.log(err);
-    //            res.status(500).send(err);
-    //        } else {
-    //            res.send('File uploaded!');
-    //            db.Samplesubmissionimage.create(imagePath);
-    //        }
-    //    });
-    //});
 
     var sampleFile = req.files;
     sampleFile.file.name = Math.floor(Date.now() / 1000) + "-" + sampleFile.file.name;
@@ -54,6 +41,7 @@ exports.create = function (req, res) {
             res.status(500).send(err);
         } else {
             var response = { pathFromRoot: "/temp/" + sampleFile.file.name, success: true };
+
             return res.jsonp(response);
         }
     });
@@ -84,9 +72,7 @@ exports.update = function (req, res) {
  */
 
 exports.destroy = function (req, res) {
-    console.log("in destroy!!!!");
     var samplesubmissionimage = req.samplesubmissionimage;
-    console.log(JSON.stringify(req.samplesubmissionimage));
     var imagePath = (__dirname + samplesubmissionimage.imagePath).replace(/\//g, "\\").replace("app\\controllers", "public");
     var fs = require('fs');
     if (fs.existsSync(imagePath)) {

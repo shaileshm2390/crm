@@ -1,8 +1,13 @@
 ﻿'use strict';
 
-angular.module('mean.rfqcomments').controller('RfqcommentsController', ['$scope', '$stateParams', 'Global', 'Rfqcomments', '$state', '$window', '$http', function ($scope, $stateParams, Global, Rfqcomments, $state, $window, $http) {
+angular.module('mean.rfqcomments').controller('RfqcommentsController', ['$scope', '$stateParams', 'Global', 'Rfqcomments', '$state', '$window', '$http', '$controller', '$rootScope', '$location', function ($scope, $stateParams, Global, Rfqcomments, $state, $window, $http, $controller, $rootScope, $location) {
     $scope.global = Global;
     $scope.userId = $window.user.id;
+
+    var url = "//freegeoip.net/json/";
+    $http.get(url).then(function (response) {
+        $rootScope.ip = response.data.ip;
+    });
 
     $scope.create = function () {
         var rfqcomment = new Rfqcomments({
@@ -12,8 +17,16 @@ angular.module('mean.rfqcomments').controller('RfqcommentsController', ['$scope'
         });
 
         rfqcomment.$save(function (response) {
-            $scope.find();
-        });
+                
+                $scope.NewRfqComments = JSON.stringify(response);
+
+                $scope.find();
+
+                var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
+
+                //watchdog calling
+                commonCtrl.create({ message: "New Rfq Comments is created", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: "", updatedData: $scope.NewRfqComments });
+            });
 
         this.comment = "";
         this.UserId = "";

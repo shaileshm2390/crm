@@ -6,7 +6,7 @@ var app = angular.module('mean.users').controller('UsersController', ['$scope', 
     $scope.pageSize = $window.document.getElementById('hdnPageSize').value;;
     $scope.data = [];
     $scope.searchString = "";
-
+    $scope.loggedInuser = $window.user.id;
     $scope.getData = function () {
         return $filter('filter')($scope.users, $scope.searchString);
     }
@@ -90,7 +90,6 @@ var app = angular.module('mean.users').controller('UsersController', ['$scope', 
             if (user.id > 0) {
                 $http.get("/users/reset/" + user.id)
                     .then(function (response) {
-                        console.log(response);
                        // $scope.message = response.statusText;
                         $scope.message = "Mail sent successfully"
                     }, function (response) {
@@ -122,7 +121,7 @@ var app = angular.module('mean.users').controller('UsersController', ['$scope', 
                 var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
 
                 //watchdog calling
-                commonCtrl.create({ message: "user " + user.id + " is updated.", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: $scope.previousUser, updatedData: $scope.updatedUser });
+                commonCtrl.create({ message: "user " + user.id + " is updated.", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: $scope.loggedInuser, previousData: $scope.previousUser, updatedData: $scope.updatedUser });
             });
         });
     };

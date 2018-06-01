@@ -7,6 +7,13 @@ var StandardError = require('standard-error');
 var db = require('../../config/sequelize');
 var _ = require('lodash');
 const JSON = require('circular-json');
+const request = require('request');
+var ipAddress;
+
+request('http://freegeoip.net/json/', { json: true }, (err, res, body) => {
+    if (err) { return console.log(err); }
+    ipAddress = body.ip;
+});
 
 /**
  * Find department by id
@@ -51,6 +58,16 @@ exports.create = function (req, res) {
                     db.Samplesubmissionimage.create(request);
                 }
             }
+            var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
+
+            db.Watchdog.create({
+                message: "New Sample Subnission is created",
+                ipAddress: ipAddress,
+                pageUrl: fullUrl,
+                userId: req.user.id,
+                previousData: "",
+                updatedData: JSON.stringify(samplesubmission)
+            });
             return res.jsonp(samplesubmission);
         }
     }).catch(function (err) {
@@ -69,28 +86,65 @@ exports.update = function (req, res) {
 
     // create a new variable to hold the department that was placed on the req object.
     var samplesubmission = req.samplesubmissions;
+
+    var previousData;
+    db.Samplesubmission.find({
+        where: { RfqId: samplesubmission.RfqId },
+        include: [
+            { model: db.Rfq },
+            { model: db.Samplesubmissionimage, }
+        ]
+    }).then(function (samplesubmission) {
+        if (!samplesubmission) {
+            req.samplesubmissions = {};
+            return next();
+        } else {
+            req.samplesubmissions = samplesubmission;
+            previousData = { "id": req.samplesubmissions.id, "status": req.samplesubmissions.status, "RfqId": req.samplesubmissions.RfqId, "updatedAt": req.samplesubmissions.updatedAt, "createdAt": req.samplesubmissions.createdAt };
+           // return next();
+        }
+    }).catch(function (err) {
+        return (err);
+    });
+
     samplesubmission.updateAttributes({
         status: req.body.status
     }).then(function (a) {
-        var imageArray = req.body.imagesString.split(",");
-        for (var index = 0; index < imageArray.length; index++) {
-            var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
-            var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
+        if (req.body.imagesString.trim() !== "") {
+            var imageArray = req.body.imagesString.split(",");
+            for (var index = 0; index < imageArray.length; index++) {
+                var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
+                var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
 
-            module.exports.move(oldPath, newPath, function () { });
-            var request = {
-                imagePath: imageArray[index].replace("/temp/", "/uploads/"),
-                SamplesubmissionId: samplesubmission.id
-            };
-            db.Samplesubmissionimage.create(request);
+                module.exports.move(oldPath, newPath, function () { });
+                var request = {
+                    imagePath: imageArray[index].replace("/temp/", "/uploads/"),
+                    SamplesubmissionId: samplesubmission.id
+                };
+                db.Samplesubmissionimage.create(request);
+
+               }
         }
-        return res.jsonp(a);
-    }).catch(function (err) {
-        return res.render('error', {
-            error: err,
-            status: 500
+        var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
+        var updatedData = { "id": samplesubmission.id, "status": samplesubmission.status, "RfqId": samplesubmission.RfqId, "updatedAt": samplesubmission.updatedAt, "createdAt": samplesubmission.createdAt };
+
+        db.Watchdog.create({
+            message: "Sample Submission is updated",
+            ipAddress: ipAddress,
+            pageUrl: fullUrl,
+            userId: req.user.id,
+            previousData: JSON.stringify(previousData),
+            updatedData: JSON.stringify(updatedData)
         });
-    });
+           return res.jsonp(a);
+          
+        }).catch(function (err) {
+            return res.render('error', {
+                error: err,
+                status: 500
+            });
+        });
+
 };
 
 /**
@@ -99,7 +153,6 @@ exports.update = function (req, res) {
 exports.destroy = function (req, res) {
 
     // create a new variable to hold the department that was placed on the req object.
-    console.log(req.samplesubmission.id)
     var samplesubmission = req.samplesubmission;
     db.User.destroy({ where: { SamplesubmissionId: req.samplesubmission.id } }).then(function () {
         samplesubmission.destroy().then(function () {

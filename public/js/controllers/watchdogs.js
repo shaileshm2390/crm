@@ -5,7 +5,6 @@ var app = angular.module('mean.watchdogs').controller('WatchdogsController', ['$
     var self = this;
     //console.log(communicate.communicateValue + " Parent World");
     self.create = function (data) {
-        console.log(data);
         var watchdog = new Watchdogs({
             message: data.message,
             ipAddress: data.ipAddress,

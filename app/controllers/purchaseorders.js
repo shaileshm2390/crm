@@ -6,7 +6,14 @@
 var StandardError = require('standard-error');
 var db = require('../../config/sequelize');
 var _ = require('lodash');
+const JSON = require('circular-json');
+const request = require('request');
+var ipAddress;
 
+request('http://freegeoip.net/json/', { json: true }, (err, res, body) => {
+    if (err) { return console.log(err); }
+    ipAddress = body.ip;
+});
 /**
  * Find department by id
  * Note: This is called every time that the parameter :departmentId is used in a URL.
@@ -51,6 +58,17 @@ exports.create = function (req, res) {
                     db.PurchaseOrderImage.create(request);
                 }
             }
+            var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
+
+            db.Watchdog.create({
+                message: "New Purchase order is created",
+                ipAddress: ipAddress,
+                pageUrl: fullUrl,
+                userId: req.user.id,
+                previousData: "",
+                updatedData: JSON.stringify(purchaseorder)
+            });
+
             return res.jsonp(purchaseorder);
         }
     }).catch(function (err) {
@@ -66,25 +84,56 @@ exports.create = function (req, res) {
  * Update a department
  */
 exports.update = function (req, res) {
-
     // create a new variable to hold the department that was placed on the req object.
 
     var purchaseorder = req.purchaseorders;
+    var previousData;
+    db.PurchaseOrder.find({
+        where: { RfqId: purchaseorder.RfqId },
+        include: [
+            { model: db.Rfq },
+            {model: db.PurchaseOrderImage,}
+        ]
+    }).then(function (purchaseorder) {
+        if (!purchaseorder) {
+            req.purchaseorders = {};
+            return next();
+        } else {
+            req.purchaseorders = purchaseorder;
+            previousData = { "id": req.purchaseorders.id, "status": req.purchaseorders.status, "RfqId": req.purchaseorders.RfqId, "updatedAt": req.purchaseorders.updatedAt, "createdAt": req.purchaseorders.createdAt };
+            //return next();
+        }
+    }).catch(function (err) {
+        return (err);
+    });
     purchaseorder.updateAttributes({
         status: req.body.status
     }).then(function (a) {
-        var imageArray = req.body.imagesString.split(",");
-        for (var index = 0; index < imageArray.length; index++) {
-            var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
-            var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
+        if (req.body.imagesString.trim() !== "") {
+            var imageArray = req.body.imagesString.split(",");
+            for (var index = 0; index < imageArray.length; index++) {
+                var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
+                var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
 
-            module.exports.move(oldPath, newPath, function () { });
-            var request = {
-                imagePath: imageArray[index].replace("/temp/", "/uploads/"),
-                PurchaseOrderId: purchaseorder.id
-            };
-            db.PurchaseOrderImage.create(request);
+                module.exports.move(oldPath, newPath, function () { });
+                var request = {
+                    imagePath: imageArray[index].replace("/temp/", "/uploads/"),
+                    PurchaseOrderId: purchaseorder.id
+                };
+                db.PurchaseOrderImage.create(request);
+            }
         }
+        var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
+        var updatedData = { "id": purchaseorder.id, "status": purchaseorder.status, "RfqId": purchaseorder.RfqId, "updatedAt": purchaseorder.updatedAt, "createdAt": purchaseorder.createdAt };
+
+        db.Watchdog.create({
+            message: "Purchase order is updated",
+            ipAddress: ipAddress,
+            pageUrl: fullUrl,
+            userId: req.user.id,
+            previousData: JSON.stringify(previousData),
+            updatedData: JSON.stringify(updatedData)
+        });
         return res.jsonp(a);
     }).catch(function (err) {
         return res.render('error', {
@@ -100,7 +149,6 @@ exports.update = function (req, res) {
 exports.destroy = function (req, res) {
 
     // create a new variable to hold the department that was placed on the req object.
-    console.log(req.purchaseorder.id)
     var purchaseorder = req.purchaseorder;
     db.User.destroy({ where: { PurchaseorderId: req.purchaseorder.id } }).then(function () {
         purchaseorder.destroy().then(function () {

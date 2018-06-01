@@ -6,11 +6,13 @@
 var StandardError = require('standard-error');
 var db = require('../../config/sequelize');
 var _ = require('lodash');
+//const JSON = require('circular-json');
 
 /**
  * Create a department
  */
 exports.create = function (req, res) {
+    console.log("in node's rfq comment");
     db.Rfqcomment.create(req.body).then(function (rfqcomment) {
         return res.jsonp(rfqcomment);
     }).catch(function (err) {

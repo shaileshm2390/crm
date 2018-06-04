@@ -1,10 +1,8 @@
 <section>
     <div class="navbar-inner" data-ng-controller="HeaderController">
-
         <div ng-include="'views/users/signin.html'"></div>
-
-        <div data-ng-show="global.authenticated">
-            <h1>Dashboard</h1>
-        </div>
+        <div ng-include="'views/dashboard.html'"></div>
     </div>
 </section>
+
+

@@ -1,29 +1,33 @@
 <div data-ng-show="!global.authenticated">
-    <h1>Login</h1>
-    <div class="col-6">
-        <div ng-controller="signIn">
-            <div ng-show="errorMessage.length" class="alert alert-danger">{{errorMessage}}</div>
-            <div ng-show="successMessage.length" class="alert alert-success">{{successMessage}}</div>
-            <form ng-submit="signIn(user)" class="signin form-horizontal" name="signInForm">
-                <div class="control-group">
-                    <label for="email" class="control-label"><strong>Email</strong></label>
-                    <div class="controls">
-                        <input id="email" type="text" class="form-control txtEmail" name="email" placeholder="Email" ng-model="user.email">
-                        <span class="errorEmail" style="color:red;"></span>
+    <div class="col-12">
+        <div ng-controller="signIn" class="card" align="center">
+            <h1 align="center">Login</h1>
+            <hr />
+            <div class="login-form col-5" style="text-align:left;">
+                <div ng-show="errorMessage.length" class="alert alert-danger">{{errorMessage}}</div>
+                <div ng-show="successMessage.length" class="alert alert-success">{{successMessage}}</div>
+                <form ng-submit="signIn(user)" class="signin form-horizontal " name="signInForm">
+                    <div class="control-group">
+                        <label for="email" class="control-label"><strong>Email</strong></label>
+                        <div class="controls">
+                            <input id="email" type="text" class="form-control txtEmail" name="email" placeholder="Email" ng-model="user.email">
+                            <span class="errorEmail" style="color:red;"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="control-group">
-                    <label for="password" class="control-label"><strong>Password</strong></label>
-                    <div class="controls">
-                        <input id="password" type="password" name="password" placeholder="Password" class="form-control txtPassword" ng-model="user.password">
-                        <span class="errorPassword" style="color:red;"></span>
+                    <div class="control-group">
+                        <label for="password" class="control-label"><strong>Password</strong></label>
+                        <div class="controls">
+                            <input id="password" type="password" name="password" placeholder="Password" class="form-control txtPassword" ng-model="user.password">
+                            <span class="errorPassword" style="color:red;"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="clear"></div><br />
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary btnSignIn">Sign in</button>
-                </div>
-            </form>
+                    <div class="clear"></div><br />
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btnSignIn">Sign in</button>
+                    </div>
+                </form>
+            </div>
+            <hr />
         </div>
     </div>
 </div>

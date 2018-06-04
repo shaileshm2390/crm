@@ -2,67 +2,63 @@
 $( function () {
 	"use strict";
 
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
 
 	// Extra chart
 	Morris.Area( {
 		element: 'extra-area-chart',
 		data: [ {
-				period: '2001',
-				iphone: 0,
-				imac: 0,
-				ibook: 90,
-				samsung: 0,
-				android: 0
+				period: '2017-12',
+				open: 0,
+				pending: 0,
+				completed: 90
         }, {
-				period: '2002',
-				iphone: 10,
-				imac: 60,
-				ibook: 40,
-				samsung: 80,
-				android: 120
+                period: '2018-1',
+                open: 10,
+                pending: 60,
+                completed: 40
         }, {
-				period: '2003',
-				iphone: 120,
-				imac: 10,
-				ibook: 90,
-				samsung: 30,
-				android: 50
+                period: '2018-2',				
+                open: 90,
+                pending: 30,
+                completed: 50
         }, {
-				period: '2004',
-				iphone: 0,
-				imac: 0,
-				ibook: 120,
-				samsung: 0,
-				android: 0
+                period: '2018-3',
+                open: 120,
+                pending: 0,
+                completed: 0
         }, {
-				period: '2005',
-				iphone: 0,
-				imac: 0,
-				ibook: 0,
-				samsung: 150,
-				android: 0
+                period: '2018-4',
+                open: 0,
+                pending: 150,
+                completed: 0
         }, {
-				period: '2006',
-				iphone: 160,
-				imac: 75,
-				ibook: 30,
-				samsung: 60,
-				android: 90
+                period: '2018-5',
+                open: 30,
+                pending: 60,
+                completed: 90
         }, {
-				period: '2007',
-				iphone: 10,
-				imac: 120,
-				ibook: 40,
-				samsung: 60,
-				android: 30
+                period: '2018-6',
+                open: 40,
+                pending: 60,
+                completed: 30
         }
 
 
         ],
-		lineColors: [ '#26DAD2', '#fc6180', '#62d1f3', '#ffb64d', '#4680ff' ],
+        lineColors: ['#fc6180', '#ffb64d', '#26dad2' ],
 		xkey: 'period',
-		ykeys: [ 'iphone', 'imac', 'ibook', 'samsung', 'android' ],
-		labels: [ 'iphone', 'imac', 'ibook', 'samsung', 'android' ],
+		ykeys: [ 'open', 'pending', 'completed' ],
+        labels: ['Open', 'Pending', 'Completed'],
+        xLabelFormat: function (x) { // <--- x.getMonth() returns valid index
+            var month = months[x.getMonth()];
+            return month;
+        },
+        dateFormat: function (x) {
+            var month = months[new Date(x).getMonth()];
+            return month;
+        },
 		pointSize: 0,
 		lineWidth: 0,
 		resize: true,

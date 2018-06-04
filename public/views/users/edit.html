@@ -4,26 +4,30 @@
         <div class="control-group">
             <label for="name" class="control-label">First name</label>
             <div class="controls">
-                <input id="firstName" type="text" name="firstName" class="form-control" placeholder="First name" data-ng-model="user.firstName" required>
+                <input id="firstName" type="text" name="firstName" class="form-control txtFName" placeholder="First name" data-ng-model="user.firstName">
             </div>
+            <span class="errorFName" style="color:red;"></span>
         </div>
         <div class="control-group">
             <label for="name" class="control-label">Last name</label>
             <div class="controls">
-                <input id="lastName" type="text" name="lastName" class="form-control" placeholder="Last name" data-ng-model="user.lastName" required>
+                <input id="lastName" type="text" name="lastName" class="form-control txtLName" placeholder="Last name" data-ng-model="user.lastName">
             </div>
+            <span class="errorLName" style="color:red;"></span>
         </div>
         <div class="control-group">
             <label for="email" class="control-label">Email</label>
             <div class="controls">
-                <input id="email" type="email" class="form-control" name="email" placeholder="Email" data-ng-model="user.email" required>
+                <input id="email" type="email" class="form-control txtEmail" name="email" placeholder="Email" data-ng-model="user.email">
             </div>
+            <span class="errorEmail" style="color:red;"></span>
         </div>
         <div class="control-group">
             <label for="email" class="control-label">Contact</label>
             <div class="controls">
-                <input id="contact" type="text" class="form-control" name="contact" placeholder="Contact" data-ng-model="user.contact" required>
+                <input id="contact" type="text" class="form-control txtContact" name="contact" placeholder="Contact" data-ng-model="user.contact">
             </div>
+            <span class="errorContact" style="color:red;"></span>
         </div>
 
 
@@ -33,11 +37,12 @@
             <label for="department" class="control-label">Department</label>
             <div class="controls">
                 <div ng-controller="DepartmentsController" ng-init="find()">
-                    <select class="form-control ddlDepartment" required name="DepartmentId" data-ng-model="user.DepartmentId">
+                    <select class="form-control ddlDepartment txtDepartment" name="DepartmentId" data-ng-model="user.DepartmentId">
                         <option value="">Select Department </option>
                         <option ng-repeat="department in departments" data-ng-if="department.status!='0'" value="{{department.id}}">{{department.name}}</option>
                     </select>
                 </div>
+                <span class="errorDepartment" style="color:red;"></span>
             </div>
         </div>
 
@@ -59,6 +64,8 @@
         </div>
     </form>
 </section>
+
+<script src="/js/validation/user.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {

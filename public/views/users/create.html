@@ -4,35 +4,35 @@
         <div class="control-group">
             <label for="name" class="control-label">First name</label>
             <div class="controls">
-                <input id="firstName" type="text" name="firstName" class="form-control txtFName" placeholder="First name" ng-model="user.firstName" required>
+                <input id="firstName" type="text" name="firstName" class="form-control txtFName" placeholder="First name" ng-model="user.firstName">
             </div>
             <span class="errorFName" style="color:red;"></span>
         </div>
         <div class="control-group">
             <label for="name" class="control-label">Last name</label>
             <div class="controls">
-                <input id="lastName" type="text" name="lastName" class="form-control txtLName" placeholder="Last name" ng-model="user.lastName" required>
+                <input id="lastName" type="text" name="lastName" class="form-control txtLName" placeholder="Last name" ng-model="user.lastName">
             </div>
             <span class="errorLName" style="color:red;"></span>
         </div>
         <div class="control-group">
             <label for="email" class="control-label">Email</label>
             <div class="controls">
-                <input id="email" type="email" class="form-control txtEmail" name="email" placeholder="Email" ng-model="user.email" required>
+                <input id="email" type="email" class="form-control txtEmail" name="email" placeholder="Email" ng-model="user.email">
             </div>
             <span class="errorEmail" style="color:red;"></span>
         </div>
         <div class="control-group">
             <label for="email" class="control-label">Contact</label>
             <div class="controls">
-                <input id="contact" type="text" class="form-control txtContact" name="contact" placeholder="Contact" ng-model="user.contact" required>
+                <input id="contact" type="text" class="form-control txtContact" name="contact" placeholder="Contact" ng-model="user.contact">
             </div>
             <span class="errorContact" style="color:red;"></span>
         </div>
         <div class="control-group">
             <label for="password" class="control-label">Password</label>
             <div class="controls">
-                <input id="password" type="password" class="form-control txtPassword" name="password" placeholder="Password" ng-model="user.password" required>
+                <input id="password" type="password" class="form-control txtPassword" name="password" placeholder="Password" ng-model="user.password">
             </div>
             <span class="errorPassword" style="color:red;"></span>
         </div>
@@ -41,7 +41,7 @@
             <label for="department" class="control-label">Department</label>
             <div class="controls">
                 <div ng-controller="DepartmentsController" ng-init="find()">
-                    <select class="form-control txtDepartment" ng-model="user.DepartmentId" required>
+                    <select class="form-control txtDepartment" ng-model="user.DepartmentId">
                         <option value="" selected>Select Department </option>
                         <option ng-repeat="department in departments"  data-ng-if="department.status!='0'" value="{{department.id}}">{{department.name}}</option>
                     </select>

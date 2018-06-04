@@ -5,8 +5,9 @@
 			<label class="control-label" for="email">Email</label>
 
 			<div class="controls">
-				<input type="email" data-ng-model="customer.email" id="title" placeholder="Email" class="form-control col-sm-6" required />			
+				<input type="email" data-ng-model="customer.email" id="title" placeholder="Email" class="form-control col-sm-6 txtEmail"  />			
 			</div>
+            <span class="errorEmail" style="color:red;"></span>
 		</div>
         <br />
 
@@ -14,8 +15,9 @@
             <label class="control-label" for="company">Company</label>
 
             <div class="controls">
-                <input type="text" data-ng-model="customer.company" id="company" placeholder="Company" class="form-control col-sm-6" required />
+                <input type="text" data-ng-model="customer.company" id="company" placeholder="Company" class="form-control col-sm-6 txtCompany"  />
             </div>
+            <span class="errorCompany" style="color:red;"></span>
         </div>
         <br />
 
@@ -23,8 +25,9 @@
             <label class="control-label" for="name">Name</label>
 
             <div class="controls">
-                <input type="text" data-ng-model="customer.name" id="title" placeholder="Name" class="form-control col-sm-6" required />
+                <input type="text" data-ng-model="customer.name" id="title" placeholder="Name" class="form-control col-sm-6 txtName"  />
             </div>
+            <span class="errorName" style="color:red;"></span>
         </div>
         <br />
 
@@ -32,8 +35,9 @@
             <label class="control-label" for="contact">Contact Number</label>
 
             <div class="controls">
-                <input type="text" data-ng-model="customer.contact" id="contact" placeholder="Contact" class="form-control col-sm-6" required />
+                <input type="text" data-ng-model="customer.contact" id="contact" placeholder="Contact" class="form-control col-sm-6 txtContact"  />
             </div>
+            <span class="errorContact" style="color:red;"></span>
         </div>
 
         <br /><br />
@@ -71,6 +75,7 @@
 </form>
 </section>
 
+<script src="/js/validation/customer.js"></script>
 <script type="text/javascript">
 
     $(document).ready(function () {

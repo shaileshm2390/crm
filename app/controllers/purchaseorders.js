@@ -103,9 +103,7 @@ exports.update = function (req, res) {
             previousData = { "id": req.purchaseorders.id, "status": req.purchaseorders.status, "RfqId": req.purchaseorders.RfqId, "updatedAt": req.purchaseorders.updatedAt, "createdAt": req.purchaseorders.createdAt };
             //return next();
         }
-    }).catch(function (err) {
-        return (err);
-    });
+    
     purchaseorder.updateAttributes({
         status: req.body.status
     }).then(function (a) {
@@ -135,6 +133,9 @@ exports.update = function (req, res) {
             updatedData: JSON.stringify(updatedData)
         });
         return res.jsonp(a);
+    }).catch(function (err) {
+        return (err);
+    });
     }).catch(function (err) {
         return res.render('error', {
             error: err,

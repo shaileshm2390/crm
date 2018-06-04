@@ -103,9 +103,7 @@ exports.update = function (req, res) {
             previousData = { "id": req.samplesubmissions.id, "status": req.samplesubmissions.status, "RfqId": req.samplesubmissions.RfqId, "updatedAt": req.samplesubmissions.updatedAt, "createdAt": req.samplesubmissions.createdAt };
            // return next();
         }
-    }).catch(function (err) {
-        return (err);
-    });
+    
 
     samplesubmission.updateAttributes({
         status: req.body.status
@@ -137,7 +135,9 @@ exports.update = function (req, res) {
             updatedData: JSON.stringify(updatedData)
         });
            return res.jsonp(a);
-          
+    }).catch(function (err) {
+        return (err);
+    });
         }).catch(function (err) {
             return res.render('error', {
                 error: err,

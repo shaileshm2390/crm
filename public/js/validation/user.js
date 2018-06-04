@@ -52,7 +52,7 @@ $(document).ready(function () {
             $(".errorContact").html("Enter contact number please");
             flagContact = false;
 
-        } else if ($.trim($(".txtContact").val()).length < 10) {
+        } else if ($.trim($(".txtContact").val()).length != 10) {
             $(".errorContact").html("Contact number should be of length 10.");
             flagContact = false;
         }
@@ -66,7 +66,7 @@ $(document).ready(function () {
             $(".errorPassword").html("Enter password please");
             flagPassword = false;
 
-        } else if ($.trim($(".txtPassword").val()).length < 8) {
+        } else if ($.trim($(".txtPassword").val()).length != 8) {
             $(".errorPassword").html("Pawword should be 8 digit in length.");
             flagPassword = false;
         }
@@ -92,7 +92,7 @@ $(document).ready(function () {
     //First Name
     $(".txtFName").on("focusout", function () {
         if ($.trim($(".txtFName").val()).length == 0) {
-            $(".errorFName").html("Enter first name please").show();
+            $(".errorFName").html("Enter first name please.").show();
             flagFName = false;
         }
         else {
@@ -101,15 +101,29 @@ $(document).ready(function () {
         }
     });
 
+    $(".txtFName").on("keyup", function () {
+        $(".errorFName").html("");
+        if ($.trim($(".txtFName").val()).length == 0) {
+            $(".errorFName").html("Enter first name please").show();
+        }
+    });
+
     //Last Name
     $(".txtLName").on("focusout", function () {
         if ($.trim($(".txtLName").val()).length == 0) {
-            $(".errorLName").html("Enter last name please").show();
+            $(".errorLName").html("Enter last name please.").show();
             flagLName = false;
         }
         else {
             flagLName = true;
             $(".errorLName").html("").hide();
+        }
+    });
+
+    $(".txtLName").on("keyup", function () {
+        $(".errorLName").html("");
+        if ($.trim($(".txtLName").val()).length == 0) {
+            $(".errorLName").html("Enter last name please.").show();
         }
     });
 
@@ -130,13 +144,24 @@ $(document).ready(function () {
         }
     });
 
+    $(".txtEmail").on("keyup", function () {
+        $(".errorEmail").html("");
+        if ($.trim($(".txtEmail").val()).length == 0) {
+            $(".errorEmail").html("Enter email please.").show();
+        }
+        else if (!ValidateEmail($(".txtEmail").val())) {
+            $(".errorEmail").html("Invalid email.please enter valid email id.");
+            //flagEmail = false;
+        }
+    });
+
     //Contact
     $(".txtContact").on("focusout", function () {
         if ($.trim($(".txtContact").val()).length == 0) {
-            $(".errorContact").html("Enter contact number please").show();
+            $(".errorContact").html("Enter contact number please.").show();
             flagContact = false;
         }
-        else if ($.trim($(".txtContact").val()).length < 10) {
+        else if ($.trim($(".txtContact").val()).length != 10) {
             $(".errorContact").html("Enter contact number of length 10 please").show();
             flagContact = false;
         }
@@ -146,13 +171,24 @@ $(document).ready(function () {
         }
     });
 
+    $(".txtContact").on("keyup", function () {
+        $(".errorContact").html("");
+        if ($.trim($(".txtContact").val()).length == 0) {
+            $(".errorContact").html("Enter contact number please.").show();
+        }
+        else if ($.trim($(".txtContact").val()).length != 10) {
+            $(".errorContact").html("Enter contact number of length 10 please").show();
+            //flagContact = false;
+        }
+    });
+
     //Password
     $(".txtPassword").on("focusout", function () {
         if ($.trim($(".txtPassword").val()).length == 0) {
-            $(".errorPassword").html("Enter password please").show();
+            $(".errorPassword").html("Enter password please.").show();
             flagPassword = false;
         }
-        else if ($.trim($(".txtPassword").val()).length < 8) {
+        else if ($.trim($(".txtPassword").val()).length != 8) {
             $(".errorPassword").html("Enter contact number of length 8 please").show();
             flagPassword = false;
         }
@@ -162,15 +198,33 @@ $(document).ready(function () {
         }
     });
 
+    $(".txtPassword").on("keyup", function () {
+        $(".errorPassword").html("");
+        if ($.trim($(".txtPassword").val()).length == 0) {
+            $(".errorPassword").html("Enter password please.").show();
+        }
+        else if ($.trim($(".txtPassword").val()).length != 8) {
+            $(".errorPassword").html("Enter contact number of length 8 please").show();
+            //flagPassword = false;
+        }
+    });
+
     //Department
     $(".txtDepartment").on("focusout", function () {
         if ($.trim($(".txtDepartment").val()).length == 0) {
-            $(".errorDepartment").html("Select department please").show();
+            $(".errorDepartment").html("Select department please.").show();
             flagDepartment = false;
         }
         else {
             flagDepartment = true;
             $(".errorDepartment").html("").hide();
+        }
+    });
+
+    $(".txtDepartment").on("change", function () {
+        $(".errorDepartment").html("");
+        if ($.trim($(".txtDepartment").val()).length == 0) {
+            $(".errorDepartment").html("Select department please.").show();
         }
     });
 });

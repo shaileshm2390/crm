@@ -8,8 +8,9 @@
             <label class="control-label" for="email">Email</label>
 
             <div class="controls">
-                <input type="email" ng-model="buyer.email" id="title" placeholder="Email" class="form-control col-sm-6" required />
+                <input type="email" ng-model="buyer.email" id="title" placeholder="Email" class="form-control col-sm-6 txtEmail" />
             </div>
+            <span class="errorEmail" style="color:red;"></span>
         </div>
         <br />
 
@@ -17,8 +18,9 @@
             <label class="control-label" for="name">Name</label>
 
             <div class="controls">
-                <input type="text" ng-model="buyer.name" id="title" placeholder="Name" class="form-control col-sm-6" required />
+                <input type="text" ng-model="buyer.name" id="title" placeholder="Name" class="form-control col-sm-6 txtName" />
             </div>
+            <span class="errorName" style="color:red;"></span>
         </div>
         <br />
 
@@ -26,8 +28,9 @@
             <label class="control-label" for="contact">Contact Number</label>
 
             <div class="controls">
-                <input type="text" ng-model="buyer.contact" id="contact" placeholder="Contact" class="form-control col-sm-6" required />
+                <input type="text" ng-model="buyer.contact" id="contact" placeholder="Contact" class="form-control col-sm-6 txtContact" />
             </div>
+            <span class="errorContact" style="color:red;"></span>
         </div>
         <br />
 
@@ -50,6 +53,7 @@
     </form>
 </section>
 
+<script src="/js/validation/buyer.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         var imagesArray = [];

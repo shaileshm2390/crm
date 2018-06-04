@@ -2,15 +2,16 @@
     var expr = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     return expr.test(email);
 };
+
 $(document).ready(function () {
-    $(".btn-Save").on('click', function () {
+    $(".btnSave").on('click', function () {
+
         var flagEmail = false;
-        var flagCompany = false;
         var flagName = false;
         var flagContact = false;
 
         //Email
-        if ($.trim($(".txtEmail").val()).length == 0 ) {
+        if ($.trim($(".txtEmail").val()).length == 0) {
             $(".errorEmail").html("Enter email please");
             flagEmail = false;
         }
@@ -18,20 +19,9 @@ $(document).ready(function () {
             $(".errorEmail").html("Invalid email.please enter valid email id.");
             flagEmail = false;
         }
-        else
-        {
+        else {
             flagEmail = true;
             $(".errorEmail").html("").hide();
-        }
-
-        //Company
-        if ($.trim($(".txtCompany").val()).length == 0) {
-            $(".errorCompany").html("Enter company name please");
-            flagCompany = false;
-        }
-        else {
-            flagCompany = true;
-            $(".errorCompany").html("").hide();
         }
 
         //Name
@@ -48,8 +38,8 @@ $(document).ready(function () {
         if ($.trim($(".txtContact").val()).length == 0) {
             $(".errorContact").html("Enter contact number please");
             flagContact = false;
-        }
-        else if ($.trim($(".txtContact").val()).length != 10) {
+
+        } else if ($.trim($(".txtContact").val()).length != 10) {
             $(".errorContact").html("Contact number should be of length 10.");
             flagContact = false;
         }
@@ -58,12 +48,13 @@ $(document).ready(function () {
             $(".errorContact").html("").hide();
         }
 
-        return flagEmail && flagCompany && flagName && flagContact;
+        return flagEmail && flagName && flagContact;
+
     });
 
-//Email
+    //Email
     $(".txtEmail").on("focusout", function () {
-    
+
         if ($.trim($(".txtEmail").val()).length == 0) {
             $(".errorEmail").html("Enter email please").show();
             flagEmail = false;
@@ -78,20 +69,21 @@ $(document).ready(function () {
         }
     });
 
-    $(".txtCompany").on("focusout", function () {
-        if ($.trim($(".txtCompany").val()).length == 0) {
-            $(".errorCompany").html("Enter company name please").show();
-            flagCompany = false;
+    $(".txtEmail").on("keyup", function () {
+        $(".errorEmail").html("");
+        if ($.trim($(".txtEmail").val()).length == 0) {
+            $(".errorEmail").html("Enter email please.").show();
         }
-        else {
-            flagCompany = true;
-            $(".errorCompany").html("").hide();
+        else if (!ValidateEmail($(".txtEmail").val())) {
+            $(".errorEmail").html("Invalid email.please enter valid email id.");
+           // flagEmail = false;
         }
     });
 
+    //Name
     $(".txtName").on("focusout", function () {
         if ($.trim($(".txtName").val()).length == 0) {
-            $(".errorName").html("Enter name please").show();
+            $(".errorName").html("Enter name please.").show();
             flagName = false;
         }
         else {
@@ -100,13 +92,22 @@ $(document).ready(function () {
         }
     });
 
+    $(".txtName").on("keyup", function () {
+        $(".errorName").html("");
+        if ($.trim($(".txtName").val()).length == 0) {
+            $(".errorName").html("Enter name please.").show();
+        }
+    });
+
+
+    //Contact
     $(".txtContact").on("focusout", function () {
         if ($.trim($(".txtContact").val()).length == 0) {
-            $(".errorContact").html("Enter contact number please").show();
+            $(".errorContact").html("Enter contact number please.").show();
             flagContact = false;
         }
         else if ($.trim($(".txtContact").val()).length != 10) {
-            $(".errorContact").html("Contact number should be of length 10.");
+            $(".errorContact").html("Enter contact number of length 10 please").show();
             flagContact = false;
         }
         else {
@@ -114,43 +115,16 @@ $(document).ready(function () {
             $(".errorContact").html("").hide();
         }
     });
-    //Name
-    $(".txtName").on("keyup", function () {
-        $(".errorName").html("");
-        if ($.trim($(".txtName").val()).length == 0) {
-            $(".errorName").html("Enter name please").show();
-        }
-    });
 
-    //email
-    $(".txtEmail").on("keyup", function () {
-        $(".errorEmail").html("");
-        if ($.trim($(".txtEmail").val()).length == 0) {
-            $(".errorEmail").html("Enter email please").show();
-        }
-        else if (!ValidateEmail($(".txtEmail").val())) {
-            $(".errorEmail").html("Invalid email.please enter valid email id.");
-            //flagEmail = false;
-        }
-    });
-
-    //company
-    $(".txtCompany").on("keyup", function () {
-        $(".errorCompany").html("");
-        if ($.trim($(".txtCompany").val()).length == 0) {
-            $(".errorCompany").html("Enter company name please").show();
-        }
-    });
-
-    //contact
     $(".txtContact").on("keyup", function () {
         $(".errorContact").html("");
         if ($.trim($(".txtContact").val()).length == 0) {
-            $(".errorContact").html("Enter contact number please").show();
+            $(".errorContact").html("Enter contact number please.").show();
         }
         else if ($.trim($(".txtContact").val()).length != 10) {
             $(".errorContact").html("Enter contact number of length 10 please").show();
            // flagContact = false;
         }
     });
+ 
 });

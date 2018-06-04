@@ -1,26 +1,73 @@
-
-<!--<span ng-include="'../views/users/auth.html'"></span>-->
-<h1>Login</h1>
-<div class="col-6">
-    <div ng-controller="signIn">
-        <form ng-submit="signIn(user)" class="signin form-horizontal" name="signInForm">
-            <div class="control-group">
-                <label for="email" class="control-label">Email</label>
-                <div class="controls">
-                    <input id="email" type="text" class="form-control" name="email" placeholder="Email" ng-model="user.email" required>
+<div data-ng-show="!global.authenticated">
+    <h1>Login</h1>
+    <div class="col-6">
+        <div ng-controller="signIn">
+            <div ng-show="errorMessage.length" class="alert alert-danger">{{errorMessage}}</div>
+            <div ng-show="successMessage.length" class="alert alert-success">{{successMessage}}</div>
+            <form ng-submit="signIn(user)" class="signin form-horizontal" name="signInForm">
+                <div class="control-group">
+                    <label for="email" class="control-label"><strong>Email</strong></label>
+                    <div class="controls">
+                        <input id="email" type="text" class="form-control txtEmail" name="email" placeholder="Email" ng-model="user.email">
+                        <span class="errorEmail" style="color:red;"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="control-group">
-                <label for="password" class="control-label">Password</label>
-                <div class="controls">
-                    <input id="password" type="password" name="password" placeholder="Password" class="form-control" ng-model="user.password" required>
+                <div class="control-group">
+                    <label for="password" class="control-label"><strong>Password</strong></label>
+                    <div class="controls">
+                        <input id="password" type="password" name="password" placeholder="Password" class="form-control txtPassword" ng-model="user.password">
+                        <span class="errorPassword" style="color:red;"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="clear"></div><br />
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Sign in&nbsp;</button>
-            </div>
-        </form>
+                <div class="clear"></div><br />
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary btnSignIn">Sign in</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var validateEmail = function (email) {
+            var expr = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+            return expr.test(email);
+        },
+            validateFields = function () {
+                var flagEmail = false,
+                    flagPassword = false;
+                if (!$.trim($(".txtEmail").val()).length) {
+                    $(".errorEmail").html("please enter email");
+                    flagEmail = false;
+                }
+                else if (!validateEmail($(".txtEmail").val())) {
+                    $(".errorEmail").html("please enter valid email id.");
+                    flagEmail = false;
+                }
+                else {
+                    flagEmail = true;
+                    $(".errorEmail").html("");
+                }
+                //Password
+                if (!$.trim($(".txtPassword").val()).length) {
+                    $(".errorPassword").html("please enter password");
+                    flagPassword = false;
+                }
+                else {
+                    flagPassword = true;
+                    $(".errorPassword").html("");
+                }
+                return flagEmail && flagPassword;
+            };
+
+        $(".btnSignIn").on('click', function () {
+            return validateFields();
+        });
+
+        $(".txtEmail, .txtPassword").on('keyup', function () {
+            validateFields();
+        });
+    });
+</script>

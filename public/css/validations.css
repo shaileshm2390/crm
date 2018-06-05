@@ -1,0 +1,36 @@
+﻿* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Open Sans";
+  font-size: 14px;
+}
+
+.container {
+  width: 500px;
+  margin: 25px auto;
+}
+
+form .error {
+  color: #ff0000;
+}
+
+.img_wrp {
+  display: inline-block;
+  position: relative;
+}
+.close {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.fa-close {
+  background: transparent;
+  border-radius: 5%;
+  height: 5em;
+  width: 1em;
+  color:red;
+}

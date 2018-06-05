@@ -4,7 +4,7 @@
 };
 
 $(document).ready(function () {
-    $(".btnSave").on('click', function () {
+    $(".btn-Save").on('click', function () {
 
         var flagEmail = false;
         var flagName = false;

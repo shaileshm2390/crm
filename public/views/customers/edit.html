@@ -1,11 +1,11 @@
 <h1>Edit Customer</h1>
 <section data-ng-init="findOne()" class="card">
-	<form class="form-horizontal" data-ng-submit="update()">
+	<form class="form-horizontal myForm" data-ng-submit="update()">
 		<div class="control-group">
 			<label class="control-label" for="email">Email</label>
 
 			<div class="controls">
-				<input type="email" data-ng-model="customer.email" id="title" placeholder="Email" class="form-control col-sm-6 txtEmail"  />			
+				<input type="email" data-ng-model="customer.email" id="email" name="email" placeholder="Email" class="form-control col-sm-6 txtEmail"  />			
 			</div>
             <span class="errorEmail" style="color:red;"></span>
 		</div>
@@ -15,7 +15,7 @@
             <label class="control-label" for="company">Company</label>
 
             <div class="controls">
-                <input type="text" data-ng-model="customer.company" id="company" placeholder="Company" class="form-control col-sm-6 txtCompany"  />
+                <input type="text" data-ng-model="customer.company" id="company" name="company" placeholder="Company" class="form-control col-sm-6 txtCompany"  />
             </div>
             <span class="errorCompany" style="color:red;"></span>
         </div>
@@ -25,7 +25,7 @@
             <label class="control-label" for="name">Name</label>
 
             <div class="controls">
-                <input type="text" data-ng-model="customer.name" id="title" placeholder="Name" class="form-control col-sm-6 txtName"  />
+                <input type="text" data-ng-model="customer.name" id="name" name="name" placeholder="Name" class="form-control col-sm-6 txtName"  />
             </div>
             <span class="errorName" style="color:red;"></span>
         </div>
@@ -35,7 +35,7 @@
             <label class="control-label" for="contact">Contact Number</label>
 
             <div class="controls">
-                <input type="text" data-ng-model="customer.contact" id="contact" placeholder="Contact" class="form-control col-sm-6 txtContact"  />
+                <input type="text" data-ng-model="customer.contact" id="contact" name="contact" placeholder="Contact" class="form-control col-sm-6 txtContact"  />
             </div>
             <span class="errorContact" style="color:red;"></span>
         </div>
@@ -75,7 +75,11 @@
 </form>
 </section>
 
-<script src="/js/validation/customer.js"></script>
+<!--<script src="/js/validation/customer.js"></script>-->
+<script src="/js/lib/form-validation/jquery.validate.min.js"></script>
+<script src="/js/validation/validations.js"></script>
+<link href="/css/validations.css" rel="stylesheet" />
+
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -114,28 +118,6 @@
                 }
             });
         }, 500);
-
-        
-
     });
 </script>
 
-<style>
-    .img_wrp {
-  display: inline-block;
-  position: relative;
-}
-.close {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-.fa-close {
-  background: transparent;
-  border-radius: 5%;
-  height: 5em;
-  width: 1em;
-  color:red;
-}
-</style>

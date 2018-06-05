@@ -7,6 +7,8 @@ var StandardError = require('standard-error');
 var db = require('../../config/sequelize');
 var _ = require('lodash');
 var fs = require('fs');
+
+const JSON = require('circular-json');
 /**
  * Create a department
  */
@@ -80,11 +82,14 @@ exports.buyerEdit = function (req, res, next, id) {
             { model: db.BuyerImage }
         ]
     }).then(function (buyer) {
+       
+
         if (!buyer) {
             req.buyer = {};
             return next();
         } else {
             req.buyer = buyer;
+
             return next();
         }
     }).catch(function (err) {
@@ -108,10 +113,10 @@ exports.buyerById = function (req, res) {
 exports.update = function (req, res) {
     // create a new variable to hold the department that was placed on the req object.
     var buyer = req.buyer;
-
+   
     buyer.updateAttributes({
         name: req.body.name,
-        emai: req.body.email,
+        email: req.body.email,
         contact: req.body.contact
     }).then(function (a) {
         if (req.body.imagesString.trim() !== "") {
@@ -130,7 +135,7 @@ exports.update = function (req, res) {
         }
         return res.jsonp(a);
         }).catch(function (err) {
-            console.log(err);
+            console.log("buyer edit error" + err);
         //return res.render('error', {
         //    error: err,
         //    status: 500

@@ -1,17 +1,17 @@
 <h1>Edit User</h1>
 <section data-ng-init="findOne()" class="card">
-    <form class="form-horizontal col-lg-6" data-ng-submit="update()">
+    <form class="form-horizontal col-lg-6 myForm" data-ng-submit="update()">
         <div class="control-group">
-            <label for="name" class="control-label">First name</label>
+            <label for="firstname" class="control-label">First name</label>
             <div class="controls">
-                <input id="firstName" type="text" name="firstName" class="form-control txtFName" placeholder="First name" data-ng-model="user.firstName">
+                <input id="firstName" type="text" name="firstname" class="form-control txtFName" placeholder="First name" data-ng-model="user.firstName">
             </div>
             <span class="errorFName" style="color:red;"></span>
         </div>
         <div class="control-group">
-            <label for="name" class="control-label">Last name</label>
+            <label for="lastname" class="control-label">Last name</label>
             <div class="controls">
-                <input id="lastName" type="text" name="lastName" class="form-control txtLName" placeholder="Last name" data-ng-model="user.lastName">
+                <input id="lastname" type="text" name="lastname" class="form-control txtLName" placeholder="Last name" data-ng-model="user.lastName">
             </div>
             <span class="errorLName" style="color:red;"></span>
         </div>
@@ -23,7 +23,7 @@
             <span class="errorEmail" style="color:red;"></span>
         </div>
         <div class="control-group">
-            <label for="email" class="control-label">Contact</label>
+            <label for="contact" class="control-label">Contact</label>
             <div class="controls">
                 <input id="contact" type="text" class="form-control txtContact" name="contact" placeholder="Contact" data-ng-model="user.contact">
             </div>
@@ -34,10 +34,10 @@
         <input type="hidden" class="form-control hdnDepartmentId" value="{{user.DepartmentId}}">
 
         <div class="control-group">
-            <label for="department" class="control-label">Department</label>
+            <label for="dropdown" class="control-label">Department</label>
             <div class="controls">
                 <div ng-controller="DepartmentsController" ng-init="find()">
-                    <select class="form-control ddlDepartment txtDepartment" name="DepartmentId" data-ng-model="user.DepartmentId">
+                    <select class="form-control ddlDepartment txtDepartment" name="dropdown" id="dropdown" data-ng-model="user.DepartmentId">
                         <option value="">Select Department </option>
                         <option ng-repeat="department in departments" data-ng-if="department.status!='0'" value="{{department.id}}">{{department.name}}</option>
                     </select>
@@ -54,18 +54,19 @@
             </div>
         </div>
 
-
-
-
         <div class="clear"></div><br />
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary btn-Save">Save</button>
             <a class="btn btn-secondary" href="/user">Cancel</a>
         </div>
     </form>
 </section>
 
-<script src="/js/validation/user.js"></script>
+<!--<script src="/js/validation/user.js"></script>-->
+
+<script src="/js/lib/form-validation/jquery.validate.min.js"></script>
+<script src="/js/validation/validations.js"></script>
+<link href="/css/validations.css" rel="stylesheet" />
 
 <script type="text/javascript">
     $(document).ready(function () {

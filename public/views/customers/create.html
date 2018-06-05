@@ -1,6 +1,6 @@
 <h1>Add Customer</h1>
 <section class="card">
-    <form class="form-horizontal" data-ng-submit="create()" name="myForm" id="myForm">
+    <form class="form-horizontal myForm" data-ng-submit="create()">
         <div class="control-group">
             <label class="control-label" for="email">Email</label>
             <div class="controls">
@@ -38,7 +38,7 @@
         </div>
 
         <div class="control-group">
-            <label class="control-label" for="contact">Images</label>
+            <label class="control-label">Images</label>
             <div class="controls">
                 <div id="myId" class="dropzone col-sm-6"></div>
             </div>
@@ -56,7 +56,10 @@
     </form>
 </section>
 
-<script src="/js/validation/customer.js"></script>
+<script src="/js/lib/form-validation/jquery.validate.min.js"></script>
+<!--<script src="/js/lib/form-validation/jquery.validate-init.js"></script>-->
+<script src="/js/validation/validations.js"></script>
+<link href="/css/validations.css" rel="stylesheet" />
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -70,7 +73,9 @@
         });
 
         $(".btn-Save").on('click', function () {
-            $(".hdnImages").val(imagesArray.join(",")).trigger('change');
+            $(".hdnImages").val(imagesArray.join(",")).trigger('change');            
         });
     });
 </script>
+
+

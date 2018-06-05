@@ -92,7 +92,8 @@ angular.module('mean.buyers').controller('BuyersController', ['$scope', '$stateP
                     $window.location.href = "/customer/" + $stateParams.customerId + "/buyer/" + $stateParams.buyerId;
                
             }, function (error) {
-                console.log(error);
+                console.log("update error  -->>  " + error);
+               
                 $window.location.href = "/signin";
             });
         });

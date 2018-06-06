@@ -99,39 +99,32 @@
                 <div class="card-body">
                     <div class="table-responsive">
                         <section ng-init="findOpenRfq()" class="table-responsive">
-                            <table class="table table-bordered">
+                            <table class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th>Subject</th>
                                         <th>Buyer</th>
                                         <th>Customer</th>
-                                        <th>Assign To</th>
                                         <th>Created</th>
-                                        <th>View</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="rfq in rfqs | orderBy : '-createdAt'">
                                         <td>
-                                            <a target="_self" title="View" class="btn" ui-sref="viewRfq({customerId: rfq.Buyer.CustomerId , buyerId: rfq.BuyerId, rfqId : rfq.id})">{{rfq.subject}}</a>
+                                            <a title="View" class="btn" ui-sref="viewRfq({customerId: rfq.Buyer.CustomerId , buyerId: rfq.BuyerId, rfqId : rfq.id})">{{rfq.subject}}</a>
                                         </td>
                                         <td>
-                                            {{rfq.Buyer.name}}
+                                            <a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}">{{rfq.Buyer.name}}</a>
                                         </td>
                                         <td>
-                                            {{rfq.Buyer.Customer.company}}
-                                        </td>
-                                        <td>
-                                            <label>{{rfq.User.firstName || "-"}}</label>
-                                        </td>
-
+                                            <a href="/customer/{{rfq.Buyer.CustomerId}}">{{rfq.Buyer.Customer.company}}</a>
+                                        </td>                                     
                                         <td>
                                             <span>{{rfq.createdAt | date:'medium'}}</span>
-                                        </td>
+                                        </td>   
                                         <td>
-                                            <a target="_self" class="btn" ui-sref="viewRfq({customerId: rfq.Buyer.CustomerId , buyerId: rfq.BuyerId, rfqId : rfq.id})" title="View">
-                                                <i class="fa fa-eye"></i>
-                                            </a>
+                                            <a class="btn btn-primary" href="#" ng-click="assignToMeRfq(rfq.id)">Assign to Me</a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -153,39 +146,35 @@
                 <div class="card-body">
                     <div class="table-responsive">
                         <section ng-init="findMyRfq()" class="table-responsive">
-                            <table class="table table-bordered">
+                            <table class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th>Subject</th>
                                         <th>Buyer</th>
                                         <th>Customer</th>
                                         <th>Created</th>
+                                        <th ng-show="global.user.isAdmin">Assign To</th>
                                         <th>Status</th>
-                                        <th >View</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="rfq in myRfqs | orderBy : '-createdAt'">
                                         <td>
-                                            <a target="_self" title="View" class="btn" ui-sref="viewRfq({customerId: rfq.Buyer.CustomerId , buyerId: rfq.BuyerId, rfqId : rfq.id})">{{rfq.subject}}</a>
+                                            <a title="View" class="btn" ui-sref="viewRfq({customerId: rfq.Buyer.CustomerId , buyerId: rfq.BuyerId, rfqId : rfq.id})">{{rfq.subject}}</a>
                                         </td>
                                         <td>
-                                            {{rfq.Buyer.name}}
+                                            <a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}">{{rfq.Buyer.name}}</a>
                                         </td>
                                         <td>
-                                            {{rfq.Buyer.Customer.company}}
-                                        </td>                                   
+                                            <a href="/customer/{{rfq.Buyer.CustomerId}}"> {{rfq.Buyer.Customer.company}}</a>
+                                        </td>
                                         <td>
                                             <span>{{rfq.createdAt | date:'medium'}}</span>
                                         </td>
-                                        <td>
-                                            {{rfq.customStatus}}
+                                        <td ng-show="global.user.isAdmin">
+                                            {{(rfq.User.firstName + " " +  rfq.User.lastName).trim() || rfq.User.email || "-"}}
                                         </td>
-                                        <td>
-                                            <a target="_self" class="btn" ui-sref="viewRfq({customerId: rfq.Buyer.CustomerId , buyerId: rfq.BuyerId, rfqId : rfq.id})" title="View">
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-                                        </td>
+                                        <td ng-bind-html="trustAsHtml(rfq.customStatus)"></td>
                                     </tr>
                                 </tbody>
                             </table>

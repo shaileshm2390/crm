@@ -19,22 +19,27 @@
                     <div class="col col-lg-8">
                         <p><label>Buyer: </label><strong>{{rfq.Buyer.name}}</strong></p>
                         <p><label>Email: </label><strong>{{rfq.Buyer.email}}</strong></p>
-                        <p class="row">
-                            <label class="col-lg-4">Assigned: </label>
-                            <select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser col-lg-8" required name="UserId" data-ng-model="rfq.UserId">
-                                <option value="">Select </option>
-                                <option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
-                            </select>
-                            <div class="lblMsg" style="color:#155724"></div>
-                            <input type="hidden" class="hdnUserId" value="{{rfq.UserId}}">
-                            <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
-                        </p>
                     </div>
                     <div class="col col-lg-4">
                         <p><label>Company: </label><strong>{{rfq.Buyer.Customer.company}}</strong></p>
                         <p><label>Owner: </label><strong>{{rfq.Buyer.Customer.name}}</strong></p>
                     </div>
                 </div>
+                <div class="clear clearfix"></div><br />
+                <div class="row">
+                    <label class="col-lg-4">Assigned: </label>
+                    <div class="col-lg-8">
+                        <select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser" required name="UserId" data-ng-model="rfq.UserId">
+                            <option value="">Select </option>
+                            <option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
+                        </select>
+                        <br />
+                        <div class="lblMsg"></div>
+                        <input type="hidden" class="hdnUserId" value="{{rfq.UserId}}">
+                        <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
+                    </div>
+                </div>
+                <div class="clear clearfix"></div><br />
                 <div class="row">
                     <ul id="carousel" class="elastislide">
                         <li data-ng-repeat="image in rfq.RfqImages| orderBy : '-createdAt'">
@@ -87,6 +92,7 @@
             }, 500);
 
         $(".ddlUser").on('change', function () {
+            var $me = $(this);
             var rfqId = $('.hdnRfqId').val();
             var ddlUserId = $(this).val();
             $.ajax({
@@ -94,7 +100,11 @@
                 method: "PUT",
                 data: { UserId: ddlUserId, id: rfqId }
             }).done(function (response) {
-                $(".lblMsg").html("<span>Updated successfully !!!</span>");
+                if ($me.val() == "") {
+                    $(".lblMsg").html("<span>RFQ assigned to nobody</span>").addClass("alert alert-success");
+                } else {
+                    $(".lblMsg").html("<span>RFQ assigned to " + $me.find("option:selected").text() + "</span>").addClass("alert alert-success");
+                }
             });
         });
     });

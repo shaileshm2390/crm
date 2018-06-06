@@ -11,7 +11,7 @@ var users = require('../../app/controllers/users'),
 module.exports = function (app) {
     // customercomments Routes
     app.route('/buyercomments/:buyerId')
-        .get(buyercomments.buyerCommentByBuyerId)
+        .get(users.requiresLogin, buyercomments.buyerCommentByBuyerId)
     app.route('/buyercomments')
         .get(users.requiresLogin, buyercomments.all)
         .post(users.requiresLogin, buyercomments.create);

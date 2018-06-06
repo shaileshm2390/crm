@@ -1,7 +1,7 @@
 <h1>Users</h1>
 
 <div class="card" >
-    <div class="pull-right">
+    <div class="pull-right"  ng-show="global.user.isAdmin">
         <a href="/user/create" class="btn btn-primary">Add User</a>
         <input type="search" data-ng-model="searchString" class="col-lg-4 pull-right form-control" placeholder="Search" />
     </div>
@@ -22,7 +22,7 @@
                     <th>Department</th>
                     <th>Created</th>
                     <th style="text-align:center">Active</th>
-                    <th style="text-align:center">Action</th>
+                    <th style="text-align:center"  ng-show="global.user.isAdmin">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,7 +37,7 @@
                     <td style="text-align:center">
                         <span>{{user.active == true ? "Yes" : "No"}}</span>
                     </td>
-                    <td style="text-align:center">
+                    <td style="text-align:center"  ng-show="global.user.isAdmin">
                         <a class="btn" data-ng-click="remove(user);" title="Delete"><i class="fa fa-trash"></i></a>
                         <a class="btn" data-ng-click="resetPassword(user);" title="Reset Password"><i class="fa fa-key"></i></a>
                     </td>

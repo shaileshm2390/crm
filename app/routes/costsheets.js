@@ -11,17 +11,17 @@ var users = require('../../app/controllers/users'),
 module.exports = function (app) {
     // customercomments Routes
     app.route('/costsheets/:id')
-        .get(costsheets.costsheetById)
+        .get(users.requiresLogin, costsheets.costsheetById)
         .put(users.requiresLogin, costsheets.update);
     app.route('/rfq/costsheets/:rfqId')
-        .get(costsheets.costsheetsByRfqId)
+        .get(users.requiresLogin, costsheets.costsheetsByRfqId)
     app.route('/costsheets')
         .get(users.requiresLogin, costsheets.all)
         .post(users.requiresLogin, costsheets.create);
     app.route('/costsheets/mail/:id')
         .post(users.requiresLogin, costsheets.sendMail);
     app.route('/rfq/costsheets/approved/:costsheetId')
-        .get(costsheets.costsheetById)
+        .get(users.requiresLogin, costsheets.costsheetById)
 
 
     app.param('id', costsheets.costsheet);

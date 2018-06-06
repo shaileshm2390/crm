@@ -22,6 +22,7 @@ passport.deserializeUser(function (id, done) {
         }
        // winston.info('Session: { id: ' + user.id + ', username: ' + user.email + ' }');
         user.isAdmin = (user.Department.name == 'Admin') ? true : false;
+        user.role = user.Department.name;
         done(null, user);
     }).catch(function(err){
         done(err, null);

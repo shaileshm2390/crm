@@ -1,11 +1,11 @@
 <h1>Edit Buyer</h1>
 <section data-ng-init="findOne()" class="card">
-    <form class="form-horizontal" data-ng-submit="update()">
+    <form class="form-horizontal myForm" data-ng-submit="update()">
         <div class="control-group">
             <label class="control-label" for="email">Email</label>
 
             <div class="controls">
-                <input type="email" data-ng-model="buyer.email" id="title" placeholder="Email" class="form-control col-sm-6 txtEmail" />
+                <input type="email" data-ng-model="buyer.email" id="email" name="email" placeholder="Email" class="form-control col-sm-6 txtEmail" />
             </div>
             <span class="errorEmail" style="color:red;"></span>
         </div>
@@ -15,7 +15,7 @@
             <label class="control-label" for="name">Name</label>
 
             <div class="controls">
-                <input type="text" data-ng-model="buyer.name" id="title" placeholder="Name" class="form-control col-sm-6 txtName" />
+                <input type="text" data-ng-model="buyer.name" id="name" name="name" placeholder="Name" class="form-control col-sm-6 txtName" />
             </div>
             <span class="errorName" style="color:red;"></span>
         </div>
@@ -25,7 +25,7 @@
             <label class="control-label" for="contact">Contact Number</label>
 
             <div class="controls">
-                <input type="text" data-ng-model="buyer.contact" id="contact" placeholder="Contact" class="form-control col-sm-6 txtContact" />
+                <input type="text" data-ng-model="buyer.contact" id="contact" name="contact" placeholder="Contact" class="form-control col-sm-6 txtContact" />
             </div>
             <span class="errorContact" style="color:red;"></span>
         </div>
@@ -44,7 +44,7 @@
         <br />
 
         <div class="control-group">
-            <label class="control-label" for="contact">Images</label>
+            <label class="control-label">Images</label>
             <div class="controls">
                 <div id="myId" class="dropzone col-sm-6"></div>
             </div>
@@ -55,14 +55,16 @@
         <div class="clearfix"></div><br />
         <div class="control-group">
             <div class="controls">
-                <input type="submit" class="btn btn-primary btnSave" value="Save">
+                <input type="submit" class="btn btn-primary btn-Save" value="Save">
                 <a class="btn btn-secondary" href="javascript:window.history.back();">Cancel</a>
             </div>
         </div>
     </form>
 </section>
+<script src="/js/lib/form-validation/jquery.validate.min.js"></script>
+<script src="/js/validation/validations.js"></script>
+<link href="/css/validations.css" rel="stylesheet" />
 
-<script src="/js/validation/buyer.js"></script>
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -75,7 +77,7 @@
             imagesArray.push(response.pathFromRoot);
         });
 
-        $(".btnSave").on('click', function () {
+        $(".btn-Save").on('click', function () {
             $(".hdnImages").val(imagesArray.join(",")).trigger('change');;
         });
 
@@ -101,8 +103,5 @@
                 }
             });
         }, 500);
-
-
-
     });
 </script>

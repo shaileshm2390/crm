@@ -49,17 +49,22 @@ exports.all = function (req, res) {
 };
 
 exports.getRfqChartDetail = function (req, res) {
-    var condition = "r.UserId IS NULL";
+    var condition = "r.UserId IS NULL",
+        user = req.user,
+        userCondition = "";
+    if (user.Department.name != "Admin") {
+        userCondition = " AND r.UserId = " + user.id + " ";
+    }
     var result = {};
     var customQuery = "SELECT COUNT(r.id) AS Count, CONCAT(YEAR(r.createdAt) ,'-', MONTH(r.createdAt)) As Month " +
         "FROM `rfqs` r LEFT JOIN purchaseorders po ON  po.RfqId = r.id " +
         "WHERE {CONDITION} AND r.createdAt > DATE_SUB(now(), INTERVAL 6 MONTH)  GROUP BY YEAR(r.createdAt), MONTH(r.createdAt) DESC";
     db.sequelize.query(customQuery.replace("{CONDITION}", condition), { type: db.sequelize.QueryTypes.SELECT }).then(function (response) {
         result.Open = response;
-        condition = "po.status = 'completed'";
+        condition = "po.status = 'completed'" + userCondition;
         db.sequelize.query(customQuery.replace("{CONDITION}", condition), { type: db.sequelize.QueryTypes.SELECT }).then(function (response) {
             result.Completed = response;
-            condition = "po.id IS NULL";
+            condition = "po.id IS NULL" + userCondition;
             db.sequelize.query(customQuery.replace("{CONDITION}", condition), { type: db.sequelize.QueryTypes.SELECT }).then(function (response) {
                 result.Pending = response;
                 return res.jsonp(result);
@@ -68,3 +73,79 @@ exports.getRfqChartDetail = function (req, res) {
         });
     });
 };
+
+exports.getOpenRfq = function (req, res) {
+  
+    db.Rfq.findAll({
+        where: { UserId: null }, include: [
+            {
+                model: db.User,
+                attributes: ['id', 'email', 'firstName', 'lastName']
+            },
+            {
+                model: db.Buyer,
+                attributes: ['id', 'name', 'contact', 'email', 'CustomerId'],
+                include: [{ model: db.Customer, attributes: ['id', 'name', 'email', 'company', 'contact'] }]
+            },
+            {
+                model: db.RfqImage
+            }
+        ]
+    }).then(function (rfq) {
+        if (!rfq) {
+            req.rfq = {};
+        } else {
+            req.rfq = rfq;
+        }
+        return res.jsonp(req.rfq);
+    }).catch(function (err) {
+       // return next(err);
+    });
+};
+
+
+exports.getMyRfq = function (req, res) {
+    var condition = {
+        UserId: {
+            $ne: null
+        } };
+    if (req.user.Department.name != "Admin") {
+        condition = { UserId: req.user.id };
+    } 
+    db.Rfq.findAll({
+        where: condition, include: [
+            {
+                model: db.User,
+                attributes: ['id', 'email', 'firstName', 'lastName']
+            },
+            {
+                model: db.Buyer,
+                attributes: ['id', 'name', 'contact', 'email', 'CustomerId'],
+                include: [{ model: db.Customer, attributes: ['id', 'name', 'email', 'company', 'contact'] }]
+            },
+            {
+                model: db.RfqImage
+            },
+            {
+                model: db.CostSheet,
+                order: [['createdAt', 'DESC']],
+                limit: 1,
+            },
+            {
+                model: db.PurchaseOrder
+            },
+            {
+                model: db.Samplesubmission
+            }
+        ]
+    }).then(function (rfq) {
+        if (!rfq) {
+            req.rfq = {};
+        } else {
+            req.rfq = rfq;
+        }
+        return res.jsonp(req.rfq);
+    }).catch(function (err) {
+        // return next(err);
+    });
+}

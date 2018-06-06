@@ -14,5 +14,9 @@ module.exports = function (app) {
         .get(users.requiresLogin, dashboards.all)    
     app.route('/dashboards/getRfqChartDetail')
         .get(dashboards.getRfqChartDetail)
+    app.route('/dashboards/getOpenRfq')
+        .get(dashboards.getOpenRfq)
+    app.route('/dashboards/getMyRfq')
+        .get(dashboards.getMyRfq)
 };
 

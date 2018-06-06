@@ -11,6 +11,9 @@ module.exports = function (sequelize, DataTypes) {
                 Rfq.belongsTo(models.User);
                 Rfq.belongsTo(models.Buyer);
                 Rfq.hasMany(models.RfqImage);
+                Rfq.hasMany(models.CostSheet);
+                Rfq.hasMany(models.PurchaseOrder);
+                Rfq.hasMany(models.Samplesubmission);
             }
         }
     );

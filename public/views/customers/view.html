@@ -4,7 +4,7 @@
 
         <div class="row pull-right">
             <div>
-                <a class="btn btn-primary" ui-sref="editCustomers({customerId : customer.id})">Edit</a>
+                <a class="btn btn-primary" ui-sref="editCustomers({customerId : customer.id})" ng-show="global.user.isAdmin">Edit</a>
                 <a class="btn btn-danger" href="/customer">Cancel</a>
             </div>
         </div>
@@ -77,7 +77,7 @@
         <div class="row">
             <div class="col col-lg-12">
                 <div class="row pull-right">
-                    <div class="col-lg-2">
+                    <div class="col-lg-2" ng-show="global.user.role == 'Agent' || global.user.isAdmin">
                         <a ui-sref="createBuyer({customerId: customer.id})" class="btn btn-primary"><span>Add Buyer</span></a>
                     </div>
                 </div>
@@ -91,7 +91,7 @@
                                     <th>Email</th>
                                     <th>Contact</th>
                                     <th>Created</th>
-                                    <th style="text-align:center">Action</th>
+                                    <th style="text-align:center" ng-show="global.user.role == 'Agent' || global.user.isAdmin">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -113,7 +113,7 @@
                                         <span>{{buyer.createdAt | date:'medium'}}</span>
                                     </td>
 
-                                    <td style="text-align:center">
+                                    <td style="text-align:center" ng-show="global.user.role == 'Agent' || global.user.isAdmin">
                                         <a ui-sref="editBuyers({buyerId : buyer.id, customerId: customer.id})" title="Edit"><i class="fa fa-pencil"></i></a>
                                         <a class="btn" data-ng-click="remove(buyer);" title="Delete"><i class="fa fa-trash"></i></a>
                                     </td>

@@ -9,12 +9,12 @@ var users = require('../../app/controllers/users'),
 module.exports = function (app) {
     // Department Routes
     app.route('/buyerimages')
-        .get(buyerimages.all)
-        .post(buyerimages.create);  //users.requiresLogin, 
+        .get(users.requiresLogin, buyerimages.all)
+        .post(users.requiresLogin, buyerimages.create);  //users.requiresLogin, 
     app.route('/buyerimages/:buyerId')
-        .get(buyerimages.buyerImagesByBuyerId);
+        .get(users.requiresLogin, buyerimages.buyerImagesByBuyerId);
     app.route('/buyerimages/:id')
-        .delete(buyerimages.destroy);
+        .delete(users.requiresLogin, buyerimages.destroy);
 
     app.param('buyerId', buyerimages.imagesByBuyerId);
     app.param('id', buyerimages.buyerimage);

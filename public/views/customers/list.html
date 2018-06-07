@@ -2,7 +2,7 @@
 
 <div class="card">
     <div class="pull-right">
-        <a href="/customer/create" class="btn btn-primary">Add Customer</a>
+        <a href="/customer/create" class="btn btn-primary" ng-show="global.user.isAdmin">Add Customer</a>
         <input type="search" data-ng-model="searchString" class="col-lg-4 pull-right form-control" placeholder="Search" />
     </div>
 
@@ -17,7 +17,7 @@
                     <th>Company</th>
                     <th>Contact</th>
                     <th>Created</th>
-                    <th style="text-align:center">Action</th>
+                    <th style="text-align:center" ng-show="global.user.isAdmin">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,7 +44,7 @@
                         <span>{{customer.createdAt | date:'medium'}}</span>
                     </td>
 
-                    <td style="text-align:center">
+                    <td style="text-align:center" ng-show="global.user.isAdmin">
                         <a  ui-sref="editCustomers({customerId : customer.id})"  title="Edit"><i class="fa fa-pencil"></i></a>
                         <a class="btn" data-ng-click="remove(customer);" title="Delete"><i class="fa fa-trash"></i></a>
                         <!--<a title="Add" data-ng-click="add();"><i class="fa fa-image"></i></a>-->

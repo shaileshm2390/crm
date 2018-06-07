@@ -13,10 +13,10 @@ module.exports = function (app) {
     app.route('/dashboards/getSiteSummary')
         .get(users.requiresLogin, dashboards.all)    
     app.route('/dashboards/getRfqChartDetail')
-        .get(dashboards.getRfqChartDetail)
+        .get(users.requiresLogin, dashboards.getRfqChartDetail)
     app.route('/dashboards/getOpenRfq')
-        .get(dashboards.getOpenRfq)
+        .get(users.requiresLogin, dashboards.getOpenRfq)
     app.route('/dashboards/getMyRfq')
-        .get(dashboards.getMyRfq)
+        .get(users.requiresLogin, dashboards.getMyRfq)
 };
 

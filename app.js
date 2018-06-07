@@ -36,13 +36,14 @@ cookieExpirationDate.setDate(cookieExpirationDate.getDate() + cookieExpirationDa
 
 app.dynamicHelpers({
     user: function (req, res) {
-        var firstName, lastName, id, email, isAdmin;
+        var firstName, lastName, id, email, isAdmin, role;
 
         if (req.user) {
             firstName = req.user.firstName;
             lastName = req.user.lastName;
             id = req.user.id;
             email = req.user.email;
+            role = req.user.Department.name;
             isAdmin = (req.user.Department.name == 'Admin') ? true : false;
         }
         else {
@@ -51,6 +52,7 @@ app.dynamicHelpers({
             id = null;
             email = '';
             isAdmin = false;
+            role = "Guest"
         }
 
         return {
@@ -58,7 +60,8 @@ app.dynamicHelpers({
             lastName: lastName,
             id: id,
             email: email,
-            isAdmin: isAdmin
+            isAdmin: isAdmin,
+            role: role
         }
     }
     });

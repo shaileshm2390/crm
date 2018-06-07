@@ -11,6 +11,6 @@ var users = require('../../app/controllers/users'),
 module.exports = function (app) {
     // watchdogs Routes
     app.route('/watchdogs')     
-        .post(watchdogs.create); 
+        .post(users.requiresLogin, watchdogs.create); 
 };
 

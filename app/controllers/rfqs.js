@@ -65,8 +65,13 @@ exports.all = function (req, res) {
 };
 
 exports.rfq = function (req, res, next, id) {
+    var user = req.user;
+    var userCondition = { id: id }
+    if (user.Department.name != "Admin") {
+        userCondition.$or = [{ UserId: user.id }, { UserId: null }];
+    }
     db.Rfq.find({
-        where: { id: id }, include: [
+        where: userCondition, include: [
             {
                 model: db.User,
                 attributes: ['id', 'email', 'firstName', 'lastName']
@@ -94,8 +99,13 @@ exports.rfq = function (req, res, next, id) {
 };
 
 exports.rfqByBuyer = function (req, res, next, id) {
+    var user = req.user;
+    var userCondition = { BuyerId: id}
+    if (user.Department.name != "Admin") {
+        userCondition.$or = [{ UserId: user.id }, { UserId: null }];
+    }
     db.Rfq.findAll({
-        where: { BuyerId: id }, include: [
+        where: userCondition, include: [
             {
                 model: db.User,
                 attributes: ['id', 'email', 'firstName', 'lastName']

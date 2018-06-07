@@ -9,11 +9,12 @@ var db = require('../../config/sequelize');
  * List of Summary
  */
 exports.all = function (req, res) {
-    var user = req.user;
-    var isAdmin = true;
-    if (user.Department.name != "Admin") {
-        var condition = { where: { UserId: user.id } };
-        isAdmin = false;
+    var user = req.user;    
+    var condition = {
+        where: { $or: [{ UserId: user.id }, { UserId: null }] }
+    };
+    if (user.isAdmin) {
+        condition = {};
     }
     var summary = {};
     db.Rfq.findAll(condition).then(function (response) {
@@ -25,24 +26,35 @@ exports.all = function (req, res) {
         });
         db.Rfq.count({ where: { UserId: null } }).then(function (openRfq) {
             summary.OpenRfq = openRfq;
-            db.PurchaseOrder.count({
+            var completedCondition = {
                 where: {
                     status: 'completed', RfqId: rfqIds
                 }
-            }).then(function (completedPurchaseOrder) {
-                summary.PendingRqf = summary.TotalRqf - completedPurchaseOrder;
+            };
+            if (user.isAdmin) {
+                completedCondition = {
+                    where: {
+                        status: 'completed'
+                    }
+                };
+            }
+            db.PurchaseOrder.count(completedCondition).then(function (completedPurchaseOrder) {
                 summary.CompletedRfq = completedPurchaseOrder || 0;
 
-                if (summary.TotalRqf > 0) {
-                    summary.CompletedPercentage = Math.round((summary.CompletedRfq / summary.TotalRqf) * 100);
-                    summary.PendingPercentage = Math.round((summary.PendingRqf / summary.TotalRqf) * 100);
-                    summary.OpenPercentage = Math.round((summary.OpenRfq / summary.TotalRqf) * 100);
-                } else {
-                    summary.CompletedPercentage = 0;
-                    summary.PendingPercentage = 0;
-                    summary.OpenPercentage = 0;
-                }
-                return res.jsonp(summary);
+                db.Rfq.count({ where: (user.isAdmin ? { UserId: { $ne: null } }  : { UserId: user.id }) }).then(function (TotalWorkedRqf) {
+                    summary.PendingRqf = TotalWorkedRqf - completedPurchaseOrder;
+
+                    if (summary.TotalRqf > 0) {
+                        summary.CompletedPercentage = Math.round((summary.CompletedRfq / summary.TotalRqf) * 100);
+                        summary.PendingPercentage = Math.round((summary.PendingRqf / summary.TotalRqf) * 100);
+                        summary.OpenPercentage = Math.round((summary.OpenRfq / summary.TotalRqf) * 100);
+                    } else {
+                        summary.CompletedPercentage = 0;
+                        summary.PendingPercentage = 0;
+                        summary.OpenPercentage = 0;
+                    }
+                    return res.jsonp(summary);
+                });
             });
         });
     });

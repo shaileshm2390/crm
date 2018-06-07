@@ -44,6 +44,7 @@
                 method: "GET",
             }).done(function (obj) {
                 var result = convertResponseToMorrisData(obj);
+                console.log(result);
                 Morris.Area({
                     element: 'extra-area-chart',
                     data: result,
@@ -52,7 +53,7 @@
                     ykeys: ['Open', 'Pending', 'Completed'],
                     labels: ['Open', 'Pending', 'Completed'],
                     xLabelFormat: function (x) { // <--- x.getMonth() returns valid index
-                        var month = months[x.getMonth()];
+                        var month = months[new Date(x.label).getMonth()];
                         return month;
                     },
                     dateFormat: function (x) {
@@ -65,7 +66,8 @@
                     fillOpacity: 0.8,
                     behaveLikeLine: true,
                     gridLineColor: '#e0e0e0',
-                    hideHover: 'auto'
+                    hideHover: 'auto',
+                    parseTime : false
                 });
             });
         }

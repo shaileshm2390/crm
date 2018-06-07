@@ -11,14 +11,14 @@ var users = require('../../app/controllers/users'),
 module.exports = function (app) {
     // Department Routes
     app.route('/rfqs')
-        .get(rfqs.all);
+        .get(users.requiresLogin, rfqs.all);
     app.route('/rfqs/:rfqId')
-        .get(rfqs.rfqs)
+        .get(users.requiresLogin, rfqs.rfqs)
         .put(users.requiresLogin, rfqs.update);
     app.route('/buyersrfqs/:buyerId')
-        .get(rfqs.rfqs);
+        .get(users.requiresLogin, rfqs.rfqs);
     app.route('/userrfqs/:userId')
-        .get(rfqs.rfqs); 
+        .get(users.requiresLogin, rfqs.rfqs); 
     //    .post(users.requiresLogin, departments.hasAuthorization, departments.create);  //users.requiresLogin, 
     //app.route('/rfqs/:departmentId')
     //    .get(users.requiresLogin, departments.show)  //users.requiresLogin, 

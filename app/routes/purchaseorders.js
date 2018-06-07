@@ -11,17 +11,17 @@ var users = require('../../app/controllers/users'),
 module.exports = function (app) {
     // Department Routes
     app.route('/purchaseorders')
-        .get(purchaseorders.all)   //users.requiresLogin, 
-        .post(purchaseorders.create);  //users.requiresLogin, purchaseorders.hasAuthorization, 
+        .get(users.requiresLogin, purchaseorders.all)   //users.requiresLogin, 
+        .post(users.requiresLogin, purchaseorders.create);  //users.requiresLogin, purchaseorders.hasAuthorization, 
 
     app.route('/rfq/purchaseorders/:rfqId')
-        .get(purchaseorders.purchaseordersByRfqId)
-        .put(purchaseorders.update);
+        .get(users.requiresLogin, purchaseorders.purchaseordersByRfqId)
+        .put(users.requiresLogin, purchaseorders.update);
 
     app.route('/purchaseorders/:purchaseorderId')
-        .get(purchaseorders.show)  //users.requiresLogin, 
-        .put(purchaseorders.update)    //users.requiresLogin, departments.hasAuthorization, 
-        .delete(purchaseorders.destroy);   //users.requiresLogin, departments.hasAuthorization, 
+        .get(users.requiresLogin, purchaseorders.show)  //users.requiresLogin, 
+        .put(users.requiresLogin, purchaseorders.update)    //users.requiresLogin, departments.hasAuthorization, 
+        .delete(users.requiresLogin, purchaseorders.destroy);   //users.requiresLogin, departments.hasAuthorization, 
 
     // Finish with setting up the articleId param
     // Note: the articles.article function will be called everytime then it will call the next function.

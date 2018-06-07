@@ -11,15 +11,15 @@ var users = require('../../app/controllers/users'),
 module.exports = function (app) {
     // Department Routes
     app.route('/purchaseorderimages')
-        .get(purchaseorderimages.all)   //users.requiresLogin, 
-        .post(purchaseorderimages.create);  //users.requiresLogin, purchaseorders.hasAuthorization, 
+        .get(users.requiresLogin, purchaseorderimages.all)   //users.requiresLogin, 
+        .post(users.requiresLogin, purchaseorderimages.create);  //users.requiresLogin, purchaseorders.hasAuthorization, 
     app.route('/purchaseorderimages/:purchaseorderimagesId')
-        .get(purchaseorderimages.show)  //users.requiresLogin, 
-        .put(purchaseorderimages.update)    //users.requiresLogin, departments.hasAuthorization, 
+        .get(users.requiresLogin, purchaseorderimages.show)  //users.requiresLogin, 
+        .put(users.requiresLogin, purchaseorderimages.update)    //users.requiresLogin, departments.hasAuthorization, 
         //.delete(purchaseorderimages.destroy);   //users.requiresLogin, departments.hasAuthorization, 
 
     app.route('/purchaseorderimages/:id')
-        .delete(purchaseorderimages.destroy);
+        .delete(users.requiresLogin, purchaseorderimages.destroy);
 
     // Finish with setting up the articleId param
     // Note: the articles.article function will be called everytime then it will call the next function.

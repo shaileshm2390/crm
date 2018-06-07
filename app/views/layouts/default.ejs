@@ -11,7 +11,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon.png">
-    <title>CRM</title>
+    <title>CRM - Admin</title>
     <!-- Bootstrap Core CSS -->
     <link href="/css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
     <!-- <link href="/css/lib/bootstrap/docs/assets/css/bootstrap.css" rel="stylesheet"> -->
@@ -123,27 +123,34 @@
                         <ul id="sidebarnav" data-ng-show="global.authenticated">
                             <li class="nav-devider"></li>
                             <li class="nav-label">Home</li>
-                            <li><a href="/"><i class="fa fa-tachometer"></i><span class="hide-menu">Dashboard</span>                   
+                            <li><a href="/" target="_self"><i class="fa fa-tachometer"></i><span class="hide-menu">Dashboard</span>     </a>              
                             </li>
-                            <li class="nav-label">Admin Section</li>
+                             <li class="nav-label">My Section</li>        
+                             <% if(user.isAdmin) { %>                                              
                             <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-object-group"></i><span class="hide-menu">Departments</span></a>
                                 <ul aria-expanded="false" class="collapse">
                                     <li><a href="/department">List</a></li>
                                     <li><a href="/department/create">Add</a></li>
                                 </ul>
-                            </li>
+                            </li>                            
                             <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-user-secret"></i><span class="hide-menu">Users</span></a>
                                 <ul aria-expanded="false" class="collapse">
                                     <li><a href="/user">List</a></li>
                                     <li><a href="/user/create">Add</a></li>
                                 </ul>
                             </li>
+                            <% } %>
+                            <% if(user.isAdmin) { %>        
                             <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-users "></i><span class="hide-menu">Customers</span></a>
                                 <ul aria-expanded="false" class="collapse">
-                                    <li><a href="/customer">List</a></li>
-                                    <li><a href="/customer/create">Add</a></li>
+                                    <li><a href="/customer">List</a></li>                                      
+                                    <li><a href="/customer/create">Add</a></li>                                   
                                 </ul>
-                            </li>                            
+                            </li>    
+                             <% } else { %>
+                                <li><a href="/customer" target="_self"><i class="fa fa-users"></i><span class="hide-menu">Customers</span>     </a>             
+                            <% } %>
+                            
                         </ul>
                     </nav>
                     <!-- End Sidebar navigation -->
@@ -166,8 +173,55 @@
                     </ol>
                 </div>
             </div>-->
-            <!-- End Bread crumb -->
-              <% if ((typeof user == 'object' && user.id != null) || req.originalUrl == "/signin" || req.originalUrl == "/") { %>
+            <!-- End Bread crumb -->          
+            <%
+            var isPageRestrict = false;
+                var rolesAndRestrictPages = [{
+                role: 'Admin',
+                pageRestrict: []
+            },
+            {
+                role: 'Dev',
+                pageRestrict: ['/customer/[0-9]/edit',
+                                            '/customer/create',
+                                                '/user', 
+                                                '/user/create', 
+                                                '/user/[0-9]/edit',
+                                                '/user/[0-9]',
+                                                '/department',
+                                                '/department/[0-9]/edit',
+                                                '/department/create',
+                                                '/department/[0-9]',
+                                                '/customer/[0-9]/buyer/create',
+                                                '/customer/[0-9]/buyer/[0-9]/edit',
+                                            ]
+            },
+            {
+                role: 'Agent',
+                pageRestrict: ['/customer/[0-9]/edit',
+                                            '/customer/create',
+                                                '/user', 
+                                                '/user/create', 
+                                                '/user/[0-9]/edit',
+                                                '/user/[0-9]',
+                                                '/department',
+                                                '/department/[0-9]/edit',
+                                                '/department/create',
+                                                '/department/[0-9]',                                             
+                                            ]
+            }];
+
+            var userRole = rolesAndRestrictPages.filter(function(o) { return o['role'] == user.role; });
+            if(userRole.length) {
+                userRole = userRole[0];           
+                if(userRole.pageRestrict.length ) {
+                    isPageRestrict = new RegExp(userRole.pageRestrict.join("|", "i")).test(req.originalUrl);
+                } else {
+                    isPageRestrict = false;
+                }
+            }
+            %>
+             <% if (((typeof user == 'object' && user.id != null && !isPageRestrict) || req.originalUrl == "/signin" || req.originalUrl == "/")) { %>
             <!-- Container fluid  -->
             <div class="container-fluid">
                 <br />
@@ -177,10 +231,17 @@
             </div>
             <% } else { %>
             <div>
-            <div class="card">
+            <div class="card" style="text-align:center;">
                     <br />
-                    <h1>You don't have permission to view this page</h1>
+                <h1>CRM</h1>
+                <hr />
+                    <h2>403  - <small>You don't have permission to view this page</small></h2>
+                <% if(user.id == undefined) { %>
                     <p>Please <strong><a href="/signin" target="_self">click here</a></strong> to logged in or contact your administrator </p>
+                <% } %>
+               
+                <hr />
+                 <br /><br /><br />
                 </div>
             </div>
             <% } %>
@@ -302,7 +363,7 @@
 
   <% if (typeof user == 'object' && user) { %>
     <script type="text/javascript"> 
-        window.user = { id:<%= user.id %>, email: '<%= user.email %>', firstName: '<%= user.firstName %>', lastName: '<%= user.lastName %>', isAdmin: '<%= user.isAdmin %>' };        
+        window.user = { id:<%= user.id %>, email: '<%= user.email %>', firstName: '<%= user.firstName %>', lastName: '<%= user.lastName %>', isAdmin: <%= user.isAdmin %>, role:'<%= user.role%>' };        
 		</script>
   <% } %>
     <script type="text/javascript">

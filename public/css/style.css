@@ -823,7 +823,8 @@ h6.h1 {
 -------------------*/
 .color-primary,
 .text-primary {
-  color: #4680ff;
+    /*color: #4680ff;*/
+    color: #5c4ac7;
 }
 .color-success,
 .text-success {

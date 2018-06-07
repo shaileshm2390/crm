@@ -2,8 +2,8 @@
     <h1>Buyer Detail</h1>
     <section data-ng-init="findOne()">
         <div class="row pull-right">
-            <div ng-show="global.user.role == 'Agent' || global.user.isAdmin">
-                <a class="btn btn-primary" ui-sref="editBuyers({buyerId : buyer.id, customerId: buyer.CustomerId})">Edit</a>
+            <div>
+                <a  ng-show="global.user.role == 'Agent' || global.user.isAdmin" class="btn btn-primary" ui-sref="editBuyers({buyerId : buyer.id, customerId: buyer.CustomerId})">Edit</a>
                 <a class="btn btn-danger"  ui-sref="viewCustomer({customerId : buyer.CustomerId})">Cancel</a>
             </div>
         </div>

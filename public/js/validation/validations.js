@@ -268,6 +268,10 @@ setTimeout(function () {
                 //company
                 company: {
                     required: true
+                },
+                date: {
+                    required: true,
+                    date: true
                 }
             },
             // Specify validation error messages
@@ -287,7 +291,11 @@ setTimeout(function () {
                 dropdown: "Please select any value from dropdown.",
                 //departmet
                 name: "Please enter name.",
-                company: "Please enter company name"
+                company: "Please enter company name",
+                date: {
+                    required: "Please select any date from date picker.",
+                    date: "Can contain digits only"
+                }
             },
 
             // Make sure the form is submitted to the destination defined

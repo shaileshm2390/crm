@@ -41,8 +41,9 @@ exports.create = function (req, res) {
     // augment the department by adding the UserId
     // save and return and instance of department on the res object.
     db.Samplesubmission.create(req.body).then(function (samplesubmission) {
+
         if (!samplesubmission) {
-            return res.send('/signin', { errors: new StandardError('Customer could not be created') });
+            return res.send('/signin', { errors: new StandardError('sample submission could not be created') });
         } else {
             if (req.body.imagesString.trim() !== "") {
                 var imageArray = req.body.imagesString.split(",");
@@ -58,6 +59,12 @@ exports.create = function (req, res) {
                     db.Samplesubmissionimage.create(request);
                 }
             }
+            var sampleStatusRequest = {
+                status: req.body.status,
+                target_date : req.body.sampleStatus,
+                SamplesubmissionId: samplesubmission.id
+            };
+            db.SampleStatus.create(sampleStatusRequest);
             var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
 
             db.Watchdog.create({
@@ -123,6 +130,13 @@ exports.update = function (req, res) {
 
                }
         }
+        var sampleStatusRequest = {
+            status: req.body.status,
+            target_date: req.body.sampleStatus,
+            SamplesubmissionId: samplesubmission.id
+        };
+        db.SampleStatus.create(sampleStatusRequest);
+
         var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
         var updatedData = { "id": samplesubmission.id, "status": samplesubmission.status, "RfqId": samplesubmission.RfqId, "updatedAt": samplesubmission.updatedAt, "createdAt": samplesubmission.createdAt };
 
@@ -258,7 +272,11 @@ exports.samplesubmissionByRfqId = function (req, res, next, id) {
             },
             {
                 model: db.Samplesubmissionimage,
+            },
+            {
+                model: db.SampleStatus,
             }
+            
         ]
     }).then(function (samplesubmission) {
         if (!samplesubmission) {

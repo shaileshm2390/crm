@@ -12,15 +12,43 @@
 
             <div class="col col-lg-9">
                 <h3>Sample Submission</h3>
+
+                <!--Sample Status data start-->
+                <div data-ng-init="getAllSampleStatus()">
+                    <table class="table table-bordered col col-lg-9">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center">Status</th>
+                                <th style="text-align:center">Targated date</th>
+                                <th style="text-align:center">Sample_Submission Id</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="data in sampleStatusData">
+                                <td style="text-align:center">
+                                    <label style="color:dodgerblue;">{{data.status}}</label>
+                                </td>
+                                <td style="text-align:center">
+                                    <label>{{data.target_date}}</label>
+                                </td>
+                                <td style="text-align:center">
+                                    <span>{{data.SamplesubmissionId}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!--Sample Status data end-->
+
                 <div data-ng-controller="SampleSubmissionsController" data-ng-init="findOne()">
                     <div class="row">
-                        <ul  class="elastislide1" >
+                        <ul class="elastislide1">
                             <li class="img_wrp" data-ng-repeat="image in samplesubmission.Samplesubmissionimages | orderBy : '-createdAt'" style="margin-right:3px;">
                                 <a data-fancybox="gallery" href="{{image.imagePath}}">
-                                <img src="{{image.imagePath}}" alt="image{{image.id}}" /></a>
-                                <a ng-click="deleteImage(image.id)" ><i class="close fa fa-close" aria-hidden="true" /></a>
+                                    <img src="{{image.imagePath}}" alt="image{{image.id}}" />
+                                </a>
+                                <a ng-click="deleteImage(image.id)"><i class="close fa fa-close" aria-hidden="true" /></a>
                             </li>
-
                         </ul>
                     </div>
                 </div>
@@ -28,7 +56,13 @@
                 <div id="myId" class="dropzone"></div>
 
                 <br />
-                <input type="hidden" class="form-control hdnSamplesubmissionStatus" ng-controller="SampleSubmissionsController" ng-init="findOne()" value="{{samplesubmission.status}}">
+
+                <div ng-controller="SampleSubmissionsController">
+                    <input type="hidden" ng-init="findOne()" class="form-control hdnSamplesubmissionStatus"  value="{{samplesubmission.status}}">
+                    <div data-ng-init="getAllSampleStatus()">
+                        <input type="hidden" class="form-control hdnSamplesubmissionDate" ng-repeat="date in sampleSubmissionData" value="{{date.target_date}}">
+                    </div>
+                </div>
 
                 <div class="control-group">
                     <label for="status" class="control-label">Status</label>
@@ -41,6 +75,20 @@
                         </div>
                     </div>
                 </div>
+
+                <br /><br />
+
+                <div class="control-group">
+                    <label class="control-label">Target Date</label>
+                    <div class="controls">
+                        <div class="row">
+                            <input class="calender ddlSamplesubmissionDate form-control col-6" type="text" id="sampleStatus" data-ng-model="sampleStatus" name="sampleStatus" value="{{targetdate}}" />
+                            <i class="col-6 fa fa-calendar f-s-30 calender" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <span class="errorDate" style="color:red;"></span>
+                </div>
+
                 <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
                 <div class="clear clearfix"></div><br />
                 <div class="control-group">
@@ -53,8 +101,53 @@
                 <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
                 <br />
             </div>
-        </div>
+                </div>
 
-    </section>
+</section>
     </div>
+
+<link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+      rel="stylesheet">
+<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<!--<link href="/css/validations.css" rel="stylesheet" />-->
+
     <script type="text/javascript" src="/js/view/samplesubmission.js"></script>    
+
+<style>
+    * {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Open Sans";
+  font-size: 14px;
+}
+
+.container {
+  width: 500px;
+  margin: 25px auto;
+}
+
+form .error {
+  color: #ff0000;
+}
+
+.img_wrp {
+  display: inline-block;
+  position: relative;
+}
+.close {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.fa-close {
+  background: transparent;
+  border-radius: 5%;
+  height: 5em;
+  width: 1em;
+  color:red;
+}
+</style>

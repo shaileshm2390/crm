@@ -3,7 +3,7 @@
 var app = angular.module('mean.samplesubmissions').controller('SampleSubmissionsController', ['$scope', '$location', '$stateParams', 'Global', 'SampleSubmissions', '$state', '$window', '$filter', '$controller', '$rootScope', '$http', function ($scope, $location, $stateParams, Global, SampleSubmissions, $state, $window, $filter, $controller, $rootScope, $http) {
     $scope.global = Global;
 
-    $scope.Status = ["Complete", "Pending", "Open"];
+    $scope.Status = ["Drawing", "Release for Development", "Uploaded Image"];
 
     var url = "//freegeoip.net/json/";
     $http.get(url).then(function (response) {
@@ -32,6 +32,7 @@ var app = angular.module('mean.samplesubmissions').controller('SampleSubmissions
 
         this.status = "";
         this.imagesString = "";
+        this.sampleStatus = "";
     };
 
     $scope.remove = function (samplesubmission) {
@@ -142,7 +143,7 @@ var app = angular.module('mean.samplesubmissions').controller('SampleSubmissions
     $scope.findOne = function () {
         $http.get("/rfq/samplesubmissions/" + $stateParams.rfqId).then(function (response) {
 
-            $scope.samplesubmission = response.data;
+            $scope.samplesubmission = response.data;    
 
         });
     };
@@ -164,6 +165,16 @@ var app = angular.module('mean.samplesubmissions').controller('SampleSubmissions
             });
             return false;
         }
+    }
+
+    $scope.getAllSampleStatus = function()
+    {
+        $http.get('/samplestatus').then(function (response) {
+            $scope.sampleStatusData = response.data;
+            if ($scope.sampleStatusData.length) {
+                $scope.targetdate = $scope.sampleStatusData[$scope.sampleStatusData.length - 1].target_date;
+            }
+        });
     }
 
 }]);

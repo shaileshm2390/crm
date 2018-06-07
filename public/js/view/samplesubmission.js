@@ -1,10 +1,20 @@
 ﻿$(document).ready(function () {
+    
     setTimeout(function () {
 
         var imagesArray = [];
         var rfqId;
         var selectedStatus;
         var imagesString;
+        var sampleStatus;
+
+        $("#sampleStatus").datepicker();
+
+        $(".calender").on("click", function () {            
+            $("#sampleStatus").datepicker("show");
+            
+        });
+        console.log("Hi", $("#sampleStatus").val());
 
         var myDropzone = new Dropzone('#myId', {
             url: "/samplesubmissionimages/"
@@ -15,9 +25,15 @@
         });
 
         $(".btn-Save").on('click', function () {
+            if ($.trim($(".calender").val()).length == 0) {
+                $(".errorDate").html("Please select any date from datepicker.");
+                return false;
+            }
+
             $(".hdnImages").val(imagesArray.join(",")).trigger('change');
             rfqId = $(".hdnRfqId").val();
             imagesString = $("#imagesString").val();
+            sampleStatus = $("#sampleStatus").val();
             selectedStatus = $("#selectedStatus").find("option:selected").text();
             $.ajax({
                 url: '/rfq/samplesubmissions/' + rfqId,
@@ -27,7 +43,7 @@
                     $.ajax({
                         url: '/samplesubmissions/',
                         method: "POST",
-                        data: { status: selectedStatus, imagesString: imagesString, RfqId: rfqId }
+                        data: { status: selectedStatus, sampleStatus: sampleStatus, imagesString: imagesString, RfqId: rfqId }
                     }).done(function (response) {
                         dfd.resolve(response);
                         $(".lblMsg").html("<span>Saved successfully !!!</span>").removeClass("hide");
@@ -38,13 +54,14 @@
                     $.ajax({
                         url: '/rfq/samplesubmissions/' + rfqId,
                         method: "PUT",
-                        data: { status: selectedStatus, imagesString: imagesString }
+                        data: { status: selectedStatus, sampleStatus: sampleStatus, imagesString: imagesString }
                     }).done(function (response) {
                         //window.location.reload();
                     });
                 }
                 window.location.reload(true);
             });
+          
             return false;
         });
         if ($(".elastislide").length > 0) {
@@ -55,6 +72,10 @@
         }
 
         $(".ddlSamplesubmission").val($(".hdnSamplesubmissionStatus").val());
+        $(".ddlSamplesubmissionDate").val($(".hdnSamplesubmissionDate").val());
 
-    }, 500);
+        console.log($(".hdnSamplesubmissionDate").val());
+        console.log($(".ddlSamplesubmissionDate"));
+
+    }, 1000);
 });

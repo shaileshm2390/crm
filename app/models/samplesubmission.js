@@ -9,6 +9,7 @@ module.exports = function (sequelize, DataTypes) {
             associate: function (models) {
                 Samplesubmission.belongsTo(models.Rfq);
                 Samplesubmission.hasMany(models.Samplesubmissionimage);
+                Samplesubmission.hasMany(models.SampleStatus);
             }
         }
     );

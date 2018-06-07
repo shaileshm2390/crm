@@ -72,10 +72,25 @@
         }
 
         $(".ddlSamplesubmission").val($(".hdnSamplesubmissionStatus").val());
-        $(".ddlSamplesubmissionDate").val($(".hdnSamplesubmissionDate").val());
+       
+        $(".calender").on("focusout", function () {
+            if ($.trim($(".calender").val()).length == 0) {
+                $(".errorDate").html("Please select any date from datepicker.").show();
+                return false;
+            }
+            else {
+                return true;
+                $(".errorDate").html("").hide();
+            }
+        });
 
-        console.log($(".hdnSamplesubmissionDate").val());
-        console.log($(".ddlSamplesubmissionDate"));
+        $(".calender").on("keyup", function () {
+            $(".errorDate").html("");
+            if ($.trim($(".calender").val()).length == 0) {
+                $(".errorDate").html("Please select any date from datepicker.").show();
+            }
+        });
+
 
     }, 1000);
 });

@@ -14,6 +14,7 @@ module.exports = function (sequelize, DataTypes) {
                 Rfq.hasMany(models.CostSheet);
                 Rfq.hasMany(models.PurchaseOrder);
                 Rfq.hasMany(models.Samplesubmission);
+                Rfq.hasMany(models.Quotation);
             }
         }
     );

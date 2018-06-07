@@ -14,7 +14,6 @@
             $("#sampleStatus").datepicker("show");
             
         });
-        console.log("Hi", $("#sampleStatus").val());
 
         var myDropzone = new Dropzone('#myId', {
             url: "/samplesubmissionimages/"

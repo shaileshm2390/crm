@@ -27,6 +27,28 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
             });
     };
 
+    $scope.displaySampleSubmission = function (rfq) {
+        if (typeof (rfq) != "undefined") {
+             return rfq.CostSheets.length && rfq.CostSheets.some(function (o) { return o['status'] == 'approved' });
+        }
+        return false;
+    };
+
+    $scope.displayReceivePO = function (rfq) {
+        if (typeof (rfq) != "undefined") {            
+            return rfq.Quotations.length;
+        }
+        return false;
+    };
+
+    $scope.isPoReceived = function (rfq) {
+        if (typeof (rfq) != "undefined" && typeof (rfq.PurchaseOrders) != 'undefined') {            
+            console.log(rfq.PurchaseOrders.length && rfq.PurchaseOrders.some(function (o) { return o['status'] == "Completed" }));
+            return rfq.PurchaseOrders.length && rfq.PurchaseOrders.some(function (o) { return o['status'] == "Completed" });
+        }
+        return false;
+    };
+
 }]);
 
 app.filter('capitalize', function () {

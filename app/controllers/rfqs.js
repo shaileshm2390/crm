@@ -52,6 +52,18 @@ exports.all = function (req, res) {
             },
             {
                 model: db.RfqImage
+            },
+            {
+                model: db.Samplesubmission
+            },
+            {
+                model: db.PurchaseOrder
+            },
+            {
+                model: db.CostSheet
+            },
+            {
+                model: db.Quotation
             }
         ]
     }).then(function (rfqs) {
@@ -83,6 +95,18 @@ exports.rfq = function (req, res, next, id) {
             },
             {
                 model: db.RfqImage
+            },
+            {
+                model: db.Samplesubmission
+            },
+            {
+                model: db.PurchaseOrder
+            },
+            {
+                model: db.CostSheet
+            },
+            {
+                model: db.Quotation
             }
         ]
     }).then(function (rfq) {
@@ -117,6 +141,18 @@ exports.rfqByBuyer = function (req, res, next, id) {
             },
             {
                 model: db.RfqImage
+            },
+            {
+                model: db.Samplesubmission
+            },
+            {
+                model: db.PurchaseOrder
+            },
+            {
+                model: db.CostSheet
+            },
+            {
+                model: db.Quotation
             }
         ]
     }).then(function (rfq) {
@@ -146,6 +182,18 @@ exports.rfqByUser = function (req, res, next, id) {
             },
             {
                 model: db.RfqImage
+            },
+            {
+                model: db.Samplesubmission
+            },
+            {
+                model: db.PurchaseOrder
+            },
+            {
+                model: db.CostSheet
+            },
+            {
+                model: db.Quotation
             }
         ]
     }).then(function (rfq) {

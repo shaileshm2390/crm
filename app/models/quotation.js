@@ -10,7 +10,6 @@ module.exports = function (sequelize, DataTypes) {
         {
             associate: function (models) {
                 Quotation.belongsTo(models.User);
-                Quotation.belongsTo(models.Rfq);
                 Quotation.belongsTo(models.CostSheet);
             }
         }

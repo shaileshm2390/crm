@@ -1,7 +1,8 @@
-﻿<div class="sidebar-nav">
+﻿
+<div class="sidebar-nav">
     <ul>
         <li><a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}/rfq/{{rfq.id}}"><span>RFQ Detail</span></a><hr /></li>
-        <li>
+        <li ng-hide="isPoReceived(rfq)">
             <a class="has-arrow lnkCostSheetMenu" href="#" aria-expanded="false">
                 <span>Cost Sheet Preparation</span>
             </a>
@@ -12,7 +13,7 @@
             <hr />
         </li>
 
-        <li>
+        <li ng-show="rfq.CostSheets.length">
             <a class="has-arrow lnkCostSheetMenu" href="#" aria-expanded="false">
                 <span>Quotation</span>
             </a>
@@ -22,8 +23,8 @@
             </ul>
             <hr />
         </li>
-        <li><a href="/rfq/{{rfq.id}}/samplesubmission"><span>Sample Submission</span></a><hr /></li>
-        <li><a href="/rfq/{{rfq.id}}/purchaseorder"><span>Receive PO</span></a><hr /></li>
+        <li ng-show="displaySampleSubmission(rfq)"><a href="/rfq/{{rfq.id}}/samplesubmission"><span>Sample Submission</span></a><hr /></li>
+        <li ng-show="displayReceivePO(rfq)"><a href="/rfq/{{rfq.id}}/purchaseorder"><span>Receive PO</span></a><hr /></li>
 
     </ul>
 </div>

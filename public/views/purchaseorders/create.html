@@ -13,43 +13,45 @@
 
             <div class="col col-lg-9">
                 <h3>Receive Purchase Order</h3>
-                <div data-ng-controller="PurchaseordersController" data-ng-init="findOne()">
-                    <div class="row">
-                        <ul class="elastislide1">
-                            <li class="img_wrp" data-ng-repeat="image in purchaseorder.PurchaseOrderImages | orderBy : '-createdAt'" style="margin-right:3px;">
-                                <a data-fancybox="gallery" href="{{image.imagePath}}">
-                                    <img src="{{image.imagePath}}" alt="image{{image.id}}" height="180" />
-                                </a>
-                                <a ng-click="deleteImage(image.id)"><i class="close fa fa-close" aria-hidden="true" /></a>
-                            </li>
+                <div ng-hide="isPoReceived(rfq)">
+                    <div data-ng-controller="PurchaseordersController" data-ng-init="findOne()">
+                        <div class="row">
+                            <ul class="elastislide1">
+                                <li class="img_wrp" data-ng-repeat="image in purchaseorder.PurchaseOrderImages | orderBy : '-createdAt'" style="margin-right:3px;">
+                                    <a data-fancybox="gallery" href="{{image.imagePath}}">
+                                        <img src="{{image.imagePath}}" alt="image{{image.id}}" height="180" />
+                                    </a>
+                                    <a ng-click="deleteImage(image.id)"><i class="close fa fa-close" aria-hidden="true" /></a>
+                                </li>
 
-                        </ul>
-                    </div>
-                </div>
-                <br /><br />
-                <div id="myId" class="dropzone"></div>
-
-                <br /><br />
-                <input type="hidden" class="form-control hdnPurchaseorderStatus" ng-controller="PurchaseordersController" ng-init="findOne()" value="{{purchaseorder.status}}">
-
-                <div class="control-group">
-                    <label for="status" class="control-label">Status</label>
-                    <div class="controls">
-                        <div style="width:50%;">
-                            <select class="form-control ddlPurchaseorder" id="selectedStatus" ng-init="findOne()" data-ng-model="purchaseorder.status" required>
-                                <option value="">---- Select Status ----</option>
-                                <option ng-repeat="status in Status" value="{{status}}">{{status}}</option>
-                            </select>
+                            </ul>
                         </div>
                     </div>
-                </div>
-                <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
+                    <br /><br />
+                    <div id="myId" class="dropzone"></div>
 
-                <div class="clear clearfix"></div><br />
-                <div class="control-group">
-                    <div class="controls">
-                        <input type="submit" class="btn btn-primary btn-Save" value="Save">
-                        <a class="btn btn-secondary" href="javascript:window.history.back();">Cancel</a>
+                    <br /><br />
+                    <input type="hidden" class="form-control hdnPurchaseorderStatus" ng-controller="PurchaseordersController" ng-init="findOne()" value="{{purchaseorder.status}}">
+
+                    <div class="control-group">
+                        <label for="status" class="control-label">Status</label>
+                        <div class="controls">
+                            <div style="width:50%;">
+                                <select class="form-control ddlPurchaseorder" id="selectedStatus" ng-init="findOne()" data-ng-model="purchaseorder.status" required>
+                                    <option value="">---- Select Status ----</option>
+                                    <option ng-repeat="status in Status" value="{{status}}">{{status}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
+
+                    <div class="clear clearfix"></div><br />
+                    <div class="control-group">
+                        <div class="controls">
+                            <input type="submit" class="btn btn-primary btn-Save" value="Save">
+                            <a class="btn btn-secondary" href="javascript:window.history.back();">Cancel</a>
+                        </div>
                     </div>
                 </div>
                 <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />

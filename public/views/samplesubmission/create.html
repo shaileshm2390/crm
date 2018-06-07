@@ -14,7 +14,7 @@
                 <h3>Sample Submission</h3>
 
                 <!--Sample Status data start-->
-                <div data-ng-init="getAllSampleStatus()">
+                <div data-ng-init="getAllSampleStatus()" ng-show="sampleStatusData.length">
                     <table class="table table-bordered col col-lg-9">
                         <thead>
                             <tr>
@@ -53,51 +53,53 @@
                     </div>
                 </div>
                 <br /><br />
-                <div id="myId" class="dropzone"></div>
 
-                <br />
+                      <div ng-hide="isPoReceived(rfq)">
+                          <div id="myId" class="dropzone"></div>
 
-                <div ng-controller="SampleSubmissionsController">
-                    <input type="hidden" ng-init="findOne()" class="form-control hdnSamplesubmissionStatus"  value="{{samplesubmission.status}}">
-                    <div data-ng-init="getAllSampleStatus()">
-                        <input type="hidden" class="form-control hdnSamplesubmissionDate" ng-repeat="date in sampleSubmissionData" value="{{date.target_date}}">
-                    </div>
-                </div>
+                          <br />
 
-                <div class="control-group">
-                    <label for="status" class="control-label">Status</label>
-                    <div class="controls">
-                        <div style="width:50%;">
-                            <select class="form-control ddlSamplesubmission" id="selectedStatus" ng-init="findOne()" data-ng-model="samplesubmission.status" required>
-                                <option value="">---- Select Status ----</option>
-                                <option ng-repeat="status in Status" value="{{status}}">{{status}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                          <div ng-controller="SampleSubmissionsController">
+                              <input type="hidden" ng-init="findOne()" class="form-control hdnSamplesubmissionStatus" value="{{samplesubmission.status}}">
+                              <div data-ng-init="getAllSampleStatus()">
+                                  <input type="hidden" class="form-control hdnSamplesubmissionDate" ng-repeat="date in sampleSubmissionData" value="{{date.target_date}}">
+                              </div>
+                          </div>
 
-                <br /><br />
+                          <div class="control-group">
+                              <label for="status" class="control-label">Status</label>
+                              <div class="controls">
+                                  <div style="width:50%;">
+                                      <select class="form-control ddlSamplesubmission" id="selectedStatus" ng-init="findOne()" data-ng-model="samplesubmission.status" required>
+                                          <option value="">---- Select Status ----</option>
+                                          <option ng-repeat="status in Status" value="{{status}}">{{status}}</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
 
-                <div class="control-group">
-                    <label class="control-label">Target Date</label>
-                    <div class="controls">
-                        <div class="row">
-                            <input class="calender ddlSamplesubmissionDate form-control col-6" type="text" id="sampleStatus" data-ng-model="sampleStatus" name="sampleStatus" value="{{targetdate}}" />
-                            <i class="col-6 fa fa-calendar f-s-30 calender" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                    <span class="errorDate" style="color:red;"></span>
-                </div>
+                          <br /><br />
 
-                <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
-                <div class="clear clearfix"></div><br />
-                <div class="control-group">
-                    <div class="controls">
-                        <input type="submit" class="btn btn-primary btn-Save" value="Save">
-                        <a class="btn btn-secondary" href="javascript:window.history.back();">Cancel</a>
-                    </div>
-                </div>
+                          <div class="control-group">
+                              <label class="control-label">Target Date</label>
+                              <div class="controls">
+                                  <div class="row">
+                                      <input class="calender ddlSamplesubmissionDate form-control col-6" type="text" id="sampleStatus" data-ng-model="sampleStatus" name="sampleStatus" value="{{targetdate}}" />
+                                      <i class="col-6 fa fa-calendar f-s-30 calender" aria-hidden="true"></i>
+                                  </div>
+                              </div>
+                              <span class="errorDate" style="color:red;"></span>
+                          </div>
 
+                          <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
+                          <div class="clear clearfix"></div><br />
+                          <div class="control-group">
+                              <div class="controls">
+                                  <input type="submit" class="btn btn-primary btn-Save" value="Save">
+                                  <a class="btn btn-secondary" href="javascript:window.history.back();">Cancel</a>
+                              </div>
+                          </div>
+                      </div>
                 <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
                 <br />
             </div>

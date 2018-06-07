@@ -41,63 +41,63 @@
                     </div>
 
                     <hr />
+                    <div ng-hide="isPoReceived(rfq)">
+                        <h3><strong>Prepare <span class="quotType"></span> Quotation</strong></h3>
 
-                    <h3><strong>Prepare <span class="quotType"></span> Quotation</strong></h3>
+                        <div class="alert alert-success lblMsg hide"></div>
 
-                    <div class="alert alert-success lblMsg hide"></div>
+                        <div class="clear clearfix"></div> <br />
 
-                    <div class="clear clearfix"></div> <br />
-
-                    <a href="#" class="btn btn-outline-primary lnkAddHeading  pull-right" title="add heading row">
-                        <span><i class="fa fa-plus-circle"></i></span>
-                    </a>
-                    <div class="clear clearfix"></div> <br />
-                    <div class="create-heading">
-                        <div class="pnlHeading">
-                            <div class="row">
-                                <div class="col col-lg-10">
-                                    <input type="text" class="txtHeading form-control" placeholder="Heading" required />
+                        <a href="#" class="btn btn-outline-primary lnkAddHeading  pull-right" title="add heading row">
+                            <span><i class="fa fa-plus-circle"></i></span>
+                        </a>
+                        <div class="clear clearfix"></div> <br />
+                        <div class="create-heading">
+                            <div class="pnlHeading">
+                                <div class="row">
+                                    <div class="col col-lg-10">
+                                        <input type="text" class="txtHeading form-control" placeholder="Heading" required />
+                                    </div>
                                 </div>
+                                <div class="clear clearfix"></div> <br />
                             </div>
+
+                            <div class="col col-lg-3 center">
+                                <a href="#" class="btnSubmitHeading btn btn-primary">Generate Table</a>
+                            </div>
+                        </div>
+
+                        <div class="pnlQuotTable hide">
+                            <a class="lnkBackToHeadingCreation btn btn-secondary" href="#">Back</a>
+                            <a class="lnkAddRow btn btn-primary pull-right" href="#">Add Row</a>
                             <div class="clear clearfix"></div> <br />
                         </div>
-
-                        <div class="col col-lg-3 center">
-                            <a href="#" class="btnSubmitHeading btn btn-primary">Generate Table</a>
-                        </div>
-                    </div>
-
-                    <div class="pnlQuotTable hide">
-                        <a class="lnkBackToHeadingCreation btn btn-secondary" href="#">Back</a>
-                        <a class="lnkAddRow btn btn-primary pull-right" href="#">Add Row</a>
-                        <div class="clear clearfix"></div> <br />
-                    </div>
                         <!--<a href="#" class="btn btn-outline-primary lnkAdd  pull-right" title="add row">
-                        <span><i class="fa fa-plus-circle"></i></span>
-                    </a>
-                    <div class="pnlParameter">
-                        <div class="row">
-            <div class="col col-lg-5">
-                <input type="text" class="txtName form-control" placeholder="Name" required />
-            </div>
-            <div class="col col-lg-5">
-                <input type="text" class="txtValue form-control" placeholder="Value" required />
-            </div>
-            <div class="col col-lg-2">
-                <a href="#" class="btn btn-outline-danger lnkRemove   pull-right" title="remove row"><span><i class="fa fa-minus-circle"></i></span></a>
-            </div>
-        </div>
-                        <div class="clear clearfix"></div> <br />
-                    </div>
-                    <div class="row">
-                        <div class="col col-lg-3 center">
-                            <a href="#" class="btnSubmit btn btn-primary">Generate</a>
+                                        <span><i class="fa fa-plus-circle"></i></span>
+                                    </a>
+                                    <div class="pnlParameter">
+                                        <div class="row">
+                            <div class="col col-lg-5">
+                                <input type="text" class="txtName form-control" placeholder="Name" required />
+                            </div>
+                            <div class="col col-lg-5">
+                                <input type="text" class="txtValue form-control" placeholder="Value" required />
+                            </div>
+                            <div class="col col-lg-2">
+                                <a href="#" class="btn btn-outline-danger lnkRemove   pull-right" title="remove row"><span><i class="fa fa-minus-circle"></i></span></a>
+                            </div>
                         </div>
-                    </div>-->
-
-                        <input type="hidden" class="hdnCostSheetId" value="{{costsheet.id}}" />
+                                        <div class="clear clearfix"></div> <br />
+                                    </div>
+                                    <div class="row">
+                                        <div class="col col-lg-3 center">
+                                            <a href="#" class="btnSubmit btn btn-primary">Generate</a>
+                                        </div>
+                                    </div>-->
                     </div>
+                    <input type="hidden" class="hdnCostSheetId" value="{{costsheet.id}}" />
                 </div>
+            </div>
         </div>
     </div>
 </section>
@@ -184,7 +184,7 @@
             $(".table-quot").remove();
             var trHeading = $("<tr>");
             var trInitialRow = $("<tr>");
-            
+
             $.each($(".txtHeading"), function (key, value) {
                 var th = $("<th>").html($(value).val());
                 var td = $("<td>").html($("<input />", { class: 'txt' + $(value).val() + ' form-control', type: 'text', placeholder: $(value).val(), required: 'required' }));
@@ -202,12 +202,12 @@
             typeof callback === 'function' && callback();
         };
 
-        
+
         var createDynamicTableRow = function (callback) {
             var trInitialRow = $("<tr>");
 
             $.each($(".txtHeading"), function (key, value) {
-                var td = $("<td>").html($("<input />", { class: 'txt' + $(value).val() + ' form-control', type: 'text', placeholder: $(value).val(), required: 'required' }));              
+                var td = $("<td>").html($("<input />", { class: 'txt' + $(value).val() + ' form-control', type: 'text', placeholder: $(value).val(), required: 'required' }));
                 trInitialRow.append(td);
             });
 
@@ -222,7 +222,7 @@
         };
 
 
-        //ajax call to save qoute         
+        //ajax call to save qoute
         var saveQuotation = function (data, quotType, costSheetId) {
             var dfd = $.Deferred();
             console.log({ UserId: window.user.id, data: data, RfqId: rfqId, type: quotType, CostSheetId: costSheetId });

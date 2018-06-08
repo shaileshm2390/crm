@@ -3,7 +3,7 @@
 var app = angular.module('mean.samplesubmissions').controller('SampleSubmissionsController', ['$scope', '$location', '$stateParams', 'Global', 'SampleSubmissions', '$state', '$window', '$filter', '$controller', '$rootScope', '$http', function ($scope, $location, $stateParams, Global, SampleSubmissions, $state, $window, $filter, $controller, $rootScope, $http) {
     $scope.global = Global;
 
-    $scope.Status = ["Drawing", "Release for Development", "Uploaded Image"];
+    $scope.Status = ["Drawing", "Release for Development", "Uploaded Sample"];
 
     var url = "//freegeoip.net/json/";
     $http.get(url).then(function (response) {
@@ -172,7 +172,7 @@ var app = angular.module('mean.samplesubmissions').controller('SampleSubmissions
         $http.get('/samplestatus').then(function (response) {
             $scope.sampleStatusData = response.data;
             if ($scope.sampleStatusData.length) {
-                $scope.targetdate = $scope.sampleStatusData[$scope.sampleStatusData.length - 1].target_date;
+                $scope.targetdate = $scope.sampleStatusData[$scope.sampleStatusData.length - 1].targetDate;
             }
         });
     }

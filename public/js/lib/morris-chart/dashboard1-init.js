@@ -60,14 +60,14 @@
                         var month = months[new Date(x).getMonth()];
                         return month;
                     },
-                    pointSize: 0,
+                    pointSize: 5,
                     lineWidth: 0,
                     resize: true,
-                    fillOpacity: 0.8,
+                    fillOpacity: 0.5,
                     behaveLikeLine: true,
                     gridLineColor: '#e0e0e0',
                     hideHover: 'auto',
-                    parseTime : false
+                    parseTime: false
                 });
             });
         }

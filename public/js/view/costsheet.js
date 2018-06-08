@@ -131,7 +131,7 @@
 
                 // status update of costsheet
                 $(".lnkUpdateStatus").bind('click', function (e) {
-                    if (confirm("You are going to change status to " + $(this).data("status") + ", sure?")) {
+                    if (window.user.isAdmin && confirm("You are going to change status to " + $(this).data("status") + ", sure?")) {
                         $.ajax({
                             url: '/costsheets/' + $(this).data("id"),
                             method: "PUT",
@@ -149,12 +149,14 @@
                 });
 
                 $(".btn-mail").on('click', function () {
-                    $.ajax({
-                        url: '/costsheets/mail/' + $(this).data("id"),
-                        method: "POST",                        
-                    }).done(function (response) {
-                        console.log("Mail sent successfully", response);
-                    });
+                    if (window.user.isAdmin) {
+                        $.ajax({
+                            url: '/costsheets/mail/' + $(this).data("id"),
+                            method: "POST",
+                        }).done(function (response) {
+                            console.log("Mail sent successfully", response);
+                        });
+                    }
                 });
             }, 500);
     });

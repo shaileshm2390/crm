@@ -18,9 +18,9 @@
                     <table class="table table-bordered col col-lg-9">
                         <thead>
                             <tr>
+                                <th style="text-align:center">Process</th>
+                                <th style="text-align:center">Target date</th>
                                 <th style="text-align:center">Status</th>
-                                <th style="text-align:center">Targated date</th>
-                                <th style="text-align:center">Sample_Submission Id</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -29,10 +29,10 @@
                                     <label style="color:dodgerblue;">{{data.status}}</label>
                                 </td>
                                 <td style="text-align:center">
-                                    <label>{{data.target_date}}</label>
+                                    <label>{{data.targetDate  | date:'medium'}}</label>
                                 </td>
                                 <td style="text-align:center">
-                                    <span>{{data.SamplesubmissionId}}</span>
+                                        Working
                                 </td>
                             </tr>
                         </tbody>
@@ -60,36 +60,40 @@
                           <br />
 
                           <div ng-controller="SampleSubmissionsController">
-                              <input type="hidden" ng-init="findOne()" class="form-control hdnSamplesubmissionStatus" value="{{samplesubmission.status}}">
-                              <div data-ng-init="getAllSampleStatus()">
-                                  <input type="hidden" class="form-control hdnSamplesubmissionDate" ng-repeat="date in sampleSubmissionData" value="{{date.target_date}}">
-                              </div>
+                              <input type="hidden" ng-init="findOne()" class="form-control hdnSamplesubmissionStatus" value="{{samplesubmission.status}}">                             
                           </div>
 
                           <div class="control-group">
                               <label for="status" class="control-label">Status</label>
-                              <div class="controls">
-                                  <div style="width:50%;">
+                              <div class="controls row">
+                                  <div class="col-lg-6">
                                       <select class="form-control ddlSamplesubmission" id="selectedStatus" ng-init="findOne()" data-ng-model="samplesubmission.status" required>
-                                          <option value="">---- Select Status ----</option>
+                                          <option value="">Select Status</option>
                                           <option ng-repeat="status in Status" value="{{status}}">{{status}}</option>
-                                      </select>
+                                      </select>                                      
+                                  </div>
+                                  <div class="col-lg-6">
+                                      <div class="errorStatus error"></div>
                                   </div>
                               </div>
                           </div>
-
-                          <br /><br />
-
-                          <div class="control-group">
-                              <label class="control-label">Target Date</label>
-                              <div class="controls">
-                                  <div class="row">
-                                      <input class="calender ddlSamplesubmissionDate form-control col-6" type="text" id="sampleStatus" data-ng-model="sampleStatus" name="sampleStatus" value="{{targetdate}}" />
-                                      <i class="col-6 fa fa-calendar f-s-30 calender" aria-hidden="true"></i>
-                                  </div>
-                              </div>
-                              <span class="errorDate" style="color:red;"></span>
-                          </div>
+                          <br />
+                                <div class="control-group">
+                                    <label class="control-label">Target Date</label>
+                                    <div class="controls row">
+                                        <div class="col-lg-6">
+                                            <div class="input-group date" data-provide="datepicker">
+                                                <input type="text" class="datepicker form-control" id="sampleStatusTargetDate" name="sampleStatusTargetDate" placeholder="Select Target Date" value="{{targetdate | date:'MM/dd/yyyy'}}">
+                                                <div class="input-group-addon">
+                                                    &nbsp;<span class="fa f-s-30 fa-calendar"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="errorDate error"></div>
+                                        </div>
+                                    </div>
+                                </div>
 
                           <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
                           <div class="clear clearfix"></div><br />
@@ -107,49 +111,102 @@
 
 </section>
     </div>
+    <!--<script type="text/javascript" src="/js/view/samplesubmission.js"></script>-->    
+<script src="/js/lib/datepicker/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
 
-<link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
-      rel="stylesheet">
-<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-<!--<link href="/css/validations.css" rel="stylesheet" />-->
+        var isValidForm = function () {
+            var flagTargetDate = false,
+                flagStatus = false;
 
-    <script type="text/javascript" src="/js/view/samplesubmission.js"></script>    
+            if ($(".ddlSamplesubmission").val() == "") {
+                $(".errorStatus").html("please select status").show("slow");                
+            } else {
+                flagStatus = true;
+                $(".errorStatus").html("").hide();
+            }
 
-<style>
-    * {
-  margin: 0;
-  padding: 0;
-}
+            if ($.trim($(".datepicker").val()).length == 0) {
+                $(".errorDate").html("please select target date").show("slow");
 
-body {
-  font-family: "Open Sans";
-  font-size: 14px;
-}
+            } else {
+                flagTargetDate = true;
+                $(".errorDate").hide().html("");
+            }
+           
+            return flagTargetDate && flagStatus;
+        },
+            imagesArray = [],
+            rfqId,
+            selectedStatus,
+            imagesString,
+            sampleStatus;
 
-.container {
-  width: 500px;
-  margin: 25px auto;
-}
+        setTimeout(function () {        
 
-form .error {
-  color: #ff0000;
-}
+            $(".datepicker").datepicker();
+            
+            var myDropzone = new Dropzone('#myId', {
+                url: "/samplesubmissionimages/"
+            });
 
-.img_wrp {
-  display: inline-block;
-  position: relative;
-}
-.close {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
+            myDropzone.on("success", function (file, response) {
+                imagesArray.push(response.pathFromRoot);
+            });
 
-.fa-close {
-  background: transparent;
-  border-radius: 5%;
-  height: 5em;
-  width: 1em;
-  color:red;
-}
-</style>
+            $(".btn-Save").on('click', function () {
+                if (isValidForm()) {
+
+                    $(".hdnImages").val(imagesArray.join(",")).trigger('change');
+                    rfqId = $(".hdnRfqId").val();
+                    imagesString = $("#imagesString").val();
+                    targetDate = $("#sampleStatusTargetDate").val();
+                    selectedStatus = $("#selectedStatus").find("option:selected").text();
+                    $.ajax({
+                        url: '/rfq/samplesubmissions/' + rfqId,
+                        method: "GET"
+                    }).done(function (response) {
+                        if ($.isEmptyObject(response)) {
+                            $.ajax({
+                                url: '/samplesubmissions/',
+                                method: "POST",
+                                data: { status: selectedStatus, targetDate: targetDate, imagesString: imagesString, RfqId: rfqId }
+                            }).done(function (response) {
+                                dfd.resolve(response);
+                                $(".lblMsg").html("<span>Saved successfully !!!</span>").removeClass("hide");
+                            });
+
+                        }
+                        else {
+                            $.ajax({
+                                url: '/rfq/samplesubmissions/' + rfqId,
+                                method: "PUT",
+                                data: { status: selectedStatus, targetDate: targetDate, imagesString: imagesString }
+                            }).done(function (response) {
+                                window.location.reload();
+                            });
+                        }
+                        window.location.reload(true);
+                    });
+                }
+                return false;
+            });
+
+            if ($(".elastislide").length > 0) {
+                $(".elastislide").elastislide();
+            }
+            if ($(".elastislide1").length > 0) {
+                $('.elastislide1').elastislide();
+            }
+
+            $(".ddlSamplesubmission").val($(".hdnSamplesubmissionStatus").val());
+
+            if ($(".hdnUserId").val() != "") {
+                $(".ddlUser option[selected]").remove();
+                $(".ddlUser").val($(".hdnUserId").val());
+            }
+        }, 500);
+    });
+
+</script>

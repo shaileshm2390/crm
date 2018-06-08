@@ -31,11 +31,13 @@
                             <div class="clear clearfix"></div>
 
                             <div class="row">
-                                <div class="col-lg-8">
+                                <div ng-class="(global.user.isAdmin && 'col col-lg-8') || 'col-lg-12'">
                                     <hr />
                                     <strong>Cost Sheet Parameter</strong>
                                     <hr />
+
                                     <div class="clear clearfix"></div><br />
+                                 
                                     <div class="row" ng-repeat="(key,value) in stringToObject(costsheet.data, true) ">
                                         <div class="col col-lg-5">
                                             {{key}}
@@ -46,12 +48,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4" style="border-left:1px solid rgba(0,0,0,.1)">
+                                <div class="col-lg-4" ng-show="global.user.isAdmin"  style="border-left:1px solid rgba(0,0,0,.1)">
                                     <hr /><p style="text-align:center;"><strong>Action</strong></p><hr />
                                     <div class="clear clearfix"></div><br />
                                     <div style="text-align:center;">
 
-                                        <a class="btn btn-primary btn-update" data-parameter="{{stringToObject(costsheet.data, true)}}" href="#" title="Copy and modify">
+                                        <a ng-class="(global.user.isAdmin && 'btn-update btn btn-primary') || 'btn btn-primary'" data-parameter="{{stringToObject(costsheet.data, true)}}" href="#" title="Copy and modify">
                                             <span><i class="fa fa-wrench"></i></span>
                                         </a>
 

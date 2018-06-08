@@ -11,7 +11,7 @@ const request = require('request');
 var ipAddress;
 
 request('http://freegeoip.net/json/', { json: true }, (err, res, body) => {
-    if (err) { return console.log(err); }
+    if (err) { console.log(err); }
     ipAddress = body.ip;
 });
 
@@ -61,7 +61,7 @@ exports.create = function (req, res) {
             }
             var sampleStatusRequest = {
                 status: req.body.status,
-                target_date : req.body.sampleStatus,
+                targetDate: req.body.targetDate,
                 SamplesubmissionId: samplesubmission.id
             };
             db.SampleStatus.create(sampleStatusRequest);
@@ -132,7 +132,7 @@ exports.update = function (req, res) {
         }
         var sampleStatusRequest = {
             status: req.body.status,
-            target_date: req.body.sampleStatus,
+            targetDate: req.body.targetDate,
             SamplesubmissionId: samplesubmission.id
         };
         db.SampleStatus.create(sampleStatusRequest);

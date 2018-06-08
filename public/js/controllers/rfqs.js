@@ -42,11 +42,16 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
     };
 
     $scope.isPoReceived = function (rfq) {
-        if (typeof (rfq) != "undefined" && typeof (rfq.PurchaseOrders) != 'undefined') {            
-            console.log(rfq.PurchaseOrders.length && rfq.PurchaseOrders.some(function (o) { return o['status'] == "Completed" }));
+        if (typeof (rfq) != "undefined" && typeof (rfq.PurchaseOrders) != 'undefined') {     
             return rfq.PurchaseOrders.length && rfq.PurchaseOrders.some(function (o) { return o['status'] == "Completed" });
         }
         return false;
+    };
+
+    $scope.assignToMeRfq = function (rfqId) {
+        $http.put('/rfqs/' + rfqId, { UserId: $window.user.id, id: rfqId }).then(function (response) {
+            $scope.findOneByRfqId();
+        });
     };
 
 }]);

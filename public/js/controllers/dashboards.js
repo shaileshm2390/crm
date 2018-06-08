@@ -35,20 +35,24 @@ var app = angular.module('mean.dashboards').controller('DashboardsController', [
         if (typeof $window.user != 'undefined') {
             $http.get("/dashboards/getMyRfq")
                 .then(function (response) {
+                    console.log(response.data);
                     $scope.myRfqs = response.data;
                     //customStatus
                     for (var index = 0; index < $scope.myRfqs.length; index++) {
                         if (!$scope.myRfqs[index].CostSheets.length) {
-                            $scope.myRfqs[index].customStatus = "<a class='btn btn-info' href='/rfq/" + $scope.myRfqs[index].id + "/costsheet/prepare'>Prepare costsheet</a>";
+                            $scope.myRfqs[index].customStatus = "<a class='btn btn-info' href='/rfq/" + $scope.myRfqs[index].id + "/costsheet/prepare'>Prepare Cost Sheet</a>";
 
                         }
-                        else if (!$scope.myRfqs[index].CostSheets.some(function (o) { return o["status"] === "approved"; })) {
-                            $scope.myRfqs[index].customStatus = "<a class='btn btn-warning' href='/rfq/" + $scope.myRfqs[index].id + "/costsheet/approval'>Waiting for cost sheet approval</a>";
+                        else if (!$scope.myRfqs[index].CostSheets.some(function (o) { return o["status"].toLowerCase() === "approved"; })) {
+                            $scope.myRfqs[index].customStatus = "<a class='btn btn-warning' href='/rfq/" + $scope.myRfqs[index].id + "/costsheet/approval'>Waiting for Cost Sheet Approval</a>";
 
-                        } else if (!$scope.myRfqs[index].CostSheets.length) {
+                        } else if (!$scope.myRfqs[index].Quotations.length) {
+                            $scope.myRfqs[index].customStatus = "<a class='btn btn-warning' href='/rfq/" + $scope.myRfqs[index].id + "/quotation/short'>Waiting for Short Quotation</a>";
+
+                        } else if (!$scope.myRfqs[index].PurchaseOrders.length) {
                             $scope.myRfqs[index].customStatus = "<a class='btn btn-danger' href='/rfq/" + $scope.myRfqs[index].id + "/purchaseorder'>Waiting for PO</a>";
 
-                        } else if (!$scope.myRfqs[index].PurchaseOrders.some(function (o) { return o["status"] === "completed"; })) {
+                        } else if (!$scope.myRfqs[index].PurchaseOrders.some(function (o) { return o["status"].toLowerCase() === "completed"; })) {
                             $scope.myRfqs[index].customStatus = "<a class='btn btn-warning' href='/rfq/" + $scope.myRfqs[index].id + "/purchaseorder'>Waiting for PO approval</a>";
 
                         }

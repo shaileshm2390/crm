@@ -148,6 +148,9 @@ exports.getMyRfq = function (req, res) {
             },
             {
                 model: db.Samplesubmission
+            },
+            {
+                model: db.Quotation
             }
         ]
     }).then(function (rfq) {

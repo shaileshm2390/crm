@@ -3,9 +3,16 @@
 module.exports = function (sequelize, DataTypes) {
 
     var SampleStatus = sequelize.define('SampleStatus', {
-        status: DataTypes.STRING,
-        targetDate: DataTypes.DATE
-    }
+        process: DataTypes.STRING,
+        startDate: DataTypes.DATE,
+        targetDate: DataTypes.DATE,
+        status: DataTypes.STRING
+    },
+        {
+            associate: function (models) {
+                SampleStatus.belongsTo(models.User);
+            }
+        }
     );
 
     return SampleStatus;

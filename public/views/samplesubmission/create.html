@@ -19,25 +19,61 @@
                         <thead>
                             <tr>
                                 <th style="text-align:center">Process</th>
+                                <th style="text-align:center">Start date</th>
                                 <th style="text-align:center">Target date</th>
                                 <th style="text-align:center">Status</th>
+                                <th style="text-align:center">Performance</th>
+                                <th style="text-align:center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="data in sampleStatusData">
                                 <td style="text-align:center">
-                                    <label style="color:dodgerblue;">{{data.status}}</label>
+                                    <label>{{data.process}}</label>
                                 </td>
                                 <td style="text-align:center">
-                                    <label>{{data.targetDate  | date:'medium'}}</label>
+                                    <label>{{data.startDate  | date:'dd/MM/yyyy'}}</label>
                                 </td>
                                 <td style="text-align:center">
-                                        Working
+                                    <label>{{data.targetDate  | date:'dd/MM/yyyy'}}</label>
+                                </td>
+                                <td style="text-align:center">
+                                    <label ng-class="(data.status == 'To do' ? 'badge badge-info' : (data.status == 'In progress' ? 'badge badge-warning' : (data.status == 'Completed' ? 'badge badge-success' : 'badge')))">{{data.status}}</label>
+                                </td>
+
+                                <td style="text-align:center">
+                                    <label ng-class="(data.performance == 'Overdue' || data.performance == 'After time'? 'badge badge-danger' : (data.performance != '-' ? 'badge badge-success': ''))">
+                                        {{data.performance}}
+                                    </label><br />
+                                    <small ng-show="data.status == 'Completed'">Completed Date:{{data.updatedAt | date:"dd/MM/yyyy"}}</small>
+                                </td>
+
+                                <td>
+
+                                    <a class="btn btn-outline-warning lnkUpdateStatus" ng-click="updateStatus(data.id, 'In progress')" href="#" title="click to start" ng-show="global.user.isAdmin || data.status =='To do'">
+                                        <span><i class="fa fa-thumbs-o-up"></i></span>
+                                    </a>
+
+                                    <a class=" btn btn-outline-info lnkUpdateStatus" ng-click="updateStatus(data.id, 'To do')" href="#" title="click to reset" ng-show="global.user.isAdmin || data.status =='In progress'">
+                                        <span><i class="fa fa-refresh"></i></span>
+                                    </a>
+
+                                    <a class=" btn btn-outline-danger lnkUpdateStatus" ng-click="updateStatus(data.id, 'Cancelled')" href="#" title="click to cancel" ng-show="global.user.isAdmin || (data.status!='Completed' && data.status!='Cancelled')">
+                                        <span><i class="fa fa-times"></i></span>
+                                    </a>
+
+                                    <a class=" btn btn-outline-primary lnkUpdateStatus" ng-click="updateStatus(data.id, 'Completed')"href="#" title="click to complete" ng-show="global.user.isAdmin || data.status =='In progress'">
+                                        <span><i class="fa fa-check"></i></span>
+                                    </a>
+
+                                    <div style="text-align:center" ng-show="!global.user.isAdmin && data.status=='Completed'">-</div>
+
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+                <div ng-show="!sampleStatusData.length" align="center">No sample has been submitted yet</div>
                 <!--Sample Status data end-->
 
                 <div data-ng-controller="SampleSubmissionsController" data-ng-init="findOne()">
@@ -53,160 +89,87 @@
                     </div>
                 </div>
                 <br /><br />
+                <a class="btn btn-secondary btnChangeStatus pull-right" href="#">Add Process</a>
+                <div class="clear clearfix"></div>
+                <br />
 
-                      <div ng-hide="isPoReceived(rfq)">
-                          <div id="myId" class="dropzone"></div>
 
-                          <br />
+                <!-- Update status panel -->
+                <div ng-hide="isPoReceived(rfq)" class="hide pnlStatusUpdate">
 
-                          <div ng-controller="SampleSubmissionsController">
-                              <input type="hidden" ng-init="findOne()" class="form-control hdnSamplesubmissionStatus" value="{{samplesubmission.status}}">                             
-                          </div>
+                    <div class="control-group">
+                        <label for="status" class="control-label">Status</label>
+                        <div class="controls row">
+                            <div class="col-lg-6">
 
-                          <div class="control-group">
-                              <label for="status" class="control-label">Status</label>
-                              <div class="controls row">
-                                  <div class="col-lg-6">
-                                      <select class="form-control ddlSamplesubmission" id="selectedStatus" ng-init="findOne()" data-ng-model="samplesubmission.status" required>
-                                          <option value="">Select Status</option>
-                                          <option ng-repeat="status in Status" value="{{status}}">{{status}}</option>
-                                      </select>                                      
-                                  </div>
-                                  <div class="col-lg-6">
-                                      <div class="errorStatus error"></div>
-                                  </div>
-                              </div>
-                          </div>
-                          <br />
-                                <div class="control-group">
-                                    <label class="control-label">Target Date</label>
-                                    <div class="controls row">
-                                        <div class="col-lg-6">
-                                            <div class="input-group date" data-provide="datepicker">
-                                                <input type="text" class="datepicker form-control" id="sampleStatusTargetDate" name="sampleStatusTargetDate" placeholder="Select Target Date" value="{{targetdate | date:'MM/dd/yyyy'}}">
-                                                <div class="input-group-addon">
-                                                    &nbsp;<span class="fa f-s-30 fa-calendar"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="errorDate error"></div>
-                                        </div>
+                                <select class="form-control ddlSamplesubmission" id="selectedStatus" ng-init="findOne()" required>
+                                    <option value="">Select Status</option>
+                                    <option ng-repeat="status in Status" value="{{status}}">{{status}}</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="errorStatus error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="control-group">
+                        <label class="control-label">Start Date</label>
+                        <div class="controls row">
+                            <div class="col-lg-6">
+                                <div class="input-group date" data-provide="datepicker">
+                                    <input type="text" class="datepicker form-control" id="sampleStatusStartDate" name="sampleStatusStartDate" placeholder="Select Start Date">
+                                    <div class="input-group-addon">
+                                        &nbsp;<span class="fa f-s-30 fa-calendar"></span>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="errorStartDate error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
 
-                          <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
-                          <div class="clear clearfix"></div><br />
-                          <div class="control-group">
-                              <div class="controls">
-                                  <input type="submit" class="btn btn-primary btn-Save" value="Save">
-                                  <a class="btn btn-secondary" href="javascript:window.history.back();">Cancel</a>
-                              </div>
-                          </div>
-                      </div>
-                <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
-                <br />
-            </div>
+                    <div class="control-group">
+                        <label class="control-label">Target Date</label>
+                        <div class="controls row">
+                            <div class="col-lg-6">
+                                <div class="input-group date" data-provide="datepicker">
+
+                                    <input type="text" class="datepicker form-control" id="sampleStatusTargetDate" name="sampleStatusTargetDate" placeholder="Select Target Date">
+                                    <div class="input-group-addon">
+                                        &nbsp;<span class="fa f-s-30 fa-calendar"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="errorDate error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="control-group">
+                        <label class="control-label">Images</label>
+                        <div id="myId" class="dropzone col-lg-6"></div>
+                   </div>
+                        <br />
+
+                        <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
+                        <div class="clear clearfix"></div><br />
+                        <div class="control-group">
+                            <div class="controls">
+                                <input type="submit" class="btn btn-primary btn-Save" value="Save">
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
+                    <br />
                 </div>
+        </div>
 
-</section>
-    </div>
-    <!--<script type="text/javascript" src="/js/view/samplesubmission.js"></script>-->    
+    </section>
+</div>
+
 <script src="/js/lib/datepicker/bootstrap-datepicker.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-
-        var isValidForm = function () {
-            var flagTargetDate = false,
-                flagStatus = false;
-
-            if ($(".ddlSamplesubmission").val() == "") {
-                $(".errorStatus").html("please select status").show("slow");                
-            } else {
-                flagStatus = true;
-                $(".errorStatus").html("").hide();
-            }
-
-            if ($.trim($(".datepicker").val()).length == 0) {
-                $(".errorDate").html("please select target date").show("slow");
-
-            } else {
-                flagTargetDate = true;
-                $(".errorDate").hide().html("");
-            }
-           
-            return flagTargetDate && flagStatus;
-        },
-            imagesArray = [],
-            rfqId,
-            selectedStatus,
-            imagesString,
-            sampleStatus;
-
-        setTimeout(function () {        
-
-            $(".datepicker").datepicker();
-            
-            var myDropzone = new Dropzone('#myId', {
-                url: "/samplesubmissionimages/"
-            });
-
-            myDropzone.on("success", function (file, response) {
-                imagesArray.push(response.pathFromRoot);
-            });
-
-            $(".btn-Save").on('click', function () {
-                if (isValidForm()) {
-
-                    $(".hdnImages").val(imagesArray.join(",")).trigger('change');
-                    rfqId = $(".hdnRfqId").val();
-                    imagesString = $("#imagesString").val();
-                    targetDate = $("#sampleStatusTargetDate").val();
-                    selectedStatus = $("#selectedStatus").find("option:selected").text();
-                    $.ajax({
-                        url: '/rfq/samplesubmissions/' + rfqId,
-                        method: "GET"
-                    }).done(function (response) {
-                        if ($.isEmptyObject(response)) {
-                            $.ajax({
-                                url: '/samplesubmissions/',
-                                method: "POST",
-                                data: { status: selectedStatus, targetDate: targetDate, imagesString: imagesString, RfqId: rfqId }
-                            }).done(function (response) {
-                                dfd.resolve(response);
-                                $(".lblMsg").html("<span>Saved successfully !!!</span>").removeClass("hide");
-                            });
-
-                        }
-                        else {
-                            $.ajax({
-                                url: '/rfq/samplesubmissions/' + rfqId,
-                                method: "PUT",
-                                data: { status: selectedStatus, targetDate: targetDate, imagesString: imagesString }
-                            }).done(function (response) {
-                                window.location.reload();
-                            });
-                        }
-                        window.location.reload(true);
-                    });
-                }
-                return false;
-            });
-
-            if ($(".elastislide").length > 0) {
-                $(".elastislide").elastislide();
-            }
-            if ($(".elastislide1").length > 0) {
-                $('.elastislide1').elastislide();
-            }
-
-            $(".ddlSamplesubmission").val($(".hdnSamplesubmissionStatus").val());
-
-            if ($(".hdnUserId").val() != "") {
-                $(".ddlUser option[selected]").remove();
-                $(".ddlUser").val($(".hdnUserId").val());
-            }
-        }, 500);
-    });
-
-</script>
+<script src="/js/view/samplesubmission.js"></script>

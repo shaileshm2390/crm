@@ -13,9 +13,15 @@ module.exports = function (app) {
     //app.route('/samplestatus/:sampleSubmissionId')
     //    .get(samplestatus.sampleStatusBySampleStatusId)
     app.route('/samplestatus')
-        .get(samplestatus.all);
+        .get(users.requiresLogin, samplestatus.all);
+    app.route('/samplestatus/rfq/:rfqId')
+        .get(users.requiresLogin, samplestatus.samplestatus);
+    app.route('/samplestatus/:id')
+        .get(users.requiresLogin, samplestatus.samplestatusById)
+        .put(users.requiresLogin, samplestatus.update);
     //    .post(users.requiresLogin, samplestatus.create);
 
-    //app.param('sampleSubmissionId', samplestatus.samplestatus);
+    app.param('rfqId', samplestatus.byRfqId);
+    app.param('id', samplestatus.byId);
 };
 

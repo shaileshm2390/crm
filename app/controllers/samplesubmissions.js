@@ -40,7 +40,11 @@ exports.samplesubmission = function (req, res, next, id) {
 exports.create = function (req, res) {
     // augment the department by adding the UserId
     // save and return and instance of department on the res object.
-    db.Samplesubmission.create(req.body).then(function (samplesubmission) {
+    var sampleSubmissionRequest = {
+        status: req.body.process,
+        RfqId: req.body.RfqId
+    };
+    db.Samplesubmission.create(sampleSubmissionRequest).then(function (samplesubmission) {
 
         if (!samplesubmission) {
             return res.send('/signin', { errors: new StandardError('sample submission could not be created') });
@@ -60,6 +64,8 @@ exports.create = function (req, res) {
                 }
             }
             var sampleStatusRequest = {
+                process: req.body.process,
+                startDate: req.body.startDate,
                 status: req.body.status,
                 targetDate: req.body.targetDate,
                 SamplesubmissionId: samplesubmission.id
@@ -107,13 +113,13 @@ exports.update = function (req, res) {
             return next();
         } else {
             req.samplesubmissions = samplesubmission;
-            previousData = { "id": req.samplesubmissions.id, "status": req.samplesubmissions.status, "RfqId": req.samplesubmissions.RfqId, "updatedAt": req.samplesubmissions.updatedAt, "createdAt": req.samplesubmissions.createdAt };
+            previousData = { "id": req.samplesubmissions.id, "startDate": req.samplesubmissions.startDate, "targetDate": req.samplesubmissions.targetDate, "process": req.samplesubmissions.process, "status": req.samplesubmissions.status, "RfqId": req.samplesubmissions.RfqId, "updatedAt": req.samplesubmissions.updatedAt, "createdAt": req.samplesubmissions.createdAt };
            // return next();
         }
     
 
     samplesubmission.updateAttributes({
-        status: req.body.status
+        status: req.body.process
     }).then(function (a) {
         if (req.body.imagesString.trim() !== "") {
             var imageArray = req.body.imagesString.split(",");
@@ -131,6 +137,8 @@ exports.update = function (req, res) {
                }
         }
         var sampleStatusRequest = {
+            process: req.body.process,
+            startDate: req.body.startDate,
             status: req.body.status,
             targetDate: req.body.targetDate,
             SamplesubmissionId: samplesubmission.id
@@ -138,7 +146,7 @@ exports.update = function (req, res) {
         db.SampleStatus.create(sampleStatusRequest);
 
         var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
-        var updatedData = { "id": samplesubmission.id, "status": samplesubmission.status, "RfqId": samplesubmission.RfqId, "updatedAt": samplesubmission.updatedAt, "createdAt": samplesubmission.createdAt };
+        var updatedData = { "id": samplesubmission.id, "startDate": req.samplesubmissions.startDate, "targetDate": req.samplesubmissions.targetDate, "process": req.samplesubmissions.process, "status": samplesubmission.status, "RfqId": samplesubmission.RfqId, "updatedAt": samplesubmission.updatedAt, "createdAt": samplesubmission.createdAt };
 
         db.Watchdog.create({
             message: "Sample Submission is updated",

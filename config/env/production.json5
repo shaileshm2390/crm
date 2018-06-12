@@ -8,7 +8,7 @@
        // port: 3308
     },
     app: {
-        name: "CRM"
+        name: "CRM Production"
     },
     // You will need to get your own client id's before this will work properly
     facebook: {

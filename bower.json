@@ -17,6 +17,6 @@
     "angular-fblogin": "*"
   },
   "resolutions": {
-  "angular": "1.5.x"
+  "angular": "1.7.x"
 }
 }

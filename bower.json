@@ -16,7 +16,5 @@
     "install": "^1.0.4",
     "angular-fblogin": "*"
   },
-  "resolutions": {
-  "angular": "1.7.x"
-}
+  
 }

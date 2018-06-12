@@ -12,8 +12,8 @@ var db = {};
 winston.info('Initializing Sequelize...');
 
 // create your instance of sequelize
-//var onHeroku = !!process.env.DYNO;
-var onHeroku = false;
+var onHeroku = !!process.env.DYNO;
+//var onHeroku = false;
 winston.info('Checking if running on Heroku: ',onHeroku);
 
 var sequelize =  onHeroku ?

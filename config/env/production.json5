@@ -4,7 +4,7 @@
         name: "event2xa_crm",
         password: "SPx[yUO7T]Jx",
         username: "event2xa_crm",
-        host: "162.251.80.25",
+        host: "eventoline.com",
        // port: 3308
     },
     app: {

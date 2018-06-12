@@ -66,9 +66,12 @@
   },
   "devDependencies": {
     "chai": "^3.2.0",
+    "grunt-concurrent": "latest",   
     "grunt-contrib-jshint": "latest",
-    "grunt-contrib-watch": "latest",
     "grunt-mocha-test": "latest",
+    "grunt-contrib-watch": "latest",
+    "grunt-karma": "~0.6.2",
+    "grunt-contrib-nodemon": "^0.5.2",
     "karma": "~0.10.4",
     "karma-chrome-launcher": "~0.1.0",
     "karma-coffee-preprocessor": "~0.1.0",

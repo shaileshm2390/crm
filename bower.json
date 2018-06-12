@@ -2,7 +2,7 @@
   "name": "mean",
   "version": "0.1.0",
   "dependencies": {
-    "angular": "1.7.1",
+    "angular": "~1.7.1",
     "angular-resource": "latest",
     "angular-cookies": "latest",
     "angular-mocks": "latest",
@@ -17,6 +17,6 @@
     "angular-fblogin": "*"
   }  ,
   "resolutions": {
-  "angular": "1.7.1"
+  "angular": "~1.7.1"
 }
 }

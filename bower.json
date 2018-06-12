@@ -15,6 +15,5 @@
     "bower": "*",
     "install": "^1.0.4",
     "angular-fblogin": "*"
-  },
-  
+  }  
 }

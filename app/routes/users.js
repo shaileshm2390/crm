@@ -13,7 +13,7 @@ module.exports = function (app) {
     app.get('/signout', users.signout);
     app.get('/users/me', users.me);
     app.route('/users')
-        .get(users.all)
+        .get(users.requiresLogin, users.all)
         .post(users.requiresLogin, users.create);
     app.route('/users/:userId')
         .get(users.requiresLogin, users.show)

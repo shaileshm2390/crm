@@ -8,7 +8,7 @@ var config = require('./config');
 var winston = require('./winston');
 var db = {};
 
-
+ 
 winston.info('Initializing Sequelize...');
 
 // create your instance of sequelize

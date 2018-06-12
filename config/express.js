@@ -36,8 +36,8 @@ module.exports = function(app, passport) {
     }));
 
     //Setting the fav icon and static folder
-    app.use(favicon('/public/img/icons/favicon.ico'));
-    app.use(express.static('/public'));
+    app.use(favicon(__dirname + '/public/img/icons/favicon.ico'));
+    app.use(express.static(__dirname + '/public'));
 
     app.use(fileUpload());
 

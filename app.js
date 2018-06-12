@@ -15,7 +15,7 @@ var fs          = require('fs');
 var config          = require('./config/config');
 var winston         = require('./config/winston');
 
-winston.info('Starting '+config.app.name+'...');
+winston.info('Starting '+config.app.name+'..');
 winston.info('Config loaded: '+config.NODE_ENV);
 winston.debug('Accepted Config:',config);
 

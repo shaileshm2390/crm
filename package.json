@@ -9,9 +9,7 @@
     "type": "git",
     "url": "https://github.com/jpotts18/mean-stack-relational.git"
   },
-  "engines": {
-     "node": "4.2.x",
-    "npm": "2.14.x"
+  "engines": {   
   },
   "scripts": {
     "start": "node node_modules/grunt-cli/bin/grunt",

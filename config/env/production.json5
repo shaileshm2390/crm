@@ -1,11 +1,15 @@
 {
     // This is your MYSQL Database configuration
     db: {
-        name: "event2xa_crm",
-        password: "SPx[yUO7T]Jx",
-        username: "event2xa_crm",
-        host: "eventoline.com",
+       // name: "event2xa_crm",
+       // password: "SPx[yUO7T]Jx",
+       // username: "event2xa_crm",
+       // host: "eventoline.com",
        // port: 3308
+        name: "crm",
+        password: "crmuser123$%",
+        username: "crmuser",
+        host: "mysql://mysql:3306/",
     },
     app: {
         name: "CRM Production"

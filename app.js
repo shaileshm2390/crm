@@ -81,11 +81,11 @@ app.use(session({
 require('./config/express')(app, passport);
 
 //Start the app by listening on <port>
-var port = process.env.PORT || 3000;
-app.listen(port, "0.0.0.0", function() {
+var port = process.env.PORT;
+app.listen(port, function() {
     console.log("Listening on Port " + port);
 });
-winston.info('Express app started on port ' + config.PORT);
+winston.info('Express app started on port ' + port);
 
 //expose app
 module.exports = app;

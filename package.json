@@ -78,9 +78,6 @@
     "karma-requirejs": "~0.2.0",
     "karma-script-launcher": "~0.1.0",
     "mocha": "^2.2.5",
-    "supertest": "latest",
-    "grunt-contrib-jshint": "latest",
-    "grunt-contrib-nodemon": "^0.5.2",
-    "grunt-concurrent": "latest"
+    "supertest": "latest"  
   }
 }

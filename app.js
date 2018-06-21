@@ -81,7 +81,7 @@ app.use(session({
 require('./config/express')(app, passport);
 
 //Start the app by listening on <port>
-var port = process.env.PORT;
+var port = process.env.PORT || config.PORT;
 app.listen(port, function() {
     console.log("Listening on Port " + port);
 });

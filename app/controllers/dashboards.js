@@ -69,7 +69,7 @@ exports.getRfqChartDetail = function (req, res) {
     }
     var result = {};
     var customQuery = "SELECT COUNT(r.id) AS Count, CONCAT(YEAR(r.createdAt) ,'-', MONTH(r.createdAt)) As Month " +
-        "FROM `rfqs` r LEFT JOIN purchaseorders po ON  po.RfqId = r.id " +
+        "FROM `Rfqs` r LEFT JOIN PurchaseOrders po ON  po.RfqId = r.id " +
         "WHERE {CONDITION} AND r.createdAt > DATE_SUB(now(), INTERVAL 6 MONTH)  GROUP BY YEAR(r.createdAt), MONTH(r.createdAt) DESC";
     db.sequelize.query(customQuery.replace("{CONDITION}", condition), { type: db.sequelize.QueryTypes.SELECT }).then(function (response) {
         result.Open = response;

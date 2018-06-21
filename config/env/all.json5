@@ -1,6 +1,7 @@
 {
 	PORT: 3000, // capital PORT allows auto override by common env variable if it exists
 	FORCE_DB_SYNC: "false", // must be string to allow environment variable override
-    enableSequelizeLog: "true", // type chosen as string for no particular reason
-    expressSessionSecret: '$uper$ecret$e$$ionKey' // replace with your own in production
+    enableSequelizeLog: "false", // type chosen as string for no particular reason
+    expressSessionSecret: '$uper$ecret$e$$ionKey', // replace with your own in production
+	DATABASE_URL: "mysql://event2xa_crm:SPx[yUO7T]Jx@eventoline.com:3306/event2xa_crm"
 }

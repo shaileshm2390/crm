@@ -81,8 +81,7 @@ app.use(session({
 require('./config/express')(app, passport);
 
 //Start the app by listening on <port>
-var port = process.env.PORT || 3000;
-winston.info("PORT is " + port);
+var port = process.env.PORT || config.PORT;
 app.listen(port, function() {
     winston.info("Listening on Port " + port);
 });

@@ -1,10 +1,10 @@
 {
     // This is your MYSQL Database configuration
     db: {
-        name: "event2xa_crm",
-        password: "SPx[yUO7T]Jx",
-        username: "event2xa_crm",
-        host: "eventoline.com",	
+       // name: "event2xa_crm",
+       // password: "SPx[yUO7T]Jx",
+       // username: "event2xa_crm",
+       // host: "eventoline.com",	
         //port: 3308
 	//	   name: "crm",
       //  password: "",
@@ -28,6 +28,5 @@
     google: {
         realm: "http://localhost:3000/",
         callbackURL: "http://localhost:3000/auth/google/callback"
-    },
-	enableSequelizeLog : "false",
+    },	
 }

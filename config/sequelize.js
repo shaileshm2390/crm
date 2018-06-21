@@ -12,26 +12,31 @@ var db = {};
 winston.info('Initializing Sequelize...');
 
 // create your instance of sequelize
-var onHeroku = !!process.env.DYNO;
+//var onHeroku = !!process.env.DYNO;
 
-winston.info('Checking if running on Heroku: ',onHeroku);
+//winston.info('Checking if running on Heroku: ',onHeroku);
 
-var sequelize =  onHeroku ?
-    new Sequelize(process.env.DATABASE_URL, {
-        dialect: 'postgres',
-        protocol: 'postgres',
-        dialectOptions: {
-            ssl: true
-        }
-    })
-    :
-    new Sequelize(config.db.name, config.db.username, config.db.password, {
-        host: config.db.host,
-        port: config.db.port,
-        dialect: 'mysql',
-        storage: config.db.storage,
-        logging: config.enableSequelizeLog === 'true' ? winston.verbose : false
-    });
+//var sequelize =  onHeroku ?
+//    new Sequelize(process.env.DATABASE_URL, {
+//        dialect: 'postgres',
+//        protocol: 'postgres',
+//        dialectOptions: {
+//            ssl: true
+//        },
+//        logging: config.enableSequelizeLog === 'true' ? winston.verbose : false
+//    })
+//    :
+//    new Sequelize(config.db.name, config.db.username, config.db.password, {
+//        host: config.db.host,
+//        port: config.db.port,
+//        dialect: 'mysql',
+//        storage: config.db.storage,
+//        logging: config.enableSequelizeLog === 'true' ? winston.verbose : false
+//    });
+
+var sequelize = new Sequelize(process.env.DATABASE_URL || config.DATABASE_URL, {
+    logging: config.enableSequelizeLog === 'true' ? winston.verbose : false
+});
 
 // loop through all files in models directory ignoring hidden files and this file
 fs.readdirSync(config.modelsDir)

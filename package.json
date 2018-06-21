@@ -1,5 +1,5 @@
 {
-  "name": "crm-mean",
+  "name": "crmmean",
   "description": "M*EAN - A Modern Stack: MySQL(Postgres for Heroku), ExpressJS, AngularJS, NodeJS. (BONUS: Passport User Support).",
   "version": "0.2.2",
   "private": false,
@@ -12,7 +12,7 @@
   "engines": {   
   },
   "scripts": {
-    "start": "npm start",
+    "start": "node node_modules/grunt-cli/bin/grunt",
     "test": "node node_modules/grunt-cli/bin/grunt test",
     "postinstall": "bower install && cp config/env/development.json5.sample config/env/development.json5 && cp config/env/production.json5.sample config/env/production.json5 && node node_modules/grunt-cli/bin/grunt copy"
   },

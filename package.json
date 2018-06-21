@@ -12,7 +12,7 @@
   "engines": {   
   },
   "scripts": {
-    "start": "node node_modules/grunt-cli/bin/grunt",
+    "start": "npm start",
     "test": "node node_modules/grunt-cli/bin/grunt test",
     "postinstall": "bower install && cp config/env/development.json5.sample config/env/development.json5 && cp config/env/production.json5.sample config/env/production.json5 && node node_modules/grunt-cli/bin/grunt copy"
   },

@@ -2,6 +2,7 @@
 
 var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$stateParams', 'Global', 'Rfqs', '$state', '$window', '$http', '$sce', function ($scope, $stateParams, Global, Rfqs, $state, $window, $http, $sce) {
     $scope.global = Global;
+    $scope.validatePermission = false;
 
     $scope.trustAsHtml = function (html) {
         return $sce.trustAsHtml(html);
@@ -22,6 +23,7 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
         $http.get("/rfqs/" + $stateParams.rfqId)
             .then(function (response) {
                 $scope.rfq = response.data;
+                $scope.validatePermission = true;
             }, function (error) {
                 console.log(error, $stateParams.rfqId);
             });

@@ -47,7 +47,7 @@
         status,
         imagesString;
 
-    setTimeout(function () {
+    var loadCode = setInterval(function () {
 
 
         $(".btnChangeStatus").on("click", function () {
@@ -117,6 +117,7 @@
         if ($(".hdnUserId").val() != "") {
             $(".ddlUser option[selected]").remove();
             $(".ddlUser").val($(".hdnUserId").val());
+            clearInterval(loadCode);
         }
     }, 500);
 });

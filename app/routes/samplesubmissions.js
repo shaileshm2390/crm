@@ -9,7 +9,6 @@ var users = require('../../app/controllers/users'),
 
 
 module.exports = function (app) {
-    // Department Routes
     app.route('/samplesubmissions')
         .get(users.requiresLogin, samplesubmissions.all)   //users.requiresLogin, 
         .post(users.requiresLogin, samplesubmissions.create)  //users.requiresLogin, purchaseorders.hasAuthorization, 

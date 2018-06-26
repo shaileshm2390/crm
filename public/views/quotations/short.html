@@ -1,5 +1,5 @@
 ﻿<div class="card" ng-controller="RfqsController">
-    <h1>Short Quotation</h1>
+    <h1  ng-show="rfq.id != null  && validatePermission">Short Quotation</h1>
     <input type="hidden" class="hdnQuotType" value="0" /><!-- 0- short, 1-detail-->
     <div ng-include="'views/quotations/create.html'"></div>
 </div>

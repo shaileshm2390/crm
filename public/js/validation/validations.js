@@ -1,237 +1,4 @@
-﻿//function ValidateEmail(email) {
-//    var expr = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-//    return expr.test(email);
-//};
-
-//$(document).ready(function () {
-//    $(".btn-Save").on('click', function () {
-
-//        var flagFName = false;
-//        var flagLName = false;
-//        var flagEmail = false;
-//        var flagContact = false;
-//        var flagPassword = false;
-//        var flagDepartment = false;
-
-//        //First Name
-//        if ($.trim($(".txtFName").val()).length == 0) {
-//            $(".errorFName").html("Enter first name please");
-//            flagFName = false;
-//        }
-//        else {
-//            flagFName = true;
-//            $(".errorFName").html("").hide();
-//        }
-
-//        //Last Name
-//        if ($.trim($(".txtLName").val()).length == 0) {
-//            $(".errorLName").html("Enter last name please");
-//            flagLName = false;
-//        }
-//        else {
-//            flagLName = true;
-//            $(".errorLName").html("").hide();
-//        }
-
-//        //Email
-//        if ($.trim($(".txtEmail").val()).length == 0) {
-//            $(".errorEmail").html("Enter email please");
-//            flagEmail = false;
-//        }
-//        else if (!ValidateEmail($(".txtEmail").val())) {
-//            $(".errorEmail").html("Invalid email.please enter valid email id.");
-//            flagEmail = false;
-//        }
-//        else {
-//            flagEmail = true;
-//            $(".errorEmail").html("").hide();
-//        }
-
-//        //Contact
-//        if ($.trim($(".txtContact").val()).length == 0) {
-//            $(".errorContact").html("Enter contact number please");
-//            flagContact = false;
-
-//        } else if ($.trim($(".txtContact").val()).length != 10) {
-//            $(".errorContact").html("Contact number should be of length 10.");
-//            flagContact = false;
-//        }
-//        else {
-//            flagContact = true;
-//            $(".errorContact").html("").hide();
-//        }
-
-//        //Password
-//        if ($.trim($(".txtPassword").val()).length == 0) {
-//            $(".errorPassword").html("Enter password please");
-//            flagPassword = false;
-
-//        } else if ($.trim($(".txtPassword").val()).length != 8) {
-//            $(".errorPassword").html("Pawword should be 8 digit in length.");
-//            flagPassword = false;
-//        }
-//        else {
-//            flagPassword = true;
-//            $(".errorPassword").html("").hide();
-//        }
-
-//        //Department
-//        if ($.trim($(".txtDepartment").val()).length == 0) {
-//            $(".errorDepartment").html("Select department name please");
-//            flagDepartment = false;
-//        }
-//        else {
-//            flagDepartment = true;
-//            $(".errorDepartment").html("").hide();
-//        }
-
-//        return flagFName && flagLName && flagEmail && flagContact, flagPassword, flagDepartment;
-      
-//    });
-
-//    //First Name
-//    $(".txtFName").on("focusout", function () {
-//        if ($.trim($(".txtFName").val()).length == 0) {
-//            $(".errorFName").html("Enter first name please.").show();
-//            flagFName = false;
-//        }
-//        else {
-//            flagFName = true;
-//            $(".errorFName").html("").hide();
-//        }
-//    });
-
-//    $(".txtFName").on("keyup", function () {
-//        $(".errorFName").html("");
-//        if ($.trim($(".txtFName").val()).length == 0) {
-//            $(".errorFName").html("Enter first name please").show();
-//        }
-//    });
-
-//    //Last Name
-//    $(".txtLName").on("focusout", function () {
-//        if ($.trim($(".txtLName").val()).length == 0) {
-//            $(".errorLName").html("Enter last name please.").show();
-//            flagLName = false;
-//        }
-//        else {
-//            flagLName = true;
-//            $(".errorLName").html("").hide();
-//        }
-//    });
-
-//    $(".txtLName").on("keyup", function () {
-//        $(".errorLName").html("");
-//        if ($.trim($(".txtLName").val()).length == 0) {
-//            $(".errorLName").html("Enter last name please.").show();
-//        }
-//    });
-
-//    //Email
-//    $(".txtEmail").on("focusout", function () {
-
-//        if ($.trim($(".txtEmail").val()).length == 0) {
-//            $(".errorEmail").html("Enter email please").show();
-//            flagEmail = false;
-//        }
-//        else if (!ValidateEmail($(".txtEmail").val())) {
-//            $(".errorEmail").html("Invalid email.please enter valid email id.").show();
-//            flagEmail = false;
-//        }
-//        else {
-//            flagEmail = true;
-//            $(".errorEmail").html("").hide();
-//        }
-//    });
-
-//    $(".txtEmail").on("keyup", function () {
-//        $(".errorEmail").html("");
-//        if ($.trim($(".txtEmail").val()).length == 0) {
-//            $(".errorEmail").html("Enter email please.").show();
-//        }
-//        else if (!ValidateEmail($(".txtEmail").val())) {
-//            $(".errorEmail").html("Invalid email.please enter valid email id.");
-//            //flagEmail = false;
-//        }
-//    });
-
-//    //Contact
-//    $(".txtContact").on("focusout", function () {
-//        if ($.trim($(".txtContact").val()).length == 0) {
-//            $(".errorContact").html("Enter contact number please.").show();
-//            flagContact = false;
-//        }
-//        else if ($.trim($(".txtContact").val()).length != 10) {
-//            $(".errorContact").html("Enter contact number of length 10 please").show();
-//            flagContact = false;
-//        }
-//        else {
-//            flagContact = true;
-//            $(".errorContact").html("").hide();
-//        }
-//    });
-
-//    $(".txtContact").on("keyup", function () {
-//        $(".errorContact").html("");
-//        if ($.trim($(".txtContact").val()).length == 0) {
-//            $(".errorContact").html("Enter contact number please.").show();
-//        }
-//        else if ($.trim($(".txtContact").val()).length != 10) {
-//            $(".errorContact").html("Enter contact number of length 10 please").show();
-//            //flagContact = false;
-//        }
-//    });
-
-//    //Password
-//    $(".txtPassword").on("focusout", function () {
-//        if ($.trim($(".txtPassword").val()).length == 0) {
-//            $(".errorPassword").html("Enter password please.").show();
-//            flagPassword = false;
-//        }
-//        else if ($.trim($(".txtPassword").val()).length != 8) {
-//            $(".errorPassword").html("Enter contact number of length 8 please").show();
-//            flagPassword = false;
-//        }
-//        else {
-//            flagPassword = true;
-//            $(".errorPassword").html("").hide();
-//        }
-//    });
-
-//    $(".txtPassword").on("keyup", function () {
-//        $(".errorPassword").html("");
-//        if ($.trim($(".txtPassword").val()).length == 0) {
-//            $(".errorPassword").html("Enter password please.").show();
-//        }
-//        else if ($.trim($(".txtPassword").val()).length != 8) {
-//            $(".errorPassword").html("Enter contact number of length 8 please").show();
-//            //flagPassword = false;
-//        }
-//    });
-
-//    //Department
-//    $(".txtDepartment").on("focusout", function () {
-//        if ($.trim($(".txtDepartment").val()).length == 0) {
-//            $(".errorDepartment").html("Select department please.").show();
-//            flagDepartment = false;
-//        }
-//        else {
-//            flagDepartment = true;
-//            $(".errorDepartment").html("").hide();
-//        }
-//    });
-
-//    $(".txtDepartment").on("change", function () {
-//        $(".errorDepartment").html("");
-//        if ($.trim($(".txtDepartment").val()).length == 0) {
-//            $(".errorDepartment").html("Select department please.").show();
-//        }
-//    });
-//});
-
-// Wait for the DOM to be ready
-setTimeout(function () {
-    $(document).ready(function () {
+﻿angular.element(document).ready(function () {
 
         $(".myForm").validate({
             // Specify validation rules
@@ -272,6 +39,33 @@ setTimeout(function () {
                 date: {
                     required: true,
                     date: true
+                },
+                rate: {
+                    required: true
+                },
+                material: {
+                    required: true
+                },
+                scrapRate: {
+                    required: true
+                },
+                scrapRecovery: {
+                    required: true
+                },
+                operation: {
+                    required: true
+                },
+                machine: {
+                    required: true
+                },
+                efficiency: {
+                    required: true
+                },
+                parameter: {
+                    required: true
+                },
+                details: {
+                    required: true
                 }
             },
             // Specify validation error messages
@@ -295,7 +89,17 @@ setTimeout(function () {
                 date: {
                     required: "Please select any date from date picker.",
                     date: "Can contain digits only"
-                }
+                },
+                rate: "Please enter rate.",
+                material: "Please enter material.",
+                scrapRate: "Please enter scrap rate.",
+                scrapRecovery: "Please enter scrap recovery in %.",
+                machine: "Please enter machine name.",
+                operation: "Please enter operation.",
+                efficiency: "Please enter efficiency.",
+                parameter: "Please enter parameter.",
+                details: "Please enter details.",
+
             },
 
             // Make sure the form is submitted to the destination defined
@@ -309,7 +113,7 @@ setTimeout(function () {
         // Initialize form validation on the registration form.
         // It has the name attribute "registration"
         $(".btn-Save").bind('click', function () {
+            //console.log($(".myForm").valid());
             return $(".myForm").valid();
         });
     });
-},2000);

@@ -27,16 +27,18 @@
         <li ng-show="displayReceivePO(rfq)"><a href="/rfq/{{rfq.id}}/purchaseorder"><span>Receive PO</span></a><hr /></li>
 
     </ul>
+    <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
 </div>
 
 <script type="text/javascript">
     $(document).ready(function () {
-        setTimeout(
-            function () {             
-                $(".lnkCostSheetMenu").on('click', function () {
+        var loadCode = setInterval(function () {
+                $(".lnkCostSheetMenu").on('click', function (e) {
                     $(this).next("ul").toggle("fast", function () {
                         $(".lnkCostSheetMenu").attr('aria-expanded', $(this).next("ul").is(':visible'));
                     });
+                    e.stopImmediatePropagation();
+                    return false;
                 });
 
                 if (window.location.href.indexOf("costsheet") > -1) {
@@ -44,6 +46,10 @@
                 }
                 if (window.location.href.indexOf("quotation") > -1) {
                     $(".quotation").show().attr("aria-expanded", "true").parent().find(".lnkCostSheetMenu").attr("aria-expanded", "true");
+                }
+
+                if ($(".hdnRfqId").length > 0 && $(".hdnRfqId").val() != "") {
+                    clearInterval(loadCode);
                 }
             }, 500);
     });

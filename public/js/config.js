@@ -158,6 +158,73 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             templateUrl: 'views/samplesubmission/create.html'
         })
 
+
+        //  raw materials
+        .state('rawmaterials', {
+            url: '/material',
+            controller: 'RawMaterialsController',
+            templateUrl: 'views/rawmaterials/list.html'
+        })
+        .state('createRawMaterial', {
+            url: '/material/create',
+            controller: 'RawMaterialsController',
+            templateUrl: 'views/rawmaterials/create.html'
+        })
+        .state('editRawMaterials', {
+            url: '/material/{rawmaterialId}/edit',
+            controller: 'RawMaterialsController',
+            templateUrl: 'views/rawmaterials/edit.html'
+        })
+        .state('viewRawMaterial', {
+            url: '/material/{rawmaterialId}',
+            controller: 'RawMaterialsController',
+            templateUrl: 'views/rawmaterials/view.html'
+        })
+
+         //  conversion
+        .state('conversions', {
+            url: '/conversion',
+            controller: 'ConversionsController',
+            templateUrl: 'views/conversions/list.html'
+        })
+        .state('createConversion', {
+            url: '/conversion/create',
+            controller: 'ConversionsController',
+            templateUrl: 'views/conversions/create.html'
+        })
+        .state('editConversions', {
+            url: '/conversion/{conversionId}/edit',
+            controller: 'ConversionsController',
+            templateUrl: 'views/conversions/edit.html'
+        })
+        .state('viewConversion', {
+            url: '/conversion/{conversionId}',
+            controller: 'ConversionsController',
+            templateUrl: 'views/conversions/view.html'
+        })
+
+        //  htst
+        .state('htsts', {
+            url: '/htst',
+            controller: 'HtstsController',
+            templateUrl: 'views/htsts/list.html'
+        })
+        .state('createHtst', {
+            url: '/htst/create',
+            controller: 'HtstsController',
+            templateUrl: 'views/htsts/create.html'
+        })
+        .state('editHtsts', {
+            url: '/htst/{htstId}/edit',
+            controller: 'HtstsController',
+            templateUrl: 'views/htsts/edit.html'
+        })
+        .state('viewHtst', {
+            url: '/htst/{htstId}',
+            controller: 'HtstsController',
+            templateUrl: 'views/htsts/view.html'
+        })
+
         .state('404', {
             templateUrl: 'views/404.html'
         });

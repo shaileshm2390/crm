@@ -8,7 +8,6 @@ var users = require('../../app/controllers/users'),
     customers = require('../../app/controllers/customers');
 
 module.exports = function (app) {
-    // Department Routes
     app.route('/customers')
         .get(users.requiresLogin, customers.all)   //users.requiresLogin, 
         .post(users.requiresLogin, customers.create);  //users.requiresLogin, 

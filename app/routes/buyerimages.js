@@ -7,7 +7,6 @@ var users = require('../../app/controllers/users'),
     buyerimages = require('../../app/controllers/buyerimages');
 
 module.exports = function (app) {
-    // Department Routes
     app.route('/buyerimages')
         .get(users.requiresLogin, buyerimages.all)
         .post(users.requiresLogin, buyerimages.create);  //users.requiresLogin, 

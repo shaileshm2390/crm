@@ -81,7 +81,7 @@
             $(".hdnImages").val(imagesArray.join(",")).trigger('change');;
         });
 
-        setTimeout(function () {
+        var loadCode = setInterval(function () {
             if ($(".elastislide").length > 0) {
                 $('.elastislide').elastislide();
             }
@@ -95,11 +95,13 @@
                         method: "DELETE"
                     }).done(function (response) {
                         $(".lblmsg").html("<span>deleted successfully !!!</span>");
-                        // $(element).parent().remove();
                         window.location.reload(true);
-
                     });
                     return false;
+                }
+
+                if ($(".deleteImage").length > 0 && $(".deleteImage").data("id") != "") {
+                    clearInterval(loadCode);
                 }
             });
         }, 500);

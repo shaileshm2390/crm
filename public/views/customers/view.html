@@ -16,7 +16,7 @@
                 <div class="clear clearfix"></div><br />
                 <div class="row">
                     <div class="col col-lg-9">
-                        <p><label>Customer Name: </label><strong>{{customer.name}}</strong></p>
+                        <p><label>Customer Name: </label><strong class="lblCustomerName">{{customer.name}}</strong></p>
                         <p><label>Email: </label><strong>{{customer.email}}</strong></p>
                         <p><label>Contact: </label><strong>{{customer.contact}}</strong></p>
                     </div>
@@ -130,10 +130,13 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        setTimeout(function () {
+        var loadCode = setInterval(function () {
             if ($(".elastislide").length > 0) {
                 $('.elastislide').elastislide();
             }
-        },500);
+            if ($(".lblCustomerName").length > 0 && $(".lblCustomerName").html() != "") {
+                clearInterval(loadCode);
+            }
+        }, 500);
     });
 </script>

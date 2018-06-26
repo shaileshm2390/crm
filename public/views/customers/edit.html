@@ -96,7 +96,7 @@
             $(".hdnImages").val(imagesArray.join(",")).trigger('change');;
         });
 
-        setTimeout(function () {
+        var loadCode = setInterval(function () {
             if ($(".elastislide").length > 0) {
                 $('.elastislide').elastislide();
             }
@@ -115,6 +115,10 @@
 
                     });
                     return false;
+                }
+
+                if ($(".deleteImage").length > 0 && $(".deleteImage").data("id") != "") {
+                    clearInterval(loadCode);
                 }
             });
         }, 500);

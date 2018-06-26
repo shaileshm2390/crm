@@ -70,10 +70,13 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        setTimeout(
-            function () {
+        var loadCode = setInterval(function () {
                 $(".ddlDepartment option[selected]").remove();
                 $(".ddlDepartment").val($(".hdnDepartmentId").val());
+
+                if ($(".hdnDepartmentId").length > 0 && $(".hdnDepartmentId").val() != "") {
+                    clearInterval(loadCode);
+                }
             }, 500);
 
     });

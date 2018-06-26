@@ -62,3 +62,36 @@
 
 <div class="clear clearfix"></div> <br />
 <hr />
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //   console.log($scope);
+        var loadCode = setInterval(function () {
+            if ($(".hdnUserId").val() != "") {
+                $(".ddlUser option[selected]").remove();
+                $(".ddlUser").val($(".hdnUserId").val());
+            }
+
+            $(".ddlUser").on('change', function () {
+                var $me = $(this);
+                var rfqId = $('.hdnRfqId').val();
+                var ddlUserId = $(this).val();
+                $.ajax({
+                    url: '/rfqs/' + rfqId,
+                    method: "PUT",
+                    data: { UserId: ddlUserId, id: rfqId }
+                }).done(function (response) {
+                    if ($me.val() == "") {
+                        $(".lblMsg").html("<span>RFQ assigned to nobody</span>").addClass("alert alert-success");
+                    } else {
+                        $(".lblMsg").html("<span>RFQ assigned to " + $me.find("option:selected").text() + "</span>").addClass("alert alert-success");
+                    }
+                });
+            });
+            if ($(".hdnUserId").length > 0 && $(".hdnUserId").val() != "") {
+                clearInterval(loadCode);
+            }
+        }, 500);
+    });
+</script>

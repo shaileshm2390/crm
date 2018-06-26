@@ -9,7 +9,6 @@ var users = require('../../app/controllers/users'),
 
 
 module.exports = function (app) {
-    // Department Routes
     app.route('/dashboards/getSiteSummary')
         .get(users.requiresLogin, dashboards.all)    
     app.route('/dashboards/getRfqChartDetail')

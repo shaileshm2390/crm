@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     
-    setTimeout(function () {
+    var loadCode = setInterval(function () {
 
         var imagesArray = [];
         var rfqId;
@@ -57,5 +57,8 @@
 
         $(".ddlPurchaseorder").val($(".hdnPurchaseorderStatus").val());
 
+        if ($(".hdnPurchaseorderStatus").length > 0 && $(".hdnPurchaseorderStatus").val() != "") {
+            clearInterval(loadCode);
+        }
     }, 500);
 });

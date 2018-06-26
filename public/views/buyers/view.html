@@ -15,7 +15,7 @@
                 <div class="clear clearfix"></div><br />
                 <div class="row">
                     <div class="col col-lg-9">
-                        <p><label>Buyer Name: </label><strong>{{buyer.name}}</strong></p>
+                        <p><label>Buyer Name: </label><strong class="lblBuyerName">{{buyer.name}}</strong></p>
                         <p><label>Email: </label><strong>{{buyer.email}}</strong></p>
                         <p><label>Contact: </label><strong>{{buyer.contact}}</strong></p>
                     </div>
@@ -28,7 +28,6 @@
                         <li data-ng-repeat="image in buyer.BuyerImages| orderBy : '-createdAt'">
                             <a data-fancybox="gallery" href="{{image.imagePath}}"><img src="{{image.imagePath}}" alt="image{{image.id}}"/></a>
                         </li>
-
                     </ul>
                 </div>
 
@@ -126,9 +125,12 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        setTimeout(function () {
+        var loadCode = setInterval(function () {
             if ($(".elastislide").length > 0) {
                 $('.elastislide').elastislide();
+            }
+            if ($(".lblBuyerName").length > 0 && $(".lblBuyerName").html() != "") {
+                clearInterval(loadCode);
             }
         }, 500);
     });

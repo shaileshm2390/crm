@@ -53,8 +53,7 @@
             return dfd.promise();
         };
 
-        setTimeout(
-            function () {
+        var loadCode = setInterval(function () {
                 rfqId = $(".hdnRfqId").val();
 
                 // slider of images
@@ -158,5 +157,9 @@
                         });
                     }
                 });
-            }, 500);
+
+                if ($(".hdnRfqId").length > 0 && $(".hdnRfqId").val() != "") {
+                    clearInterval(loadCode);
+                }
+        }, 500);
     });

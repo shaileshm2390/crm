@@ -140,6 +140,7 @@
                                     <li><a href="/user/create">Add</a></li>
                                 </ul>
                             </li>
+
                             <% } %>
                             <% if(user.isAdmin) { %>        
                             <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-users "></i><span class="hide-menu">Customers</span></a>
@@ -149,9 +150,35 @@
                                 </ul>
                             </li>    
                              <% } else { %>
-                                <li><a href="/customer" target="_self"><i class="fa fa-users"></i><span class="hide-menu">Customers</span>     </a>             
+                            <li>
+                                <a href="/customer" target="_self"><i class="fa fa-users"></i><span class="hide-menu">Customers</span>     </a>
+                                <% } %>
+
+                                <% if(user.isAdmin) { %>        
+                            <li>
+                                <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-star "></i><span class="hide-menu">Raw Material</span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li><a href="/material">List</a></li>
+                                    <li><a href="/material/create">Add</a></li>
+                                </ul>
+                            </li>   
+
+                            <li>
+                                <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-star "></i><span class="hide-menu">Conversation Master</span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li><a href="/conversion">List</a></li>
+                                    <li><a href="/conversion/create">Add</a></li>
+                                </ul>
+                            </li>  
+
+                            <li>
+                                <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-star "></i><span class="hide-menu">HTST Master</span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li><a href="/htst">List</a></li>
+                                    <li><a href="/htst/create">Add</a></li>
+                                </ul>
+                            </li>  
                             <% } %>
-                            
                         </ul>
                     </nav>
                     <!-- End Sidebar navigation -->
@@ -338,6 +365,9 @@
     <script src="/js/services/samplesubmissions.js"></script>    
     <script src="/js/services/costsheets.js"></script>
     <script src="/js/services/dashboards.js"></script>
+    <script src="/js/services/rawmaterials.js"></script>
+    <script src="/js/services/conversions.js"></script>
+    <script src="/js/services/htsts.js"></script>
 
     <!--	  Application Controllers-->
         <script src="/js/controllers/users.js"></script>
@@ -360,6 +390,9 @@
     <script src="/js/controllers/samplesubmissions.js"></script>
     <script src="/js/controllers/costsheets.js"></script>
     <script src="/js/controllers/dashboards.js"></script>
+    <script src="/js/controllers/rawmaterials.js"></script>
+    <script src="/js/controllers/conversions.js"></script>
+    <script src="/js/controllers/htsts.js"></script>
 
     <script src="/js/jquery.fancybox.js"></script>
 

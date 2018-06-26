@@ -1,0 +1,50 @@
+<h1>Add Material</h1>
+<section class="card">
+	<form class="form-horizontal myForm" data-ng-submit="create()">
+		<div class="control-group">
+			<label class="control-label" for="name">Material</label>
+			<div class="controls">
+				<input type="text" data-ng-model="material" id="material" name="material" placeholder="Material" class="form-control col-sm-6 txtMaterial" >
+			</div>
+            <span class="error" style="color:red;"></span>
+		</div>	
+        
+        <div class="control-group">
+            <label class="control-label" for="name">Rate</label>
+            <div class="controls">
+                <input type="text" data-ng-model="rate" id="rate" name="rate" placeholder="Rate" class="form-control col-sm-6 txtRate">
+            </div>
+            <span class="error" style="color:red;"></span>
+        </div>	
+
+
+        <div class="control-group">
+            <label class="control-label" for="name">Scrap Rate</label>
+            <div class="controls">
+                <input type="text" data-ng-model="scrapRate" id="scrapRate" name="scrapRate" placeholder="Scrap Rate" class="form-control col-sm-6 txtScrapRate">
+            </div>
+            <span class="error" style="color:red;"></span>
+        </div>	
+
+        <div class="control-group">
+            <label class="control-label" for="name">Scrap Recovery</label>
+            <div class="controls">
+                <input type="text" data-ng-model="scrapRecovery" id="scrapRecovery" name="scrapRecovery" placeholder="Scrap Recovery" class="form-control col-sm-6 txtScrapRecovery">
+            </div>
+            <span class="error" style="color:red;"></span>
+        </div>	
+        	
+        <div class="clear clearfix" ></div><br />
+		<div class="control-group">
+            <div class="controls">
+                <input type="submit" class="btn btn-primary btn-Save" value="Save">
+                <a class="btn btn-secondary" href="/material">Cancel</a>
+            </div>
+		</div>
+	</form>
+</section>
+
+<!--<script src="/js/validation/department.js"></script>-->
+<script src="/js/lib/form-validation/jquery.validate.min.js"></script>
+<script src="/js/validation/validations.js"></script>
+<link href="/css/validations.css" rel="stylesheet" />

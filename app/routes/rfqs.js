@@ -9,7 +9,6 @@ var users = require('../../app/controllers/users'),
 
 
 module.exports = function (app) {
-    // Department Routes
     app.route('/rfqs')
         .get(users.requiresLogin, rfqs.all);
     app.route('/rfqs/:rfqId')

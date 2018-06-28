@@ -1,7 +1,65 @@
-﻿
-<div class="sidebar-nav">
+﻿<style>
+    .menubar-nav {
+        margin: 10px 0;
+        background-color: #5c4ac7;
+        padding: 10px;
+    }
+
+    .menubar-nav ul li {
+        display: inline-block;
+        padding: 5px 10px;
+        border-right: 1px solid #fff;
+    }
+
+        .menubar-nav ul li a {
+            color: #fff;
+        }
+
+        .menubar-nav a { 
+    text-decoration: none;
+    font: 12px/1 Verdana;
+    color: #000;
+    display: block; }
+
+.menubar-nav a:hover { text-decoration: underline; }
+
+.menubar-nav ul { 
+    list-style: none;
+    margin: 0;
+    padding: 0; }
+
+.menubar-nav ul li { margin: 0; padding: 0; }
+
+/* Top-level menu */
+.menubar-nav > ul > li { 
+    /*float: left;*/
+    position: relative; }
+.menubar-nav > ul > li > a { 
+    padding: 10px 30px;
+    /*border-left: 1px solid #000;*/
+    display: block;}
+.menubar-nav > ul > li:first-child { margin: 0; }
+.menubar-nav > ul > li:first-child a { border: 0; }
+
+/* Dropdown Menu */
+.menubar-nav ul li ul { 
+    position: absolute;
+    background: #000;
+    width: 100%; 
+    margin: 0;
+    padding: 15px 0 0 0;
+    display: none; }
+.menubar-nav ul li ul li { 
+    text-align: center;
+    width: 100%; border:0;}
+.menubar-nav ul li ul a { padding: 2px 0; }
+.menubar-nav ul li:hover ul { display: block;  }
+.menubar-nav ul li ul:hover { display: block;  }
+
+</style>
+<div class="menubar-nav">
     <ul>
-        <li><a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}/rfq/{{rfq.id}}"><span>RFQ Detail</span></a><hr /></li>
+        <li><a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}/rfq/{{rfq.id}}"><span>RFQ Detail</span></a></li>
         <li ng-hide="isPoReceived(rfq)">
             <a class="has-arrow lnkCostSheetMenu" href="#" aria-expanded="false">
                 <span>Cost Sheet Preparation</span>
@@ -10,7 +68,7 @@
                 <li><a href="/rfq/{{rfq.id}}/costsheet/prepare">Prepare &amp; Send for Approval</a><br /></li>
                 <li><a href="/rfq/{{rfq.id}}/costsheet/approval">Approved &amp; Send to Customer</a><br /></li>
             </ul>
-            <hr />
+         
         </li>
 
         <li ng-show="rfq.CostSheets.length">
@@ -21,36 +79,11 @@
                 <li><a href="/rfq/{{rfq.id}}/quotation/short">Short Quotation</a><br /></li>
                 <li><a href="/rfq/{{rfq.id}}/quotation/detail">Detail Quotation</a><br /></li>
             </ul>
-            <hr />
+        
         </li>
-        <li ng-show="displaySampleSubmission(rfq)"><a href="/rfq/{{rfq.id}}/samplesubmission"><span>Sample Submission</span></a><hr /></li>
-        <li ng-show="displayReceivePO(rfq)"><a href="/rfq/{{rfq.id}}/purchaseorder"><span>Receive PO</span></a><hr /></li>
+        <li ng-show="displaySampleSubmission(rfq)"><a href="/rfq/{{rfq.id}}/samplesubmission"><span>Sample Submission</span></a></li>
+        <li ng-show="displayReceivePO(rfq)"><a href="/rfq/{{rfq.id}}/purchaseorder"><span>Receive PO</span></a></li>
 
     </ul>
     <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
 </div>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        var loadCode = setInterval(function () {
-                $(".lnkCostSheetMenu").on('click', function (e) {
-                    $(this).next("ul").toggle("fast", function () {
-                        $(".lnkCostSheetMenu").attr('aria-expanded', $(this).next("ul").is(':visible'));
-                    });
-                    e.stopImmediatePropagation();
-                    return false;
-                });
-
-                if (window.location.href.indexOf("costsheet") > -1) {
-                    $(".costsheet").show().attr("aria-expanded", "true").parent().find(".lnkCostSheetMenu").attr("aria-expanded", "true");
-                }
-                if (window.location.href.indexOf("quotation") > -1) {
-                    $(".quotation").show().attr("aria-expanded", "true").parent().find(".lnkCostSheetMenu").attr("aria-expanded", "true");
-                }
-
-                if ($(".hdnRfqId").length > 0 && $(".hdnRfqId").val() != "") {
-                    clearInterval(loadCode);
-                }
-            }, 500);
-    });
-</script>

@@ -53,9 +53,10 @@
                 <div class="row">
                     <ul id="carousel" class="elastislide">
                         <li data-ng-repeat="image in rfq.RfqImages| orderBy : '-createdAt'">
-                            <a data-fancybox="gallery" href="{{image.imagePath}}"><img src="{{image.imagePath}}" alt="image{{image.id}}" /></a>
+                            <a data-fancybox="gallery" href="{{image.imagePath}}">                              
+                                   <img src="{{image.displayPath}}" alt="image{{image.id}}"   />
+                            </a>
                         </li>
-
                     </ul>
                 </div>
 
@@ -69,14 +70,11 @@
         <hr />
 
         <div class="row">
-            <div class="col col-lg-3 " style="border-right:1px solid #000;">
-                <h3><strong>Action</strong></h3>
-                <div ng-include="'views/rfqs/rfqLeftNavigation.htm'"></div>
-            </div>
-            <div class="col col-lg-9">
+            <div ng-include="'views/rfqs/rfqLeftNavigation.htm'" class="col col-lg-12"></div>
+            <div class="col col-lg-12">
                 <h3><strong>Email Content</strong></h3>
                 <div class="clear clearfix"></div> <br />
-                <div style=" overflow:auto; max-height: 300px">
+                <div style=" overflow:auto; max-height 300px">
                     <p ng-bind-html="trustAsHtml(rfq.content)"></p>
                 </div>
             </div>

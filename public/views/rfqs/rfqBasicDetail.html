@@ -47,7 +47,7 @@
         <div class="row">
             <ul id="carousel" class="elastislide">
                 <li data-ng-repeat="image in rfq.RfqImages| orderBy : '-createdAt'">
-                    <a data-fancybox="gallery" href="{{image.imagePath}}"><img src="{{image.imagePath}}" alt="image{{image.id}}" /></a>
+                    <a data-fancybox="gallery" href="{{image.imagePath}}"><img src="{{image.displayPath}}" alt="image{{image.id}}" /></a>
                 </li>
 
             </ul>

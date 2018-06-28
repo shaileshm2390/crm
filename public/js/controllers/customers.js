@@ -6,6 +6,7 @@ var app = angular.module('mean.customers').controller('CustomersController', ['$
     $scope.pageSize = $window.document.getElementById('hdnPageSize').value;
     $scope.data = [];
     $scope.imagesString = '';
+    $scope.message = "Loading.. Please wait..!!";
 
     $scope.getData = function () {
         return $filter('filter')($scope.customers, $scope.searchString);
@@ -37,6 +38,7 @@ var app = angular.module('mean.customers').controller('CustomersController', ['$
             imagesString: this.imagesString
         });
 
+        $scope.message = "Loading.. Please wait..!!";
         customer.$save(function (response) {
             // $state.go('viewDepartment', { departmentId: response.id })
             //$state.go('customers');
@@ -48,20 +50,20 @@ var app = angular.module('mean.customers').controller('CustomersController', ['$
 
                 //watchdog calling
                 commonCtrl.create({ message: "New customer " + customer.id + " is created", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: "", updatedData: $scope.updatedCustomer });
+                $scope.message = "";
+                this.email = "";
+                this.company = "";
+                this.name = "";
+                this.contact = "";
+                this.imagesString = "";
             });
         });
-
-        this.email = "";
-        this.company = "";
-        this.name = "";
-        this.contact = "";
-        this.imagesString = "";
-       
     };
 
     $scope.remove = function (customer) {
         var deleteCustomer = $window.confirm('Are you absolutely sure you want to delete?');
         if (deleteCustomer) {
+            $scope.message = "Loading.. Please wait..!!";
             //get previous data from URL
             $http.get("/customers/" + customer.id).then(function (response) {
                 $scope.previousCustomer = JSON.stringify(response.data);
@@ -82,6 +84,7 @@ var app = angular.module('mean.customers').controller('CustomersController', ['$
 
                 //watchdog calling
             commonCtrl.create({ message: "Customer " + customer.id + " is deleted", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: $scope.previousCustomer, updatedData: "" });
+            $scope.message = "";
             });
         }
     };
@@ -89,7 +92,7 @@ var app = angular.module('mean.customers').controller('CustomersController', ['$
     $scope.update = function () {
         $scope.customer.imagesString = $scope.imagesString;
         var customer = $scope.customer;
-
+        $scope.message = "Loading.. Please wait..!!";
         if (!customer.updated) {
             customer.updated = [];
         }
@@ -110,21 +113,26 @@ var app = angular.module('mean.customers').controller('CustomersController', ['$
 
                 //watchdog calling
                 commonCtrl.create({ message: "Customer " + customer.id + " is updated.", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: $scope.previousCustomer, updatedData: $scope.updatedCustomer });
+                $scope.message = "";
             });
         });
     };
 
     $scope.find = function () {
+        $scope.message = "Loading.. Please wait..!!";
         Customers.query(function (customers) {
             $scope.customers = customers;
+            $scope.message = "";
         });
     };
 
     $scope.findOne = function () {
+        $scope.message = "Loading.. Please wait..!!";
         Customers.get({
             customerId: $stateParams.customerId
         }, function (customer) {
             $scope.customer = customer;
+            $scope.message = "";
         });
     };
 

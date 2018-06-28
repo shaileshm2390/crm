@@ -7,6 +7,7 @@ var app = angular.module('mean.conversions').controller('ConversionsController',
     $scope.pageSize = $window.document.getElementById('hdnPageSize').value;
     $scope.data = [];
     $scope.searchString = "";
+    $scope.message = "";
 
     $scope.getData = function () {
         return $filter('filter')($scope.conversions, $scope.searchString);
@@ -24,6 +25,7 @@ var app = angular.module('mean.conversions').controller('ConversionsController',
     });
 
     $scope.create = function () {
+        $scope.message = "Loading.. Please wait..!!";
         var conversion = new Conversions({
             operation: this.operation,
             machine: this.machine,
@@ -41,17 +43,19 @@ var app = angular.module('mean.conversions').controller('ConversionsController',
 
                 //watchdog calling
                 commonCtrl.create({ message: "New Conversion master is created", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: "", updatedData: $scope.updatedConversion });
+                $scope.message = "";
+                this.operation = "";
+                this.rate = "";
+                this.machine = "";
+                this.efficiency = "";
             });
         });
 
-        this.operation = "";
-        this.rate = "";
-        this.machine = "";
-        this.efficiency = "";
     };
 
     $scope.remove = function (conversion) {
         if ($window.confirm('Are you absolutely sure you want to delete?')) {
+            $scope.message = "Loading.. Please wait..!!";
             //get previous data from URL
             $http.get("/conversions/" + conversion.id).then(function (response) {
                 $scope.previousConversion = JSON.stringify(response.data);
@@ -81,12 +85,14 @@ var app = angular.module('mean.conversions').controller('ConversionsController',
                     previousData: $scope.previousConversion,
                     updatedData: ""
                 });
-               // $window.location.href = "/conversion";
+                $scope.message = "";
+                $window.location.href = "/conversion";
             });
         }
     };
 
     $scope.update = function () {
+        $scope.message = "Loading.. Please wait..!!";
         var conversion = $scope.conversion;
         if (!conversion.updated) {
             conversion.updated = [];
@@ -112,6 +118,7 @@ var app = angular.module('mean.conversions').controller('ConversionsController',
 
             //watchdog calling
             commonCtrl.create({ message: "Conversion " + conversion.id + " is updated.", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: $scope.previousData, updatedData: $scope.updatedData });
+            $scope.message = "";
            });
            
         }, function (error) {
@@ -120,25 +127,41 @@ var app = angular.module('mean.conversions').controller('ConversionsController',
         });
     };
 
-    $scope.find = function () {        
+    $scope.find = function () {
+        $scope.message = "Loading.. Please wait..!!";
         Conversions.query(function (conversions) {
+            $scope.message = "";
             $scope.conversions = conversions;            
         }, function (error) {
             console.log(error);
+            $scope.message = "";
             $window.location.href = "/signin";
         });
     };
 
     $scope.findOne = function () {
+        $scope.message = "Loading.. Please wait..!!";
         Conversions.get({
             id: $stateParams.conversionId
         }, function (conversion) {
             $scope.conversion = conversion;
+            $scope.message = "";
             }, function (error) {
                 console.log(error);
+                $scope.message = "";
                 $window.location.href = "/signin";
             });
     };
+
+
+    $scope.onConversionChange = function () {
+        $scope.machines = [];
+        for (var i = 0 ; i < $scope.conversions.length; i++) {
+            if ($scope.conversions[i].operation == $scope.selectedOperation) {
+                $scope.machines.push($scope.conversions[i]);
+            }
+        }
+    }
 
 }]);
 
@@ -149,4 +172,31 @@ app.filter('startFrom', function () {
         return input.slice(start);
     }
     }
+});
+
+app.filter('unique', function () {
+    // we will return a function which will take in a collection
+    // and a keyname
+    return function (collection, keyname) {
+        // we define our output and keys array;
+        var output = [],
+            keys = [];
+
+        // we utilize angular's foreach function
+        // this takes in our original collection and an iterator function
+        angular.forEach(collection, function (item) {
+            // we check to see whether our object exists
+            var key = item[keyname];
+            // if it's not already part of our keys array
+            if (keys.indexOf(key) === -1) {
+                // add it to our keys array
+                keys.push(key);
+                // push this item to our final output array
+                output.push(item);
+            }
+        });
+        // return our array which should be devoid of
+        // any duplicates
+        return output;
+    };
 });

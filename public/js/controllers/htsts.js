@@ -7,6 +7,7 @@ var app = angular.module('mean.htsts').controller('HtstsController', ['$scope', 
     $scope.pageSize = $window.document.getElementById('hdnPageSize').value;
     $scope.data = [];
     $scope.searchString = "";
+    $scope.message = "";
 
     $scope.getData = function () {
         return $filter('filter')($scope.htsts, $scope.searchString);
@@ -29,7 +30,7 @@ var app = angular.module('mean.htsts').controller('HtstsController', ['$scope', 
             rate: this.rate,
             details: this.details,
         });
-
+        $scope.message = "Loading.. Please wait !!";
         htst.$save(function (response) {
             //$state.go('departments');
             $http.get("/htsts/" + htst.id).then(function (response) {
@@ -40,16 +41,17 @@ var app = angular.module('mean.htsts').controller('HtstsController', ['$scope', 
 
                 //watchdog calling
                 commonCtrl.create({ message: "New htsts is created", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: "", updatedData: $scope.updatedData });
+                $scope.message = "";
+                this.parameter = "";
+                this.rate = "";
+                this.details = "";
             });
         });
-
-        this.parameter = "";
-        this.rate = "";
-        this.details = "";
     };
 
     $scope.remove = function (htst) {
         if ($window.confirm('Are you absolutely sure you want to delete?')) {
+            $scope.message = "Loading.. Please wait !!";
             //get previous data from URL
             $http.get("/htsts/" + htst.id).then(function (response) {
                 $scope.previousData = JSON.stringify(response.data);
@@ -80,6 +82,7 @@ var app = angular.module('mean.htsts').controller('HtstsController', ['$scope', 
                     updatedData: ""
                 });
                 $window.location.href = "/htst";
+                //$scope.find();
             });
         }
     };
@@ -89,7 +92,7 @@ var app = angular.module('mean.htsts').controller('HtstsController', ['$scope', 
         if (!htst.updated) {
             htst.updated = [];
         }
-
+        $scope.message = "Loading.. Please wait !!";
         //get previous data from URL
         $http.get("/htsts/" + htst.id).then(function (response) {
             $scope.previousData = JSON.stringify(response.data);
@@ -111,31 +114,36 @@ var app = angular.module('mean.htsts').controller('HtstsController', ['$scope', 
             //watchdog calling
             commonCtrl.create({ message: "Htst " + htst.id + " is updated.", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: $scope.previousData, updatedData: $scope.updatedData });
            });
-           
+            $scope.message = "";
         }, function (error) {
             console.log(error);
+            $scope.message = "";
             $window.location.href = "/signin";
         });
     };
 
-    $scope.find = function () {        
+    $scope.find = function () {
+        $scope.message = "Loading.. Please wait !!"
         Htsts.query(function (htsts) {
-            $scope.htsts = htsts;            
+            $scope.htsts = htsts;
+            $scope.message = "";
         }, function (error) {
-            console.log(error);
+            $scope.message = "";
             $window.location.href = "/signin";
         });
     };
 
     $scope.findOne = function () {
+        $scope.message = "Loading.. Please wait !!";
         Htsts.get({
             id: $stateParams.htstId
         }, function (htst) {
+            $scope.message = "";
             $scope.htst = htst;
-            }, function (error) {
-                console.log(error);
-                $window.location.href = "/signin";
-            });
+        }, function (error) {
+            $scope.message = "";
+            $window.location.href = "/signin";
+        });
     };
 
 }]);

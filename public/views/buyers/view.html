@@ -1,5 +1,8 @@
 <div class="card">
     <h1>Buyer Detail</h1>
+    <div ng-show="message.length > 0">
+        <div class="alert alert-info">{{message}}</div>
+    </div>
     <section data-ng-init="findOne()">
         <div class="row pull-right">
             <div>

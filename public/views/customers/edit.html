@@ -1,5 +1,9 @@
 <h1>Edit Customer</h1>
 <section data-ng-init="findOne()" class="card">
+    <div class="clearfix"></div> <br />
+    <div ng-show="message.length > 0">
+        <div class="alert alert-info">{{message}}</div>
+    </div>
 	<form class="form-horizontal myForm" data-ng-submit="update()">
 		<div class="control-group">
 			<label class="control-label" for="email">Email</label>

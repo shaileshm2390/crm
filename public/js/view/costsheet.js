@@ -61,13 +61,14 @@
                     $('.elastislide').elastislide();
                 }
                 // add dynamic fields to DOM
-                $(".lnkAdd").on('click', function () {
+                $(".lnkAdd").on('click', function (e) {
                     createDynamicTextFields();
                     if ($(".txtName").length == 0) {
                         $('.btnSubmit ').hide();
                     } else {
                         $('.btnSubmit ').show();
                     }
+                    e.stopImmediatePropagation();
                     return false;
                 });
 

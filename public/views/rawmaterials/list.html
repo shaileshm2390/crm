@@ -7,6 +7,11 @@
     </div>
 
     <div class="clearfix"></div> <br />
+    <div ng-show="message.length > 0">
+        <div class="alert alert-info">{{message}}</div>
+    </div>
+
+    <div class="clearfix"></div> <br />
     <section data-ng-init="find()" class="table-responsive">
         <div class="clearfix clear"></div><br />
         <div data-ng-show="rawmaterials && rawmaterials.length">
@@ -25,9 +30,9 @@
                         <td>
                             <label><a class="btn" ui-sref="editRawMaterials({rawmaterialId : rawmaterial.id})">{{rawmaterial.material}}</a></label>
                         </td>
-                        <td>{{rawmaterial.rate}}</td>
-                        <td>{{rawmaterial.scrapRate}}</td>
-                        <td>{{rawmaterial.scrapRecovery}}</td>
+                        <td>Rs.{{rawmaterial.rate | number : '1.2'}}</td>
+                        <td>Rs.{{rawmaterial.scrapRate | number : '1.2'}}</td>
+                        <td>{{rawmaterial.scrapRecovery  | number : '1.2'}}%</td>
                        <!-- <td> <span>{{rawmaterial.updatedAt | date:'medium'}}</span></td>-->
                       
                         <td style="text-align:center">

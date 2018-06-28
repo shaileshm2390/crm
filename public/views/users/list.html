@@ -7,7 +7,12 @@
     </div>
 
     <div class="clearfix"></div> <br />
-    <div class="alert alert-success" ng-show="message.length > 0">{{message}}</div>
+    <div ng-show="message.length > 0">
+        <div class="alert alert-info">{{message}}</div>
+    </div>
+
+    <div class="clearfix"></div> <br />
+    <div class="alert alert-success" ng-show="successMessage.length > 0">{{successMessage}}</div>
     <div class="alert alert-danger" ng-show="errorMessage.length > 0">{{errorMessage}}</div>
     <div class="clearfix"></div> <br />
 

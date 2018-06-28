@@ -7,6 +7,7 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
     $scope.pageSize = $window.document.getElementById('hdnPageSize').value;
     $scope.data = [];
     $scope.searchString = "";
+    $scope.message = "";
 
     $scope.getData = function () {
         return $filter('filter')($scope.departments, $scope.searchString);       
@@ -24,6 +25,7 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
     });
 
     $scope.create = function () {
+        $scope.message = "Loading.. Please wait..!!";
         var department = new Departments({
             name: this.name,
             status: 1
@@ -39,17 +41,18 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
 
                 //watchdog calling
                 commonCtrl.create({ message: "New department is created", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: "", updatedData: $scope.updatedDetpartment });
+                $scope.message = "";
+                this.name = "";
+                this.status = 1;
             });
         });
-
-        this.name = "";
-        this.status = 1;
     };
 
     $scope.remove = function (department) {
         var deleteDepartment = $window.confirm('Are you absolutely sure you want to delete?');
 
         if (deleteDepartment) {
+            $scope.message = "Loading.. Please wait..!!";
             //get previous data from URL
             $http.get("/departments/" + department.id).then(function (response) {
                 $scope.previousDepartment = JSON.stringify(response.data);
@@ -79,12 +82,14 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
                     previousData: $scope.previousDepartment,
                     updatedData: ""
                 });
+                $scope.message = "";
                 $window.location.href = "/department";
             });
         }
     };
 
     $scope.update = function () {
+        $scope.message = "Loading.. Please wait..!!";
         var department = $scope.department;
         if (!department.updated) {
             department.updated = [];
@@ -110,6 +115,7 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
 
             //watchdog calling
             commonCtrl.create({ message: "Department " + department.id + " is updated.", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: $scope.previousData, updatedData: $scope.updatedData });
+            $scope.message = "";
            });
            
         }, function (error) {
@@ -118,17 +124,20 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
         });
     };
 
-    $scope.find = function () {        
+    $scope.find = function () {
+        $scope.message = "Loading.. Please wait..!!";
         Departments.query(function (departments) {   
             $scope.departments = departments;
-            
+            $scope.message = "";
         }, function (error) {
+            $scope.message = "";
             console.log(error);
             $window.location.href = "/signin";
         });
     };
 
     $scope.findExceptAdmin = function () {
+        $scope.message = "Loading.. Please wait..!!";
         Departments.query(function (departments) {
             for (var i in departments) {
                 if (departments[i].name === 'Admin') {
@@ -136,21 +145,26 @@ var app = angular.module('mean.departments').controller('DepartmentsController',
                 }
             }
             $scope.departments = departments;
+            $scope.message = "";
         }, function (error) {
             console.log(error);
+            $scope.message = "";
             $window.location.href = "/signin";
         });
     };    
 
     $scope.findOne = function () {
+        $scope.message = "Loading.. Please wait..!!";
         Departments.get({
             departmentId: $stateParams.departmentId
         }, function (department) {
+            $scope.message = "";
             $scope.department = department;
-            }, function (error) {
-                console.log(error);
-                $window.location.href = "/signin";
-            });
+        }, function (error) {
+            $scope.message = "";
+            console.log(error);
+            $window.location.href = "/signin";
+        });
     };
 
 }]);

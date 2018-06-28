@@ -86,7 +86,6 @@
             $(document).ready(function () {
                 //   console.log($scope);
                 var loadCode = setInterval(function () {
-                    console.log("Hi", new Date());
                     if ($(".elastislide").length > 0) {
                         $('.elastislide').elastislide();
                     }
@@ -111,7 +110,7 @@
                             }
                         });
                     });
-                    if ($(".hdnUserId").length > 0 && $(".hdnUserId").val() != "") {
+                    if ($(".hdnRfqId").length > 0 && $(".hdnRfqId").val() != "") {
                         clearInterval(loadCode);
                     }
                 }, 500);

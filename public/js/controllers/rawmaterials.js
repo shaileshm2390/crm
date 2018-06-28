@@ -7,6 +7,7 @@ var app = angular.module('mean.rawmaterials').controller('RawMaterialsController
     $scope.pageSize = $window.document.getElementById('hdnPageSize').value;
     $scope.data = [];
     $scope.searchString = "";
+    $scope.message = "";
 
     $scope.getData = function () {
         return $filter('filter')($scope.rawmaterials, $scope.searchString);
@@ -24,6 +25,7 @@ var app = angular.module('mean.rawmaterials').controller('RawMaterialsController
     });
 
     $scope.create = function () {
+        $scope.message = "Loading.. Please wait..!!";
         var rawmaterial = new RawMaterials({
             material: this.material,
             rate: this.rate,
@@ -41,17 +43,20 @@ var app = angular.module('mean.rawmaterials').controller('RawMaterialsController
 
                 //watchdog calling
                 commonCtrl.create({ message: "New rawmaterials is created", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: "", updatedData: $scope.updatedRawMaterial });
+                $scope.message = "";
+                this.material = "";
+                this.rate = "";
+                this.scrapRate = "";
+                this.scrapRecovery = "";
             });
         });
 
-        this.material = "";
-        this.rate = "";
-        this.scrapRate = "";
-        this.scrapRecovery = "";
+       
     };
 
     $scope.remove = function (rawmaterial) {
         if ($window.confirm('Are you absolutely sure you want to delete?')) {
+            $scope.message = "Loading.. Please wait..!!";
             //get previous data from URL
             $http.get("/rawmaterials/" + rawmaterial.id).then(function (response) {
                 $scope.previousRawMaterial = JSON.stringify(response.data);
@@ -81,6 +86,7 @@ var app = angular.module('mean.rawmaterials').controller('RawMaterialsController
                     previousData: $scope.previousRawMaterial,
                     updatedData: ""
                 });
+                $scope.message = "";
                 $window.location.href = "/material";
             });
         }
@@ -88,6 +94,7 @@ var app = angular.module('mean.rawmaterials').controller('RawMaterialsController
 
     $scope.update = function () {
         var rawmaterial = $scope.rawmaterial;
+        $scope.message = "Loading.. Please wait..!!";
         if (!rawmaterial.updated) {
             rawmaterial.updated = [];
         }
@@ -112,6 +119,7 @@ var app = angular.module('mean.rawmaterials').controller('RawMaterialsController
 
             //watchdog calling
             commonCtrl.create({ message: "RawMaterial " + rawmaterial.id + " is updated.", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: $scope.previousData, updatedData: $scope.updatedData });
+            $scope.message = "";
            });
            
         }, function (error) {
@@ -120,9 +128,11 @@ var app = angular.module('mean.rawmaterials').controller('RawMaterialsController
         });
     };
 
-    $scope.find = function () {        
+    $scope.find = function () {
+        $scope.message = "Loading.. Please wait..!!";
         RawMaterials.query(function (rawmaterials) {
             $scope.rawmaterials = rawmaterials;
+            $scope.message = "";
         }, function (error) {
             console.log(error);
             $window.location.href = "/signin";
@@ -130,10 +140,12 @@ var app = angular.module('mean.rawmaterials').controller('RawMaterialsController
     };
 
     $scope.findOne = function () {
+        $scope.message = "Loading.. Please wait..!!";
         RawMaterials.get({
             id: $stateParams.rawmaterialId
         }, function (rawmaterial) {
             $scope.rawmaterial = rawmaterial;
+            $scope.message = "";
             }, function (error) {
                 console.log(error);
                 $window.location.href = "/signin";

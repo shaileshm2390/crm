@@ -1,5 +1,9 @@
 <h1>Add User</h1>
 <section class="card">
+    <div class="clearfix"></div> <br />
+    <div ng-show="message.length > 0">
+        <div class="alert alert-info">{{message}}</div>
+    </div>
     <form class="form-horizontal col-lg-6 myForm" data-ng-submit="create()">
         <div class="control-group">
             <label for="firstname" class="control-label">First name</label>

@@ -1,16 +1,19 @@
-<h1>Add Material</h1>
+<h1>Add HT/ST</h1>
 <section class="card">
+    <div ng-show="message.length == 0">
+        <div class="alert alert-info">{{message}}</div>
+    </div>
 	<form class="form-horizontal myForm" data-ng-submit="create()">
 		<div class="control-group">
-			<label class="control-label" for="name">Material</label>
+			<label class="control-label" for="name">Parameter</label>
 			<div class="controls">
-				<input type="text" data-ng-model="material" id="material" name="material" placeholder="Material" class="form-control col-sm-6 txtMaterial" >
+				<input type="text" data-ng-model="parameter" id="parameter" name="parameter" placeholder="Parameter" class="form-control col-sm-6 txtParameter" >
 			</div>
             <span class="error" style="color:red;"></span>
 		</div>	
         
         <div class="control-group">
-            <label class="control-label" for="name">Rate</label>
+            <label class="control-label" for="name">Rate/Kg</label>
             <div class="controls">
                 <input type="text" data-ng-model="rate" id="rate" name="rate" placeholder="Rate" class="form-control col-sm-6 txtRate">
             </div>
@@ -19,26 +22,18 @@
 
 
         <div class="control-group">
-            <label class="control-label" for="name">Scrap Rate</label>
+            <label class="control-label" for="name">Details</label>
             <div class="controls">
-                <input type="text" data-ng-model="scrapRate" id="scrapRate" name="scrapRate" placeholder="Scrap Rate" class="form-control col-sm-6 txtScrapRate">
+                <textarea rows="7" style="height:auto;" data-ng-model="details" id="details" name="details" placeholder="Details" class="form-control col-sm-6 txtDetails"></textarea>
             </div>
             <span class="error" style="color:red;"></span>
         </div>	
 
-        <div class="control-group">
-            <label class="control-label" for="name">Scrap Recovery</label>
-            <div class="controls">
-                <input type="text" data-ng-model="scrapRecovery" id="scrapRecovery" name="scrapRecovery" placeholder="Scrap Recovery" class="form-control col-sm-6 txtScrapRecovery">
-            </div>
-            <span class="error" style="color:red;"></span>
-        </div>	
-        	
         <div class="clear clearfix" ></div><br />
 		<div class="control-group">
             <div class="controls">
                 <input type="submit" class="btn btn-primary btn-Save" value="Save">
-                <a class="btn btn-secondary" href="/material">Cancel</a>
+                <a class="btn btn-secondary" href="/htst">Cancel</a>
             </div>
 		</div>
 	</form>

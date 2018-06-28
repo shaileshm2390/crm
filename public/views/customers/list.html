@@ -1,6 +1,10 @@
 <h1>Customers</h1>
 
 <div class="card">
+    <div class="clearfix"></div> <br />
+    <div ng-show="message.length > 0">
+        <div class="alert alert-info">{{message}}</div>
+    </div>
     <div class="pull-right">
         <a href="/customer/create" class="btn btn-primary" ng-show="global.user.isAdmin">Add Customer</a>
         <input type="search" data-ng-model="searchString" class="col-lg-4 pull-right form-control" placeholder="Search" />

@@ -36,11 +36,11 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             controller: 'DepartmentsController',
             templateUrl: 'views/departments/edit.html'
         })
-        .state('viewDepartment', {
-            url: '/department/{departmentId}',
-            controller: 'DepartmentsController',
-            templateUrl: 'views/departments/view.html'
-        })       
+        //.state('viewDepartment', {
+        //    url: '/department/{departmentId}',
+        //    controller: 'DepartmentsController',
+        //    templateUrl: 'views/departments/view.html'
+        //})       
 
         //user 
         .state('users', {
@@ -175,11 +175,11 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             controller: 'RawMaterialsController',
             templateUrl: 'views/rawmaterials/edit.html'
         })
-        .state('viewRawMaterial', {
-            url: '/material/{rawmaterialId}',
-            controller: 'RawMaterialsController',
-            templateUrl: 'views/rawmaterials/view.html'
-        })
+        //.state('viewRawMaterial', {
+        //    url: '/material/{rawmaterialId}',
+        //    controller: 'RawMaterialsController',
+        //    templateUrl: 'views/rawmaterials/view.html'
+        //})
 
          //  conversion
         .state('conversions', {
@@ -197,11 +197,11 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             controller: 'ConversionsController',
             templateUrl: 'views/conversions/edit.html'
         })
-        .state('viewConversion', {
-            url: '/conversion/{conversionId}',
-            controller: 'ConversionsController',
-            templateUrl: 'views/conversions/view.html'
-        })
+        //.state('viewConversion', {
+        //    url: '/conversion/{conversionId}',
+        //    controller: 'ConversionsController',
+        //    templateUrl: 'views/conversions/view.html'
+        //})
 
         //  htst
         .state('htsts', {
@@ -219,11 +219,11 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             controller: 'HtstsController',
             templateUrl: 'views/htsts/edit.html'
         })
-        .state('viewHtst', {
-            url: '/htst/{htstId}',
-            controller: 'HtstsController',
-            templateUrl: 'views/htsts/view.html'
-        })
+        //.state('viewHtst', {
+        //    url: '/htst/{htstId}',
+        //    controller: 'HtstsController',
+        //    templateUrl: 'views/htsts/view.html'
+        //})
 
         .state('404', {
             templateUrl: 'views/404.html'

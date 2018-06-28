@@ -11,13 +11,13 @@ var _ = require('lodash');
  * Note: This is called every time that the parameter :id is used in a URL.
  * Its purpose is to preload the department on the req object then call the next function.
  */
-exports.htStMaster = function (req, res, next, id) {
-    db.HTSTMaster.find({ where: { id: id } }).then(function (hTSTMaster) {
+exports.htStMaster = function (req, res, next, id) {    
+    db.HTSTMaster.find({ where: { id: id } }).then(function (hTSTMaster) {    
         if (!hTSTMaster) {
-            req.hTSTMaster = {};
+            req.htStMaster = {};
             return next();
         } else {
-            req.hTSTMaster = hTSTMaster;
+            req.htStMaster = hTSTMaster;
             return next();
         }
     }).catch(function (err) {

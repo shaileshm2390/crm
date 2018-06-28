@@ -1,37 +1,39 @@
-<h1>Raw Material</h1>
+<h1>HT/ST</h1>
 
 <div class="card">
     <div class="pull-right">
-        <a href="/material/create" class="btn btn-primary">Add Raw Material</a>
+        <a href="/htst/create" class="btn btn-primary">Add HT/ST</a>
         <input type="search" data-ng-model="searchString" class="col-lg-4 pull-right form-control" placeholder="Search" />
-    </div>
+    </div><br />
 
+    <div ng-show="message.length > 0">
+        <div class="alert alert-info">{{message}}</div>        
+    </div>
     <div class="clearfix"></div> <br />
+
     <section data-ng-init="find()" class="table-responsive">
         <div class="clearfix clear"></div><br />
-        <div data-ng-show="rawmaterials && rawmaterials.length">
+        <div data-ng-show="htsts && htsts.length">
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Material</th>
-                        <th>Rate</th>
-                        <th>Scrap Rate</th>
-                        <th>Scrap Recovery</th>   
+                        <th>Sr.No</th>
+                        <th>Parameter</th>
+                        <th>Details</th>
+                        <th>Rate</th>   
                         <th style="text-align:center">Action</th>
                     </tr>
                 </thead>
                 <tbody>                   
-                    <tr ng-repeat="rawmaterial in rawmaterials | filter:{material:searchString} | startFrom:currentPage*pageSize | limitTo:pageSize | orderBy:'material'" >
+                    <tr ng-repeat="htst in htsts | filter:{details:searchString} | startFrom:currentPage*pageSize | limitTo:pageSize | orderBy:'parameter'" >
+                        <td>{{htst.id}}</td>
                         <td>
-                            <label><a class="btn" ui-sref="editRawMaterials({rawmaterialId : rawmaterial.id})">{{rawmaterial.material}}</a></label>
+                            <label><a class="btn" ui-sref="editHtsts({htstId : htst.id})">{{htst.parameter}}</a></label>
                         </td>
-                        <td>{{rawmaterial.rate}}</td>
-                        <td>{{rawmaterial.scrapRate}}</td>
-                        <td>{{rawmaterial.scrapRecovery}}</td>
-                       <!-- <td> <span>{{rawmaterial.updatedAt | date:'medium'}}</span></td>-->
-                      
+                        <td>Rs.{{htst.rate}}/kg</td>
+                        <td>{{htst.details}}</td>
                         <td style="text-align:center">
-                            <a class="btn" data-ng-click="remove(rawmaterial);"><i class="fa fa-trash"></i></a>
+                            <a class="btn" data-ng-click="remove(htst);"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
                 </tbody>
@@ -53,7 +55,7 @@
         </div>
 
         <div class="clearfix clear"></div><br />
-        <div class="alert alert-danger" data-ng-hide="!rawmaterials || rawmaterials.length">No record found</div>
+        <div class="alert alert-danger" data-ng-hide="!htsts || htsts.length">No record found</div>
     </section>
 
 </div>

@@ -15,31 +15,127 @@
 
                 <div class="clear clearfix"></div> <br />
 
-                <a href="#" class="btn btn-outline-primary lnkAdd  pull-right" title="add row">
+                <a href="#" class="btn btn-outline-primary lnkAdd  pull-right hide" title="add row">
                     <span><i class="fa fa-plus-circle"></i></span>
                 </a>
+
+                <div class="clear clearfix"></div> <br />
+                <div class="Rawmaterial">
+                    <h3>Heading</h3>
+                    <div ng-controller="RawMaterialsController" ng-init="find()" class="row">
+                        <div class="col-sm-4">
+                            <label>Raw Material</label><br />
+                            <select class="form-control ddlRawMaterial" id="ddlRawMaterial" name="dropdown">
+                                <option value="" selected>Raw Material</option>
+                                <option ng-repeat="material in rawmaterials" value="{{material.id}}" data-rate="{{material.rate}}" data-scrap-rate="{{material.scrapRate}}" data-scrap-recovery="{{material.scrapRecovery}}">{{material.material}}</option>
+                            </select>
+                            <br />
+                            <label>Gross Weight</label><br />
+                            <input type="text" placeholder="Gross Weight" class="form-control txtGrWt txtCalculateCost" id="txtGrWt" />
+                            <br />
+                            <label>Net Weight</label><br />
+                            <input type="text" placeholder="Net Weight" class="form-control txtNetWt txtCalculateCost" id="txtNetWt" />
+                        </div>
+                        <div class="col-sm-4">
+                            <label>Rate</label><br />
+                            <input type="text" placeholder="Rate" class="form-control txtRate" id="txtRate" readonly="readonly" /> <br />
+                            <label>Scrap Rate</label><br />
+                            <input type="text" placeholder="Scrap Rate" class="form-control txtScrapRate" id="txtScrapRate" readonly="readonly" /> <br />
+                            <label>Scrap Recovery</label><br />
+                            <input type="text" placeholder="Scrap Recovery" class="form-control txtScrapRecovery" id="txtScrapRecovery" readonly="readonly" /> <br />
+                        </div>
+                        <div class="col-sm-4">
+                            <label>RM Cost</label><br />
+                            <input type="text" placeholder="RM Cost" class="form-control txtRmCost" id="txtRmCost" readonly="readonly" /> <br />
+                            <label>Net RM Cost</label><br />
+                            <input type="text" placeholder="Net RM Cost" class="form-control txtNetRmCost" id="Net txtNetRmCost" readonly="readonly" /> <br />
+                        </div>
+                    </div>
+                    <br />
+                </div>
+                <hr/>
+
+                <div class="Conversion">
+                    <h3>Conversion</h3>
+                    <div ng-controller="ConversionsController" ng-init="find()" class="row">
+                        <div class="col-sm-4">
+                            <label>Operation</label><br />
+                            <select class="form-control ddlOperation" id="ddlOperation" name="dropdown" ng-change="onConversionChange()" ng-model="selectedOperation">
+                                <option value="" selected>Operation</option>
+                                <option ng-repeat="conversion in conversions | unique : 'operation'" value="{{conversion.operation}}">{{conversion.operation}}</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <label>Machine</label><br />
+                            <select class="form-control ddlMachine" id="ddlMachine" name="dropdown">
+                                <option value="" selected>Machine</option>
+                                <option ng-repeat="machine in machines" value="{{machine.id}}" data-rate="{{machine.rate}}" data-efficiency="{{machine.efficiency}}">{{machine.machine}}</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <label>Cycle Time</label><br />
+                            <input type="text" placeholder="Cycle Time" class="form-control txtCycleTime" id="txtCycleTime" />
+                        </div>
+                    </div><br />
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label>Rate/hrs</label><br />
+                            <input type="text" placeholder="Rate/hrs" class="form-control txtConversionRate" id="txtConversionRate" readonly />
+                        </div>
+                        <div class="col-sm-4">
+                            <label>Efficiency</label><br />
+                            <input type="text" placeholder="Efficiency" class="form-control txtConversionEfficiency" id="txtConversionEfficiency" readonly />
+                        </div>
+                        <div class="col-sm-4">
+                            <label>Conversion Cost</label><br />
+                            <input type="text" placeholder="Conversion Cost" class="form-control txtConversionCost" id="txtConversionCost" readonly />
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+                <div class="HtSt">
+                    <h3>HT/ST</h3>
+                    <div ng-controller="HtstsController" ng-init="find()" class="row">
+                        <div class="col-sm-4">
+                            <label>HT/ST</label><br />
+                            <select class="form-control ddlHtSt" id="ddlHtSt" name="dropdown">
+                                <option value="" selected>HT/ST</option>
+                                <option ng-repeat="htst in htsts " value="{{htst.parameter}}" data-rate="{{htst.rate}}">{{htst.parameter}}</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <label>Cost</label><br />   
+                            <input type="text" placeholder="HT/ST Cost" class="form-control txtHtStCost" id="txtHtStCost" readonly />                        
+                        </div>
+                        <div class="col-sm-4">
+                         &nbsp;
+                        </div>
+                    </div>
+                </div>
+
                 <div class="clear clearfix"></div> <br />
 
-                <div class="pnlParameter">
-                    <div class="row">
-                        <div class="col col-lg-5">
-                            <input type="text" class="txtName form-control" placeholder="Name" required />
+                    <div class="pnlParameter hide">
+                        <div class="row">
+                            <div class="col col-lg-3">
+                                <input type="text" class="txtName form-control" placeholder="Name" required />
+                            </div>
+                            <div class="col col-lg-3">
+                                <input type="text" class="txtValue form-control" placeholder="Value" required />
+                            </div>
+                            <div class="col col-lg-2">
+                                <a href="#" class="btn btn-outline-danger lnkRemove   pull-right" title="remove row"><span><i class="fa fa-minus-circle"></i></span></a>
+                            </div>
                         </div>
-                        <div class="col col-lg-5">
-                            <input type="text" class="txtValue form-control" placeholder="Value" required />
-                        </div>
-                        <div class="col col-lg-2">
-                            <a href="#" class="btn btn-outline-danger lnkRemove   pull-right" title="remove row"><span><i class="fa fa-minus-circle"></i></span></a>
+                        <div class="clear clearfix"></div> <br />
+                    </div>
+                    <div class="row hide">
+                        <div class="col col-lg-3 center">
+                            <a href="#" class="btnSubmit btn btn-primary">Send for Approval</a>
                         </div>
                     </div>
-                    <div class="clear clearfix"></div> <br />
                 </div>
-                <div class="row">
-                    <div class="col col-lg-3 center">
-                        <a href="#" class="btnSubmit btn btn-primary">Send for Approval</a>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -57,4 +153,280 @@
     </section>
 </div>
 
-<script src="/js/view/costsheet.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var bindRemoveParameter = function () {
+            $(".lnkRemove").on('click', function () {
+                $(this).parent().parent().next().remove(".clearfix");
+                $(this).parent().parent().next().remove("br");
+                $(this).parent().parent().remove();
+
+                if ($(".txtName").length == 0) {
+                    $('.btnSubmit ').hide();
+                } else {
+                    $('.btnSubmit ').show();
+                }
+            });
+        };
+        bindRemoveParameter();
+        var rfqId;
+
+        var toTitleCase = function (str) {
+            return str.replace(/(?:^|\s)\w/g, function (match) {
+                return match.toUpperCase();
+            });
+        };
+
+        var calculateRmCost = function () {
+            var rate = $(".txtRate").val().replace ( /[^\d.]/g, '' ),
+                scrapRate = $(".txtScrapRate").val().replace(/[^\d.]/g, ''),
+                scrapRecovery = $(".txtScrapRecovery").val().replace(/[^\d.]/g, ''),
+                grWt = $(".txtGrWt").val().replace(/[^\d.]/g, ''),
+                netWt = $(".txtNetWt").val().replace(/[^\d.]/g, '');
+            
+            if ($(".ddlRawMaterial").val() != "" && grWt != "" && netWt != "" && rate != "" && scrapRate != "" && scrapRecovery != "" &&
+                !(isNaN(grWt) && isNaN(netWt) && isNaN(rate) && isNaN(scrapRate) && isNaN(scrapRecovery))) {
+
+                var rmCost = Math.ceil(((grWt * rate) / 1000) * 100) / 100;
+                var netRmCost = rmCost - ((((grWt - netWt) * scrapRate) / 1000) * (scrapRecovery / 100));
+
+                $(".txtRmCost").val("Rs " + rmCost.toFixed(2));
+                $(".txtNetRmCost").val("Rs " + (Math.ceil(netRmCost * 100) / 100).toFixed(2));
+            } else {
+                $(".txtRmCost").val('');
+                $(".txtNetRmCost").val('');
+            }
+        },
+
+        calculateConversionCost = function () {
+            var rate = $(".txtConversionRate").val().replace(/[^\d.]/g, ''),
+              efficiency = $(".txtConversionEfficiency").val().replace(/[^\d.]/g, ''),
+              cycleTime = $(".txtCycleTime").val().replace(/[^\d.]/g, '');
+
+            if ($(".ddlMachine").val() != "" && efficiency != "" && cycleTime != "" && rate &&
+               !(isNaN(efficiency) && isNaN(cycleTime) && isNaN(rate) )) {
+               
+                var conversionCost = Math.ceil((((cycleTime * rate) / 3600) * (efficiency / 100)) * 10) / 10;
+
+                $(".txtConversionCost").val("Rs " + conversionCost.toFixed(2));
+            } else {
+                $(".txtConversionCost").val('');
+            }
+        },
+
+        calculateHtStCost = function () {
+            var rate = $(".ddlHtSt option:selected").data("rate"),
+               netWt = $(".txtNetWt").val().replace(/[^\d.]/g, '');
+
+            if ($(".ddlHtSt").val() != "" && netWt != "" &&
+               !(isNaN(netWt) && isNaN(rate))) {
+                var htStCost = Math.ceil((((netWt * rate) / 1000)) * 100) / 100;
+                $(".txtHtStCost").val("Rs " + htStCost.toFixed(2));
+            } else {
+                $(".txtHtStCost").val('');
+            }
+        },
+
+        createDynamicTextFields = function (callback) {
+
+            var inputName = $("<input />", { class: 'txtName form-control', type: 'text', placeholder: 'Name', required: 'required' });
+            var inputValue = $("<input />", { class: 'txtValue form-control', type: 'text', placeholder: 'Value', required: 'required' });
+
+            var divCol5Name = $('<div>', { class: 'col col-lg-5' }).html(inputName);
+            var divCol5Value = $('<div>', { class: 'col col-lg-5' }).html(inputValue);
+            var divCol2Space = $('<div>', { class: 'col col-lg-2' }).html('<a href="#" class="btn btn-outline-danger lnkRemove pull-right" title="remove row"><span><i class="fa fa-minus-circle"></i></span></a >');
+
+            var divRow = $('<div>', { class: 'row' }).append(divCol5Name, divCol5Value, divCol2Space);
+            var divClear = $("<div>", { class: 'clear clearfix' });
+            var breakLine = $("<br />");
+
+            $(".pnlParameter").append(divRow, divClear, breakLine);
+            bindRemoveParameter();
+            typeof callback === 'function' && callback();
+        };
+
+        // ajax call to save cost sheet
+        var saveCostSheet = function (data) {
+            var dfd = $.Deferred();
+            $.ajax({
+                url: '/costsheets/',
+                method: "POST",
+                data: { UserId: window.user.id, data: data, RfqId: rfqId, status: window.user.isAdmin ? "approved" : "pending" }
+            }).done(function (response) {
+                dfd.resolve(response);
+                $(".lblMsg").html("<span>Saved successfully !!!</span>").removeClass("hide");
+            });
+            return dfd.promise();
+        };
+
+        var loadCode = setInterval(function () {
+                rfqId = $(".hdnRfqId").val();
+
+                // slider of images
+                if ($(".elastislide").length > 0) {
+                    $('.elastislide').elastislide();
+                }
+                // add dynamic fields to DOM
+                $(".lnkAdd").on('click', function (e) {
+                    createDynamicTextFields();
+                    if ($(".txtName").length == 0) {
+                        $('.btnSubmit ').hide();
+                    } else {
+                        $('.btnSubmit ').show();
+                    }
+                    e.stopImmediatePropagation();
+                    return false;
+                });           
+
+                // save cost sheet to db
+                $(".btnSubmit").on('click', function (e) {
+                    var $me = $(this);
+                    var nameValuePair = {};
+                    var totalRecord = $(".txtName").length;
+                    var validField = [];
+
+                    for (var index = 0; index < totalRecord; index++) {
+                        if ($.trim($($(".txtName")[index]).val()) != "" && $.trim($($(".txtValue")[index]).val())) {
+                            nameValuePair[$($(".txtName")[index]).val()] = $($(".txtValue")[index]).val();
+                            $($(".txtName")[index]).css("border", "");
+                            $($(".txtValue")[index]).css("border", "");
+                            validField[index] = true;
+                        }
+                        else {
+                            validField[index] = false;
+                            if ($.trim($($(".txtName")[index]).val()) == "") {
+                                $($(".txtName")[index]).css("border", "1px solid red");
+                            } else {
+                                $($(".txtName")[index]).css("border", "");
+                            }
+                            if ($.trim($($(".txtValue")[index]).val()) == "") {
+                                $($(".txtValue")[index]).css("border", "1px solid red");
+                            } else {
+                                $($(".txtValue")[index]).css("border", "");
+                            }
+                        }
+                    }
+                    if ($.inArray(false, validField) < 0) {                        
+                            // save costsheet
+                            $.when(saveCostSheet(JSON.stringify(nameValuePair))).then(function () {
+                                window.location.reload();
+                            });                      
+                    } else {
+                        nameValuePair = {};
+                    }
+                    e.stopImmediatePropagation();
+                    return false;
+                });
+
+                // copy data to modified it
+                $(".btn-update").on('click', function () {
+                    console.log($(this).data("parameter"));        
+                    $(".pnlParameter").html("");
+                    $(".create-costsheet").removeClass('hide');
+                    var index = 0;
+                    $.each($(this).data("parameter"), function (key, value) {
+                        createDynamicTextFields();
+                        $($(".txtName")[index]).val(key);
+                        $($(".txtValue")[index]).val(value);
+                        index++;
+                    });
+                    $('html, body').animate({
+                        scrollTop: $(".txtName:first").offset().top
+                    }, 800);
+                });
+
+                // status update of costsheet
+                $(".lnkUpdateStatus").bind('click', function (e) {
+                    if (window.user.isAdmin && confirm("You are going to change status to " + $(this).data("status") + ", sure?")) {
+                        $.ajax({
+                            url: '/costsheets/' + $(this).data("id"),
+                            method: "PUT",
+                            data: { status: $(this).data("status") }
+                        }).done(function (response) {
+                            window.location.reload();
+                        });
+                    }
+                    return false;
+                });
+
+                $(".btnCancel").on('click', function () {
+                    $(".pnlParameter").html("");
+                    $(".create-costsheet").addClass('hide');
+                });
+
+                $(".btn-mail").on('click', function () {
+                    if (window.user.isAdmin) {
+                        $.ajax({
+                            url: '/costsheets/mail/' + $(this).data("id"),
+                            method: "POST",
+                        }).done(function (response) {
+                            console.log("Mail sent successfully", response);
+                        });
+                    }
+                });
+
+            /*********************************** RAW MATERIAL CALCULATION****************************************/
+
+                $(".ddlRawMaterial").on('change', function () {
+                    if ($(this).val() != "") {
+                        $(".txtRate").val("Rs " + $(".ddlRawMaterial option:selected").data("rate").toFixed(2));
+                        $(".txtScrapRate").val("Rs " + $(".ddlRawMaterial option:selected").data("scrap-rate").toFixed(2));
+                        $(".txtScrapRecovery").val($(".ddlRawMaterial option:selected").data("scrap-recovery").toFixed(2) + "%");
+                        calculateRmCost();
+                    } else {
+                        $(".txtRate").val('');
+                        $(".txtScrapRate").val('');
+                        $(".txtScrapRecovery").val('');
+                        $(".txtRmCost").val('');
+                        $(".txtNetRmCost").val('');
+                    }
+                });
+
+                $(".txtCalculateCost").on('keyup', function () {
+                    calculateRmCost();
+                });
+
+            /*********************************** CONVERSION CALCULATION****************************************/
+
+                $(".ddlOperation").bind('change', function () {
+                    console.log("Hi");
+                        $(".txtConversionRate").val('');
+                        $(".txtConversionEfficiency").val('');
+                        $(".txtConversionCost").val('');                        
+                });
+
+                $(".ddlMachine").on('change', function () {
+                    if ($(this).val() != "") {
+                        $(".txtConversionRate").val("Rs " + $(".ddlMachine option:selected").data("rate").toFixed(2));
+                        $(".txtConversionEfficiency").val($(".ddlMachine option:selected").data("efficiency").toFixed(2) + "%");
+                        calculateConversionCost();
+                    } else {
+                        $(".txtConversionRate").val('');
+                        $(".txtConversionEfficiency").val('');
+                        $(".txtConversionCost").val('');
+                    }
+                });
+
+                $(".txtCycleTime").on('keyup', function () {
+                    calculateConversionCost();
+                });
+
+            /*********************************** HTST CALCULATION****************************************/
+                $(".ddlHtSt").on('change', function () {
+                    if ($(this).val() != "") {
+                        calculateHtStCost();
+                    } else {
+                        $(".txtHtStCost").val('');
+                    }
+                });
+
+                if ($(".hdnRfqId").length > 0 && $(".hdnRfqId").val() != "") {
+                    clearInterval(loadCode);
+                }
+        }, 500);
+    });
+
+
+    </script>
+<!--<script src="/js/view/costsheet.js"></script>-->

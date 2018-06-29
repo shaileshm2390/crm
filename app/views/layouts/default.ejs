@@ -396,18 +396,20 @@
 
     <script src="/js/jquery.fancybox.js"></script>
 
-  <% if (typeof user == 'object' && user) { %>
-    <script type="text/javascript"> 
-        window.user = { id:<%= user.id %>, email: '<%= user.email %>', firstName: '<%= user.firstName %>', lastName: '<%= user.lastName %>', isAdmin: <%= user.isAdmin %>, role:'<%= user.role%>' };        
-		</script>
-  <% } %>
+  
     <script type="text/javascript">
         $(document).ready(function () {
             setTimeout(function () {
                 $(".ng-hide[data-ng-show='global.authenticated']").remove();
-            }, 500);
+            }, 500);            
         });
     </script>
+    <% if (typeof user == 'object' && user) { %>
+    <script type="text/javascript">
+
+        window.user = { id:<%= user.id %>, email: '<%= user.email %>', firstName: '<%= user.firstName %>', lastName: '<%= user.lastName %>', isAdmin: <%= user.isAdmin %>, role:'<%= user.role%>' };
+    </script>
+    <% } %>
 </body>
 
 </html>

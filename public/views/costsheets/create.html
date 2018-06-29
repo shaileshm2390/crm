@@ -518,16 +518,16 @@
                 };
 
                 $(".lnkAddPanel").on('click', function (e) {
-                    $me = $(this);
-                    $.get($(this).data('url'), function (response) {
-                        angular.element(document).injector().invoke(function ($compile) {
-                            var obj = $("." + $me.data('class')); // get wrapper
-                            var scope = obj.scope(); // get scope
-                            // generate dynamic content
-                            obj.append($compile(response)(scope));
-                            bindCalculationEvent();
-                        });
-                    });
+                    //$me = $(this);
+                    //$.get($(this).data('url'), function (response) {
+                    //    angular.element(document).injector().invoke(function ($compile) {
+                    //        var obj = $("." + $me.data('class')); // get wrapper
+                    //        var scope = obj.scope(); // get scope
+                    //        // generate dynamic content
+                    //        obj.append($compile(response)(scope));
+                    //        bindCalculationEvent();
+                    //    });
+                    //});
                     e.stopImmediatePropagation();
                 });
 

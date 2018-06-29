@@ -47,11 +47,14 @@
     background: #000;
     width: 100%; 
     margin: 0;
+    z-index: 10;
     padding: 15px 0 0 0;
     display: none; }
 .menubar-nav ul li ul li { 
-    text-align: center;
-    width: 100%; border:0;}
+    width: 100%;
+    border: 0;
+    margin: 0 10px;}
+
 .menubar-nav ul li ul a { padding: 2px 0; }
 .menubar-nav ul li:hover ul { display: block;  }
 .menubar-nav ul li ul:hover { display: block;  }
@@ -64,7 +67,7 @@
             <a class="has-arrow lnkCostSheetMenu" href="#" aria-expanded="false">
                 <span>Cost Sheet Preparation</span>
             </a>
-            <ul aria-expanded="false" class="collapse costsheet" style="margin-top: 10px;">
+            <ul aria-expanded="false" class="collapse costsheet">
                 <li><a href="/rfq/{{rfq.id}}/costsheet/prepare">Prepare &amp; Send for Approval</a><br /></li>
                 <li><a href="/rfq/{{rfq.id}}/costsheet/approval">Approved &amp; Send to Customer</a><br /></li>
             </ul>
@@ -75,7 +78,7 @@
             <a class="has-arrow lnkCostSheetMenu" href="#" aria-expanded="false">
                 <span>Quotation</span>
             </a>
-            <ul aria-expanded="false" class="collapse quotation" style="margin-top: 10px;">
+            <ul aria-expanded="false" class="collapse quotation">
                 <li><a href="/rfq/{{rfq.id}}/quotation/short">Short Quotation</a><br /></li>
                 <li><a href="/rfq/{{rfq.id}}/quotation/detail">Detail Quotation</a><br /></li>
             </ul>

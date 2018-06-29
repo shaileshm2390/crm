@@ -4,16 +4,17 @@
         <h1>Approve Cost Sheet</h1>
         <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
 
-        
-            <div ng-include="'views/rfqs/rfqLeftNavigation.htm'" class="col col-lg-12"></div>
-        <div class="row">
-            <div class="col col-lg-4">
-                <h3><strong>Prepared Cost Sheet</strong></h3>
-                <div ng-show="!costsheets.length">
-                    <div>This RFQ don't have any cost sheet prepared <br /><br /><a href="/rfq/{{rfq.id}}/costsheet/prepare">Please click here</a> to prepare one</div>
-                </div>
-                <div ng-init="findByRfqId()" ng-show="costsheets.length">
-                    <div ng-repeat="costsheet in costsheets | orderBy: '-createdAt'">
+
+        <div ng-include="'views/rfqs/rfqLeftNavigation.htm'" class="col col-lg-12"></div>
+
+        <h3><strong>Prepared Cost Sheet</strong></h3>
+        <div ng-show="!costsheets.length">
+            <div>This RFQ don't have any cost sheet prepared <br /><br /><a href="/rfq/{{rfq.id}}/costsheet/prepare">Please click here</a> to prepare one</div>
+        </div>
+     
+        <div ng-init="findByRfqId()" ng-show="costsheets.length">
+            <div class="row">            
+                    <div ng-repeat="costsheet in costsheets | orderBy: '-createdAt'" class="col col-lg-4">
                         <div style="background-color:linen; padding: 5px">
 
                             <h6>
@@ -27,10 +28,10 @@
                                 </span>
                             </h6>
 
-                            <div class="clear clearfix"></div>
+                            <div class="clear clearfix"></div><br />
 
                             <div class="row">
-                                <div ng-show="global.user.isAdmin" style="border-left:1px solid rgba(0,0,0,.1)">
+                                <div ng-show="global.user.isAdmin" style="border-left:1px solid rgba(0,0,0,.1)"  class="col col-lg-12">
                                     <div style="text-align:center;">
 
                                         <a ng-class="(global.user.isAdmin && 'btn-update btn btn-primary') || 'btn btn-primary'" data-parameter="{{stringToObject(costsheet.data, true)}}" href="#" title="Copy and modify">
@@ -47,11 +48,13 @@
                                         </a>
                                         <a class="btn btn-primary btn-mail" data-id="{{costsheet.id}}" href="#" title="Click to send mail to customer" ng-show="costsheet.status == 'approved'" title="Mail cost sheet to {{rfq.Buyer.name}}">
                                             <span><i class="fa fa-envelope"></i></span>
-                                        </a>                                        
+                                        </a>
 
                                     </div>
                                 </div>
-                                <div class="col-lg-12'">
+                            </div>
+                            <div class="row">
+                                <div class="col col-lg-12">
                                     <hr />
                                     <strong>Cost Sheet Parameter</strong>
                                     <hr />
@@ -67,32 +70,32 @@
                                             {{value}}<br /><br />
                                         </div>
                                     </div>
-                                </div>                                
+                                </div>
                             </div>
                         </div>
                         <div class="clear clearfix"></div><br />
-                    </div>
-                </div>
+                    </div>                
+            </div>
+        </div>
+          
+        <div class="create-costsheet hide">
+            <div class="alert alert-success lblMsg hide"></div>
+            <div class="clear clearfix"></div> <br />
 
-                <div class="create-costsheet hide">
-                    <div class="alert alert-success lblMsg hide"></div>
-                    <div class="clear clearfix"></div> <br />
+            <a href="#" class="btn btn-outline-primary lnkAdd  pull-right" title="add row">
+                <span><i class="fa fa-plus-circle"></i></span>
+            </a>
+            <div class="clear clearfix"></div> <br />
 
-                    <a href="#" class="btn btn-outline-primary lnkAdd  pull-right" title="add row">
-                        <span><i class="fa fa-plus-circle"></i></span>
-                    </a>
-                    <div class="clear clearfix"></div> <br />
-
-                    <div class="pnlParameter"></div>
-                    <div class="row">
-                        <div class="col col-lg-3 center">
-                            <a href="#" class="btnSubmit btn btn-primary">Approved</a>
-                            <a href="#" class="btnCancel btn btn-secondary">Cancel</a>
-                        </div>
-                    </div>
+            <div class="pnlParameter"></div>
+            <div class="row">
+                <div class="col col-lg-3 center">
+                    <a href="#" class="btnSubmit btn btn-primary">Approved</a>
+                    <a href="#" class="btnCancel btn btn-secondary">Cancel</a>
                 </div>
             </div>
         </div>
+
     </section>
     <section ng-show="rfq.id == null && validatePermission">
         <h1>403 - Forbidden</h1>

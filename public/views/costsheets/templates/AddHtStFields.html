@@ -1,0 +1,14 @@
+﻿<div ng-controller="HtstsController" ng-init="find()"  class="separatePanel">
+    <div>
+        <label class="txtPredefinedName">HT/ST</label>
+        <select class="form-control ddlHtSt txtPredefinedValue" id="ddlHtSt" name="dropdown">
+            <option value="" selected>Select</option>
+            <option ng-repeat="htst in htsts " value="{{htst.details}}" data-id="{{htst.id}}" data-parameter="{{htst.parameter}}" data-rate="{{htst.rate}}">{{htst.details}}</option>
+        </select>
+    </div>
+    <div>
+        <label class="txtPredefinedName">Cost</label>
+        <input type="text" placeholder="HT/ST Cost" class="form-control txtHtStCost txtPredefinedValue" id="txtHtStCost" />
+    </div>
+</div>
+<br />

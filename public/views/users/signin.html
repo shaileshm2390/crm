@@ -1,35 +1,38 @@
 <div data-ng-show="!global.authenticated">
-    <div class="col-12">
-        <div ng-controller="signIn" class="card" align="center">
-            <h1 align="center">Login</h1>
-            <hr />
-            <div class="login-form col-5" style="text-align:left;">
-                <div ng-show="errorMessage.length" class="alert alert-danger">{{errorMessage}}</div>
-                <div ng-show="successMessage.length" class="alert alert-success">{{successMessage}}</div>
-                <form ng-submit="signIn(user)" class="signin form-horizontal " name="signInForm">
-                    <div class="control-group">
-                        <label for="email" class="control-label"><strong>Email</strong></label>
-                        <div class="controls">
-                            <input id="email" type="text" class="form-control txtEmail" name="email" placeholder="Email" ng-model="user.email">
-                            <span class="errorEmail" style="color:red;"></span>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label for="password" class="control-label"><strong>Password</strong></label>
-                        <div class="controls">
-                            <input id="password" type="password" name="password" placeholder="Password" class="form-control txtPassword" ng-model="user.password">
-                            <span class="errorPassword" style="color:red;"></span>
-                        </div>
-                    </div>
-                    <div class="clear"></div><br />
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary btnSignIn">Sign in</button>
-                    </div>
-                </form>
-            </div>
-            <hr />
-        </div>
-    </div>
+	<div class="row">
+		<div class="col-5 mx-auto m-t-20 log-box">
+			<div ng-controller="signIn" class="card">
+				<div class="sign-head">
+					<h2 class="m-b-0 text-center border-bottom pb-3 ">Sign In</h2>
+				</div>
+				<div class="login-form pt-3" style="text-align:left;">
+					<div ng-show="errorMessage.length" class="alert alert-danger">{{errorMessage}}</div>
+					<div ng-show="successMessage.length" class="alert alert-success">{{successMessage}}</div>
+					<form ng-submit="signIn(user)" class="signin form-horizontal " name="signInForm">
+						<div class="control-group">
+							<label for="email" class="control-label"><strong>Email</strong></label>
+							<div class="controls">
+								<input id="email" type="text" class="form-control txtEmail" name="email" placeholder="Email" ng-model="user.email">
+								<span class="errorEmail" style="color:red;"></span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label for="password" class="control-label"><strong>Password</strong></label>
+							<div class="controls">
+								<input id="password" type="password" name="password" placeholder="Password" class="form-control txtPassword" ng-model="user.password">
+								<span class="errorPassword" style="color:red;"></span>
+							</div>
+						</div>
+						<div class="clear"></div><br />
+						<div class="form-actions">
+							<button type="submit" class="btn btn-primary btnSignIn">Sign in</button>
+						</div>
+					</form>
+				</div>
+				
+			</div>
+		</div>
+	</div>
 </div>
 
 <script type="text/javascript">

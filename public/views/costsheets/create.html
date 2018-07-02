@@ -34,9 +34,13 @@
                             </h3>
                             <div ng-controller="RawMaterialsController" ng-init="find()" class="">
                                 <div class="row">
+                                    <div class="m-b-10 col">
+                                        <!--<label class="txtPredefinedName">Material Name</label>-->
+                                        <input type="text" placeholder="Material Name" title="Material Name" class="form-control txtMaterialName txtCalculateCost txtPredefinedValue" id="txtMaterialName" />
+                                    </div>
 									<div class="m-b-10 col">
 										<!--<label class="txtPredefinedName">Raw Material</label>-->
-										<select class="form-control ddlRawMaterial txtPredefinedValue" id="ddlRawMaterial" name="dropdown">
+										<select class="form-control ddlRawMaterial txtPredefinedValue" id="ddlRawMaterial" name="dropdown"  title="Raw Material">
 											<option value="" selected>Select Raw Material</option>
 											<option ng-repeat="material in rawmaterials" value="{{material.material}}" data-rate="{{material.rate}}" data-scrap-rate="{{material.scrapRate}}" data-scrap-recovery="{{material.scrapRecovery}}">{{material.material}}</option>
 										</select>
@@ -500,7 +504,7 @@
                     }
                 });
 
-               // var bindCalculationEvent = function () {
+                var bindCalculationEvent = function () {
                     /*********************************** RAW MATERIAL CALCULATION****************************************/
 
                     $(".ddlRawMaterial").on('change', function () {
@@ -601,23 +605,23 @@
                     $(".txtHtStCost").on('keyup', function () {
                         $('.txtTotalHtStCost').val($(this).val()).trigger('keyup');
                     });
-             //   };
+                };
 
                 $(".lnkAddPanel").on('click', function (e) {
-                    //$me = $(this);
-                    //$.get($(this).data('url'), function (response) {
-                    //    angular.element(document).injector().invoke(function ($compile) {
-                    //        var obj = $("." + $me.data('class')); // get wrapper
-                    //        var scope = obj.scope(); // get scope
-                    //        // generate dynamic content
-                    //        obj.append($compile(response)(scope));
-                    //        bindCalculationEvent();
-                    //    });
-                    //});
+                    $me = $(this);
+                    $.get($(this).data('url'), function (response) {
+                        angular.element(document).injector().invoke(function ($compile) {
+                            var obj = $("." + $me.data('class')); // get wrapper
+                            var scope = obj.scope(); // get scope
+                            // generate dynamic content
+                            obj.append($compile(response)(scope));
+                            bindCalculationEvent();
+                        });
+                    });
                     e.stopImmediatePropagation();
                 });
 
-              //  bindCalculationEvent();
+                bindCalculationEvent();
             
                 if ($(".hdnRfqId").length > 0 && $(".hdnRfqId").val() != "") {
                     clearInterval(loadCode);

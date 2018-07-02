@@ -1,15 +1,3 @@
-<style>
-    .Rawmaterial label, .Conversion label, .HtSt label, .Total label {
-        margin-bottom : 0px !important;
-    }
-    .total-success {
-        background-color: #c3e6cb !important;
-    }
-    .txtPredefinedName {
-        /*font-weight:bold;*/
-    }
-    .separatePanel {border:1px solid #cccccc;/*#e7e7e7;*/ padding:10px;}
-</style>
 <div class="page-titles">
 		<h3 class="text-primary">Prepare Cost Sheet</h3>
 	</div>
@@ -32,7 +20,7 @@
                             <h3 class="border-bottom p-b-10">Heading
                                 <a class="pull-right lnkAddRawMaterial lnkAddPanel" data-url="views/costsheets/templates/addRawMaterialFields.html" data-class="Rawmaterial"><span><i class="fa fa-plus-circle"></i></span></a>  
                             </h3>
-                            <div ng-controller="RawMaterialsController" ng-init="find()" class="">
+                            <div ng-controller="RawMaterialsController" ng-init="find()" class="head-row" >
                                 <div class="row">
                                     <div class="col">
                                         <label class="txtPredefinedName  text-muted m-b-2 f-s-12">Material Name</label>
@@ -75,7 +63,6 @@
 									</div>
                                 </div>
                             </div>
-                            <!--<br />-->
                         </div>
                     </div>
                     <div class="col-sm-12 m-b-5">
@@ -83,7 +70,7 @@
                             <h3 class="border-bottom p-b-10">Conversion
                                 <a class="pull-right lnkAddConversion lnkAddPanel" data-url="views/costsheets/templates/addConversionFields.html"  data-class="Conversion"><span><i class="fa fa-plus-circle"></i></span></a>                          
                             </h3>
-                            <div class="">
+                            <div class="head-row">
                                 <div class="row" ng-controller="ConversionsController" ng-init="find()">
                                     <div class="col">
                                         <label class="txtPredefinedName text-muted m-b-2 f-s-12">Operation</label>
@@ -124,21 +111,22 @@
 						<div class="HtSt separatePanel">  
                             <h3 class="border-bottom p-b-10">HT/ST
                                 <a class="pull-right lnkAddHtSt lnkAddPanel" data-url="views/costsheets/templates/addHtStFields.html" data-class="HtSt"><span><i class="fa fa-plus-circle"></i></span></a>
-                            </h3>                                
-                            <div ng-controller="HtstsController" ng-init="find()" class="row">
-                                <div class="col">
-                                    <label class="txtPredefinedName text-muted m-b-2 f-s-12">HT/ST</label>
-                                    <select class="form-control ddlHtSt txtPredefinedValue" id="ddlHtSt" name="dropdown">
-                                        <option value="" selected>Select</option>
-                                        <option ng-repeat="htst in htsts " value="{{htst.details}}" data-id="{{htst.id}}" data-parameter="{{htst.parameter}}" data-rate="{{htst.rate}}">{{htst.details}}</option>
-                                    </select>
+                            </h3>  
+                            <div class="head-row">
+                                <div ng-controller="HtstsController" ng-init="find()" class="row">
+                                    <div class="col">
+                                        <label class="txtPredefinedName text-muted m-b-2 f-s-12">HT/ST</label>
+                                        <select class="form-control ddlHtSt txtPredefinedValue" id="ddlHtSt" name="dropdown">
+                                            <option value="" selected>Select</option>
+                                            <option ng-repeat="htst in htsts " value="{{htst.details}}" data-id="{{htst.id}}" data-parameter="{{htst.parameter}}" data-rate="{{htst.rate}}">{{htst.details}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label class="txtPredefinedName text-muted m-b-2 f-s-12">Cost</label>
+                                        <input type="text" placeholder="HT/ST Cost" class="form-control txtHtStCost txtPredefinedValue" id="txtHtStCost" />
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <label class="txtPredefinedName text-muted m-b-2 f-s-12">Cost</label>
-                                    <input type="text" placeholder="HT/ST Cost" class="form-control txtHtStCost txtPredefinedValue" id="txtHtStCost" />
-                                </div>
-                            </div>
-                            <!--<br />-->
+                            </div>                              
                         </div> 
 					</div>
                     <div class="col-sm-12 m-b-5">
@@ -604,6 +592,12 @@
                     $(".txtHtStCost").on('keyup', function () {
                         $('.txtTotalHtStCost').val($(this).val()).trigger('keyup');
                     });
+                },
+                bindRemoveRowEvent = function () {
+                    $(".row-remove").bind('click', function () {
+                        var $target = $(this).parent();
+                        $target.hide('slow', function () { $target.remove(); });
+                    });
                 };
 
                 $(".lnkAddPanel").on('click', function (e) {
@@ -615,6 +609,7 @@
                             // generate dynamic content
                             obj.append($compile(response)(scope));
                             bindCalculationEvent();
+                            bindRemoveRowEvent();
                         });
                     });
                     e.stopImmediatePropagation();

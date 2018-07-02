@@ -8,6 +8,7 @@
 @import url(../icons/material-design-iconic-font/css/materialdesignicons.min.css);
 @import url(spinners.css);
 @import url(animate.css);
+@import url(responsive.css);
 /*
     Template: Ela Admin
     Author: Zebra Theme
@@ -7040,4 +7041,10 @@ ul.chat li.right {
 	-ms-transform: translateY(50%);
 	-o-transform: translateY(50%);
     margin: 0;
+}
+.cost-sheet-form .form-control{
+	height: 28px !important;
+	line-height: 25px;
+	font-size: 14px;
+	padding: 2px 4px;
 }

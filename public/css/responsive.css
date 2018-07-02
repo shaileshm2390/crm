@@ -1,0 +1,8 @@
+@media (max-width: 991px) {
+	.cost-sheet-form .col{		
+		-webkit-box-flex: 0;
+		-ms-flex: 0 0 100%;
+		flex: 0 0 100%;
+		max-width: 100%;
+	}
+}

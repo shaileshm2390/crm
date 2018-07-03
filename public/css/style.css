@@ -7034,17 +7034,48 @@ ul.chat li.right {
 	margin:0;
 }
 .log-box{
-    top: -50%;
+    /*top: -50%;
     transform: translateY(50%);
 	-webkit-transform: translateY(50%);
 	-moz-transform: translateY(50%);
 	-ms-transform: translateY(50%);
 	-o-transform: translateY(50%);
-    margin: 0;
+    margin: 0;*/
+	margin-top: 7rem !important;
 }
 .cost-sheet-form .form-control{
 	height: 28px !important;
 	line-height: 25px;
-	font-size: 14px;
+	font-size: 12px;
 	padding: 2px 4px;
 }
+.cost-sheet-form .btn.lnkAdd,
+.cost-sheet-form .btn.lnkRemove{
+    padding: 2px 7px;
+}
+.head-row{position: relative;}
+.head-row .row-remove{
+    position: absolute;
+right: 0;
+top: 0;
+color: #ef5350;
+line-height: 12px;
+-webkit-transition: all 0.3s ease-in-out;
+-moz-transition: all 0.3s ease-in-out;
+-ms-transition: all 0.3s ease-in-out;
+-o-transition: all 0.3s ease-in-out;
+transition: all 0.3s ease-in-out;
+opacity:0;
+}
+.head-row:hover  .row-remove{opacity:1;}
+.head-row:hover{box-shadow: 0px 0px 5px rgba(0, 0,0, 0.3);}
+.Rawmaterial label, .Conversion label, .HtSt label, .Total label {
+  margin-bottom : 0px !important;
+}
+.total-success {
+  background-color: #c3e6cb !important;
+}
+.txtPredefinedName {
+  /*font-weight:bold;*/
+}
+.separatePanel {border:1px solid #cccccc;/*#e7e7e7;*/ padding:10px;}

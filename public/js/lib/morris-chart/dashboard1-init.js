@@ -44,7 +44,6 @@
                 method: "GET",
             }).done(function (obj) {
                 var result = convertResponseToMorrisData(obj);
-                console.log(result);
                 Morris.Area({
                     element: 'extra-area-chart',
                     data: result,

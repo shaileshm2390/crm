@@ -4,7 +4,7 @@ angular.module('mean.customercomments').controller('CustomercommentsController',
     $scope.global = Global;
     $scope.userId = $window.user.id;
 
-    var url = "//freegeoip.net/json/";
+    var url = "http://api.ipstack.com/check?access_key=a0a80aaea559ceb4d5ebacc03c30f6d3";
     $http.get(url).then(function (response) {
         $rootScope.ip = response.data.ip;
     });

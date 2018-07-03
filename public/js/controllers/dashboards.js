@@ -35,7 +35,6 @@ var app = angular.module('mean.dashboards').controller('DashboardsController', [
         if (typeof $window.user != 'undefined') {
             $http.get("/dashboards/getMyRfq")
                 .then(function (response) {
-                    console.log(response.data);
                     $scope.myRfqs = response.data;
                     //customStatus
                     for (var index = 0; index < $scope.myRfqs.length; index++) {

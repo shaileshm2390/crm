@@ -24,15 +24,19 @@
                                 <strong>Cost Sheet Parameter</strong>
                                 <hr />
                                 <div class="clear clearfix"></div><br />
-                                <div class="row" ng-repeat="(key,value) in stringToObject(costsheet.data, true) ">
-                                    <div class="col col-lg-5">
-                                        {{key}}
+                                <div ng-init="stringToArray(costsheet.data)" class="cost-sheet-form">
+                                        <div ng-repeat="item in costSheetData">                                           
+                                            <div class="row" ng-repeat="(key,value) in item"  ng-class="(key=='Total') == true && 'm-t-20 font-weight-bold'"> 
+                                                <div class="col col-lg-5">
+                                                    {{key}}
+                                                </div>
+                                                <div class="col col-lg-2">:</div>
+                                                <div class="col col-lg-5">
+                                                    <input type="text" value="{{value}}" class="form-control" />
+                                                </div>
+                                            </div> <hr />
+                                        </div>
                                     </div>
-                                    <div class="col col-lg-2">:</div>
-                                    <div class="col col-lg-5">
-                                        {{value}}<br /><br />
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

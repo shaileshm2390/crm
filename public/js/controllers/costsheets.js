@@ -3,21 +3,11 @@
 var app = angular.module('mean.costsheets').controller('CostSheetsController', ['$scope', '$stateParams', 'Global', 'CostSheets', '$state', '$window', '$http', '$sce', function ($scope, $stateParams, Global, CostSheets, $state, $window, $http, $sce) {
     $scope.global = Global;
 
-    $scope.stringToObject = function (strObj, doSort) {
-        if (typeof strObj != 'undefined' && strObj != null) {
-            if (typeof doSort == 'undefined') doSort = false;
-            var sortedObj = {}
-            var obj = angular.fromJson(strObj);
-            if (doSort) {
-                Object.keys(obj)
-                    .sort()
-                    .forEach(function (v, i) {
-                        sortedObj[v] = obj[v];
-                    });
-            }
-            return (doSort) ? sortedObj : obj;
+    $scope.stringToArray = function (strObj) {
+        if (typeof strObj != 'undefined' && strObj != null) {    
+            $scope.costSheetData =  JSON.parse(strObj);
         }
-        return {};
+        console.log($scope.costSheetData);
     }
     $scope.trustAsHtml = function (html) {
         return $sce.trustAsHtml(html);

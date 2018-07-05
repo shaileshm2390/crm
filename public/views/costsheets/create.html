@@ -140,7 +140,7 @@
                     <div class="col-sm-12 m-b-5">
                         <div class="Total separatePanel">
                             <h4 class="border-bottom p-b-10">Total &amp; Profit</h4>
-                            <div class="row">
+                            <div class="row head-row">
                                 <div class="col">
                                     <label  class="txtPredefinedName text-muted m-b-2 f-s-12">Total RM Cost</label>
                                     <input type="text" placeholder="Total RM Cost" class="form-control txtTotalRmCost txtCostField txtPredefinedValue txtAutogenerateEditable" id="txtTotalRmCost" />
@@ -154,7 +154,7 @@
                                     <input type="text" placeholder="Total HT/ST Cost" class="form-control txtTotalHtStCost txtCostField txtPredefinedValue txtAutogenerateEditable" id="txtTotalHtStCost" />
                                 </div>
                                 <div class="col">
-									<p class="row text-muted m-b-2 f-s-12">Profit on RM Cost</p>
+									<p class="row text-muted m-b-2 f-s-12 txtPredefinedName">Profit on RM Cost</p>
                                     <div class="row">
                                         <input type="text" placeholder="Profit %" class="form-control txtInputRmCostProfit col col-sm-5" id="txtInputRmCostProfit">
                                         <div style="text-align:center;margin: auto 0;" class="col col-sm-2">=</div>
@@ -162,7 +162,7 @@
                                     </div>
                                 </div>
                                 <div class="col">                                    
-									<p class="row text-muted m-b-2 f-s-12">Profit on Conversion Cost</p>
+									<p class="row text-muted m-b-2 f-s-12 txtPredefinedName">Profit on Conversion Cost</p>
                                     <div class="row">
                                         <input type="text" placeholder="Profit %" class="form-control txtInputConversionCostProfit col col-sm-5" id="txtInputConversionCostProfit">
                                         <div style="text-align:center;margin: auto 0;" class="col col-sm-2">=</div>
@@ -428,16 +428,18 @@
                 // save cost sheet to db
                 $(".btnSubmit").on('click', function (e) {
                     var $me = $(this);
-                    var nameValuePair = {};
+                    var nameValuePair = [];
                     var totalRecord = $(".txtName").length;
                     var validField = [], validPredefinedField = [];
 
                     for (var index = 0; index < totalRecord; index++) {
+                        var itemObj = {};
                         if ($.trim($($(".txtName")[index]).val()) != "" && $.trim($($(".txtValue")[index]).val())) {
-                            nameValuePair[$($(".txtName")[index]).val()] = $($(".txtValue")[index]).val();
+                            itemObj[$($(".txtName")[index]).val()] = $($(".txtValue")[index]).val();
                             $($(".txtName")[index]).css("border", "");
                             $($(".txtValue")[index]).css("border", "");
                             validField[index] = true;
+                            nameValuePair.push(itemObj);
                         }
                         else {
                             validField[index] = false;
@@ -454,26 +456,30 @@
                         }
                     }
 
-                    for (var index = 0; index < $(".txtPredefinedValue").length; index++) {
-                        if ($.trim($($(".txtPredefinedValue")[index]).val())) {
-                            nameValuePair[$($(".txtPredefinedName")[index]).text()] = $($(".txtPredefinedValue")[index]).val();                           
-                            $($(".txtPredefinedValue")[index]).css("border", "");
-                            validPredefinedField[index] = true;
+                    $(".head-row").each(function (key, row) {
+                        var itemObj = {};
+                        for (var index = 0; index < $(row).find(".txtPredefinedValue").length; index++) {
+                            if ($.trim($($(row).find(".txtPredefinedValue")[index]).val())) {
+                                itemObj[$($(row).find(".txtPredefinedName")[index]).text()] = $($(row).find(".txtPredefinedValue")[index]).val();
+                                $($(row).find(".txtPredefinedValue")[index]).css("border", "");
+                                validPredefinedField[index] = true;                                
+                            }
+                            else {
+                                validPredefinedField[index] = false;
+                                $($(row).find(".txtPredefinedValue")[index]).css("border", "1px solid red");
+                            }
                         }
-                        else {
-                            validPredefinedField[index] = false;
-                            $($(".txtPredefinedValue")[index]).css("border", "1px solid red");
-                        }
-                    }
+                        nameValuePair.push(itemObj);
+                    });
                 
                     if ((validField.length > 0 && $.inArray(false, validField) < 0) || $.inArray(false, validPredefinedField) < 0) {
                         // save costsheet
-                        //console.log(nameValuePair);
+                       // console.log(nameValuePair, JSON.stringify(nameValuePair));
                             $.when(saveCostSheet(JSON.stringify(nameValuePair))).then(function () {
                                 window.location.href = '/rfq/' + $('.hdnRfqId').val() + '/costsheet/approval';
                             });                      
                     } else {
-                        nameValuePair = {};
+                        nameValuePair = [];
                     }
                     e.stopImmediatePropagation();
                     return false;
@@ -676,7 +682,7 @@
 
                 bindRemoveRowEvent = function () {
                     $(".row-remove").bind('click', function () {
-                        var $target = $(this).parent();
+                        var $target = $(this).parents('.head-row');
                         $target.hide('slow', function () {
                             $target.remove();
                             $(".txtNetRmCost").trigger('keyup');

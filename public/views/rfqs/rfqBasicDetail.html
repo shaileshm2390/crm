@@ -7,44 +7,42 @@
 <div class="clear clearfix"></div><br />
 
 <div class="row">
-    <div class="col col-lg-6" style="background-color: linen;">
-        <div class="clear clearfix"></div><br />
-        <div class="row">
-            <div class="col col-lg-8">
-                <p><label>Buyer: </label><strong>{{rfq.Buyer.name}}</strong></p>
-                <p><label>Email: </label><strong>{{rfq.Buyer.email}}</strong></p>
+    <div class="col col-lg-4" >
+		<div class="card" style="background-color: linen;">
+			<div class="row">
+				<div class="col col-lg-12">
+					<div class="basic-info">
+						<p><label><strong>Buyer: </strong></label> <span title="{{rfq.Buyer.name}}">{{rfq.Buyer.name}}</span></p>
+						<p><label><strong>Email:</strong> </label> <span title="{{rfq.Buyer.email}}">{{rfq.Buyer.email}}</span></p>
+						<p><label><strong>Company: </strong></label> <span title="{{rfq.Buyer.Customer.company}}">{{rfq.Buyer.Customer.company}}</span></p>
+						<p><label><strong>Owner: </strong></label> <span title="{{rfq.Buyer.Customer.name}}">{{rfq.Buyer.Customer.name}}</span></p>
+					</div>
+				</div>
+			</div>
+			<div class="clear clearfix"></div><hr />
+			<div class="row">
+				<label class="col-lg-4"><strong>Assigned: </strong></label>
+				<div class="col-lg-8">
+					<div ng-hide="isPoReceived(rfq)">
+						<select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser" required name="UserId" data-ng-model="rfq.UserId" ng-show="global.user.isAdmin">
+							<option value="">Select </option>
+							<option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
+						</select>
 
-            </div>
-            <div class="col col-lg-4">
-                <p><label>Company: </label><strong>{{rfq.Buyer.Customer.company}}</strong></p>
-                <p><label>Owner: </label><strong>{{rfq.Buyer.Customer.name}}</strong></p>
-            </div>
-        </div>
-        <div class="clear clearfix"></div><hr />
-        <div class="row">
-            <label class="col-lg-3">Assigned: </label>
-            <div class="col-lg-9">
-                <div ng-hide="isPoReceived(rfq)">
-                    <select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser" required name="UserId" data-ng-model="rfq.UserId" ng-show="global.user.isAdmin">
-                        <option value="">Select </option>
-                        <option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
-                    </select>
+						<div ng-show="!global.user.isAdmin">
+							<strong>{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
+							<a ng-show="(rfq.User.firstName + ' ' + rfq.User.lastName).trim() == ''" class="btn btn-primary pull-right" href="#" ng-click="assignToMeRfq(rfq.id)">Assign to Me</a>
+						</div>
+					</div>
+					<strong ng-show="isPoReceived(rfq)">{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
 
-                    <div ng-show="!global.user.isAdmin">
-                        <strong>{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
-                        <a ng-show="(rfq.User.firstName + ' ' + rfq.User.lastName).trim() == ''" class="btn btn-primary pull-right" href="#" ng-click="assignToMeRfq(rfq.id)">Assign to Me</a>
-                    </div>
-                </div>
-                <strong ng-show="isPoReceived(rfq)">{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
-
-                <br />
-                <div class="lblMsg"></div>
-                <input type="hidden" class="hdnUserId" value="{{rfq.UserId}}">
-                <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
-            </div>
-        </div>
-        <div class="clear clearfix"></div><br />
-        <div class="row">
+					<br />
+					<div class="lblMsg"></div>
+					<input type="hidden" class="hdnUserId" value="{{rfq.UserId}}">
+					<input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
+				</div>
+			</div>
+			<div class="row">
             <ul id="carousel" class="elastislide">
                 <li data-ng-repeat="image in rfq.RfqImages| orderBy : '-createdAt'">
                     <a data-fancybox="gallery" href="{{image.imagePath}}"><img src="{{image.displayPath}}" alt="image{{image.id}}" /></a>
@@ -52,11 +50,13 @@
 
             </ul>
         </div>
-
+		</div>
     </div>
-    <div class="col-lg-6">
-        <h4 align="center"><strong>Comments</strong></h4>
-        <div ng-include="'views/rfqs/rfqComments.html'"></div>
+    <div class="col-lg-8">
+		<div class="card">
+			<h4 align="center"><strong>Comments</strong></h4>
+			<div ng-include="'views/rfqs/rfqComments.html'"></div>
+		</div>
     </div>
 </div>
 

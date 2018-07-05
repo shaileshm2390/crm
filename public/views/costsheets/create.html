@@ -233,9 +233,12 @@
     $(document).ready(function () {
         var bindRemoveParameter = function () {
             $(".lnkRemove").on('click', function () {
-                $(this).parent().parent().parent().next().remove(".clearfix");
-                $(this).parent().parent().parent().next().remove("br");
-                $(this).parent().parent().parent().remove();
+                //$(this).parent().parent().parent().next().remove(".clearfix");
+                //$(this).parent().parent().parent().next().remove("br");
+				var $target = $(this).parent().parent().parent();
+                $target.hide("slow", function() {
+					$target.remove();
+				});
             });
         };
         bindRemoveParameter();
@@ -379,7 +382,7 @@
             var divCol2Space = $('<div>', { class: 'col col-lg-2' }).html('<a href="#" class="btn btn-danger lnkRemove pull-right" title="remove row"><span><i class="fa fa-minus-circle"></i></span></a >');
 
             var divRow = $('<div>', { class: 'row' }).append(divCol5Name, divCol5Value, divCol2Space);
-            var divCol4 = $('<div>', { class: 'col col-4' }).append(divRow);
+            var divCol4 = $('<div>', { class: 'col col-4 animated fadeInDown m-b-5' }).append(divRow);
             
             var divClear = $("<div>", { class: 'clear clearfix' });
             var breakLine = $("<br />");

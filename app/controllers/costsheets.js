@@ -19,26 +19,40 @@ request('http://api.ipstack.com/check?access_key=a0a80aaea559ceb4d5ebacc03c30f6d
  * Create a department
  */
 exports.create = function (req, res) {
-
-    db.CostSheet.create(req.body).then(function (costSheet) {
-        var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
-
-        db.Watchdog.create({
-            message: "New Costsheet created",
-            ipAddress: ipAddress,
-            pageUrl: fullUrl,
-            userId: costSheet.UserId,
-            previousData: "",
-            updatedData: JSON.stringify(costSheet)
+    if (req.body.status == "approved") {
+        db.CostSheet.update({ status: 'rejected' }, { where: { RfqId: req.body.RfqId } }).then(function (updatedRecords) {
+            db.CostSheet.create(req.body).then(function (costSheet) {
+                var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
+                db.Watchdog.create({
+                    message: "New Costsheet created",
+                    ipAddress: ipAddress,
+                    pageUrl: fullUrl,
+                    userId: costSheet.UserId,
+                    previousData: "",
+                    updatedData: JSON.stringify(costSheet)
+                });
+                return res.jsonp(costSheet);
+            }).catch(function (err) {
+                console.log(err);
+            });
         });
-        return res.jsonp(costSheet);
-    }).catch(function (err) {
-        //return res.send('/signin', {
-        //    errors: err,
-        //    status: 500
-        //});
-        console.log(err);
-    });
+    } else {
+        db.CostSheet.create(req.body).then(function (costSheet) {
+            var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
+
+            db.Watchdog.create({
+                message: "New Costsheet created",
+                ipAddress: ipAddress,
+                pageUrl: fullUrl,
+                userId: costSheet.UserId,
+                previousData: "",
+                updatedData: JSON.stringify(costSheet)
+            });
+            return res.jsonp(costSheet);
+        }).catch(function (err) {      
+            console.log(err);
+        });
+    }
 };
 
 exports.approvedCostsheetByRfqId = function (req, res, next, id) {

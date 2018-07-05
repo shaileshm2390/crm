@@ -14,7 +14,7 @@
      
         <div ng-init="findByRfqId()" ng-show="costsheets.length">
             <div class="row">            
-                    <div ng-repeat="costsheet in costsheets | orderBy: '-createdAt'" class="col col-lg-4">
+                    <div ng-repeat="costsheet in costsheets | orderBy: '-createdAt'" class="col col-lg-4 costsheet-approval-row">
                         <div style="background-color:linen; padding: 5px">
 
                             <h6>
@@ -46,7 +46,7 @@
                                         <a class="btn btn-warning lnkUpdateStatus" data-id="{{costsheet.id}}" data-status="pending" href="#" title="Click to pending" ng-hide="costsheet.status == 'pending'">
                                             <span><i class="fa fa-clock-o"></i></span>
                                         </a>
-                                        <a class="btn btn-primary btn-mail" data-id="{{costsheet.id}}" href="#" title="Click to send mail to customer" ng-show="costsheet.status == 'approved'" title="Mail cost sheet to {{rfq.Buyer.name}}">
+                                        <a class="btn btn-primary btn-mail" data-id="{{costsheet.id}}" href="#" ng-show="costsheet.status == 'approved'" title="Mail cost sheet to {{rfq.Buyer.name}}">
                                             <span><i class="fa fa-envelope"></i></span>
                                         </a>
 
@@ -56,27 +56,38 @@
                             <div class="row">
                                 <div class="col col-lg-12">
                                     <hr />
-                                    <strong>Cost Sheet Parameter</strong>
+                                    <div>
+                                        <strong>Cost Sheet Parameter </strong>
+                                        <!--<a href="#" class="btn btn-primary lnkAdd  pull-right" title="add row">
+                                            <span><i class="fa fa-plus-circle"></i></span>
+                                        </a>-->
+                                    </div>
+                                    <br />
                                     <hr />
+
+                                    <div class="pnlParameter row">
+                                    </div>
 
                                     <div class="clear clearfix"></div><br />
                                     <div ng-init="stringToArray(costsheet.data)" class="cost-sheet-form">
                                         <div ng-repeat="item in costSheetData">                                           
-                                            <div class="row" ng-repeat="(key,value) in item"  ng-class="(key=='Total') == true && 'm-t-20 font-weight-bold'"> 
+                                            <div class="row head-row f-s-13" ng-repeat="(key,value) in item"  ng-class="(key=='Total') == true && 'm-t-20 font-weight-bold'"> 
+                                                <span class="row-remove"><i class="fa fa-minus-circle"></i></span>
                                                 <div class="col col-lg-5">
-                                                    {{key}}
+                                                    <label class="txtPredefinedName">{{key}}</label>
                                                 </div>
                                                 <div class="col col-lg-2">:</div>
                                                 <div class="col col-lg-5">
-                                                    <input type="text" value="{{value}}" class="form-control" />
+                                                    <input type="text" value="{{value}}" class="form-control txtPredefinedValue" title="{{value}}" />
                                                 </div>
                                             </div> <hr />
                                         </div>
-                                    </div>                                    
+                                    </div>         
+                                    <div class="clear clearfix"></div><br />
+                                    <a class="btn btn-primary btnUpdateAndApproved btnSubmit" href="#">Update &amp; Approve</a>                           
                                 </div>
                             </div>
                         </div>
-                        <div class="clear clearfix"></div><br />
                     </div>                
             </div>
         </div>

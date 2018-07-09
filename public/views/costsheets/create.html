@@ -20,7 +20,7 @@
                             <h4 class="border-bottom p-b-10">Heading
                                 <a class="pull-right lnkAddRawMaterial lnkAddPanel" data-url="views/costsheets/templates/addRawMaterialFields.html" data-class="Rawmaterial"><span><i class="fa fa-plus-circle"></i></span></a>  
                             </h4>
-                            <div ng-controller="RawMaterialsController" ng-init="find()" class="head-row" >
+                            <div ng-controller="RawMaterialsController" ng-init="find()" class="head-row removable-row" >
                                 <div class="row">
                                     <div class="col">
                                         <label class="txtPredefinedName  text-muted m-b-2 f-s-12">Product Name</label>
@@ -70,7 +70,7 @@
                             <h4 class="border-bottom p-b-10">Conversion
                                 <a class="pull-right lnkAddConversion lnkAddPanel" data-url="views/costsheets/templates/addConversionFields.html"  data-class="Conversion"><span><i class="fa fa-plus-circle"></i></span></a>                          
                             </h4>
-                            <div class="head-row">
+                            <div class="head-row removable-row">
                                 <div class="row" ng-controller="ConversionsController" ng-init="find()">
                                     <div class="col">
                                         <label class="txtPredefinedName text-muted m-b-2 f-s-12">Operation</label>
@@ -111,7 +111,7 @@
                             <h4 class="border-bottom p-b-10">HT/ST
                                 <a class="pull-right lnkAddHtSt lnkAddPanel" data-url="views/costsheets/templates/addHtStFields.html" data-class="HtSt"><span><i class="fa fa-plus-circle"></i></span></a>
                             </h4>  
-                            <div class="head-row">
+                            <div class="head-row removable-row">
                                 <div ng-controller="HtstsController" ng-init="find()" class="row">
                                     <div class="col">
                                         <label class="txtPredefinedName text-muted m-b-2 f-s-12">HT/ST</label>
@@ -140,7 +140,7 @@
                     <div class="col-sm-12 m-b-5">
                         <div class="Total separatePanel">
                             <h4 class="border-bottom p-b-10">Total &amp; Profit</h4>
-                            <div class="row head-row">
+                            <div class="row head-row removable-row">
                                 <div class="col">
                                     <label  class="txtPredefinedName text-muted m-b-2 f-s-12">Total RM Cost</label>
                                     <input type="text" placeholder="Total RM Cost" class="form-control txtTotalRmCost txtCostField txtPredefinedValue txtAutogenerateEditable" id="txtTotalRmCost" />
@@ -183,7 +183,7 @@
 
                 <div class="clear clearfix"></div>
                 <h4 class="border-bottom p-b-10">Additional Parameter
-                    <a href="#" class="btn btn-primary lnkAdd  pull-right" title="add row">
+                    <a href="#" class="btn btn-primary lnkAdd  pull-right" data-width="4" title="add row">
                         <span><i class="fa fa-plus-circle"></i></span>
                     </a>
                 </h4>

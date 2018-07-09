@@ -24,7 +24,7 @@
                                 <small><i> - {{costsheet.createdAt | date:'medium'}}</i></small>
 
                                 <span class="pull-right">
-                                    <strong>{{costsheet.status | capitalize}}</strong>
+                                    <strong ng-class="((costsheet.status=='approved') ? 'badge badge-success' : (costsheet.status=='rejected') ? 'badge badge-danger' : 'badge badge-warning')">{{costsheet.status | capitalize}}</strong>
                                 </span>
                             </h6>
 
@@ -54,24 +54,25 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col col-lg-12">
+                                <div class="col col-lg-12 cost-sheet-form">
                                     <hr />
                                     <div>
                                         <strong>Cost Sheet Parameter </strong>
-                                        <!--<a href="#" class="btn btn-primary lnkAdd  pull-right" title="add row">
+                                        <a href="#" class="btn btn-primary lnkAdd  pull-right" data-width="12" title="add row">
                                             <span><i class="fa fa-plus-circle"></i></span>
-                                        </a>-->
+                                        </a>
                                     </div>
                                     <br />
                                     <hr />
 
-                                    <div class="pnlParameter row">
-                                    </div>
+                                    
 
                                     <div class="clear clearfix"></div><br />
-                                    <div ng-init="stringToArray(costsheet.data)" class="cost-sheet-form">
-                                        <div ng-repeat="item in costSheetData">                                           
-                                            <div class="row head-row f-s-13" ng-repeat="(key,value) in item"  ng-class="(key=='Total') == true && 'm-t-20 font-weight-bold'"> 
+                                    <div>
+                                        <div class="pnlParameter row">
+                                        </div>
+                                        <div ng-repeat="item in costsheet.data" class="head-row">                                           
+                                            <div class="row f-s-13 removable-row" ng-repeat="(key,value) in item"  ng-class="(key=='Total') == true && 'm-t-20 font-weight-bold'"> 
                                                 <span class="row-remove"><i class="fa fa-minus-circle"></i></span>
                                                 <div class="col col-lg-5">
                                                     <label class="txtPredefinedName">{{key}}</label>
@@ -82,9 +83,13 @@
                                                 </div>
                                             </div> <hr />
                                         </div>
+
+                                        <div class="clear clearfix"></div>
+                                        <div class="row">
+                                            <a class="btn btn-primary btnUpdateAndApproved btnSubmit" href="#" style="margin: 10px auto;">Update &amp; Approve</a>
+                                        </div>
                                     </div>         
-                                    <div class="clear clearfix"></div><br />
-                                    <a class="btn btn-primary btnUpdateAndApproved btnSubmit" href="#">Update &amp; Approve</a>                           
+                                                       
                                 </div>
                             </div>
                         </div>

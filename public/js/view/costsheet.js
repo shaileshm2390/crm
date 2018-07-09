@@ -140,8 +140,8 @@
         }
     },
 
-    createDynamicTextFields = function (callback) {
-
+    createDynamicTextFields = function ($ele, callback) {
+        var width = $ele.data('width') || "12";
         var inputName = $("<input />", { class: 'txtName form-control', type: 'text', placeholder: 'Name', required: 'required' });
         var inputValue = $("<input />", { class: 'txtValue form-control', type: 'text', placeholder: 'Value', required: 'required' });
 
@@ -150,12 +150,9 @@
         var divCol2Space = $('<div>', { class: 'col col-lg-2' }).html('<a href="#" class="btn btn-danger lnkRemove pull-right" title="remove row"><span><i class="fa fa-minus-circle"></i></span></a >');
 
         var divRow = $('<div>', { class: 'row' }).append(divCol5Name, divCol5Value, divCol2Space);
-        var divCol4 = $('<div>', { class: 'col col-4 animated fadeInDown m-b-5' }).append(divRow);
+        var divColWidth = $('<div>', { class: 'col col-' + width + ' animated fadeInDown m-b-5' }).append(divRow);
 
-        var divClear = $("<div>", { class: 'clear clearfix' });
-        var breakLine = $("<br />");
-
-        $(".pnlParameter").append(divCol4, divClear, breakLine);
+        $ele.parents('.cost-sheet-form').find(".pnlParameter").append(divColWidth);
         bindRemoveParameter();
         typeof callback === 'function' && callback();
     };
@@ -183,7 +180,7 @@
         }
         // add dynamic fields to DOM
         $(".lnkAdd").on('click', function (e) {
-            createDynamicTextFields();
+            createDynamicTextFields($(this));
             if ($(".txtName").length == 0) {
                 $('.btnSubmit ').hide();
             } else {
@@ -223,26 +220,26 @@
                     }
                 }
             }
-
-            $(".head-row").each(function (key, row) {
-                var itemObj = {};
-                for (var index = 0; index < $(row).find(".txtPredefinedValue").length; index++) {
-                    if ($.trim($($(row).find(".txtPredefinedValue")[index]).val())) {
-                        itemObj[$($(row).find(".txtPredefinedName")[index]).text()] = $($(row).find(".txtPredefinedValue")[index]).val();
-                        $($(row).find(".txtPredefinedValue")[index]).css("border", "");
-                        validPredefinedField[index] = true;
+            $me.parents(".cost-sheet-form").find(".head-row").each(function (key, row) {
+                if ($(row).find(".txtPredefinedValue").length) {
+                    var itemObj = {};
+                    for (var index = 0; index < $(row).find(".txtPredefinedValue").length; index++) {
+                        if ($.trim($($(row).find(".txtPredefinedValue")[index]).val())) {
+                            itemObj[$($(row).find(".txtPredefinedName")[index]).text()] = $($(row).find(".txtPredefinedValue")[index]).val();
+                            $($(row).find(".txtPredefinedValue")[index]).css("border", "");
+                            validPredefinedField[index] = true;
+                        }
+                        else {
+                            validPredefinedField[index] = false;
+                            $($(row).find(".txtPredefinedValue")[index]).css("border", "1px solid red");
+                        }
                     }
-                    else {
-                        validPredefinedField[index] = false;
-                        $($(row).find(".txtPredefinedValue")[index]).css("border", "1px solid red");
-                    }
+                    nameValuePair.push(itemObj);
                 }
-                nameValuePair.push(itemObj);
             });
 
             if ((validField.length > 0 && $.inArray(false, validField) < 0) || $.inArray(false, validPredefinedField) < 0) {
                 // save costsheet
-                // console.log(nameValuePair, JSON.stringify(nameValuePair));
                 $.when(saveCostSheet(JSON.stringify(nameValuePair))).then(function () {
                     window.location.href = '/rfq/' + $('.hdnRfqId').val() + '/costsheet/approval';
                 });
@@ -255,12 +252,12 @@
 
         // copy data to modified it
         $(".btn-update").on('click', function () {
-            console.log($(this).data("parameter"));
-            $(".pnlParameter").html("");
+            $me = $(this);
+            $me.parents('.cost-sheet-form').find(".pnlParameter").html("");
             $(".create-costsheet").removeClass('hide');
             var index = 0;
             $.each($(this).data("parameter"), function (key, value) {
-                createDynamicTextFields();
+                createDynamicTextFields($me);
                 $($(".txtName")[index]).val(key);
                 $($(".txtValue")[index]).val(value);
                 index++;
@@ -451,7 +448,7 @@
 
         bindRemoveRowEvent = function () {
             $(".row-remove").bind('click', function () {
-                var $target = $(this).parents('.head-row');
+                var $target = $(this).parents('.removable-row');
                 $target.hide('slow', function () {
                     $target.remove();
                     $(".txtNetRmCost").trigger('keyup');

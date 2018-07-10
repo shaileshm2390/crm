@@ -24,8 +24,8 @@
                                 <strong>Cost Sheet Parameter</strong>
                                 <hr />
                                 <div class="clear clearfix"></div><br />
-                                <div ng-init="stringToArray(costsheet.data)" class="cost-sheet-form">
-                                        <div ng-repeat="item in costSheetData">                                           
+                                <div  class="cost-sheet-form">
+                                        <div ng-repeat="item in costsheet.data">                                           
                                             <div class="row" ng-repeat="(key,value) in item"  ng-class="(key=='Total') == true && 'm-t-20 font-weight-bold'"> 
                                                 <div class="col col-lg-5">
                                                     {{key}}
@@ -320,6 +320,7 @@
 
 
                 $(".btnSubmitHeading").on('click', function (e) {
+                    e.stopImmediatePropagation();
                     var $me = $(this);
                     var headingField = [];
                     var totalRecord = $(".txtHeading").length;
@@ -345,7 +346,6 @@
                     } else {
                         headingField = [];
                     }
-                    e.stopImmediatePropagation();
                     return false;
                 });
 

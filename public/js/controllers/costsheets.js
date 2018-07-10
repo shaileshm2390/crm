@@ -11,11 +11,6 @@ var app = angular.module('mean.costsheets').controller('CostSheetsController', [
         $http.get("/rfq/costsheets/" + $stateParams.rfqId)
             .then(function (response) {
                 $scope.costsheets = response.data;
-                if ($scope.costsheets.length > 0) {
-                    for (var indexOuter = 0; indexOuter < $scope.costsheets.length; indexOuter++) {
-                            $scope.costsheets[indexOuter].data = JSON.parse($scope.costsheets[indexOuter].data);
-                    }
-                }
             }, function (error) {
             });
     };

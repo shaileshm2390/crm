@@ -57,7 +57,7 @@ exports.create = function (req, res) {
 
 exports.approvedCostsheetByRfqId = function (req, res, next, id) {
     db.CostSheet.find({
-        where: { RfqId: id},
+        where: [{ RfqId: id }, {status: 'approved'}],
         order: [['createdAt', 'DESC']],
         limit: 1,
         include: [
@@ -86,6 +86,9 @@ exports.approvedCostsheetByRfqId = function (req, res, next, id) {
             req.costSheet = {};
             return next();
         } else {
+            if (costSheet.data.length > 0) {
+                costSheet.data = JSON.parse(costSheet.data);
+            }
             req.costSheet = costSheet;
             return next();
         }
@@ -183,6 +186,11 @@ exports.costsheetByRfqId = function (req, res, next, id) {
         if (!costSheets) {
             return next(new Error('Failed to load CostSheet ' + id));
         } else {
+            if (costSheets.length > 0) {
+                for (var index = 0; index < costSheets.length; index++) {
+                    costSheets[index].data = JSON.parse(costSheets[index].data);
+                }
+            }
             req.costSheets = costSheets;
             return next();
         }

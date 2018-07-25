@@ -4967,7 +4967,7 @@ table.dataTable thead .sorting_desc_disabled {
 
 [contenteditable]:hover,
 [contenteditable]:focus {
-    background: #93b5ff;
+    /*background: #93b5ff;*/
 }
 
 .control-bar {

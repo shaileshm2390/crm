@@ -19,8 +19,18 @@ request('http://api.ipstack.com/check?access_key=a0a80aaea559ceb4d5ebacc03c30f6d
 /**
  * Create a department
  */
-exports.create = function (req, res) {
+exports.create = function (req, res) {    
     db.Quotation.create(req.body).then(function (quotation) {
+        // send mail
+        //sm.sendMail({
+        //    from: 'youremail@crm.com',
+        //    to: req.body.buyerEmail,
+        //   // to: 'shaileshm@imtsolutions.net',
+        //    subject: 'Quotation',
+        //    html: req.body.emailContent
+        //});
+
+        // insert watchdog data
         var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
 
         db.Watchdog.create({

@@ -72,7 +72,7 @@
                                         <div class="pnlParameter row">
                                         </div>
                                         <div ng-repeat="item in costsheet.data" class="head-row">                                           
-                                            <div class="row f-s-13 removable-row" ng-repeat="(key,value) in item"  ng-class="(key=='Total') == true && 'm-t-20 font-weight-bold'"> 
+                                            <div class="row f-s-13 removable-row" style="padding:0px;" ng-repeat="(key,value) in item"  ng-class="(key=='Total') == true && 'm-t-20 font-weight-bold'"> 
                                                 <span class="row-remove"><i class="fa fa-minus-circle"></i></span>
                                                 <div class="col col-lg-5">
                                                     <label class="txtPredefinedName">{{key}}</label>

@@ -13,9 +13,12 @@ module.exports = function (app) {
         .get(users.requiresLogin, quotations.all)
         .post(users.requiresLogin, quotations.create);
 
+    app.route('/quotations/rfq/:rfqId')
+       .get(users.requiresLogin, quotations.getQuotations)
+
 
     //app.param('id', costsheets.costsheet);
-    //app.param('rfqId', costsheets.costsheetByRfqId);
+    app.param('rfqId', quotations.quotationByRfqId);
     //app.param('costsheetId', costsheets.approvedCostsheetByRfqId);
 };
 

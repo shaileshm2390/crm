@@ -1,15 +1,18 @@
 ﻿<section data-ng-init="findOneByRfqId()" ng-show="rfq.id != null  && validatePermission">
 
     <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
-
+   
     <div class="row">
         <div ng-include="'views/rfqs/rfqLeftNavigation.htm'" class="col col-lg-12"></div>
-        <div class="col col-lg-4">
-            <h3><strong>Approved Costsheet</strong></h3>
-            <div ng-init="findApprovedCostSheetByRfqId()">
-                <div ng-show="costsheet.status != 'approved'" class="alert alert-danger">Cost Sheet is not yet approved. Please get an approval from admin</div>
-                <div ng-show="costsheet.status == 'approved'">
-                    <div style="background-color:linen; padding: 5px">
+
+        <div ng-show="costsheet.status != 'approved'" class="alert alert-danger col col-lg-12">Cost Sheet is not yet approved. Please get an approval from admin</div>
+        <div ng-init="findApprovedCostSheetByRfqId()">
+            <div ng-show="costsheet.status == 'approved'" class="row">
+                <div class="col col-lg-4">
+
+
+                    <h3><strong>Approved Costsheet</strong></h3>
+                    <div style="background-color:#e7e7e7; padding: 5px; box-shadow: 1px 1px 5px rgba(128,128,128,0.8)" class="costsheetHtml">
                         <h6>
                             <strong> {{costsheet.User.firstName}} {{costsheet.User.lastName}}</strong>
                             <small>({{costsheet.User.email}})</small>
@@ -21,37 +24,54 @@
                         <div class="row">
                             <div class="col col-lg-12">
                                 <div class="clear clearfix"></div><br />
-                                <div  class="cost-sheet-form">
-                                        <div ng-repeat="item in costsheet.data">                                           
-                                            <div class="row" ng-repeat="(key,value) in item"  ng-class="(key=='Total') == true && 'm-t-20 font-weight-bold'"> 
-                                                <div class="col col-lg-6">
-                                                    <label>{{key}}</label> 
-                                                </div>
-                                                <div class="col col-lg-6">
-                                                   {{value}}
-                                                </div>
-                                            </div> <hr />
-                                        </div>
+                                <div class="cost-sheet-form">
+                                    <div ng-repeat="item in costsheet.data">
+                                        <div class="row" ng-repeat="(key,value) in item" ng-class="(key=='Total') == true && 'm-t-20 font-weight-bold'">
+                                            <div class="col col-lg-6">
+                                                <label>{{key}}</label>
+                                            </div>
+                                            <div class="col col-lg-6">
+                                                {{value}}
+                                            </div>
+                                        </div> <hr />
                                     </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <hr />                    
+                    <hr />
                     <input type="hidden" class="hdnCostSheetId" value="{{costsheet.id}}" />
-                    <input type="hidden" class="hdnCostSheetData" value="{{costsheet.data}}"  />
+                    <input type="hidden" class="hdnCostSheetData" value="{{costsheet.data}}" />
+
+                </div>
+                <div class="col col-lg-8">
+                    <!-- If quotation is not submitted yet -->
+                    <div ng-show="rfq.Quotations.length == 0">
+                        <div class="txtEditor" ng-include="'views/quotations/quotation-template.html'">
+                        </div>
+
+                        <div class="clear clearfix fc-clear"></div><br />
+                        <input type="checkbox" class="chkAttachCostSheet" id="chkAttachCostSheet" /> <label for="chkAttachCostSheet">Attach costsheet ?</label>
+
+                        <br />
+                        <a class="btn btn-primary btnSubmit" href="#">Send Mail</a>&nbsp; <i class="loader fa fa-spin fa-spinner f-s-21 hide"></i>
+                        <div class="quotMsg alert alert-success m-t-10 hide">Quotation send successfully.. Please wait !!</div>
+                    </div>
+
+                    <!-- If quotation is submitted -->
+                    <div ng-show="rfq.Quotations.length > 0">
+                        <h5 class="alert alert-success">Quotation for this RFQ has already been send to {{rfq.Buyer.name}}. Please see below details</h5>
+
+                        <label>Costsheet Attached:</label> <span><strong>{{rfq.Quotations[0].isCostSheetAttached == true ? "Yes" : "No"}}</strong></span>
+                        <div class="clear clearfix"></div>
+                        <label>Mail send on:</label> <span><strong>{{rfq.Quotations[0].createdAt | date:'medium'}}</strong></span>
+
+                        <div ng-bind-html="trustAsHtml(rfq.Quotations[0].emailContent)" class="m-t-10 m-b-10 p-l-5 p-r-5 p-t-5 p-b-5" style="box-shadow:1px 1px 20px rgba(128, 128, 128, 0.8)"></div>
+
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col col-lg-8">
-            <div class="txtEditor" ng-include="'views/quotations/quotation-template.html'">
-            </div>
-
-            <div class="clear clearfix fc-clear"></div><br />
-            <input type="checkbox" class="chkAttachCostSheet" id="chkAttachCostSheet" /> <label for="chkAttachCostSheet">Attach costsheet ?</label>
-
-            <br />
-            <a class="btn btn-primary btnSubmit" href="#">Send Mail</a>
         </div>
     </div>
     
@@ -62,25 +82,44 @@
 <!--<script src="/js/view/quotation.js"></script>-->
 <script>
     $(document).ready(function () {
-        var rfqId, costSheetId, costsheetData;
+        var rfqId, costSheetId, costsheetData
+
+        createTableFormat = function (costsheet) {
+            var tableHtml;
+            tableHtml = '<h1 align="center" style="margin: 10px 0;"><img src="http://www.metaforgeindia.com/images/logo.png" style="width: 300px;" alt="METAFORGE" /></h1><hr /><br />';
+            tableHtml += "<table align='center' width='50%'>";
+            $.each(costsheet, function (key, item) {
+                $.each(item, function (name, value) {
+                    if (name.toLowerCase() == "total") {
+                        tableHtml += '<tr><td width="50%"><hr /><strong>' + name + '</strong></td><td  width="50%"><hr /><strong>' + value + '</strong></td></tr>';
+                    } else {
+                        tableHtml += '<tr><td width="50%">' + name + '</td><td  width="50%"><strong>' + value + '</strong></td></tr>';
+                    }
+                });
+                tableHtml += "</table><hr /><table align='center'  width='50%'>";
+            });
+            tableHtml += "</table>";
+            return tableHtml;
+        },
 
         //ajax call to save qoute
-        var saveQuotation = function () {
+        saveQuotation = function () {
             var dfd = $.Deferred();
             $.ajax({
                 url: '/quotations/',
                 method: "POST",
-                data: { UserId: window.user.id, RfqId: rfqId, CostSheetId: costSheetId, isCostSheetAttached: ($('.chkAttachCostSheet').prop('checked') == 'true' ? 1 : 0), emailContent: $(".fr-element").html(), data: costsheetData, buyerEmail: $(".hdnBuyerDetail").data("email") }
+                data: { UserId: window.user.id, RfqId: rfqId, CostSheetId: costSheetId, isCostSheetAttached: ($('.chkAttachCostSheet').prop('checked') ? 1 : 0), emailContent: $(".fr-element").html(), data: costsheetData, buyerEmail: $(".hdnBuyerDetail").data("email") }
             }).done(function (response) {
                 dfd.resolve(response);
-                $(".lblMsg").html("<span>Quotation send successfully !!!</span>").removeClass("hide");
             });
             return dfd.promise();
-        };
+        },
 
-        var loadCode = setInterval(function () {
+        loadCode = setInterval(function () {
             rfqId = $(".hdnRfqId").val();
-            costsheetData = $(".hdnCostSheetData").val();
+            if ($(".hdnCostSheetData").val() != '') {
+                costsheetData = createTableFormat(JSON.parse($(".hdnCostSheetData").val()));
+            }
                 costSheetId = $(".hdnCostSheetId").val();
                 if ($(".txtEditor:visible").length > 0) {
                     var months = ["Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
@@ -92,15 +131,20 @@
                 // save quotation to db
                 $(".btnSubmit").on('click', function (e) {
                     var $me = $(this);
+                    $me.addClass("hide");
+                    $(".loader").removeClass("hide");
                     if ($(".fr-element").html().replace(/(<([^>]+)>)/ig, "") != "") {
                         $.when(saveQuotation()).then(function () {
-                            //window.location.reload();                        
+                            window.location.reload();
+                            $(".loader").addClass("hide");
+                            $(".quotMsg").removeClass("hide");
+                            window.location.reload();
                         });
                     }
                     e.stopImmediatePropagation();
                     return false;
                 });
-                if ($(".hdnRfqId").length > 0 && $(".hdnRfqId").val() != "") {
+                if (rfqId.length > 0 && rfqId != "") {
                     clearInterval(loadCode);
                 }
             }, 500);

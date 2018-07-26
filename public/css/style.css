@@ -8528,3 +8528,9 @@ ul.chat li.right {
 .costsheet-approval-row:hover {
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
+
+.fr-wrapper>div>a {
+  display: none !important;
+  position: absolute;
+  top: -99999999px;
+}

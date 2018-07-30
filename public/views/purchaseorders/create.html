@@ -35,7 +35,7 @@
                             <div style="width:50%;">
                                 <select class="form-control ddlPurchaseorder" id="selectedStatus" ng-init="findOne()" data-ng-model="purchaseorder.status" required>
                                     <option value="">---- Select Status ----</option>
-                                    <option ng-repeat="status in Status" value="{{status}}">{{status}}</option>
+                                    <option ng-repeat="staticStatus in Status" value="{{staticStatus}}" ng-selected="staticStatus == status">{{staticStatus}}</option>
                                 </select>
                             </div>
                         </div>

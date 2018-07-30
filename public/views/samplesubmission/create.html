@@ -96,12 +96,12 @@
                                             <div class="gauge">
                                                 <label class="control-label default-message"><strong>Please select status</strong></label>
                                                 <h4 class="p-b-10">
-                                                    <a class="pull-right lnkAddTooling lnkAddPanel" data-url="views/samplesubmission/toolingDefaultTemplate.htm" data-class="gauge" data-operation="{{record.operation}}"><span><i class="fa fa-plus-circle"></i></span></a>
+                                                    <a class="pull-right lnkAddTooling lnkAddPanel" data-url="views/samplesubmission/gaugeDefaultTemplate.htm" data-class="gauge" data-operation="{{record.operation}}"><span><i class="fa fa-plus-circle"></i></span></a>
                                                 </h4>
                                                 <div ng-show="samplesubmission.length > 0" class="submission hide {{record.operation}}" data-ng-repeat="record in samplesubmission | orderBy : '-createdAt' | filter: {stage: 'Gauge'}">
-                                                    <div ng-include="'views/samplesubmission/toolingTemplate.htm'" class="col col-lg-12"></div>
+                                                    <div ng-include="'views/samplesubmission/gaugeTemplate.htm'" class="col col-lg-12"></div>
                                                 </div>
-                                                <div ng-include="'views/samplesubmission/toolingDefaultTemplate.htm'"></div>
+                                                <div ng-include="'views/samplesubmission/gaugeDefaultTemplate.htm'"></div>
                                             </div>  
                                                 <div class="col col-lg-2 m-t-10"><a href="#" class="btn btn-secondary btnSaveSample hide" data-stage="Gauge">Save</a></div>    
                                            
@@ -138,20 +138,23 @@
                             <th><strong>Order Date</strong></th>
                             <th><strong>Order Received</strong></th>
                             <th><strong>Cost</strong></th>
+                            <th><strong>Modified</strong></th>
                         </tr>
 
-                        <tr class="col-lg-3 m-b-10" data-ng-repeat="record in samplesubmission | orderBy : '-createdAt'">
+                        <tr class="col-lg-3 m-b-10" data-ng-repeat="record in samplesubmission | orderBy : 'id'">
                             <td>{{record.operation}}</td>
                             <td>{{record.stage}}</td>
                             <td>{{record.stageProcess}}</td>
                             <td>{{record.orderTo}}</td>
                             <td>{{record.orderDate | date:'MM/dd/yyyy'}}</td>
                             <td>{{record.receivedDate | date:'MM/dd/yyyy'}}</td>
-                            <td>Rs. {{record.cost}}</td>
+                            <td>{{record.cost | currency : "Rs. "}}</td>
+                            <td>{{record.updatedAt | date:'MM/dd/yyyy'}}</td>
                         </tr>
                         <tr>
                             <td colspan="6"><span class="pull-right"><strong>Total Cost:</strong> </span></td>
-                            <td><span><strong>Rs. {{TotalSubmissionCost}}</strong></span></td>
+                            <td><span><strong>{{TotalSubmissionCost | currency : "Rs. "}}</strong></span></td>
+                            <td>&nbsp;</td>
                         </tr>
                     </table>
                 </div>
@@ -312,7 +315,17 @@
                 });                
                 e.stopImmediatePropagation();
             });
+
+            $(".ddlStageProcess").on('change', function () {
+                if ($(this).val() == "Other") {
+                    $(this).parent().find(".txtStageProcess").show();
+                } else {
+                    $(this).parent().find(".txtStageProcess").hide();
+                }
+            });
+
             bindRemoveRowEvent();
+
             $(".btnSaveSample").on('click', function (e) {
                 $me = $(this);
                 var index = 0, validField = [], totalRecord;
@@ -333,7 +346,7 @@
                         itemObj = {
                             operation: $(".ddlSamplesubmission").val(),
                             stage: $me.data("stage"),
-                            stageProcess: $($(".stage-process:visible")[index]).val(),
+                            stageProcess: ($($(".stage-process:visible")[index]).val() == "Other" ? $($(".stage-process:visible")[index]).parent().find(".txtStageProcess:visible").val() : $($(".stage-process:visible")[index]).val()),
                             orderTo: $($(".txtOrderTo:visible")[index]).val(),
                             orderDate: $($(".txtOrderDate:visible")[index]).val(),
                             receivedDate: $($(".txtOrderReceived:visible")[index]).val(),
@@ -398,7 +411,7 @@
                         $(".ddlRawmaterialSamplesubmission").append("<option value='" + value + "'>" + value + "</option>");
                         
                         $(".ddlRawmaterialSamplesubmission").each(function (key, item) {
-                            if ($(item).parent().find(".hdnRawmaterialSamplesubmission").val() != "") {
+                            if ($(item).parent().find(".hdnRawmaterialSamplesubmission").length > 0 && $(item).parent().find(".hdnRawmaterialSamplesubmission").val() != "") {
                                 $(item).val($(item).parent().find(".hdnRawmaterialSamplesubmission").val());
                             } else {
                                 $(item).val($(item).find("option:first").val());

@@ -123,9 +123,9 @@ exports.getMyRfq = function (req, res) {
         } };
     if (req.user.Department.name != "Admin") {
         condition = { UserId: req.user.id };
-    } 
+    }
     db.Rfq.findAll({
-        where: condition, include: [
+        where: condition, include: [           
             {
                 model: db.User,
                 attributes: ['id', 'email', 'firstName', 'lastName']
@@ -147,8 +147,15 @@ exports.getMyRfq = function (req, res) {
                 model: db.PurchaseOrder
             },
             {
-                model: db.Samplesubmission
+                model: db.Samplesubmission,
+                order: [['createdAt', 'DESC']],
+                limit: 1,
             },
+             {
+                 model: db.Samplesubmissionimage,
+                 order: [['createdAt', 'DESC']],
+                 limit: 1,
+             },            
             {
                 model: db.Quotation
             }

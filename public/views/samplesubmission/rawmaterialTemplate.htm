@@ -21,7 +21,7 @@
         </div>
         <div class="col">
             <label class="txtPredefinedName text-muted m-b-2 f-s-12">Cost</label>
-            <input type="text" placeholder="Cost" class="form-control txtCost txtValue" id="txtCost" value="{{record.cost}}" />
+            <input type="text" placeholder="Cost" class="form-control txtCost txtValue" id="txtCost" value="{{record.cost | number : 2}}" />
         </div>
     </div>
 </div>

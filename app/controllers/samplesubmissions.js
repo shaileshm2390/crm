@@ -40,7 +40,6 @@ exports.samplesubmission = function (req, res, next, id) {
 exports.create = function (req, res) {
     // augment the department by adding the UserId
     // save and return and instance of department on the res object.
-    console.log(req.body);
     var samplesubmissionList = new Array();
     db.Samplesubmission.destroy({ where: { operation: req.body.data[0].operation, RfqId: req.body.data[0].RfqId, stageProcess: req.body.data[0].stageProcess } });
     if (req.body.data.length > 0) {

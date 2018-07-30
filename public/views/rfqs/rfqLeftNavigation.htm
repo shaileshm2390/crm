@@ -73,19 +73,9 @@
             </ul>
          
         </li>
-
-        <!--<li ng-show="rfq.CostSheets.length">
-            <a class="has-arrow lnkCostSheetMenu" href="#" aria-expanded="false">
-                <span>Quotation</span>
-            </a>
-            <ul aria-expanded="false" class="collapse quotation">
-                <li><a href="/rfq/{{rfq.id}}/quotation/short">Short Quotation</a><br /></li>
-                <li><a href="/rfq/{{rfq.id}}/quotation/detail">Detail Quotation</a><br /></li>
-            </ul>
-        
-        </li>-->
         <li ng-show="rfq.CostSheets.length"><a href="/rfq/{{rfq.id}}/quotation/short"><span>Quotation</span></a></li>
         <li ng-show="displaySampleSubmission(rfq)"><a href="/rfq/{{rfq.id}}/samplesubmission"><span>Sample Submission</span></a></li>
+        <li ng-show="displaySampleSubmission(rfq)"><a href="/rfq/{{rfq.id}}/sampleinspectionreport"><span>Inspection Report</span></a></li>
         <li ng-show="displayReceivePO(rfq)"><a href="/rfq/{{rfq.id}}/purchaseorder"><span>Receive PO</span></a></li>
 
     </ul>

@@ -58,6 +58,13 @@ var app = angular.module('mean.dashboards').controller('DashboardsController', [
                         else {
                             $scope.myRfqs[index].customStatus = "<a class='btn btn-success' href='customer/" + $scope.myRfqs[index].Buyer.CustomerID + "/buyer/" + $scope.myRfqs[index].BuyerID + "/rfq/" + $scope.myRfqs[index].id + "'>Completed</a>";
                         }
+
+                        if ($scope.myRfqs[index].Samplesubmissionimages.length > 0 && $scope.myRfqs[index].Samplesubmissions.length == 0) {
+                            $scope.myRfqs[index].customStatus += "&nbsp; <br /><a class='btn btn-warning m-t-5' href='rfq/" + $scope.myRfqs[index].id + "/samplesubmission'>" + $scope.myRfqs[index].Samplesubmissionimages[0].operation + " drawing completed</a>";
+                        }
+                        else if ($scope.myRfqs[index].Samplesubmissions.length) {
+                            $scope.myRfqs[index].customStatus += "&nbsp; <br /><a class='btn btn-success m-t-5' href='rfq/" + $scope.myRfqs[index].id + "/samplesubmission'>" + $scope.myRfqs[index].Samplesubmissions[0].stage + " " + $scope.myRfqs[index].Samplesubmissions[0].stageProcess + " completed</a>";
+                        }
                     }
                 }, function (error) {
                     console.log(error);

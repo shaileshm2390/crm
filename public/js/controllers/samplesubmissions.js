@@ -3,7 +3,6 @@
 var app = angular.module('mean.samplesubmissions').controller('SampleSubmissionsController', ['$scope', '$location', '$stateParams', 'Global', 'SampleSubmissions', '$state', '$window', '$filter', '$controller', '$rootScope', '$http', function ($scope, $location, $stateParams, Global, SampleSubmissions, $state, $window, $filter, $controller, $rootScope, $http) {
     $scope.global = Global;
 
-    $scope.Status = ["Drawing", "Release for Development", "Uploaded Sample"];
 
     var url = "http://api.ipstack.com/check?access_key=a0a80aaea559ceb4d5ebacc03c30f6d3";
     $http.get(url).then(function (response) {
@@ -17,17 +16,6 @@ var app = angular.module('mean.samplesubmissions').controller('SampleSubmissions
             RfqId: $stateParams.rfqId
         });
         samplesubmission.$save(function (response) {
-            //$state.go('departments');
-            //$http.get("/samplesubmissions/" + samplesubmission.id).then(function (response) {
-            //    console.log("updated data  -->  " + JSON.stringify(response));
-            //    $scope.updatedSample = JSON.stringify(response.data);
-
-            //    $state.go('sampleSubmission');
-            //    var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
-
-            //    //watchdog calling
-            //    commonCtrl.create({ message: "New sample submission is created", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: "", updatedData: $scope.updatedSample });
-            //});
         });
 
         this.status = "";
@@ -129,23 +117,23 @@ var app = angular.module('mean.samplesubmissions').controller('SampleSubmissions
         });
     };
 
-    //$scope.findOne = function () {
-    //    Samplesubmissions.get({
-    //        samplesubmissionId: $stateParams.samplesubmissionId
-    //    }, function (purchaseorder) {
-    //        $scope.samplesubmission = samplesubmission;
-    //    }, function (error) {
-    //        console.log(error);
-    //        $window.location.href = "/signin";
-    //    });
-    //};
-
     $scope.findOne = function () {
         $http.get("/rfq/samplesubmissions/" + $stateParams.rfqId).then(function (response) {
-
+            $scope.TotalSubmissionCost = 0
             $scope.samplesubmission = response.data;
-
+            if (response.data.length > 0) {
+                for (var index = 0; index < response.data.length; index++) {
+                    $scope.TotalSubmissionCost += parseFloat(response.data[index].cost);
+                }
+                $scope.TotalSubmissionCost = $scope.TotalSubmissionCost.toFixed(2);
+            }
         });
+    };
+
+    $scope.findSampleSubmissionImages = function () {    
+        $http.get("/samplesubmissionimages/rfqId/" + $stateParams.rfqId).then(function (response) {
+            $scope.samplesubmissionimages = response.data;
+            });
     };
 
     $scope.deleteImage = function (id) {
@@ -167,54 +155,77 @@ var app = angular.module('mean.samplesubmissions').controller('SampleSubmissions
         }
     }
 
-    $scope.getAllSampleStatus = function () {
-        $http.get('/samplestatus/rfq/' + $stateParams.rfqId).then(function (response) {
-            $scope.sampleStatusData = response.data;          
-            if ($scope.sampleStatusData.length) {
-                var currDate;
-                angular.forEach($scope.sampleStatusData, function (data, key) {
-                    currDate = new Date();
-                    if ((data.status == "To do" && new Date(data.startDate) < currDate) || (data.status == "In progress" && new Date(data.targetDate) < currDate)) {
-                        data.performance = "Overdue";
-                    } else if (data.status == "Completed" && new Date(data.targetDate) >= new Date(data.updatedAt)) {
-                        data.performance = "Before time";
-                    } else if (data.status == "Completed" && new Date(data.targetDate) == new Date(data.updatedAt)) {
-                        data.performance = "On time";
-                    } else if (data.status == "Completed" && new Date(data.targetDate) <= new Date(data.updatedAt)) {
-                        data.performance = "After time";
-                    } else {
-                        data.performance = "-"
-                    }
-                });
-            }
-        });
-    }
+    //$scope.getSampleSubmissionImages = function () {
+    //    $http.get('/samplestatus/rfq/' + $stateParams.rfqId).then(function (response) {
+    //                $scope.sampleStatusData = response.data;          
+    //                if ($scope.sampleStatusData.length) {
+    //                    var currDate;
+    //                    angular.forEach($scope.sampleStatusData, function (data, key) {
+    //                        currDate = new Date();
+    //                        if ((data.status == "To do" && new Date(data.startDate) < currDate) || (data.status == "In progress" && new Date(data.targetDate) < currDate)) {
+    //                            data.performance = "Overdue";
+    //                        } else if (data.status == "Completed" && new Date(data.targetDate) >= new Date(data.updatedAt)) {
+    //                            data.performance = "Before time";
+    //                        } else if (data.status == "Completed" && new Date(data.targetDate) == new Date(data.updatedAt)) {
+    //                            data.performance = "On time";
+    //                        } else if (data.status == "Completed" && new Date(data.targetDate) <= new Date(data.updatedAt)) {
+    //                            data.performance = "After time";
+    //                        } else {
+    //                            data.performance = "-"
+    //                        }
+    //                    });
+    //                }
+    //            });
+    //}
 
-    $scope.updateStatus = function (id, status) {
-        if ($window.confirm("Are you sure to change status to " + status)) {
-            $http.get('/samplestatus/' + id).then(function (response) {
-                console.log(response.data);
-                $scope.previousSampleStatus = JSON.stringify(response.data);
-                $http.put("/samplestatus/" + id, { status: status, UserId: user.id }).then(function (response) {
-                    $scope.getAllSampleStatus();
-                    $http.get('/samplestatus/' + id).then(function (updatedData) {
+    //$scope.getAllSampleStatus = function () {
+    //    $http.get('/samplestatus/rfq/' + $stateParams.rfqId).then(function (response) {
+    //        $scope.sampleStatusData = response.data;          
+    //        if ($scope.sampleStatusData.length) {
+    //            var currDate;
+    //            angular.forEach($scope.sampleStatusData, function (data, key) {
+    //                currDate = new Date();
+    //                if ((data.status == "To do" && new Date(data.startDate) < currDate) || (data.status == "In progress" && new Date(data.targetDate) < currDate)) {
+    //                    data.performance = "Overdue";
+    //                } else if (data.status == "Completed" && new Date(data.targetDate) >= new Date(data.updatedAt)) {
+    //                    data.performance = "Before time";
+    //                } else if (data.status == "Completed" && new Date(data.targetDate) == new Date(data.updatedAt)) {
+    //                    data.performance = "On time";
+    //                } else if (data.status == "Completed" && new Date(data.targetDate) <= new Date(data.updatedAt)) {
+    //                    data.performance = "After time";
+    //                } else {
+    //                    data.performance = "-"
+    //                }
+    //            });
+    //        }
+    //    });
+    //}
+
+    //$scope.updateStatus = function (id, status) {
+    //    if ($window.confirm("Are you sure to change status to " + status)) {
+    //        $http.get('/samplestatus/' + id).then(function (response) {
+    //            console.log(response.data);
+    //            $scope.previousSampleStatus = JSON.stringify(response.data);
+    //            $http.put("/samplestatus/" + id, { status: status, UserId: user.id }).then(function (response) {
+    //                $scope.getAllSampleStatus();
+    //                $http.get('/samplestatus/' + id).then(function (updatedData) {
                     
-                    var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
-                    //watchdog calling                 
-                        commonCtrl.create({
-                            message: "Sample status with id " + id + " is updated to " + status,
-                            ipAddress: $rootScope.ip,
-                            pageUrl: $location.url(),
-                            userId: user.id,
-                            previousData: $scope.previousSampleStatus,
-                            updatedData: JSON.stringify(updatedData.data)
-                        });
-                    });
+    //                var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
+    //                //watchdog calling                 
+    //                    commonCtrl.create({
+    //                        message: "Sample status with id " + id + " is updated to " + status,
+    //                        ipAddress: $rootScope.ip,
+    //                        pageUrl: $location.url(),
+    //                        userId: user.id,
+    //                        previousData: $scope.previousSampleStatus,
+    //                        updatedData: JSON.stringify(updatedData.data)
+    //                    });
+    //                });
                     
-                });
-            });
-            return false;
-        }
-    };
+    //            });
+    //        });
+    //        return false;
+    //    }
+    //};
 
 }]);

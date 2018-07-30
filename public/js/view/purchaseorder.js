@@ -7,13 +7,7 @@
         var selectedStatus;
         var imagesString;
 
-        var myDropzone = new Dropzone('#myId', {
-            url: "/purchaseorderimages/"
-        });
-
-        myDropzone.on("success", function (file, response) {
-            imagesArray.push(response.pathFromRoot);
-        });
+       
 
         $(".btn-Save").on('click', function () {
             $(".hdnImages").val(imagesArray.join(",")).trigger('change');
@@ -59,6 +53,13 @@
 
         if ($(".hdnPurchaseorderStatus").length > 0 && $(".hdnPurchaseorderStatus").val() != "") {
             clearInterval(loadCode);
+            var myDropzone = new Dropzone('#myId', {
+                url: "/purchaseorderimages/"
+            });
+
+            myDropzone.on("success", function (file, response) {
+                imagesArray.push(response.pathFromRoot);
+            });
         }
     }, 500);
 });

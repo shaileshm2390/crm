@@ -217,9 +217,9 @@ h6 {
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05) !important;
 }
 
-.dropzone {
+/*.dropzone {
     border: 1px dashed #b1b8bb;
-}
+}*/
 
 .boxed #main-wrapper {
     width: 100%;
@@ -6330,12 +6330,12 @@ label {
 }
 
 .progress {
-    height: 6px;
+    height: 20px;
 }
 
     .progress-bar.active,
     .progress.active .progress-bar {
-        animation: 2s linear 0s normal none infinite running progress-bar-stripes;
+        animation: 0.2s linear 0s normal none infinite running progress-bar-stripes;
     }
 
 .progress-vertical {

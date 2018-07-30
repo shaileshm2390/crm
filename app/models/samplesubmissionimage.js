@@ -3,11 +3,12 @@
 module.exports = function (sequelize, DataTypes) {
 
     var Samplesubmissionimage = sequelize.define('Samplesubmissionimage', {
-        imagePath: DataTypes.TEXT
+        imagePath: DataTypes.TEXT,
+        operation: DataTypes.STRING
     },
         {
             associate: function (models) {
-                Samplesubmissionimage.belongsTo(models.Samplesubmission);
+                Samplesubmissionimage.belongsTo(models.Rfq);
             }
         }
     );

@@ -1,97 +1,106 @@
 ﻿<div class="row pull-right">
     <div>
+        <a class="btn btn-primary btnShowBasicDetail" href="#">Detail &amp; Comments</a> &nbsp;
         <a class="btn btn-danger" ui-sref="viewRfq({buyerId : rfq.BuyerId, customerId: rfq.Buyer.CustomerId, rfqId : rfq.id})">Cancel</a>
     </div>
 </div>
 
 <div class="clear clearfix"></div><br />
 
-<div class="row">
-    <div class="col col-lg-4" >
-		<div class="card" style="background-color: #e7e7e7;">
-			<div class="row">
-				<div class="col col-lg-12">
-					<div class="basic-info">
-						<p><label><strong>Buyer: </strong></label> <span title="{{rfq.Buyer.name}}">{{rfq.Buyer.name}}</span></p>
-						<p><label><strong>Email:</strong> </label> <span title="{{rfq.Buyer.email}}">{{rfq.Buyer.email}}</span></p>
-						<p><label><strong>Company: </strong></label> <span title="{{rfq.Buyer.Customer.company}}">{{rfq.Buyer.Customer.company}}</span></p>
-						<p><label><strong>Owner: </strong></label> <span title="{{rfq.Buyer.Customer.name}}">{{rfq.Buyer.Customer.name}}</span></p>
-					</div>
-				</div>
-			</div>
-			<div class="clear clearfix"></div><hr />
-			<div class="row">
-				<label class="col-lg-4"><strong>Assigned: </strong></label>
-				<div class="col-lg-8">
-					<div ng-hide="isPoReceived(rfq)">
-						<select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser" required name="UserId" data-ng-model="rfq.UserId" ng-show="global.user.isAdmin">
-							<option value="">Select </option>
-							<option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
-						</select>
+<div class="hide basic">
+    <div class="row">
 
-						<div ng-show="!global.user.isAdmin">
-							<strong>{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
-							<a ng-show="(rfq.User.firstName + ' ' + rfq.User.lastName).trim() == ''" class="btn btn-primary pull-right" href="#" ng-click="assignToMeRfq(rfq.id)">Assign to Me</a>
-						</div>
-					</div>
-					<strong ng-show="isPoReceived(rfq)">{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
+        <div class="col col-lg-4">
+            <div class="card" style="background-color: #e7e7e7;">
+                <div class="row">
+                    <div class="col col-lg-12">
+                        <div class="basic-info">
+                            <p><label><strong>Buyer: </strong></label> <span title="{{rfq.Buyer.name}}">{{rfq.Buyer.name}}</span></p>
+                            <p><label><strong>Email:</strong> </label> <span title="{{rfq.Buyer.email}}">{{rfq.Buyer.email}}</span></p>
+                            <p><label><strong>Company: </strong></label> <span title="{{rfq.Buyer.Customer.company}}">{{rfq.Buyer.Customer.company}}</span></p>
+                            <p><label><strong>Owner: </strong></label> <span title="{{rfq.Buyer.Customer.name}}">{{rfq.Buyer.Customer.name}}</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear clearfix"></div><hr />
+                <div class="row">
+                    <label class="col-lg-4"><strong>Assigned: </strong></label>
+                    <div class="col-lg-8">
+                        <div ng-hide="isPoReceived(rfq)">
+                            <select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser" required name="UserId" data-ng-model="rfq.UserId" ng-show="global.user.isAdmin">
+                                <option value="">Select </option>
+                                <option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
+                            </select>
 
-					<br />
-					<div class="lblMsg"></div>
-					<input type="hidden" class="hdnUserId" value="{{rfq.UserId}}">
-					<input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
-				</div>
-			</div>
-			<div class="row">
-            <ul id="carousel" class="elastislide">
-                <li data-ng-repeat="image in rfq.RfqImages| orderBy : '-createdAt'">
-                    <a data-fancybox="gallery" href="{{image.imagePath}}"><img src="{{image.displayPath}}" alt="image{{image.id}}" /></a>
-                </li>
+                            <div ng-show="!global.user.isAdmin">
+                                <strong>{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
+                                <a ng-show="(rfq.User.firstName + ' ' + rfq.User.lastName).trim() == ''" class="btn btn-primary pull-right" href="#" ng-click="assignToMeRfq(rfq.id)">Assign to Me</a>
+                            </div>
+                        </div>
+                        <strong ng-show="isPoReceived(rfq)">{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
 
-            </ul>
+                        <br />
+                        <div class="lblMsg"></div>
+                        <input type="hidden" class="hdnUserId" value="{{rfq.UserId}}">
+                        <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
+                    </div>
+                </div>
+                <div class="row">
+                    <ul id="carousel" class="elastislide">
+                        <li data-ng-repeat="image in rfq.RfqImages| orderBy : '-createdAt'">
+                            <a data-fancybox="gallery" href="{{image.imagePath}}"><img src="{{image.displayPath}}" alt="image{{image.id}}" /></a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
         </div>
-		</div>
+        <div class="col-lg-8">
+            <div class="card">
+                <h4 align="center"><strong>Comments</strong></h4>
+                <div ng-include="'views/rfqs/rfqComments.html'"></div>
+            </div>
+        </div>
     </div>
-    <div class="col-lg-8">
-		<div class="card">
-			<h4 align="center"><strong>Comments</strong></h4>
-			<div ng-include="'views/rfqs/rfqComments.html'"></div>
-		</div>
+    <div class="clear clearfix"></div> <br />
+    <hr />
     </div>
-</div>
 
-<div class="clear clearfix"></div> <br />
-<hr />
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //   console.log($scope);
+            var loadCode = setInterval(function () {
+                if ($(".hdnUserId").val() != "") {
+                    $(".ddlUser option[selected]").remove();
+                    $(".ddlUser").val($(".hdnUserId").val());
+                }
 
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        //   console.log($scope);
-        var loadCode = setInterval(function () {
-            if ($(".hdnUserId").val() != "") {
-                $(".ddlUser option[selected]").remove();
-                $(".ddlUser").val($(".hdnUserId").val());
-            }
-
-            $(".ddlUser").on('change', function () {
-                var $me = $(this);
-                var rfqId = $('.hdnRfqId').val();
-                var ddlUserId = $(this).val();
-                $.ajax({
-                    url: '/rfqs/' + rfqId,
-                    method: "PUT",
-                    data: { UserId: ddlUserId, id: rfqId }
-                }).done(function (response) {
-                    if ($me.val() == "") {
-                        $(".lblMsg").html("<span>RFQ assigned to nobody</span>").addClass("alert alert-success");
-                    } else {
-                        $(".lblMsg").html("<span>RFQ assigned to " + $me.find("option:selected").text() + "</span>").addClass("alert alert-success");
-                    }
+                $(".ddlUser").on('change', function () {
+                    var $me = $(this);
+                    var rfqId = $('.hdnRfqId').val();
+                    var ddlUserId = $(this).val();
+                    $.ajax({
+                        url: '/rfqs/' + rfqId,
+                        method: "PUT",
+                        data: { UserId: ddlUserId, id: rfqId }
+                    }).done(function (response) {
+                        if ($me.val() == "") {
+                            $(".lblMsg").html("<span>RFQ assigned to nobody</span>").addClass("alert alert-success");
+                        } else {
+                            $(".lblMsg").html("<span>RFQ assigned to " + $me.find("option:selected").text() + "</span>").addClass("alert alert-success");
+                        }
+                    });
                 });
-            });
-            if ($(".hdnUserId").length > 0 && $(".hdnUserId").val() != "") {
-                clearInterval(loadCode);
-            }
-        }, 500);
-    });
-</script>
+
+                $(".btnShowBasicDetail").on('click', function (e) {
+                    $(".basic").toggle("slow");
+                    e.stopImmediatePropagation();
+                    return false;
+                });
+
+                if ($(".hdnUserId").length > 0 && $(".hdnUserId").val() != "") {
+                    clearInterval(loadCode);                    
+                }
+            }, 500);
+        });
+    </script>

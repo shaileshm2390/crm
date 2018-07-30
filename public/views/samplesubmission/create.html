@@ -1,163 +1,159 @@
 <div class="card" ng-controller="RfqsController">
-  
+    <link href="/css/lib/tabs/responsive-tabs.css" rel="stylesheet" />
     <section ng-init="findOneByRfqId()" ng-show="rfq.id != null  && validatePermission">
         <h1>Sample Submission</h1>
         <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
 
         <div class="row">
             <div ng-include="'views/rfqs/rfqLeftNavigation.htm'" class="col col-lg-12"></div>
-            <div class="col col-lg-12">
-                <h3>Sample Submission</h3>
 
-                <!--Sample Status data start-->
-                <div data-ng-init="getAllSampleStatus()" ng-show="sampleStatusData.length">
-                    <table class="table table-bordered col col-lg-9">
-                        <thead>
-                            <tr>
-                                <th style="text-align:center">Process</th>
-                                <th style="text-align:center">Start date</th>
-                                <th style="text-align:center">Target date</th>
-                                <th style="text-align:center">Status</th>
-                                <th style="text-align:center">Performance</th>
-                                <th style="text-align:center">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="data in sampleStatusData">
-                                <td style="text-align:center">
-                                    <label>{{data.process}}</label>
-                                </td>
-                                <td style="text-align:center">
-                                    <label>{{data.startDate  | date:'dd/MM/yyyy'}}</label>
-                                </td>
-                                <td style="text-align:center">
-                                    <label>{{data.targetDate  | date:'dd/MM/yyyy'}}</label>
-                                </td>
-                                <td style="text-align:center">
-                                    <label ng-class="(data.status == 'To do' ? 'badge badge-info' : (data.status == 'In progress' ? 'badge badge-warning' : (data.status == 'Completed' ? 'badge badge-success' : 'badge')))">{{data.status}}</label>
-                                </td>
+            <div ng-init="findApprovedCostSheetByRfqId()" ng-controller="CostSheetsController">                
+                <input type="hidden" class="hdnCostSheetData" value="{{costsheet.data}}" />
+            </div>
+            <div class="col col-lg-12">                
+                <div class="clear clearfix m-b-10"></div>  
 
-                                <td style="text-align:center">
-                                    <label ng-class="(data.performance == 'Overdue' || data.performance == 'After time'? 'badge badge-danger' : (data.performance != '-' ? 'badge badge-success': ''))">
-                                        {{data.performance}}
-                                    </label><br />
-                                    <small ng-show="data.status == 'Completed'">Completed Date:{{data.updatedAt | date:"dd/MM/yyyy"}}</small>
-                                </td>
+                <!-- Earlier records-->
+                <div data-ng-controller="SampleSubmissionsController" data-ng-init="findOne()" class="m-b-10 m-t-10" ng-show="samplesubmission.length > 0">
+                    <!-- Update status panel -->
+                    <div ng-hide="isPoReceived(rfq)" class="pnlStatusUpdate">
+                        <div class="control-group m-b-10">
+                            <div class="controls row cost-sheet-form">
+                                <div class="col-lg-2">
+                                    <select class="form-control ddlSamplesubmission" id="selectedStatus" required>
+                                        <option value="">Select Status</option>
+                                    </select>
+                                    <div class="errorStatus error"></div>
+                                </div>
+                                <div class="col-lg-10">
+                                    <div id="horizontalTab">
+                                        <ul>
+                                            <li><a href="#tab-1">Drawing</a></li>
+                                            <li><a href="#tab-2">Tooling</a></li>
+                                            <li><a href="#tab-3">Raw Material</a></li>
+                                            <li><a href="#tab-4">Gauge</a></li>
+                                            <li><a href="#tab-5">Conversion</a></li>
+                                        </ul>
 
-                                <td>
+                                        <div id="tab-1">
+                                            <div class="control-group">
+                                                <label class="control-label default-message"><strong>Please select status</strong></label>
+                                                <div data-ng-controller="SampleSubmissionsController" data-ng-init="findSampleSubmissionImages()" class="m-b-10">
+                                                    <div class="row">
+                                                        <div class="col-lg-3 m-b-10 {{image.operation}} submission hide" data-ng-repeat="image in samplesubmissionimages | orderBy : '-createdAt'">
+                                                            <a data-fancybox="gallery" href="{{image.imagePath}}">
+                                                                <img src="{{image.imagePath}}" alt="image{{image.id}}" class="img-responsive responsive" />
+                                                            </a>
+                                                            <a ng-click="deleteImage(image.id)"><i class="close fa fa-close" aria-hidden="true" /></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="myId" class="dropzone"></div>
+                                            </div>
+                                            <br />
+                                            <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
+                                            <div class="clear clearfix"></div><br />
+                                            <div class="control-group">
+                                                <div class="controls">
+                                                    <input type="submit" class="btn btn-secondary btnUpload" value="Upload Drawing">
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                    <a class="btn btn-outline-warning lnkUpdateStatus" ng-click="updateStatus(data.id, 'In progress')" href="#" title="click to start" ng-show="global.user.isAdmin || data.status =='To do'">
-                                        <span><i class="fa fa-thumbs-o-up"></i></span>
-                                    </a>
+                                        <!-- tooling-->
+                                        <div id="tab-2">
+                                            <div class="tooling">
+                                                <label class="control-label default-message"><strong>Please select status</strong></label>
+                                                <h4 class="p-b-10">                                                    
+                                                    <a class="pull-right lnkAddTooling lnkAddPanel" data-url="views/samplesubmission/toolingDefaultTemplate.htm" data-class="tooling" data-operation="{{record.operation}}"><span><i class="fa fa-plus-circle"></i></span></a>
+                                                </h4>
+                                                <div ng-show="samplesubmission.length > 0" class="submission hide {{record.operation}}" data-ng-repeat="record in samplesubmission | orderBy : '-createdAt' | filter: {stage: 'Tooling'}">
+                                                    <div ng-include="'views/samplesubmission/toolingTemplate.htm'" class="col col-lg-12"></div>
+                                                </div>                                               
+                                                <div ng-include="'views/samplesubmission/toolingDefaultTemplate.htm'"></div>                                                
+                                            </div>
+                                            <div class="col col-lg-2 m-t-10"><a href="#" class="btn btn-secondary btnSaveSample hide" data-stage="Tooling">Save</a></div>
+                                        </div>
 
-                                    <a class=" btn btn-outline-info lnkUpdateStatus" ng-click="updateStatus(data.id, 'To do')" href="#" title="click to reset" ng-show="global.user.isAdmin || data.status =='In progress'">
-                                        <span><i class="fa fa-refresh"></i></span>
-                                    </a>
+                                        <!-- raw material-->
+                                        <div id="tab-3">
+                                            <div class="rawmaterial">
+                                                <label class="control-label default-message"><strong>Please select status</strong></label>
+                                                <h4 class="p-b-10">
+                                                    <a class="pull-right lnkAddTooling lnkAddPanel" data-url="views/samplesubmission/rawmaterialDefaultTemplate.htm" data-class="rawmaterial" data-operation="{{record.operation}}"><span><i class="fa fa-plus-circle"></i></span></a>
+                                                </h4>
+                                                <div ng-show="samplesubmission.length > 0" class="submission hide {{record.operation}}" data-ng-repeat="record in samplesubmission | orderBy : '-createdAt' | filter: {stage: 'Raw Material'}">
+                                                    <div ng-include="'views/samplesubmission/rawmaterialTemplate.htm'" class="col col-lg-12"></div>
+                                                </div>
+                                                <div ng-include="'views/samplesubmission/rawmaterialDefaultTemplate.htm'"></div>
+                                            </div>
+                                                <div class="col col-lg-2 m-t-10"><a href="#" class="btn btn-secondary btnSaveSample hide"  data-stage="Raw Material">Save</a></div>                                     
+                                           
+                                        </div>
 
-                                    <a class=" btn btn-outline-danger lnkUpdateStatus" ng-click="updateStatus(data.id, 'Cancelled')" href="#" title="click to cancel" ng-show="global.user.isAdmin || (data.status!='Completed' && data.status!='Cancelled')">
-                                        <span><i class="fa fa-times"></i></span>
-                                    </a>
+                                        <!-- guage-->
+                                        <div id="tab-4">
+                                            <div class="gauge">
+                                                <label class="control-label default-message"><strong>Please select status</strong></label>
+                                                <h4 class="p-b-10">
+                                                    <a class="pull-right lnkAddTooling lnkAddPanel" data-url="views/samplesubmission/toolingDefaultTemplate.htm" data-class="gauge" data-operation="{{record.operation}}"><span><i class="fa fa-plus-circle"></i></span></a>
+                                                </h4>
+                                                <div ng-show="samplesubmission.length > 0" class="submission hide {{record.operation}}" data-ng-repeat="record in samplesubmission | orderBy : '-createdAt' | filter: {stage: 'Gauge'}">
+                                                    <div ng-include="'views/samplesubmission/toolingTemplate.htm'" class="col col-lg-12"></div>
+                                                </div>
+                                                <div ng-include="'views/samplesubmission/toolingDefaultTemplate.htm'"></div>
+                                            </div>  
+                                                <div class="col col-lg-2 m-t-10"><a href="#" class="btn btn-secondary btnSaveSample hide" data-stage="Gauge">Save</a></div>    
+                                           
+                                        </div>
 
-                                    <a class=" btn btn-outline-primary lnkUpdateStatus" ng-click="updateStatus(data.id, 'Completed')" href="#" title="click to complete" ng-show="global.user.isAdmin || data.status =='In progress'">
-                                        <span><i class="fa fa-check"></i></span>
-                                    </a>
+                                        <!-- conversion-->
+                                        <div id="tab-5">
+                                            <div class="conversion">
+                                                <label class="control-label default-message"><strong>Please select status</strong></label>
+                                                <h4 class="p-b-10">
+                                                    <a class="pull-right lnkAddTooling lnkAddPanel" data-url="views/samplesubmission/conversionDefaultTemplate.htm" data-class="conversion" data-operation="{{record.operation}}"><span><i class="fa fa-plus-circle"></i></span></a>
+                                                </h4>
+                                                <div ng-show="samplesubmission.length > 0" class="submission hide {{record.operation}}" data-ng-repeat="record in samplesubmission | orderBy : '-createdAt' | filter: {stage: 'Conversion'}">
+                                                    <div ng-include="'views/samplesubmission/conversionTemplate.htm'" class="col col-lg-12"></div>
+                                                </div>
+                                                <div ng-include="'views/samplesubmission/conversionDefaultTemplate.htm'"></div>
+                                            </div>
+                                                <div class="col col-lg-2 m-t-10"><a href="#" class="btn btn-secondary btnSaveSample hide" data-stage="Conversion">Save</a></div>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                                    <div style="text-align:center" ng-show="!global.user.isAdmin && data.status=='Completed'">-</div>
+                    </div>
 
-                                </td>
-                            </tr>
-                        </tbody>
+                    <table class="table table-bordered table-hover" >
+                        <tr>
+                            <th><strong>Operation</strong></th>
+                            <th><strong>Stage</strong></th>
+                            <th><strong>Stage Process</strong></th>
+                            <th><strong>Order To</strong></th>
+                            <th><strong>Order Date</strong></th>
+                            <th><strong>Order Received</strong></th>
+                            <th><strong>Cost</strong></th>
+                        </tr>
+
+                        <tr class="col-lg-3 m-b-10" data-ng-repeat="record in samplesubmission | orderBy : '-createdAt'">
+                            <td>{{record.operation}}</td>
+                            <td>{{record.stage}}</td>
+                            <td>{{record.stageProcess}}</td>
+                            <td>{{record.orderTo}}</td>
+                            <td>{{record.orderDate | date:'MM/dd/yyyy'}}</td>
+                            <td>{{record.receivedDate | date:'MM/dd/yyyy'}}</td>
+                            <td>Rs. {{record.cost}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="6"><span class="pull-right"><strong>Total Cost:</strong> </span></td>
+                            <td><span><strong>Rs. {{TotalSubmissionCost}}</strong></span></td>
+                        </tr>
                     </table>
-                </div>
-                <div ng-show="!sampleStatusData.length" align="center">No sample has been submitted yet</div>
-                <!--Sample Status data end-->
-
-                <div data-ng-controller="SampleSubmissionsController" data-ng-init="findOne()">
-                    <div class="row">
-                        <ul class="elastislide1">
-                            <li class="img_wrp" data-ng-repeat="image in samplesubmission.Samplesubmissionimages | orderBy : '-createdAt'" style="margin-right:3px;">
-                                <a data-fancybox="gallery" href="{{image.imagePath}}">
-                                    <img src="{{image.imagePath}}" alt="image{{image.id}}" />
-                                </a>
-                                <a ng-click="deleteImage(image.id)"><i class="close fa fa-close" aria-hidden="true" /></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <br /><br />
-                <a class="btn btn-secondary btnChangeStatus pull-right" href="#">Add Process</a>
-                <div class="clear clearfix"></div>
-                <br />
-
-
-                <!-- Update status panel -->
-                <div ng-hide="isPoReceived(rfq)" class="hide pnlStatusUpdate">
-
-                    <div class="control-group">
-                        <label for="status" class="control-label">Status</label>
-                        <div class="controls row">
-                            <div class="col-lg-6">
-
-                                <select class="form-control ddlSamplesubmission" id="selectedStatus" ng-init="findOne()" required>
-                                    <option value="">Select Status</option>
-                                    <option ng-repeat="status in Status" value="{{status}}">{{status}}</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="errorStatus error"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <br />
-                    <div class="control-group">
-                        <label class="control-label">Start Date</label>
-                        <div class="controls row">
-                            <div class="col-lg-6">
-                                <div class="input-group date" data-provide="datepicker">
-                                    <input type="text" class="datepicker form-control" id="sampleStatusStartDate" name="sampleStatusStartDate" placeholder="Select Start Date">
-                                    <div class="input-group-addon">
-                                        &nbsp;<span class="fa f-s-30 fa-calendar"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="errorStartDate error"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <br />
-
-                    <div class="control-group">
-                        <label class="control-label">Target Date</label>
-                        <div class="controls row">
-                            <div class="col-lg-6">
-                                <div class="input-group date" data-provide="datepicker">
-
-                                    <input type="text" class="datepicker form-control" id="sampleStatusTargetDate" name="sampleStatusTargetDate" placeholder="Select Target Date">
-                                    <div class="input-group-addon">
-                                        &nbsp;<span class="fa f-s-30 fa-calendar"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="errorDate error"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <br />
-                    <div class="control-group">
-                        <label class="control-label">Images</label>
-                        <div id="myId" class="dropzone col-lg-6"></div>
-                    </div>
-                    <br />
-
-                    <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
-                    <div class="clear clearfix"></div><br />
-                    <div class="control-group">
-                        <div class="controls">
-                            <input type="submit" class="btn btn-primary btn-Save" value="Save">
-                        </div>
-                    </div>
                 </div>
                 <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
                 <br />
@@ -180,7 +176,241 @@
     </section>
 </div>
 
+<script src="/js/lib/tabs/jquery.responsiveTabs.js"></script>
 <script src="/js/lib/datepicker/bootstrap-datepicker.min.js"></script>
-<script src="/js/view/samplesubmission.js"></script>
+<!--<script src="/js/view/samplesubmission.js"></script>-->
+<script>
+    $(document).ready(function () {
+        var imagesArray = [],
+            rfqId,
+            process,
+            status,
+            rawmaterialUsed = new Array(),
+            conversionOperation = new Array(),
+            sampleSubmissionList = new Array(),
+            imagesString;
+
+        var loadCode = setInterval(function () {
+            var isValidForm = function () {
+                var flagStatus = false;
+
+                if ($(".ddlSamplesubmission").val() == "") {
+                    $(".errorStatus").html("please select status").show("slow");
+                } else {
+                    flagStatus = true;
+                    $(".errorStatus").html("").hide();
+                }
+                return flagStatus;
+            };
+            
+
+            $(".datepicker").datepicker();
+            
+            $(".btnUpload").on('click', function (e) {
+                if (isValidForm()) {
+
+                    $(".hdnImages").val(imagesArray.join(",")).trigger('change');
+                    imagesString = $(".hdnImages").val();
+                    operation = $("#selectedStatus").find("option:selected").text();                    
+                    $.ajax({
+                        url: '/samplesubmissionimagesintodb/',
+                        method: "POST",
+                        data: { operation: operation, imagesString: imagesString, RfqId: rfqId }
+                    }).done(function (response) {
+                        $(".lblMsg").html("<span>Drawing uploaded  successfully for " + operation + "</span>").removeClass("hide");
+                        window.location.reload();
+                    });
+                }
+                e.stopImmediatePropagation();
+                return false;
+            });
+
+            if ($(".elastislide").length > 0) {
+                $(".elastislide").elastislide();
+            }
+            if ($(".elastislide1").length > 0) {
+                $('.elastislide1').elastislide();
+            }
+
+
+            var $tabs = $('#horizontalTab');
+            $tabs.responsiveTabs({
+                rotate: false,
+                startCollapsed: 'accordion',
+                collapsible: 'accordion',
+                setHash: false
+            });
+
+            $(".ddlSamplesubmission").on('change', function () {
+                $(".submission").hide();
+                if ($(this).val() != "") {                    
+                    $("." + $(this).val()).show();
+                    $(".btnSaveSample").show();
+                    $(".errorStatus").html("").hide();
+                    $(".default-message").hide();
+                } else {
+                    $(".default-message").show();
+                    $(".btnSaveSample").hide();
+                }
+            });
+
+            bindRemoveRowEvent = function () {
+                $(".row-remove").bind('click', function () {
+                    var $target = $(this).parents('.removable-row');
+                    $target.hide('slow', function () {
+                        $target.remove();
+                        $(".txtNetRmCost").trigger('keyup');
+                        $(".txtConversionCost").trigger('keyup');
+                        $(".txtHtStCost").trigger('keyup');
+                    });
+                });
+            };
+
+            var saveSampleSubmission = function (data) {
+             //   console.log(data);
+                var dfd = $.Deferred();
+                $.ajax({
+                    url: '/samplesubmissions/',
+                    method: "POST",
+                    data: { data: sampleSubmissionList }
+                }).done(function (response) {
+                    $(".lblMsg").html("<span>Saved successfully !!!</span>").removeClass("hide");
+                    dfd.resolve(response);
+                });
+                return dfd.promise();
+            };
+
+            $(".datepicker").datepicker();
+            $(".lnkAddPanel").on('click', function (e) {
+                $me = $(this);
+                $.get($(this).data('url'), function (response) {
+                    angular.element(document).injector().invoke(function ($compile) {
+                        var obj = $("." + $me.data('class')); // get wrapper
+                        var scope = obj.scope(); // get scope
+                        // generate dynamic content
+                        obj.append($compile(response)(scope));
+                        $(".ddlConversionSamplesubmission").each(function (key, item) {
+                            if ($(item).html() == "") {
+                                $.each(conversionOperation, function (key, value) {
+                                    $(item).append("<option value='" + value + "'>" + value + "</option>");
+                                });
+                            }
+                        });
+
+                        $(".ddlRawmaterialSamplesubmission").each(function (key, item) {
+                            if ($(item).html() == "") {
+                                $.each(rawmaterialUsed, function (key, value) {
+                                    $(item).append("<option value='" + value + "'>" + value + "</option>");
+                                });
+                            }
+                        });
+                       
+                       
+                         $(".datepicker").datepicker();
+                        bindRemoveRowEvent();
+                    });
+                });                
+                e.stopImmediatePropagation();
+            });
+            bindRemoveRowEvent();
+            $(".btnSaveSample").on('click', function (e) {
+                $me = $(this);
+                var index = 0, validField = [], totalRecord;
+                $(".stage-process:visible").each(function (key, item) {
+                    itemObj = {};
+                    totalRecord = $($(".stage-process:visible")[index]).parent().parent().find($(".txtValue")).length;
+                    for (var innerIndex = 0; innerIndex < totalRecord; innerIndex++) {
+                        var ele = $($($(".stage-process:visible")[index]).parent().parent().find($(".txtValue"))[innerIndex]);                        
+                        if ($.trim($(ele).val()) != "") {
+                            $(ele).css("border", "");
+                            validField[innerIndex] = true;                            
+                        } else {
+                            validField[innerIndex] = false;   
+                            $(ele).css("border", "1px solid red");
+                        }
+                    } // for
+                    if ((validField.length > 0 && $.inArray(false, validField) < 0) ) {                    
+                        itemObj = {
+                            operation: $(".ddlSamplesubmission").val(),
+                            stage: $me.data("stage"),
+                            stageProcess: $($(".stage-process:visible")[index]).val(),
+                            orderTo: $($(".txtOrderTo:visible")[index]).val(),
+                            orderDate: $($(".txtOrderDate:visible")[index]).val(),
+                            receivedDate: $($(".txtOrderReceived:visible")[index]).val(),
+                            cost: $($(".txtCost:visible")[index]).val(),
+                            RfqId: rfqId
+                        };
+                         sampleSubmissionList.push(itemObj);
+                    } else {
+                        sampleSubmissionList = new Array();
+                    }
+                    index++;
+                });
+                if (sampleSubmissionList.length > 0) {
+                    $.when(saveSampleSubmission()).then(function () {
+                        window.location.href = '/rfq/' + $('.hdnRfqId').val() + '/samplesubmission';
+                    });
+                }
+                e.stopImmediatePropagation();
+                return false;
+            });
+
+            if ($(".hdnRfqId").length > 0 && $(".hdnRfqId").val() != "") {
+                rfqId = $(".hdnRfqId").val();
+                $(".ddlUser option[selected]").remove();
+                $(".ddlUser").val($(".hdnUserId").val());
+                clearInterval(loadCode);
+                if ($('#myId').length > 0) {
+                    var myDropzone = new Dropzone('#myId', {
+                        url: "/samplesubmissionimages/"
+                    });
+
+                    myDropzone.on("success", function (file, response) {
+                        imagesArray.push(response.pathFromRoot);
+                    });
+                }
+
+                $tabs.find("ul li:first a").click();
+                if ($(".hdnCostSheetData").val() != "") {
+                    var costSheetData = JSON.parse($(".hdnCostSheetData").val());                    
+               
+                    $.each(costSheetData, function (key, item) {
+                        $.each(item, function (name, value) {
+                            if (name.toLowerCase() == "raw material") {
+                                rawmaterialUsed.push(value);
+                            } else if (name.toLowerCase() == "operation") {
+                                conversionOperation.push(value);
+                            }
+                        });
+                    });
+                    $.each(conversionOperation, function (key, value) {
+                        $(".ddlSamplesubmission").append("<option value='" + value + "'>" + value + "</option>");
+                        $(".ddlConversionSamplesubmission").append("<option value='" + value + "'>" + value + "</option>");
+                        $(".ddlConversionSamplesubmission").each(function (key, item) {
+                            if ($(item).parent().find(".hdnConversionSamplesubmission").val() != "") {
+                                $(item).val($(item).parent().find(".hdnConversionSamplesubmission").val());
+                            } else {
+                                $(item).val($(item).find("option:first").val());
+                            }
+                        });
+                    });
+                    $.each(rawmaterialUsed, function (key, value) {
+                        $(".ddlRawmaterialSamplesubmission").append("<option value='" + value + "'>" + value + "</option>");
+                        
+                        $(".ddlRawmaterialSamplesubmission").each(function (key, item) {
+                            if ($(item).parent().find(".hdnRawmaterialSamplesubmission").val() != "") {
+                                $(item).val($(item).parent().find(".hdnRawmaterialSamplesubmission").val());
+                            } else {
+                                $(item).val($(item).find("option:first").val());
+                            }
+                        });
+
+                        
+                    });
+                }
+            }
+        }, 500);
+    });
+</script>
 
 

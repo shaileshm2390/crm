@@ -1,0 +1,31 @@
+﻿<div class="head-row removable-row ">
+    <span class="row-remove"><i class="fa fa-minus-circle"></i></span>
+    <div class="row">
+        <div class="col">
+            <label class="txtPredefinedName  text-muted m-b-2 f-s-12">Process</label>
+            <select class="stage-process form-control txtValue">
+                <option value="Die" ng-selected="{{record.stageProcess == 'Die'}}">Die</option>
+                <option value="Punch" ng-selected="{{record.stageProcess == 'Punch'}}">Punch</option>
+                <option value="Cutter" ng-selected="{{record.stageProcess == 'Cutter'}}">Cutter</option>
+                <option value="Quil" ng-selected="{{record.stageProcess == 'Quil'}}">Quil</option>
+                <option value="Other" ng-selected="{{record.stageProcess == 'Other'}}">Other</option>
+            </select>
+        </div>
+        <div class="col">
+            <label class="txtPredefinedName text-muted m-b-2 f-s-12">Order To</label>
+            <input type="text" placeholder="Order To" class="form-control txtOrderTo txtValue" id="txtOrderTo" value="{{record.orderTo}}" />
+        </div>
+        <div class="col">
+            <label class="txtPredefinedName  text-muted m-b-2 f-s-12">Order Date</label>
+            <input type="text" placeholder="Order Date" class="form-control txtOrderDate datepicker txtValue" id="txtOrderDate" value="{{record.orderDate | date:'MM/dd/yyyy'}}" />
+        </div>
+        <div class="col">
+            <label class="txtPredefinedName text-muted m-b-2 f-s-12">Order Received</label>
+            <input type="text" placeholder="Order Received" class="form-control txtOrderReceived datepicker txtValue" id="txtOrderReceived" value="{{record.receivedDate | date:'MM/dd/yyyy'}}" />
+        </div>
+        <div class="col">
+            <label class="txtPredefinedName text-muted m-b-2 f-s-12">Cost</label>
+            <input type="text" placeholder="Cost" class="form-control txtCost txtValue" id="txtCost" value="{{record.cost}}" />
+        </div>
+    </div>
+</div>

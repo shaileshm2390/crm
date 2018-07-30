@@ -3,13 +3,17 @@
 module.exports = function (sequelize, DataTypes) {
 
     var Samplesubmission = sequelize.define('Samplesubmission', {
-        status: DataTypes.STRING
+        operation: DataTypes.STRING,
+        stage: DataTypes.STRING,
+        stageProcess: DataTypes.STRING,
+        orderTo: DataTypes.STRING,
+        orderDate: DataTypes.DATE,
+        receivedDate: DataTypes.DATE,
+        cost : DataTypes.STRING
     },
         {
             associate: function (models) {
                 Samplesubmission.belongsTo(models.Rfq);
-                Samplesubmission.hasMany(models.Samplesubmissionimage);
-                Samplesubmission.hasMany(models.SampleStatus);
             }
         }
     );

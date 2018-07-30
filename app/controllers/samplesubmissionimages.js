@@ -8,7 +8,13 @@ var db = require('../../config/sequelize');
 var _ = require('lodash');
 
 const JSON = require('circular-json');
+const request = require('request');
+var ipAddress;
 
+request('http://api.ipstack.com/check?access_key=a0a80aaea559ceb4d5ebacc03c30f6d3', { json: true }, (err, res, body) => {
+    if (err) { console.log(err); }
+    ipAddress = body.ip;
+});
 /**
  * Find department by id
  * Note: This is called every time that the parameter :departmentId is used in a URL.
@@ -21,6 +27,22 @@ exports.samplesubmissionimage = function (req, res, next, id) {
             return next();
         } else {
             req.samplesubmissionimage = samplesubmissionimage;
+            return next();
+        }
+    }).catch(function (err) {
+        console.log(err);
+        return next();
+    });
+};
+
+
+
+exports.getByRfqId = function (req, res, next, id) {
+    db.Samplesubmissionimage.findAll({ where: { RfqId: id } }).then(function (samplesubmissionimages) {
+        if (!samplesubmissionimages) {
+            return next(new Error('Failed to load sample images ' + id));
+        } else {           
+            req.samplesubmissionimage = samplesubmissionimages;
             return next();
         }
     }).catch(function (err) {
@@ -46,6 +68,45 @@ exports.create = function (req, res) {
         }
     });
 }
+
+exports.insert = function (req, res) {
+    // augment the department by adding the UserId
+    // save and return and instance of department on the res object.  
+
+    if (req.body.imagesString.trim() !== "") {
+        var imageArray = req.body.imagesString.split(",");
+        for (var index = 0; index < imageArray.length; index++) {
+            var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
+            var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
+
+            module.exports.move(oldPath, newPath, function () { });
+            var request = {
+                imagePath: imageArray[index].replace("/temp/", "/uploads/"),
+                RfqId: req.body.RfqId,
+                operation: req.body.operation
+            };
+            db.Samplesubmissionimage.create(request).then(function (samplesubmissionimages) {
+                if (!samplesubmissionimages) {
+                    return res.send('/signin', { errors: new StandardError('sample submission images could not be created') });
+                } else {
+                    var fullUrl = req.originalUrl;
+
+                    db.Watchdog.create({
+                        message: "New Sample Subnission Drawing is created",
+                        ipAddress: ipAddress,
+                        pageUrl: fullUrl,
+                        userId: req.user.id,
+                        previousData: "",
+                        updatedData: JSON.stringify(samplesubmissionimages)
+                    });
+                    return res.jsonp(samplesubmissionimages);
+                }
+            }).catch(function (err) {
+                console.log(err);
+            });
+        }
+    }
+};
 
 /**
  * Update a department
@@ -119,4 +180,34 @@ exports.hasAuthorization = function (req, res, next) {
         return res.send(401, 'sample submission image is not authorized ');
     }
     next();
+};
+
+exports.move = function (oldPath, newPath, callback) {
+
+    var fs = require('fs');
+    fs.rename(oldPath, newPath, function (err) {
+        if (err) {
+            if (err.code === 'EXDEV') {
+                copy();
+            } else {
+                console.log(err);
+                //callback(err);
+            }
+            return;
+        }
+        callback();
+    });
+}
+exports.copy = function () {
+    var readStream = fs.createReadStream(oldPath);
+    var writeStream = fs.createWriteStream(newPath);
+
+    readStream.on('error', callback);
+    writeStream.on('error', callback);
+
+    readStream.on('close', function () {
+        fs.unlink(oldPath, callback);
+    });
+
+    readStream.pipe(writeStream);
 };

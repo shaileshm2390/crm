@@ -56,14 +56,15 @@
         });
 
         $(".datepicker").datepicker();
+        if ($('#myId').length > 0) {
+            var myDropzone = new Dropzone('#myId', {
+                url: "/samplesubmissionimages/"
+            });
 
-        var myDropzone = new Dropzone('#myId', {
-            url: "/samplesubmissionimages/"
-        });
-
-        myDropzone.on("success", function (file, response) {
-            imagesArray.push(response.pathFromRoot);
-        });
+            myDropzone.on("success", function (file, response) {
+                imagesArray.push(response.pathFromRoot);
+            });
+        }
 
         $(".btn-Save").on('click', function () {
             if (isValidForm()) {
@@ -117,6 +118,7 @@
         if ($(".hdnUserId").val() != "") {
             $(".ddlUser option[selected]").remove();
             $(".ddlUser").val($(".hdnUserId").val());
+            console.log('Hi.. stopped');
             clearInterval(loadCode);
         }
     }, 500);

@@ -40,56 +40,45 @@ exports.samplesubmission = function (req, res, next, id) {
 exports.create = function (req, res) {
     // augment the department by adding the UserId
     // save and return and instance of department on the res object.
-    var sampleSubmissionRequest = {
-        status: req.body.process,
-        RfqId: req.body.RfqId
-    };
-    db.Samplesubmission.create(sampleSubmissionRequest).then(function (samplesubmission) {
+    console.log(req.body);
+    var samplesubmissionList = new Array();
+    db.Samplesubmission.destroy({ where: { operation: req.body.data[0].operation, RfqId: req.body.data[0].RfqId, stageProcess: req.body.data[0].stageProcess } });
+    if (req.body.data.length > 0) {
+        var totalData = req.body.data.length;
+        for (var index = 0; index < totalData; index++) {
 
-        if (!samplesubmission) {
-            return res.send('/signin', { errors: new StandardError('sample submission could not be created') });
-        } else {
-            if (req.body.imagesString.trim() !== "") {
-                var imageArray = req.body.imagesString.split(",");
-                for (var index = 0; index < imageArray.length; index++) {
-                    var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
-                    var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
-
-                    module.exports.move(oldPath, newPath, function () { });
-                    var request = {
-                        imagePath: imageArray[index].replace("/temp/", "/uploads/"),
-                        SamplesubmissionId: samplesubmission.id
-                    };
-                    db.Samplesubmissionimage.create(request);
-                }
-            }
-            var sampleStatusRequest = {
-                process: req.body.process,
-                startDate: req.body.startDate,
-                status: req.body.status,
-                targetDate: req.body.targetDate,
-                SamplesubmissionId: samplesubmission.id
+            var sampleSubmissionRequest = {
+                operation: req.body.data[index].operation,
+                stage: req.body.data[index].stage,
+                stageProcess: req.body.data[index].stageProcess,
+                orderTo: req.body.data[index].orderTo,
+                orderDate: req.body.data[index].orderDate,
+                receivedDate: req.body.data[index].receivedDate,
+                cost: req.body.data[index].cost,
+                RfqId: req.body.data[index].RfqId
             };
-            db.SampleStatus.create(sampleStatusRequest);
-            var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
 
-            db.Watchdog.create({
-                message: "New Sample Subnission is created",
-                ipAddress: ipAddress,
-                pageUrl: fullUrl,
-                userId: req.user.id,
-                previousData: "",
-                updatedData: JSON.stringify(samplesubmission)
+            db.Samplesubmission.create(sampleSubmissionRequest).then(function (samplesubmission) {
+                if (!samplesubmission) {
+                    return res.send('/signin', { errors: new StandardError('sample submission could not be created') });
+                } else {
+                    var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
+                    db.Watchdog.create({
+                        message: "New Sample Subnission is created",
+                        ipAddress: ipAddress,
+                        pageUrl: fullUrl,
+                        userId: req.user.id,
+                        previousData: "",
+                        updatedData: JSON.stringify(samplesubmission)
+                    });
+                    samplesubmissionList.push(samplesubmission);
+                }
+            }).catch(function (err) {       
+                console.log(err);
             });
-            return res.jsonp(samplesubmission);
         }
-    }).catch(function (err) {
-        //return res.send('/signin', {
-        //    errors: err,
-        //    status: 500
-        //});
-        console.log(err);
-    });
+    }
+    return res.jsonp(samplesubmissionList);
 };
 
 /**
@@ -136,14 +125,7 @@ exports.update = function (req, res) {
 
                }
         }
-        var sampleStatusRequest = {
-            process: req.body.process,
-            startDate: req.body.startDate,
-            status: req.body.status,
-            targetDate: req.body.targetDate,
-            SamplesubmissionId: samplesubmission.id
-        };
-        db.SampleStatus.create(sampleStatusRequest);
+       
 
         var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
         var updatedData = { "id": samplesubmission.id, "startDate": req.samplesubmissions.startDate, "targetDate": req.samplesubmissions.targetDate, "process": req.samplesubmissions.process, "status": samplesubmission.status, "RfqId": samplesubmission.RfqId, "updatedAt": samplesubmission.updatedAt, "createdAt": samplesubmission.createdAt };
@@ -270,19 +252,13 @@ exports.samplesubmissionsByRfqId = function (req, res) {
 };
 
 exports.samplesubmissionByRfqId = function (req, res, next, id) {
-    db.Samplesubmission.find({
+    db.Samplesubmission.findAll({
         where: { RfqId: id },
         include: [
 
             {
                 model: db.Rfq,
             
-            },
-            {
-                model: db.Samplesubmissionimage,
-            },
-            {
-                model: db.SampleStatus,
             }
             
         ]

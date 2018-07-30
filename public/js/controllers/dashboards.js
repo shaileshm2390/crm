@@ -51,7 +51,7 @@ var app = angular.module('mean.dashboards').controller('DashboardsController', [
                         } else if (!$scope.myRfqs[index].PurchaseOrders.length) {
                             $scope.myRfqs[index].customStatus = "<a class='btn btn-danger' href='/rfq/" + $scope.myRfqs[index].id + "/purchaseorder'>Waiting for PO</a>";
 
-                        } else if (!$scope.myRfqs[index].PurchaseOrders.some(function (o) { return o["status"].toLowerCase() === "completed"; })) {
+                        } else if (!$scope.myRfqs[index].PurchaseOrders.some(function (o) { return o["status"].toLowerCase() === "complete"; })) {
                             $scope.myRfqs[index].customStatus = "<a class='btn btn-warning' href='/rfq/" + $scope.myRfqs[index].id + "/purchaseorder'>Waiting for PO approval</a>";
 
                         }

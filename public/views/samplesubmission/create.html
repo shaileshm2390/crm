@@ -14,7 +14,7 @@
                 <div class="clear clearfix m-b-10"></div>  
 
                 <!-- Earlier records-->
-                <div data-ng-controller="SampleSubmissionsController" data-ng-init="findOne()" class="m-b-10 m-t-10" ng-show="samplesubmission.length > 0">
+                <div data-ng-controller="SampleSubmissionsController" data-ng-init="findOne()" class="m-b-10 m-t-10">
                     <!-- Update status panel -->
                     <div ng-hide="isPoReceived(rfq)" class="pnlStatusUpdate">
                         <div class="control-group m-b-10">
@@ -331,9 +331,9 @@
                 var index = 0, validField = [], totalRecord;
                 $(".stage-process:visible").each(function (key, item) {
                     itemObj = {};
-                    totalRecord = $($(".stage-process:visible")[index]).parent().parent().find($(".txtValue")).length;
+                    totalRecord = $($(".stage-process:visible")[index]).parent().parent().find($(".txtValue:visible")).length;
                     for (var innerIndex = 0; innerIndex < totalRecord; innerIndex++) {
-                        var ele = $($($(".stage-process:visible")[index]).parent().parent().find($(".txtValue"))[innerIndex]);                        
+                        var ele = $($($(".stage-process:visible")[index]).parent().parent().find($(".txtValue:visible"))[innerIndex]);
                         if ($.trim($(ele).val()) != "") {
                             $(ele).css("border", "");
                             validField[innerIndex] = true;                            
@@ -353,7 +353,7 @@
                             cost: $($(".txtCost:visible")[index]).val(),
                             RfqId: rfqId
                         };
-                         sampleSubmissionList.push(itemObj);
+                        sampleSubmissionList.push(itemObj);
                     } else {
                         sampleSubmissionList = new Array();
                     }

@@ -28,13 +28,13 @@ exports.all = function (req, res) {
             summary.OpenRfq = openRfq;
             var completedCondition = {
                 where: {
-                    status: 'completed', RfqId: rfqIds
+                    status: 'complete', RfqId: rfqIds
                 }
             };
             if (user.isAdmin) {
                 completedCondition = {
                     where: {
-                        status: 'completed'
+                        status: 'complete'
                     }
                 };
             }

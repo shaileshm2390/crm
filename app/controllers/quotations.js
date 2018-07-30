@@ -26,7 +26,7 @@ exports.create = function (req, res) {
         var mailObject = {
             from: 'youremail@crm.com',
             //to: req.body.buyerEmail,
-            to: 'shaileshm@imtsolutions.net',
+            to: 'imdemotest123@gmail.com',
             subject: 'Metaforge - Quotation',
             html: req.body.emailContent
         };

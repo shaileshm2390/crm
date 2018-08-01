@@ -55,6 +55,7 @@
     "proxyquire": "^1.7.3",
     "qs": "6.2.1",
     "randomstring": "^1.1.5",
+	"html-pdf":"^2.2.0",
     "request": "^2.87.0",
     "sequelize": "^3.13.0",
     "serve-favicon": "^2.3.0",

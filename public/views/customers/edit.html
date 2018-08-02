@@ -95,10 +95,7 @@
             $(".hdnImages").val(imagesArray.join(",")).trigger('change');;
         });
 
-        var loadCode = setInterval(function () {
-            if ($(".elastislide").length > 0) {
-                $('.elastislide').elastislide();
-            }
+        var loadCode = setInterval(function () {            
 
             $(".deleteImage").on('click', function () {
                 var element = this;
@@ -123,6 +120,9 @@
                     myDropzone.on("success", function (file, response) {
                         imagesArray.push(response.pathFromRoot);
                     });
+                    if ($(".elastislide").length > 0) {
+                        $('.elastislide').elastislide();
+                    }
                 }
             });
         }, 500);

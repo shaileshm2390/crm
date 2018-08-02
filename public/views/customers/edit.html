@@ -95,36 +95,38 @@
             $(".hdnImages").val(imagesArray.join(",")).trigger('change');;
         });
 
-        var loadCode = setInterval(function () {            
+        var loadCode = setInterval(function () {    
 
-            $(".deleteImage").on('click', function () {
-                var element = this;
-                if (confirm("Are you sure to delete this image")) {
-                    $.ajax({
-                        url: '/customerimages/' + $(this).data("id"),
-                        data: { id: $(this).data("id") },
-                        method: "DELETE"
-                    }).done(function (response) {
-                        $(".lblmsg").html("<span>deleted successfully !!!</span>");
-                        // $(element).parent().remove();
-                        window.location.reload(true);
-                    });
-                    return false;
+            if ($(".hdnCustomerId").length > 0 && $(".hdnCustomerId").value != "") {
+                clearInterval(loadCode);
+
+                var myDropzone = new Dropzone('#myId', {
+                    url: "/customerimages/"
+                });
+                myDropzone.on("success", function (file, response) {
+                    imagesArray.push(response.pathFromRoot);
+                });
+
+                if ($(".elastislide").length > 0) {
+                    $('.elastislide').elastislide();
                 }
 
-                if ($(".hdnCustomerId").length > 0 && $(".hdnCustomerId").value != "") {
-                    clearInterval(loadCode);
-                    var myDropzone = new Dropzone('#myId', {
-                        url: "/customerimages/"
-                    });
-                    myDropzone.on("success", function (file, response) {
-                        imagesArray.push(response.pathFromRoot);
-                    });
-                    if ($(".elastislide").length > 0) {
-                        $('.elastislide').elastislide();
+                $(".deleteImage").on('click', function () {
+                    var element = this;
+                    if (confirm("Are you sure to delete this image")) {
+                        $.ajax({
+                            url: '/customerimages/' + $(this).data("id"),
+                            data: { id: $(this).data("id") },
+                            method: "DELETE"
+                        }).done(function (response) {
+                            $(".lblmsg").html("<span>deleted successfully !!!</span>");
+                            // $(element).parent().remove();
+                            window.location.reload(true);
+                        });
+                        return false;
                     }
-                }
-            });
+                });
+            }
         }, 500);
     });
 </script>

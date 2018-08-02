@@ -44,12 +44,13 @@ exports.create = function (req, res) {
             if (req.body.imagesString.trim() !== "") {
                 var imageArray = req.body.imagesString.split(",");
                 for (var index = 0; index < imageArray.length; index++) {
-                    var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
-                    var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
+                    //var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
+                    //var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
 
-                    module.exports.move(oldPath, newPath, function () { });
+                    //module.exports.move(oldPath, newPath, function () { });
                     var request = {
-                        imagePath: imageArray[index].replace("/temp/", "/uploads/"),
+                        //imagePath: imageArray[index].replace("/temp/", "/uploads/"),
+                        imagePath: imageArray[index],
                         CustomerId: customer.id
                     };
                     db.CustomerImage.create(request);
@@ -83,12 +84,13 @@ exports.update = function (req, res) {
         if (req.body.imagesString.trim() !== "") {
             var imageArray = req.body.imagesString.split(",");
             for (var index = 0; index < imageArray.length; index++) {
-                var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
-                var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
+                //var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
+                //var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
 
-                module.exports.move(oldPath, newPath, function () { });
+                //module.exports.move(oldPath, newPath, function () { });
                 var request = {
-                    imagePath: imageArray[index].replace("/temp/", "/uploads/"),
+                    //imagePath: imageArray[index].replace("/temp/", "/uploads/"),
+                    imagePath: imageArray[index],
                     CustomerId: customer.id
                 };
                 db.CustomerImage.create(request);

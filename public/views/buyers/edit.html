@@ -54,7 +54,7 @@
         </div>
 
         <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
-
+        <input type="hidden" class="hdnBuyerId" value="{{buyer.id}}" />
         <div class="clearfix"></div><br />
         <div class="control-group">
             <div class="controls">
@@ -72,41 +72,44 @@
 
     $(document).ready(function () {
 
-        var imagesArray = [];
-        var myDropzone = new Dropzone('#myId', {
-            url: "/buyerimages/"
-        });
-        myDropzone.on("success", function (file, response) {
-            imagesArray.push(response.pathFromRoot);
-        });
-
-        $(".btn-Save").on('click', function () {
-            $(".hdnImages").val(imagesArray.join(",")).trigger('change');;
-        });
+        var imagesArray = [];        
 
         var loadCode = setInterval(function () {
-            if ($(".elastislide").length > 0) {
-                $('.elastislide').elastislide();
+          
+            if ($(".hdnBuyerId").length > 0 && $(".hdnBuyerId").val() != "") {
+                clearInterval(loadCode);
+                if ($(".elastislide").length > 0) {
+                    $('.elastislide').elastislide();
+                }
+
+                $(".deleteImage").on('click', function () {
+                    var element = this;
+                    if (confirm("Are you sure to delete this image")) {
+                        $.ajax({
+                            url: '/buyerimages/' + $(this).data("id"),
+                            data: { id: $(this).data("id") },
+                            method: "DELETE"
+                        }).done(function (response) {
+                            $(".lblmsg").html("<span>deleted successfully !!!</span>");
+                            window.location.reload(true);
+                        });
+                        return false;
+                    }
+                });
+
+                var myDropzone = new Dropzone('#myId', {
+                    url: "/buyerimages/"
+                });
+                myDropzone.on("success", function (file, response) {
+                    imagesArray.push(response.pathFromRoot);
+                });
+
+                $(".btn-Save").on('click', function () {
+                    $(".hdnImages").val(imagesArray.join(",")).trigger('change');;
+                });
+
             }
 
-            $(".deleteImage").on('click', function () {
-                var element = this;
-                if (confirm("Are you sure to delete this image")) {
-                    $.ajax({
-                        url: '/buyerimages/' + $(this).data("id"),
-                        data: { id: $(this).data("id") },
-                        method: "DELETE"
-                    }).done(function (response) {
-                        $(".lblmsg").html("<span>deleted successfully !!!</span>");
-                        window.location.reload(true);
-                    });
-                    return false;
-                }
-
-                if ($(".deleteImage").length > 0 && $(".deleteImage").data("id") != "") {
-                    clearInterval(loadCode);
-                }
-            });
         }, 500);
     });
 </script>

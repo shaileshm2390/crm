@@ -65,7 +65,7 @@ exports.create = function (req, res) {
                     //var oldPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\temp");
                    // var newPath = (__dirname + imageArray[index]).replace(/\//g, "\\").replace("app\\controllers\\temp", "public\\uploads");
 
-                    module.exports.move(oldPath, newPath, function () { });
+                   // module.exports.move(oldPath, newPath, function () { });
                     var request = {
                        // imagePath: imageArray[index].replace("/temp/", "/uploads/"),
 					    imagePath: imageArray[index],

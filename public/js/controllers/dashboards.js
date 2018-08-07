@@ -56,7 +56,7 @@ var app = angular.module('mean.dashboards').controller('DashboardsController', [
 
                         }
                         else {
-                            $scope.myRfqs[index].customStatus = "<a class='btn btn-success' href='customer/" + $scope.myRfqs[index].Buyer.CustomerID + "/buyer/" + $scope.myRfqs[index].BuyerID + "/rfq/" + $scope.myRfqs[index].id + "'>Completed</a>";
+                            $scope.myRfqs[index].customStatus = "<a class='btn btn-success' href='rfq/" + $scope.myRfqs[index].id + "/purchaseorder'>Completed</a>";
                         }
 
                         if ($scope.myRfqs[index].Samplesubmissionimages.length > 0 && $scope.myRfqs[index].Samplesubmissions.length == 0) {

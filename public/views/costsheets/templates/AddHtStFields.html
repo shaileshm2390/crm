@@ -1,24 +1,4 @@
 ﻿<div class="head-row   animated slideInDown removable-row">
-    <div ng-controller="HtstsController" ng-init="find()" class="row">
-        <span class="row-remove"><i class="fa fa-minus-circle"></i></span>
-        <div class="col">
-            <label class="txtPredefinedName text-muted m-b-2 f-s-12">HT/ST</label>
-            <select class="form-control ddlHtSt txtPredefinedValue" id="ddlHtSt" name="dropdown">
-                <option value="" selected>Select</option>
-                <option ng-repeat="htst in htsts " value="{{htst.details}}" data-id="{{htst.id}}" data-parameter="{{htst.parameter}}" data-rate="{{htst.rate}}">{{htst.details}}</option>
-            </select>
-        </div>
-        <div class="col">
-            <label class="txtPredefinedName text-muted m-b-2 f-s-12">HT/ST Rate</label>
-            <input type="text" placeholder="HT/ST Rate" class="form-control txtHtStRate txtPredefinedValue txtAutogenerateEditable" id="txtHtStRate" />
-        </div>
-        <div class="col">
-            <label class="text-muted m-b-2 f-s-12">Net Weight</label>
-            <input type="text" placeholder="Net Weight" class="form-control txtNetWt txtCalculateCost " id="txtNetWt" />
-        </div>
-        <div class="col">
-            <label class="txtPredefinedName text-muted m-b-2 f-s-12">Cost</label>
-            <input type="text" placeholder="HT/ST Cost" class="form-control txtHtStCost txtPredefinedValue txtAutogenerateEditable" id="txtHtStCost" />
-        </div>
-    </div>
+    <span class="row-remove"><i class="fa fa-minus-circle"></i></span>
+    <div ng-include="'views/costsheets/templates/htStFields.html'" ng-controller="HtstsController" ng-init="find()"></div>
 </div>

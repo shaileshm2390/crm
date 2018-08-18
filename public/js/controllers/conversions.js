@@ -156,9 +156,11 @@ var app = angular.module('mean.conversions').controller('ConversionsController',
 
     $scope.onConversionChange = function () {
         $scope.machines = [];
-        for (var i = 0 ; i < $scope.conversions.length; i++) {
-            if ($scope.conversions[i].operation == $scope.selectedOperation) {
-                $scope.machines.push($scope.conversions[i]);
+        if (typeof ($scope.conversions) != 'undefined') {
+            for (var i = 0 ; i < $scope.conversions.length; i++) {
+                if ($scope.conversions[i].operation == $scope.selectedOperation) {
+                    $scope.machines.push($scope.conversions[i]);
+                }
             }
         }
     }

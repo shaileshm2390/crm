@@ -17,6 +17,25 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
             });
     };
 
+    $scope.RemoveSpaceFromKey = function (arr) {
+        // Iterate over array
+        arr.forEach(function (e, i) {
+            // Iterate over the keys of object
+            Object.keys(e).forEach(function (key) {
+
+                // Copy the value
+                var val = e[key],
+                  newKey = key.replace(/\s+/g, '').replace(/\//g,'');
+
+                // Remove key-value from object
+                delete arr[i][key];
+
+                // Add value with new key
+                arr[i][newKey] = val;
+            });
+        });
+        return arr;
+    };
     
 
     $scope.findOneByRfqId = function () {
@@ -30,6 +49,33 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
                         $scope.rfq.RfqImages[index].displayPath = $scope.rfq.RfqImages[index].imagePath;
                     }
                 }
+                if ($scope.rfq.CostSheets.length > 0) {
+                    $scope.rfq.LatestCostsheet = $scope.rfq.CostSheets[$scope.rfq.CostSheets.length - 1];
+                    $scope.rfq.LatestCostsheet.data = JSON.parse($scope.rfq.LatestCostsheet.data)
+                    var costSheetData = $scope.RemoveSpaceFromKey($scope.rfq.LatestCostsheet.data);                   
+                    var RawMaterial = new Array(), Conversion = new Array(), HtSt = new Array();
+                    $.each(costSheetData, function (key, data) {
+                        if (data.hasOwnProperty('RawMaterial')) {
+                            RawMaterial.push(data);
+                        } else if (data.hasOwnProperty('Operation')) {
+                            Conversion.push(data);
+                        }
+                        else if (data.hasOwnProperty('HTST')) {
+                            HtSt.push(data);
+                        } else if (data.hasOwnProperty("PercentageRMCost")) {
+                            $scope.rfq.LatestCostsheet.PercentageRMCost = data.PercentageRMCost;
+                            $scope.rfq.LatestCostsheet.ProfitonRMCost = data.ProfitonRMCost;
+                            $scope.rfq.LatestCostsheet.PercentageConversionCost = data.PercentageConversionCost;
+                            $scope.rfq.LatestCostsheet.ProfitonConversionCost = data.ProfitonConversionCost;
+                        } else if (data.hasOwnProperty("Total")) {
+                            $scope.rfq.LatestCostsheet.Total = data.Total;
+                        }
+                    });
+                    $scope.rfq.LatestCostsheet.RawMaterial = RawMaterial;
+                    $scope.rfq.LatestCostsheet.Conversion = Conversion;
+                    $scope.rfq.LatestCostsheet.HtSt = HtSt;
+                }
+
                 $scope.validatePermission = true;
             }, function (error) {
                 console.log(error, $stateParams.rfqId);

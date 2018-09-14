@@ -11,7 +11,9 @@ var users = require('../../app/controllers/users'),
 module.exports = function (app) {
     app.route('/conversions')
         .get(users.requiresLogin, conversionMasters.all)   //users.requiresLogin, 
-        .post(users.requiresLogin, conversionMasters.create);  //users.requiresLogin, 
+        .post(users.requiresLogin, conversionMasters.create)  //users.requiresLogin, 
+        .post(users.requiresLogin, conversionMasters.create);
+        
     app.route('/conversions/:id')
         .get(users.requiresLogin, conversionMasters.show)  //users.requiresLogin, 
         .put(users.requiresLogin, conversionMasters.update)    //users.requiresLogin, departments.hasAuthorization, 

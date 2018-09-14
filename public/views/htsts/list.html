@@ -25,13 +25,13 @@
                     </tr>
                 </thead>
                 <tbody>                   
-                    <tr ng-repeat="htst in htsts | filter:{details:searchString} | startFrom:currentPage*pageSize | limitTo:pageSize | orderBy:'parameter'" >
+                    <tr ng-repeat="htst in htsts | filter:{details:searchString} | startFrom:currentPage*pageSize | limitTo:pageSize | orderBy:'id'" >
                         <td>{{htst.id}}</td>
                         <td>
                             <label><a class="btn" ui-sref="editHtsts({htstId : htst.id})">{{htst.parameter}}</a></label>
                         </td>
-                        <td>Rs.{{htst.rate}}/kg</td>
                         <td>{{htst.details}}</td>
+                        <td>Rs.{{htst.rate}}/kg</td>
                         <td style="text-align:center">
                             <a class="btn" data-ng-click="remove(htst);"><i class="fa fa-trash"></i></a>
                         </td>

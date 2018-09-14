@@ -11,7 +11,8 @@ var users = require('../../app/controllers/users'),
 module.exports = function (app) {
     app.route('/rawmaterials')
         .get(users.requiresLogin, rawMaterialMasters.all)   //users.requiresLogin, 
-        .post(users.requiresLogin, rawMaterialMasters.create);  //users.requiresLogin, 
+        .post(users.requiresLogin, rawMaterialMasters.create)  //users.requiresLogin, 
+        .post(users.requiresLogin, rawMaterialMasters.add);
     app.route('/rawmaterials/:id')
         .get(users.requiresLogin, rawMaterialMasters.show)  //users.requiresLogin, 
         .put(users.requiresLogin, rawMaterialMasters.update)    //users.requiresLogin, departments.hasAuthorization, 

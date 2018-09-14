@@ -101,12 +101,15 @@ exports.update = function (req, res) {
             return next();
         } else {
             req.purchaseorders = purchaseorder;
-            previousData = { "id": req.purchaseorders.id, "status": req.purchaseorders.status, "RfqId": req.purchaseorders.RfqId, "updatedAt": req.purchaseorders.updatedAt, "createdAt": req.purchaseorders.createdAt };
+            previousData = { "id": req.purchaseorders.id, "status": req.purchaseorders.status,"application" :req.purchaseorders.application,"gstNum":req.purchaseorders.gstNum,"hsnNum":req.purchaseorders.hsnNum, "RfqId": req.purchaseorders.RfqId, "updatedAt": req.purchaseorders.updatedAt, "createdAt": req.purchaseorders.createdAt };
             //return next();
         }
     
     purchaseorder.updateAttributes({
-        status: req.body.status
+        status: req.body.status,
+        application : req.body.application,
+        gstNum : req.body.gstNum,
+        hsnNum : req.body.hsnNum
     }).then(function (a) {
         if (req.body.imagesString.trim() !== "") {
             var imageArray = req.body.imagesString.split(",");
@@ -124,7 +127,7 @@ exports.update = function (req, res) {
             }
         }
         var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
-        var updatedData = { "id": purchaseorder.id, "status": purchaseorder.status, "RfqId": purchaseorder.RfqId, "updatedAt": purchaseorder.updatedAt, "createdAt": purchaseorder.createdAt };
+        var updatedData = { "id": purchaseorder.id, "status": purchaseorder.status,"application" :purchaseorder.application,"gstNum":purchaseorder.gstNum,"hsnNum":purchaseorder.hsnNum, "RfqId": purchaseorder.RfqId, "updatedAt": purchaseorder.updatedAt, "createdAt": purchaseorder.createdAt };
 
         db.Watchdog.create({
             message: "Purchase order is updated",

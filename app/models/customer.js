@@ -6,12 +6,18 @@ module.exports = function (sequelize, DataTypes) {
         email: DataTypes.STRING,
         company: DataTypes.STRING,
         name: DataTypes.STRING,
-        contact: DataTypes.STRING
-    }, 
+        contact: DataTypes.STRING,
+        payment: DataTypes.STRING,
+        tax: DataTypes.STRING,
+        freight: DataTypes.STRING,
+        packing: DataTypes.TEXT,
+        validity: DataTypes.TEXT,
+        terms: DataTypes.TEXT
+    },
         {
             associate: function (models) {
                 Customer.hasMany(models.CustomerImage);
-           }
+            }
         }
     );
 

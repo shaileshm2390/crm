@@ -152,6 +152,35 @@ var app = angular.module('mean.rawmaterials').controller('RawMaterialsController
             });
     };
 
+    $scope.add = function () {
+        $scope.message = "Material Added Successfully..!";
+        var rawmaterial = new RawMaterials({
+            material: this.material,
+            rate: this.rate,
+            scrapRate: this.scrapRate,
+            scrapRecovery: this.scrapRecovery
+        });
+    
+        rawmaterial.$save(function (response) {
+            //$state.go('departments');
+            $http.get("/rawmaterials/" + rawmaterial.id).then(function (response) {
+                $scope.updatedRawMaterial = JSON.stringify(response.data);
+    
+                //  $state.go("addRawMaterial")
+                var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
+    
+                //watchdog calling
+                commonCtrl.create({ message: "New rawmaterials is created", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: "", updatedData: $scope.updatedRawMaterial });
+                $scope.message = "";
+                this.material = "";
+                this.rate = "";
+                this.scrapRate = "";
+                this.scrapRecovery = "";
+            });
+        });
+     };
+
+
 }]);
 
 app.filter('startFrom', function () {

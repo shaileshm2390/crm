@@ -9,6 +9,7 @@ module.exports = function (sequelize, DataTypes) {
         orderTo: DataTypes.STRING,
         orderDate: DataTypes.DATE,
         receivedDate: DataTypes.DATE,
+        description : DataTypes.TEXT,
         cost : DataTypes.STRING
     },
         {

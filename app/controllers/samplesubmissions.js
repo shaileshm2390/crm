@@ -54,6 +54,7 @@ exports.create = function (req, res) {
                 orderDate: req.body.data[index].orderDate,
                 receivedDate: req.body.data[index].receivedDate,
                 cost: req.body.data[index].cost,
+                description : req.body.data[index].description,
                 RfqId: req.body.data[index].RfqId
             };
 

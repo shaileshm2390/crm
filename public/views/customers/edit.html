@@ -4,22 +4,24 @@
     <div ng-show="message.length > 0">
         <div class="alert alert-info">{{message}}</div>
     </div>
-	<form class="form-horizontal myForm" data-ng-submit="update()">
-		<div class="control-group">
-			<label class="control-label" for="email">Email</label>
+    <form class="form-horizontal myForm" data-ng-submit="update()">
+        <div class="control-group">
+            <label class="control-label" for="email">Email</label>
 
-			<div class="controls">
-				<input type="email" data-ng-model="customer.email" id="email" name="email" placeholder="Email" class="form-control col-sm-6 txtEmail"  />			
-			</div>
+            <div class="controls">
+                <input type="email" data-ng-model="customer.email" id="email" name="email" placeholder="Email" class="form-control col-sm-6 txtEmail"
+                />
+            </div>
             <span class="errorEmail" style="color:red;"></span>
-		</div>
+        </div>
         <br />
 
         <div class="control-group">
             <label class="control-label" for="company">Company</label>
 
             <div class="controls">
-                <input type="text" data-ng-model="customer.company" id="company" name="company" placeholder="Company" class="form-control col-sm-6 txtCompany"  />
+                <input type="text" data-ng-model="customer.company" id="company" name="company" placeholder="Company" class="form-control col-sm-6 txtCompany"
+                />
             </div>
             <span class="errorCompany" style="color:red;"></span>
         </div>
@@ -29,7 +31,8 @@
             <label class="control-label" for="name">Name</label>
 
             <div class="controls">
-                <input type="text" data-ng-model="customer.name" id="name" name="name" placeholder="Name" class="form-control col-sm-6 txtName"  />
+                <input type="text" data-ng-model="customer.name" id="name" name="name" placeholder="Name" class="form-control col-sm-6 txtName"
+                />
             </div>
             <span class="errorName" style="color:red;"></span>
         </div>
@@ -39,17 +42,69 @@
             <label class="control-label" for="contact">Contact Number</label>
 
             <div class="controls">
-                <input type="text" data-ng-model="customer.contact" id="contact" name="contact" placeholder="Contact" class="form-control col-sm-6 txtContact"  />
+                <input type="text" data-ng-model="customer.contact" id="contact" name="contact" placeholder="Contact" class="form-control col-sm-6 txtContact"
+                />
             </div>
             <span class="errorContact" style="color:red;"></span>
         </div>
 
         <br /><br />
 
+
+        <div class="control-group">
+            <label class="control-label" for="payment">Payments</label>
+            <div class="controls">
+                <input type="text" data-ng-model="customer.payment" name="payment" id="payment" placeholder="Payments" class="form-control col-sm-6 txtPayments">
+            </div>
+        </div>
+        <br/>
+
+        <div class="control-group">
+            <label class="control-label" for="tax">Taxes</label>
+            <div class="controls">
+                <input type="text" data-ng-model="customer.tax" name="tax" id="tax" placeholder="Taxes" class="form-control col-sm-6 txtTaxes">
+            </div>
+        </div><br />
+
+        <div class="control-group">
+            <label class="control-label" for="freight">Freight</label>
+            <div class="controls">
+                <input type="text" data-ng-model="customer.freight" name="freight" id="freight" placeholder="Freight" class="form-control col-sm-6 txtFreight">
+            </div>
+        </div>
+        <br />
+
+        <div class="control-group">
+            <label class="control-label" for="packing">Packing</label>
+            <div class="controls">
+                <input type="text" data-ng-model="customer.packing" ng-value="customer.packing | date:'dd/MM/yyyy'" name="packing" id="packing"
+                    placeholder="Packing" class="form-control col-sm-6 txtPacking datepicker">
+            </div>
+        </div>
+        <br />
+
+        <div class="control-group">
+            <label class="control-label" for="validity">Validity</label>
+            <div class="controls">
+                <input type="text" data-ng-model="customer.validity" ng-value="customer.validity | date:'dd/MM/yyyy'" name="validity" id="validity"
+                    placeholder="Validity" class="form-control col-sm-6 txtValidity datepicker">
+            </div>
+        </div>
+        <br />
+
+        <div class="control-group">
+            <label class="control-label" for="terms">Delivery Terms</label>
+            <div class="controls">
+                <input type="text" data-ng-model="customer.terms" name="terms" id="terms" placeholder="Delivery Terms" class="form-control col-sm-6 txtD_terms">
+            </div>
+        </div>
+        <br/>
+
         <div class="row" data-ng-show="customer.CustomerImages.length">
             <ul id="carousel" class="elastislide">
                 <li class="img_wrp" data-ng-repeat="image in customer.CustomerImages | orderBy : '-createdAt'" style="margin-right:3px;">
-                    <a data-fancybox="gallery" href="{{image.imagePath}}"><img src="{{image.imagePath}}" alt="image{{image.id}}" height="150"/></a>
+                    <a data-fancybox="gallery" href="{{image.imagePath}}"><img src="{{image.imagePath}}" alt="image{{image.id}}"
+                            height="150" /></a>
                     <i class="close fa fa-close deleteImage" data-id="{{image.id}}" aria-hidden="true" />
                 </li>
 
@@ -65,18 +120,19 @@
             </div>
         </div>
 
-        <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
+        <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString"
+        />
         <input type="hidden" class="hdnCustomerId" value="{{customer.id}}" />
         <br /><br />
-      
-            <div class="clearfix"></div><br />
-            <div class="control-group">
-                <div class="controls">
-                    <input type="submit" class="btn btn-primary btn-Save" value="Save">
-                    <a class="btn btn-secondary" href="/customer">Cancel</a>
-                </div>
+
+        <div class="clearfix"></div><br />
+        <div class="control-group">
+            <div class="controls">
+                <input type="submit" class="btn btn-primary btn-Save" value="Save">
+                <a class="btn btn-secondary" href="/customer">Cancel</a>
             </div>
-</form>
+        </div>
+    </form>
 </section>
 
 <!--<script src="/js/validation/customer.js"></script>-->
@@ -89,17 +145,19 @@
     $(document).ready(function () {
 
         var imagesArray = [];
-       
+
 
         $(".btn-Save").on('click', function () {
             $(".hdnImages").val(imagesArray.join(",")).trigger('change');;
         });
 
-        var loadCode = setInterval(function () {    
+        var loadCode = setInterval(function () {
 
             if ($(".hdnCustomerId").length > 0 && $(".hdnCustomerId").value != "") {
                 clearInterval(loadCode);
-
+                $(".datepicker").datepicker({
+                    dateFormat: 'dd/mm/yy'
+                });
                 var myDropzone = new Dropzone('#myId', {
                     url: "/customerimages/"
                 });
@@ -130,4 +188,3 @@
         }, 500);
     });
 </script>
-

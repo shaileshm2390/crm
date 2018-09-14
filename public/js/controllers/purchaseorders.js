@@ -6,6 +6,7 @@ var app = angular.module('mean.purchaseorders').controller('PurchaseordersContro
 
 
     $scope.Status = ["Complete", "Pending", "Open"];
+    $scope.Application = ["2 Wheeler","3 Wheeler","4 Wheeler"];
 
     var url = "http://api.ipstack.com/check?access_key=a0a80aaea559ceb4d5ebacc03c30f6d3";
     $http.get(url).then(function (response) {
@@ -16,6 +17,9 @@ var app = angular.module('mean.purchaseorders').controller('PurchaseordersContro
         var purchaseorder = new Purchaseorders({
            // image: this.image,
             status: this.selectedStatus,
+            gstNum : this.gstNum,
+            hsnNum : this.hsnNum,
+            application : this.selectedApplicaion,
             RfqId: $stateParams.rfqId
         });
         //db.purchaseorder.update(purchaseorder);

@@ -35,6 +35,12 @@ var app = angular.module('mean.customers').controller('CustomersController', ['$
             company: this.company,
             name: this.name,
             contact: this.contact,
+            payment: this.payment,
+            tax: this.tax,
+            terms: this.terms,
+            freight: this.freight,
+            packing: this.packing,
+            validity: this.validity,
             imagesString: this.imagesString
         });
 
@@ -55,6 +61,12 @@ var app = angular.module('mean.customers').controller('CustomersController', ['$
                 this.company = "";
                 this.name = "";
                 this.contact = "";
+                this.payment = "";
+                this.tax = "";
+                this.terms = "";
+                this.freight = "";
+                this.packing = "";
+                this.validity = "";
                 this.imagesString = "";
             });
         });
@@ -67,24 +79,24 @@ var app = angular.module('mean.customers').controller('CustomersController', ['$
             //get previous data from URL
             $http.get("/customers/" + customer.id).then(function (response) {
                 $scope.previousCustomer = JSON.stringify(response.data);
-            if (customer) {
-                customer.$remove();
+                if (customer) {
+                    customer.$remove();
 
-                for (var i in $scope.customers) {
-                    if ($scope.customers[i] === customer) {
-                        $scope.customers.splice(i, 1);
+                    for (var i in $scope.customers) {
+                        if ($scope.customers[i] === customer) {
+                            $scope.customers.splice(i, 1);
+                        }
                     }
                 }
-            }
-            else {
-                $scope.customer.$remove();
-                $state.go('customers');
-            }
-            var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
+                else {
+                    $scope.customer.$remove();
+                    $state.go('customers');
+                }
+                var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
 
                 //watchdog calling
-            commonCtrl.create({ message: "Customer " + customer.id + " is deleted", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: $scope.previousCustomer, updatedData: "" });
-            $scope.message = "";
+                commonCtrl.create({ message: "Customer " + customer.id + " is deleted", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: $scope.previousCustomer, updatedData: "" });
+                $scope.message = "";
             });
         }
     };
@@ -100,10 +112,10 @@ var app = angular.module('mean.customers').controller('CustomersController', ['$
         $http.get("/customers/" + customer.id).then(function (response) {
             $scope.previousCustomer = JSON.stringify(response.data);
         });
-        
+
         customer.updated.push(new Date().getTime());
         customer.$update(function () {
-       
+
             ///get updated data from URL
             $http.get("/customers/" + customer.id).then(function (response) {
                 $scope.updatedCustomer = JSON.stringify(response.data);
@@ -142,7 +154,7 @@ var app = angular.module('mean.customers').controller('CustomersController', ['$
 //let's make a startFrom filter
 app.filter('startFrom', function () {
     return function (input, start) {
-        if (typeof(input) != 'undefined') {
+        if (typeof (input) != 'undefined') {
             start = +start; //parse to int
             return input.slice(start);
         }

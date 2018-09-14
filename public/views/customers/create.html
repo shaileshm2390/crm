@@ -42,13 +42,50 @@
         </div>
 
         <div class="control-group">
+            <label class="control-label" for="payment">Payments</label>
+            <div class="controls">
+                <input type="text" data-ng-model="payment" name="payment" id="payment" placeholder="Payments" class="form-control col-sm-6 txtPayments">
+            <br/>
+
+        <div class="control-group">
+            <label class="control-label" for="tax">Taxes</label>
+            <div class="controls">
+                <input type="text" data-ng-model="tax" name="tax" id="tax" placeholder="Taxes" class="form-control col-sm-6 txtTaxes">
+            <br />
+
+        <div class="control-group">
+            <label class="control-label" for="freight">Freight</label>
+            <div class="controls">
+                <input type="text" data-ng-model="freight" name="freight" id="freight" placeholder="Freight" class="form-control col-sm-6 txtFreight">
+            <br />
+
+        <div class="control-group">
+            <label class="control-label" for="packing">Packing</label>
+            <div class="controls">
+                <input type="text" data-ng-model="packing" name="packing" id="packing" placeholder="Packing" class="form-control col-sm-6 txtPacking datepicker txtValue" value="{{record.packing}} | date : 'dd/MM/YYYY'">
+            <br />
+
+        <div class="control-group">
+            <label class="control-label" for="validity">Validity</label>
+            <div class="controls">
+                <input type="text" data-ng-model="validity" name="validity" id="validity" placeholder="Validity" class="form-control col-sm-6 txtValidity datepicker txtValue" value="{{record.validity}} | date : 'dd/MM/YYYY'">
+            <br />
+
+        <div class="control-group">
+            <label class="control-label" for="terms">Delivery Terms</label>
+            <div class="controls">
+                <input type="text" data-ng-model="terms" name="terms" id="terms" placeholder="Delivery Terms" class="form-control col-sm-6 txtD_terms">
+            <br />
+
+        <div class="control-group">
             <label class="control-label">Images</label>
             <div class="controls">
                 <div id="myId" class="dropzone col-sm-6"></div>
             </div>
         </div>
-       
-        <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString"/>
+
+        <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString"
+        />
 
         <div class="clear clearfix"></div><br />
         <div class="control-group">
@@ -65,21 +102,21 @@
 <script src="/js/validation/validations.js"></script>
 <link href="/css/validations.css" rel="stylesheet" />
 
+
 <script type="text/javascript">
     $(document).ready(function () {
         var imagesArray = [];
         var myDropzone = new Dropzone('#myId', {
             url: "/customerimages/"
         });
+        $(".datepicker").datepicker();
         myDropzone.on("success", function (file, response) {
             console.log(response);
             imagesArray.push(response.pathFromRoot);
         });
 
         $(".btn-Save").on('click', function () {
-            $(".hdnImages").val(imagesArray.join(",")).trigger('change');            
+            $(".hdnImages").val(imagesArray.join(",")).trigger('change');
         });
     });
 </script>
-
-

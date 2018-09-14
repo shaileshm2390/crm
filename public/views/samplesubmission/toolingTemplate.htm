@@ -11,23 +11,32 @@
                 <option value="Other" ng-selected="{{record.stageProcess == 'Other' || (record.stageProcess != 'Die' && record.stageProcess != 'Punch' && record.stageProcess != 'Cutter' && record.stageProcess != 'Quil')}}">Other</option>
             </select>
             <br />
-            <input type="text" value="{{record.stageProcess}}" class="form-control txtValue txtStageProcess" ng-show="record.stageProcess != 'Die' && record.stageProcess != 'Punch' && record.stageProcess != 'Cutter' && record.stageProcess != 'Quil'" />
+            <input type="text" value="{{record.stageProcess}}" class="form-control txtValue txtStageProcess" ng-show="record.stageProcess != 'Die' && record.stageProcess != 'Punch' && record.stageProcess != 'Cutter' && record.stageProcess != 'Quil'"
+            />
         </div>
         <div class="col">
             <label class="txtPredefinedName text-muted m-b-2 f-s-12">Order To</label>
-            <input type="text" placeholder="Order To" class="form-control txtOrderTo txtValue" id="txtOrderTo" value="{{record.orderTo}}" />
+            <input type="text" placeholder="Order To" class="form-control txtOrderTo txtValue" id="txtOrderTo" value="{{record.orderTo}}"
+            />
         </div>
         <div class="col">
             <label class="txtPredefinedName  text-muted m-b-2 f-s-12">Order Date</label>
-            <input type="text" placeholder="Order Date" class="form-control txtOrderDate datepicker txtValue" id="txtOrderDate" value="{{record.orderDate | date:'MM/dd/yyyy'}}" />
+            <input type="text" placeholder="Order Date" class="form-control txtOrderDate datepicker txtValue" id="txtOrderDate" value="{{record.orderDate | date:'dd/MM/yyyy'}}"
+            />
         </div>
         <div class="col">
             <label class="txtPredefinedName text-muted m-b-2 f-s-12">Order Received</label>
-            <input type="text" placeholder="Order Received" class="form-control txtOrderReceived datepicker txtValue" id="txtOrderReceived" value="{{record.receivedDate | date:'MM/dd/yyyy'}}" />
+            <input type="text" placeholder="Order Received" class="form-control txtOrderReceived datepicker txtValue" id="txtOrderReceived"
+                value="{{record.receivedDate | date:'dd/MM/yyyy'}}" />
         </div>
         <div class="col">
             <label class="txtPredefinedName text-muted m-b-2 f-s-12">Cost</label>
-            <input type="text" placeholder="Cost" class="form-control txtCost txtValue" id="txtCost" value="{{record.cost | number : 2}}" />
+            <input type="text" placeholder="Cost" class="form-control txtCost txtValue" id="txtCost" value="{{record.cost | number : 2}}"
+            />
+        </div>
+        <div class="col">
+            <label class="txtPredefinedName text-muted m-b-2 f-s-12">Description</label>
+            <input type="text" placeholder="Description" class="form-control txtDescription txtValue" id="txtDescription" value="">
         </div>
     </div>
 </div>

@@ -11,8 +11,8 @@ var users = require('../../app/controllers/users'),
 module.exports = function (app) {
     app.route('/htstmasters')
         .get(users.requiresLogin, htStMasters.all)
-        .post(users.requiresLogin, htStMasters.create);
-
+        .post(users.requiresLogin, htStMasters.create)
+        .post(users.requiresLogin, htStMasters.add);
     app.route('/htstmasters/:id')
         .get(users.requiresLogin, htStMasters.show)  
         .put(users.requiresLogin, htStMasters.update)    

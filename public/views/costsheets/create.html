@@ -1,135 +1,155 @@
 <div class="page-titles">
-		<h3 class="text-primary">Prepare Cost Sheet</h3>
-	</div>
-<div class="container-fluid">
-	<div class="card" ng-controller="RfqsController">
-    
-    <section data-ng-init="findOneByRfqId()" ng-show="rfq.id != null  && validatePermission">
-        <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
+    <h3 class="text-primary">Prepare Cost Sheet</h3>
+</div>
 
-        <div class="row">
-            <div ng-include="'views/rfqs/rfqLeftNavigation.htm'" class="col col-lg-12"></div>
-            <div class="col col-lg-12 cost-sheet-form">
-                <h3><strong>Prepare Standard Format Cost Sheet</strong></h3>
-                <div class="alert alert-success lblMsg hide"></div>
-                <div class="clear clearfix"></div>
-                <div  class="row">
-                    <div class="col-sm-12 m-b-5">
-                        <div class="separatePanel Rawmaterial">
-                            <h4 class="border-bottom p-b-10">Heading
-                                <a class="pull-right lnkAddRawMaterial lnkAddPanel" data-url="views/costsheets/templates/addRawMaterialFields.html" data-class="Rawmaterial"><span><i class="fa fa-plus-circle"></i></span></a>  
-                            </h4>
-                            <div ng-repeat="item in rfq.LatestCostsheet.RawMaterial">
+<div class="container-fluid">
+    <div class="card" ng-controller="RfqsController">
+        <!-- <div ng-include="'views/rawmaterials/popup.html'" class="pull-right"></div>
+        <div ng-include="'views/htsts/popup.html'"></div> -->
+        <div ng-include="'views/conversions/popup.html'"></div>
+        <section data-ng-init="findOneByRfqId()" ng-show="rfq.id != null  && validatePermission">
+            <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
+            <div class="row">
+                <div ng-include="'views/rfqs/rfqLeftNavigation.htm'" class="col col-lg-12"></div>
+                <div class="col col-lg-12 cost-sheet-form">
+                    <h3><strong>Prepare Standard Format Cost Sheet</strong></h3>
+                    <div class="alert alert-success lblMsg hide"></div>
+                    <div class="clear clearfix"></div>
+                    <div class="row">
+                        <div class="col-sm-12 m-b-5">
+                            <div class="separatePanel Rawmaterial">
+                                <h4 class="border-bottom p-b-10">Heading
+                                    <a class="pull-right lnkAddRawMaterial lnkAddPanel" data-url="views/costsheets/templates/addRawMaterialFields.html" data-class="Rawmaterial"><span><i
+                                                class="fa fa-plus-circle"></i></span></a>
+                                    <button type="button" class="btn btn-info btn-sm pull-right" data-toggle="modal" data-target="#myModal" style="margin-bottom:8px;margin-right: 10px">Add
+                                        Raw Material</button>
+                                </h4>
+                                <div ng-repeat="item in rfq.LatestCostsheet.RawMaterial">
+                                    <!-- <h1>{{item}}</h1> -->
                                     <div ng-controller="RawMaterialsController" ng-init="find()" class="head-row removable-row" ng-class="!$first && 'animated slideInDown'">
-                                          <span class="row-remove" ng-hide="$first"><i class="fa fa-minus-circle"></i></span>  
-                                        <div ng-include="'views/costsheets/templates/rawMaterialFields.html'"></div>                            
+                                        <span class="row-remove" ng-hide="$first"><i class="fa fa-minus-circle"></i></span>
+                                        <div ng-include="'views/costsheets/templates/rawMaterialFields.html'"></div>
+                                    </div>
+                                </div>
+                                <div ng-controller="RawMaterialsController" ng-init="find()" class="head-row removable-row" ng-show="!rfq.LatestCostsheet.RawMaterial.length">
+                                    <div ng-include="'views/costsheets/templates/rawMaterialFields.html'"></div>
                                 </div>
                             </div>
-                           <div ng-controller="RawMaterialsController" ng-init="find()" class="head-row removable-row" ng-show="!rfq.LatestCostsheet.RawMaterial.length">
-                               <div ng-include="'views/costsheets/templates/rawMaterialFields.html'"></div>
-                            </div> 
+
                         </div>
-                    </div>
-                    <div class="col-sm-12 m-b-5">
+                        <div class="col-sm-12 m-b-5">
+                            <div class="Conversion separatePanel">
+                                <h4 class="border-bottom p-b-10">Conversion
+                                    <a class="pull-right lnkAddConversion lnkAddPanel" data-url="views/costsheets/templates/addConversionFields.html" data-class="Conversion"><span><i
+                                                class="fa fa-plus-circle"></i></span></a>
+                                    <button type="button" class="btn btn-info btn-sm pull-right" data-toggle="modal" data-target="#conversionModal" style="margin-bottom:8px;margin-right: 10px">Add
+                                        Conversion
+                                    </button>
+                                </h4>
 
-
-
-                        <div class="Conversion separatePanel">
-                            <h4 class="border-bottom p-b-10">Conversion
-                                <a class="pull-right lnkAddConversion lnkAddPanel" data-url="views/costsheets/templates/addConversionFields.html"  data-class="Conversion"><span><i class="fa fa-plus-circle"></i></span></a>                          
-                            </h4>
-
-                            <div ng-repeat="item in rfq.LatestCostsheet.Conversion">
-                                <div class="head-row removable-row"  ng-class="!$first && 'animated slideInDown'">
+                                <div ng-repeat="item in rfq.LatestCostsheet.Conversion">
+                                    <div class="head-row removable-row" ng-class="!$first && 'animated slideInDown'">
                                         <span class="row-remove" ng-hide="$first"><i class="fa fa-minus-circle"></i></span>
                                         <div ng-include="'views/costsheets/templates/conversionFields.html'" ng-controller="ConversionsController" ng-init="find()"></div>
-                                </div>                                  
+                                    </div>
                                 </div>
 
-                            <div class="head-row removable-row" ng-show="!rfq.LatestCostsheet.Conversion.length">                                
+                                <div class="head-row removable-row" ng-show="!rfq.LatestCostsheet.Conversion.length">
                                     <div ng-include="'views/costsheets/templates/conversionFields.html'" ng-controller="ConversionsController" ng-init="find()"></div>
+                                </div>
                             </div>
-                        </div>             
                         </div>
-					<div class="col-sm-12 m-b-5">
-						<div class="HtSt separatePanel">  
-                            <h4 class="border-bottom p-b-10">HT/ST
-                                <a class="pull-right lnkAddHtSt lnkAddPanel" data-url="views/costsheets/templates/addHtStFields.html" data-class="HtSt"><span><i class="fa fa-plus-circle"></i></span></a>
-                            </h4>  
-                            <div ng-repeat="item in rfq.LatestCostsheet.HtSt">
-                                <div class="head-row removable-row" ng-class="!$first && 'animated slideInDown'">
-                                    <span class="row-remove" ng-hide="$first"><i class="fa fa-minus-circle"></i></span>
+                        <div class="col-sm-12 m-b-5">
+                            <div class="HtSt separatePanel">
+                                <h4 class="border-bottom p-b-10">HT/ST
+                                    <a class="pull-right lnkAddHtSt lnkAddPanel" data-url="views/costsheets/templates/addHtStFields.html" data-class="HtSt"><span><i
+                                                class="fa fa-plus-circle"></i></span></a>
+                                    <button type="button" class="btn btn-info btn-sm pull-right" data-toggle="modal" data-target="#htstModal" style="margin-bottom:8px;margin-right: 10px">Add
+                                        HTST
+                                    </button>
+                                </h4>
+                                <div ng-repeat="item in rfq.LatestCostsheet.HtSt">
+                                    <div class="head-row removable-row" ng-class="!$first && 'animated slideInDown'">
+                                        <span class="row-remove" ng-hide="$first"><i class="fa fa-minus-circle"></i></span>
+                                        <div ng-include="'views/costsheets/templates/htStFields.html'" ng-controller="HtstsController" ng-init="find()"></div>
+                                    </div>
+                                </div>
+
+                                <div class="head-row removable-row" ng-show="!rfq.LatestCostsheet.Conversion.length">
                                     <div ng-include="'views/costsheets/templates/htStFields.html'" ng-controller="HtstsController" ng-init="find()"></div>
                                 </div>
                             </div>
-
-                            <div class="head-row removable-row" ng-show="!rfq.LatestCostsheet.Conversion.length">
-                                <div ng-include="'views/costsheets/templates/htStFields.html'" ng-controller="HtstsController" ng-init="find()"></div>
-                            </div>                          
-                        </div> 
-					</div>
-                    <div class="col-sm-12 m-b-5">
-                        <div class="Total separatePanel">
-                            <h4 class="border-bottom p-b-10">Total &amp; Profit</h4>
-                            <div class="row head-row">
-                                <div class="col">
-                                    <label class="txtPredefinedName text-muted m-b-2 f-s-12">Total RM Cost</label>
-                                    <input type="text" placeholder="Total RM Cost" class="form-control txtTotalRmCost txtCostField txtPredefinedValue txtAutogenerateEditable" id="txtTotalRmCost" />
-                                </div>
-                                <div class="col">
-                                    <label class="txtPredefinedName text-muted m-b-2 f-s-12">Total Conversion Cost</label>
-                                    <input type="text" placeholder="Total Conversion Cost" class="form-control txtTotalConversionCost txtCostField txtPredefinedValue txtAutogenerateEditable" id="txtTotalConversionCost" />
-                                </div>
-                                <div class="col">
-                                    <label class="txtPredefinedName text-muted m-b-2 f-s-12">Total HT/ST Cost</label>
-                                    <input type="text" placeholder="Total HT/ST Cost" class="form-control txtTotalHtStCost txtCostField txtPredefinedValue txtAutogenerateEditable" id="txtTotalHtStCost" />
-                                </div>
-                            </div>
-                            <div class="row head-row ">
-                                <div class="col">
-                                    <label class="txtPredefinedName text-muted m-b-2 f-s-12">Percentage RM Cost</label>
-                                    <input type="text" placeholder="Profit %" class="form-control txtInputRmCostProfit txtPredefinedValue" id="txtInputRmCostProfit" value="{{rfq.LatestCostsheet.PercentageRMCost}}">
-                                </div>
-
-                                <div class="col">
-                                    <label class="txtPredefinedName text-muted m-b-2 f-s-12">Profit on RM Cost</label>
-                                    <input type="text" placeholder="Profit" class="form-control txtRmCostProfit  txtCostField txtPredefinedValue txtAutogenerateEditable" id="txtRmCostProfit" value="{{rfq.LatestCostsheet.ProfitonRMCost}}" >
-                                </div>
-
-                                <div class="col">
-                                    <label class="txtPredefinedName text-muted m-b-2 f-s-12">Percentage Conversion Cost</label>
-                                    <input type="text" placeholder="Profit %" class="form-control txtInputConversionCostProfit txtPredefinedValue" id="txtInputConversionCostProfit" value="{{rfq.LatestCostsheet.PercentageConversionCost}}">
-                                </div>
-
-                                <div class="col">
-                                    <label class="txtPredefinedName text-muted m-b-2 f-s-12">Profit on Conversion Cost</label>
-                                    <input type="text" placeholder="Profit" class="form-control txtConversionCostProfit  txtCostField txtPredefinedValue txtAutogenerateEditable" id="txtConversionCostProfit" value="{{rfq.LatestCostsheet.ProfitonConversionCost}}">
-                                </div>
-                            </div>
-                            <hr />
-                            <div class="row head-row ">
-                                <div class="col col-3"></div>
-                                <div class="col col-3"></div>
-                                <div class="col col-3"></div>
-                                    <div class="col col-3">
-                                        <label class="txtPredefinedName text-muted m-b-2 f-s-12">Total</label>
-                                        <input type="text" placeholder="Total" value="{{rfq.LatestCostsheet.Total}}" class="form-control txtTotal txtPredefinedValue txtAutogenerateEditable" id="txtTotal" />
+                        </div>
+                        <div class="col-sm-12 m-b-5">
+                            <div class="Total separatePanel">
+                                <h4 class="border-bottom p-b-10">Total &amp; Profit</h4>
+                                <div class="row head-row">
+                                    <div class="col">
+                                        <label class="txtPredefinedName text-muted m-b-2 f-s-12">Total RM Cost</label>
+                                        <input type="text" placeholder="Total RM Cost" class="form-control txtTotalRmCost txtCostField txtPredefinedValue txtAutogenerateEditable"
+                                            id="txtTotalRmCost" />
+                                    </div>
+                                    <div class="col">
+                                        <label class="txtPredefinedName text-muted m-b-2 f-s-12">Total Conversion Cost</label>
+                                        <input type="text" placeholder="Total Conversion Cost" class="form-control txtTotalConversionCost txtCostField txtPredefinedValue txtAutogenerateEditable"
+                                            id="txtTotalConversionCost" />
+                                    </div>
+                                    <div class="col">
+                                        <label class="txtPredefinedName text-muted m-b-2 f-s-12">Total HT/ST Cost</label>
+                                        <input type="text" placeholder="Total HT/ST Cost" class="form-control txtTotalHtStCost txtCostField txtPredefinedValue txtAutogenerateEditable"
+                                            id="txtTotalHtStCost" />
                                     </div>
                                 </div>
+                                <div class="row head-row ">
+                                    <div class="col">
+                                        <label class="txtPredefinedName text-muted m-b-2 f-s-12">Percentage RM Cost</label>
+                                        <input type="text" placeholder="Profit %" class="form-control txtInputRmCostProfit txtPredefinedValue" id="txtInputRmCostProfit"
+                                            value="{{rfq.LatestCostsheet.PercentageRMCost}}">
+                                    </div>
+
+                                    <div class="col">
+                                        <label class="txtPredefinedName text-muted m-b-2 f-s-12">Profit on RM Cost</label>
+                                        <input type="text" placeholder="Profit" class="form-control txtRmCostProfit  txtCostField txtPredefinedValue txtAutogenerateEditable"
+                                            id="txtRmCostProfit" value="{{rfq.LatestCostsheet.ProfitonRMCost}}">
+                                    </div>
+
+                                    <div class="col">
+                                        <label class="txtPredefinedName text-muted m-b-2 f-s-12">Percentage Conversion Cost</label>
+                                        <input type="text" placeholder="Profit %" class="form-control txtInputConversionCostProfit txtPredefinedValue" id="txtInputConversionCostProfit"
+                                            value="{{rfq.LatestCostsheet.PercentageConversionCost}}">
+                                    </div>
+
+                                    <div class="col">
+                                        <label class="txtPredefinedName text-muted m-b-2 f-s-12">Profit on Conversion Cost</label>
+                                        <input type="text" placeholder="Profit" class="form-control txtConversionCostProfit  txtCostField txtPredefinedValue txtAutogenerateEditable"
+                                            id="txtConversionCostProfit" value="{{rfq.LatestCostsheet.ProfitonConversionCost}}">
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="row head-row ">
+                                    <div class="col col-3"></div>
+                                    <div class="col col-3"></div>
+                                    <div class="col col-3"></div>
+                                    <div class="col col-3">
+                                        <label class="txtPredefinedName text-muted m-b-2 f-s-12">Total</label>
+                                        <input type="text" placeholder="Total" value="{{rfq.LatestCostsheet.Total}}" class="form-control txtTotal txtPredefinedValue txtAutogenerateEditable"
+                                            id="txtTotal" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    </div>
-                <hr />               
+                    <hr />
 
-                <div class="clear clearfix"></div>
-                <h4 class="border-bottom p-b-10">Additional Parameter
-                    <a href="#" class="btn btn-primary lnkAdd  pull-right" data-width="4" title="add row">
-                        <span><i class="fa fa-plus-circle"></i></span>
-                    </a>
-                </h4>
-               
-                <div class="clear clearfix"></div> <br />
-                    <div class="pnlParameter row" >                      
+                    <div class="clear clearfix"></div>
+                    <h4 class="border-bottom p-b-10">Additional Parameter
+                        <a href="#" class="btn btn-primary lnkAdd  pull-right" data-width="4" title="add row">
+                            <span><i class="fa fa-plus-circle"></i></span>
+                        </a>
+                    </h4>
+
+                    <div class="clear clearfix"></div> <br />
+                    <div class="pnlParameter row">
                     </div>
                     <div class="row">
                         <div class="col col-lg-3 center">
@@ -137,23 +157,26 @@
                         </div>
                     </div>
                 </div>
-        </div>
-    </section>
-
-    <section ng-show="rfq.id == null && validatePermission">
-        <h1>403 - Forbidden</h1>
-        <p>Access Denied. You don't have access to view this page</p>
-    </section>
-
-    <section ng-show="!validatePermission">
-        <h1>Loading please wait..!!</h1>
-        <div class="progress">
-            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
             </div>
-        </div>
-    </section>
+        </section>
+
+        <section ng-show="rfq.id == null && validatePermission">
+            <h1>403 - Forbidden</h1>
+            <p>Access Denied. You don't have access to view this page</p>
+        </section>
+
+        <section ng-show="!validatePermission">
+            <h1>Loading please wait..!!</h1>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+                    style="width:100%">
+                </div>
+            </div>
+        </section>
+    </div>
+
 </div>
-</div>
+
 <!--<script src="/js/view/costsheet.js"></script>-->
 <script>
     $(document).ready(function () {
@@ -208,112 +231,112 @@
             calculateTotalProfit();
         },
 
-        calculateConversionCost = function ($ele) {
-            var rate = $ele.parent().parent().find(".txtConversionRate").val().replace(/[^\d.]/g, ''),
-              efficiency = $ele.parent().parent().find(".txtConversionEfficiency").val().replace(/[^\d.]/g, ''),
-              cycleTime = $ele.parent().parent().find(".txtCycleTime").val().replace(/[^\d.]/g, '');
+            calculateConversionCost = function ($ele) {
+                var rate = $ele.parent().parent().find(".txtConversionRate").val().replace(/[^\d.]/g, ''),
+                    efficiency = $ele.parent().parent().find(".txtConversionEfficiency").val().replace(/[^\d.]/g, ''),
+                    cycleTime = $ele.parent().parent().find(".txtCycleTime").val().replace(/[^\d.]/g, '');
 
-            if ($ele.parent().parent().find(".ddlMachine").val() != "" && efficiency != "" && cycleTime != "" && rate &&
-               !(isNaN(efficiency) && isNaN(cycleTime) && isNaN(rate))) {
+                if ($ele.parent().parent().find(".ddlMachine").val() != "" && efficiency != "" && cycleTime != "" && rate &&
+                    !(isNaN(efficiency) && isNaN(cycleTime) && isNaN(rate))) {
 
-                var conversionCost = Math.ceil((((cycleTime * rate) / 3600) * (efficiency / 100)) * 10) / 10;
+                    var conversionCost = Math.ceil((((cycleTime * rate) / 3600) * (efficiency / 100)) * 10) / 10;
 
-                $ele.parent().parent().find(".txtConversionCost").val("Rs " + conversionCost.toFixed(2));
-            } else {
-                $ele.parent().parent().find(".txtConversionCost").val('');
-            }
-            var totalConversionCost = 0;
-            $(".txtConversionCost").each(function (key, value) {
-                if ($(value).val() != "") {
-                    totalConversionCost += parseFloat($(value).val().replace(/[^\d.]/g, ''));
+                    $ele.parent().parent().find(".txtConversionCost").val("Rs " + conversionCost.toFixed(2));
+                } else {
+                    $ele.parent().parent().find(".txtConversionCost").val('');
                 }
-            });
-            $(".txtTotalConversionCost").val("Rs " + totalConversionCost.toFixed(2));
+                var totalConversionCost = 0;
+                $(".txtConversionCost").each(function (key, value) {
+                    if ($(value).val() != "") {
+                        totalConversionCost += parseFloat($(value).val().replace(/[^\d.]/g, ''));
+                    }
+                });
+                $(".txtTotalConversionCost").val("Rs " + totalConversionCost.toFixed(2));
 
-            calculateProfitRmCost();
-            calculateProfitConversionCost();
-            calculateTotalProfit();
-        },
+                calculateProfitRmCost();
+                calculateProfitConversionCost();
+                calculateTotalProfit();
+            },
 
-        calculateHtStCost = function ($ele) {
-            var rate = $ele.parent().parent().find(".txtHtStRate").val().replace(/[^\d.]/g, ''),
-               netWt = $ele.parent().parent().find(".txtNetWt").val().replace(/[^\d.]/g, '');
+            calculateHtStCost = function ($ele) {
+                var rate = $ele.parent().parent().find(".txtHtStRate").val().replace(/[^\d.]/g, ''),
+                    netWt = $ele.parent().parent().find(".txtNetWt").val().replace(/[^\d.]/g, '');
 
-            if ($ele.parent().parent().find(".ddlHtSt").val() != "" && netWt != "" &&
-               !(isNaN(netWt) && isNaN(rate))) {
-                var htStCost = Math.ceil((((netWt * rate) / 1000)) * 100) / 100;
-                $ele.parent().parent().find(".txtHtStCost").val("Rs " + htStCost.toFixed(2));
-            } else {
-                $ele.parent().parent().find(".txtHtStCost").val('');
-            }
-            var totalHtStCost = 0;
-            $(".txtHtStCost").each(function (key, value) {
-                if ($(value).val() != "") {
-                    totalHtStCost += parseFloat($(value).val().replace(/[^\d.]/g, ''));
+                if ($ele.parent().parent().find(".ddlHtSt").val() != "" && netWt != "" &&
+                    !(isNaN(netWt) && isNaN(rate))) {
+                    var htStCost = Math.ceil((((netWt * rate) / 1000)) * 100) / 100;
+                    $ele.parent().parent().find(".txtHtStCost").val("Rs " + htStCost.toFixed(2));
+                } else {
+                    $ele.parent().parent().find(".txtHtStCost").val('');
                 }
-            });
-            $(".txtTotalHtStCost").val("Rs " + totalHtStCost.toFixed(2));
+                var totalHtStCost = 0;
+                $(".txtHtStCost").each(function (key, value) {
+                    if ($(value).val() != "") {
+                        totalHtStCost += parseFloat($(value).val().replace(/[^\d.]/g, ''));
+                    }
+                });
+                $(".txtTotalHtStCost").val("Rs " + totalHtStCost.toFixed(2));
 
-            calculateProfitRmCost();
-            calculateProfitConversionCost();
-            calculateTotalProfit();
-        },
+                calculateProfitRmCost();
+                calculateProfitConversionCost();
+                calculateTotalProfit();
+            },
 
-        calculateProfitRmCost = function () {
-            var totalCost = $(".txtNetRmCost").val().replace(/[^\d.]/g, ''),
-                profitPercentage = $(".txtInputRmCostProfit").val().replace(/[^\d.]/g, '');
-            if (totalCost != "" && profitPercentage != "" &&
-              !(isNaN(totalCost) && isNaN(profitPercentage))) {
-                var profit = Math.ceil(((totalCost * profitPercentage) / 100) * 100) / 100;
-                $(".txtRmCostProfit").val("Rs " + profit.toFixed(2));
-            } else {
-                $(".txtRmCostProfit").val("");
-            }
-        },
+            calculateProfitRmCost = function () {
+                var totalCost = $(".txtNetRmCost").val().replace(/[^\d.]/g, ''),
+                    profitPercentage = $(".txtInputRmCostProfit").val().replace(/[^\d.]/g, '');
+                if (totalCost != "" && profitPercentage != "" &&
+                    !(isNaN(totalCost) && isNaN(profitPercentage))) {
+                    var profit = Math.ceil(((totalCost * profitPercentage) / 100) * 100) / 100;
+                    $(".txtRmCostProfit").val("Rs " + profit.toFixed(2));
+                } else {
+                    $(".txtRmCostProfit").val("");
+                }
+            },
 
-        calculateProfitConversionCost = function () {
-            var totalCost = $(".txtConversionCost").val().replace(/[^\d.]/g, ''),
-               profitPercentage = $(".txtInputConversionCostProfit").val().replace(/[^\d.]/g, '');
-            if (totalCost != "" && profitPercentage != "" &&
-              !(isNaN(totalCost) && isNaN(profitPercentage))) {
-                var profit = Math.ceil(((totalCost * profitPercentage) / 100) * 100) / 100;
-                $(".txtConversionCostProfit").val("Rs " + profit.toFixed(2));
-            } else {
-                $(".txtConversionCostProfit").val("");
-            }
-        },
+            calculateProfitConversionCost = function () {
+                var totalCost = $(".txtConversionCost").val().replace(/[^\d.]/g, ''),
+                    profitPercentage = $(".txtInputConversionCostProfit").val().replace(/[^\d.]/g, '');
+                if (totalCost != "" && profitPercentage != "" &&
+                    !(isNaN(totalCost) && isNaN(profitPercentage))) {
+                    var profit = Math.ceil(((totalCost * profitPercentage) / 100) * 100) / 100;
+                    $(".txtConversionCostProfit").val("Rs " + profit.toFixed(2));
+                } else {
+                    $(".txtConversionCostProfit").val("");
+                }
+            },
 
-        calculateTotalProfit = function () {
-            var rmProfit = $(".txtRmCostProfit").val().replace(/[^\d.]/g, ''),
-               conversionProfit = $(".txtConversionCostProfit").val().replace(/[^\d.]/g, ''),
-            txtTotalRmCost = $(".txtTotalRmCost").val().replace(/[^\d.]/g, ''),
-            txtTotalConversionCost = $(".txtTotalConversionCost").val().replace(/[^\d.]/g, ''),
-            txtTotalHtStCost = $(".txtTotalHtStCost").val().replace(/[^\d.]/g, '');
-            if (rmProfit != "" && conversionProfit != "" && txtTotalRmCost != "" && txtTotalConversionCost != "" && txtTotalHtStCost != "" &&
-              !(isNaN(rmProfit) && isNaN(conversionProfit) && isNaN(txtTotalRmCost) && isNaN(txtTotalConversionCost) && isNaN(txtTotalHtStCost))) {
-                var profit = Math.ceil(((parseFloat(rmProfit) + parseFloat(conversionProfit) + parseFloat(txtTotalRmCost) + parseFloat(txtTotalConversionCost) + parseFloat(txtTotalHtStCost))) * 100) / 100;
-                $(".txtTotal").val("Rs " + profit.toFixed(2)).addClass("total-success");
-            } else {
-                $(".txtTotal").val("").removeClass("total-success");
-            }
-        },
+            calculateTotalProfit = function () {
+                var rmProfit = $(".txtRmCostProfit").val().replace(/[^\d.]/g, ''),
+                    conversionProfit = $(".txtConversionCostProfit").val().replace(/[^\d.]/g, ''),
+                    txtTotalRmCost = $(".txtTotalRmCost").val().replace(/[^\d.]/g, ''),
+                    txtTotalConversionCost = $(".txtTotalConversionCost").val().replace(/[^\d.]/g, ''),
+                    txtTotalHtStCost = $(".txtTotalHtStCost").val().replace(/[^\d.]/g, '');
+                if (rmProfit != "" && conversionProfit != "" && txtTotalRmCost != "" && txtTotalConversionCost != "" && txtTotalHtStCost != "" &&
+                    !(isNaN(rmProfit) && isNaN(conversionProfit) && isNaN(txtTotalRmCost) && isNaN(txtTotalConversionCost) && isNaN(txtTotalHtStCost))) {
+                    var profit = Math.ceil(((parseFloat(rmProfit) + parseFloat(conversionProfit) + parseFloat(txtTotalRmCost) + parseFloat(txtTotalConversionCost) + parseFloat(txtTotalHtStCost))) * 100) / 100;
+                    $(".txtTotal").val("Rs " + profit.toFixed(2)).addClass("total-success");
+                } else {
+                    $(".txtTotal").val("").removeClass("total-success");
+                }
+            },
 
-        createDynamicTextFields = function ($ele, callback) {
-            var width = $ele.data('width') || "12";
-            var inputName = $("<input />", { class: 'txtName form-control', type: 'text', placeholder: 'Name', required: 'required' });
-            var inputValue = $("<input />", { class: 'txtValue form-control', type: 'text', placeholder: 'Value', required: 'required' });
+            createDynamicTextFields = function ($ele, callback) {
+                var width = $ele.data('width') || "12";
+                var inputName = $("<input />", { class: 'txtName form-control', type: 'text', placeholder: 'Name', required: 'required' });
+                var inputValue = $("<input />", { class: 'txtValue form-control', type: 'text', placeholder: 'Value', required: 'required' });
 
-            var divCol5Name = $('<div>', { class: 'col col-lg-5' }).html(inputName);
-            var divCol5Value = $('<div>', { class: 'col col-lg-5' }).html(inputValue);
-            var divCol2Space = $('<div>', { class: 'col col-lg-2' }).html('<a href="#" class="btn btn-danger lnkRemove pull-right" title="remove row"><span><i class="fa fa-minus-circle"></i></span></a >');
+                var divCol5Name = $('<div>', { class: 'col col-lg-5' }).html(inputName);
+                var divCol5Value = $('<div>', { class: 'col col-lg-5' }).html(inputValue);
+                var divCol2Space = $('<div>', { class: 'col col-lg-2' }).html('<a href="#" class="btn btn-danger lnkRemove pull-right" title="remove row"><span><i class="fa fa-minus-circle"></i></span></a >');
 
-            var divRow = $('<div>', { class: 'row' }).append(divCol5Name, divCol5Value, divCol2Space);
-            var divColWidth = $('<div>', { class: 'col col-' + width + ' animated fadeInDown m-b-5' }).append(divRow);
+                var divRow = $('<div>', { class: 'row' }).append(divCol5Name, divCol5Value, divCol2Space);
+                var divColWidth = $('<div>', { class: 'col col-' + width + ' animated fadeInDown m-b-5' }).append(divRow);
 
-            $ele.parents('.cost-sheet-form').find(".pnlParameter").append(divColWidth);
-            bindRemoveParameter();
-            typeof callback === 'function' && callback();
-        };
+                $ele.parents('.cost-sheet-form').find(".pnlParameter").append(divColWidth);
+                bindRemoveParameter();
+                typeof callback === 'function' && callback();
+            };
 
         // ajax call to save cost sheet
         var saveCostSheet = function (data) {
@@ -457,7 +480,7 @@
             });
 
             var bindCalculationEvent = function () {
-                /*********************************** RAW MATERIAL CALCULATION****************************************/                
+                /*********************************** RAW MATERIAL CALCULATION****************************************/
                 $(".ddlRawMaterial").on('change', function (e) {
                     $me = $(this);
                     if ($(this).val() != "") {
@@ -603,17 +626,17 @@
                 });
             },
 
-            bindRemoveRowEvent = function () {
-                $(".row-remove").bind('click', function () {
-                    var $target = $(this).parents('.removable-row');
-                    $target.hide('slow', function () {
-                        $target.remove();
-                        $(".txtNetRmCost").trigger('keyup');
-                        $(".txtConversionCost").trigger('keyup');
-                        $(".txtHtStCost").trigger('keyup');
+                bindRemoveRowEvent = function () {
+                    $(".row-remove").bind('click', function () {
+                        var $target = $(this).parents('.removable-row');
+                        $target.hide('slow', function () {
+                            $target.remove();
+                            $(".txtNetRmCost").trigger('keyup');
+                            $(".txtConversionCost").trigger('keyup');
+                            $(".txtHtStCost").trigger('keyup');
+                        });
                     });
-                });
-            };
+                };
 
             $(".lnkAddPanel").on('click', function (e) {
                 $me = $(this);
@@ -623,7 +646,7 @@
                         var scope = obj.scope(); // get scope
                         // generate dynamic content
                         obj.append($compile(response)(scope));
-                        setTimeout(function () { 
+                        setTimeout(function () {
                             bindCalculationEvent();
                             bindRemoveRowEvent();
                         }, 1000);
@@ -649,7 +672,7 @@
                     $(".ddlMachine").trigger("change");
                     $(".ddlRawMaterial").trigger("change");
                     $(".ddlHtSt").trigger("change");
-                }, 3000);                
+                }, 3000);
             }
         }, 500);
     });

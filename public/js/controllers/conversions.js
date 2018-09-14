@@ -163,7 +163,35 @@ var app = angular.module('mean.conversions').controller('ConversionsController',
                 }
             }
         }
-    }
+    };
+
+    $scope.add = function () {
+        $scope.message = "Loading.. Please wait..!!";
+        var conversion = new Conversions({
+            operation: this.operation,
+            machine: this.machine,
+            rate: this.rate,
+            efficiency: this.efficiency
+        });
+
+        conversion.$save(function (response) {
+            //$state.go('departments');
+            $http.get("/conversions/" + conversion.id).then(function (response) {
+                $scope.updatedConversion = JSON.stringify(response.data);
+
+                var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
+
+                //watchdog calling
+                commonCtrl.create({ message: "New Conversion master is created", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: "", updatedData: $scope.updatedConversion });
+                $scope.message = "";
+                this.operation = "";
+                this.rate = "";
+                this.machine = "";
+                this.efficiency = "";
+            });
+        });
+
+    };
 
 }]);
 

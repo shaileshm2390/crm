@@ -107,3 +107,19 @@ exports.all = function (req, res) {
         });
     });
 };
+exports.add = function (req, res) {
+    // augment the department by adding the UserId
+    // save and return and instance of department on the res object.
+    db.RawMaterialMaster.create(req.body).then(function (rawMaterialMaster) {
+        if (!rawMaterialMaster) {
+            return res.send('/signin', { errors: new StandardError('RawMaterialMaster could not be created') });
+        } else {
+            return res.jsonp(rawMaterialMaster);
+        }
+    }).catch(function (err) {
+        return res.send('/signin', {
+            errors: err,
+            status: 500
+        });
+    });
+};

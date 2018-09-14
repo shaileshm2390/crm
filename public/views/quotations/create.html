@@ -74,6 +74,8 @@
             </div>
         </div>
     </div>
+
+    <div class="displayCostsheet"></div>
     
     <input class="hdnRfqId" id="hdnRfqId" type="hidden" value="{{rfq.id}}" />
     <input class="hdnBuyerDetail" id="hdnBuyerDetail" type="hidden" value="{{rfq.Buyer.name}}" data-email="{{rfq.Buyer.email}}" />
@@ -85,19 +87,30 @@
         var rfqId, costSheetId, costsheetData
 
         createTableFormat = function (costsheet) {
-            var tableHtml;
+            // console.log(costsheet);
+            var tableHtml,arr=[],v=[];
             tableHtml = '<h1 align="center" style="margin: 10px 0;"><img src="http://www.metaforgeindia.com/images/logo.png" style="width: 300px;" alt="METAFORGE" /></h1><hr /><br />';
             tableHtml += "<table align='center' width='50%'>";
-            $.each(costsheet, function (key, item) {
+            $.each(costsheet, function (key, item) { console.log(item);
                 $.each(item, function (name, value) {
-                    if (name.toLowerCase() == "total") {
-                        tableHtml += '<tr><td width="50%"><hr /><strong>' + name + '</strong></td><td  width="50%"><hr /><strong>' + value + '</strong></td></tr>';
+                    arr.push(name);
+                   
+                    if (name.toLowerCase() === "total") {
+                         tableHtml += '<tr><td width="50%"><hr /><strong>' +name+ '</strong></td><td  width="50%"><hr /><strong>' + value + '</strong></td></tr>';
                     } else {
                         tableHtml += '<tr><td width="50%">' + name + '</td><td  width="50%"><strong>' + value + '</strong></td></tr>';
                     }
+                    for( var i=0;i<arr.length;i++){
+                //    console.log(arr[i]);
+                }
+                
+                    
                 });
+               
+                
                 tableHtml += "</table><hr /><table align='center'  width='50%'>";
-            });
+            });console.log(arr.length);
+            console.log(v);
             tableHtml += "</table>";
             return tableHtml;
         },
@@ -119,6 +132,7 @@
             rfqId = $(".hdnRfqId").val();
             if ($(".hdnCostSheetData").val() != '') {
                 costsheetData = createTableFormat(JSON.parse($(".hdnCostSheetData").val()));
+                $(".displayCostsheet").html(costsheetData);
             }
                 costSheetId = $(".hdnCostSheetId").val();
                 if ($(".txtEditor:visible").length > 0) {

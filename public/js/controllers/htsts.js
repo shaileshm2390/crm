@@ -102,18 +102,18 @@ var app = angular.module('mean.htsts').controller('HtstsController', ['$scope', 
 
         htst.$update(function () {
             //$state.go('viewDepartment', { departmentId: department.id })
-            
+
             ///get updated data from URL
             $http.get("/htsts/" + htst.id).then(function (response) {
                 $scope.updatedData = JSON.stringify(response.data);
-            
+
 
                 $state.go('htsts');
-            var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
+                var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
 
-            //watchdog calling
-            commonCtrl.create({ message: "Htst " + htst.id + " is updated.", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: $scope.previousData, updatedData: $scope.updatedData });
-           });
+                //watchdog calling
+                commonCtrl.create({ message: "Htst " + htst.id + " is updated.", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: $scope.previousData, updatedData: $scope.updatedData });
+            });
             $scope.message = "";
         }, function (error) {
             console.log(error);
@@ -146,13 +146,37 @@ var app = angular.module('mean.htsts').controller('HtstsController', ['$scope', 
         });
     };
 
+    $scope.add = function () {
+        var htst = new Htsts({
+            parameter: this.parameter,
+            rate: this.rate,
+            details: this.details,
+        });
+        $scope.message = "New HTST added successfully..!";
+        htst.$save(function (response) {
+            //$state.go('departments');
+            $http.get("/htsts/" + htst.id).then(function (response) {
+                $scope.updatedData = JSON.stringify(response.data);
+                var commonCtrl = $controller('WatchdogsController', { $scope: $scope });
+    
+                //watchdog calling
+                commonCtrl.create({ message: "New htsts is created", ipAddress: $rootScope.ip, pageUrl: $location.url(), userId: user.id, previousData: "", updatedData: $scope.updatedData });
+                $scope.message = "";
+                this.parameter = "";
+                this.rate = "";
+                this.details = "";
+            });
+        });
+    };
+
 }]);
 
 app.filter('startFrom', function () {
     return function (input, start) {
-        if (typeof(input) != 'undefined') {
-        start = +start; //parse to int
-        return input.slice(start);
-    }
+        if (typeof (input) != 'undefined') {
+            start = +start; //parse to int
+            return input.slice(start);
+        }
     }
 });
+

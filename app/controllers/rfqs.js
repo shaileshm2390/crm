@@ -91,7 +91,7 @@ exports.rfq = function (req, res, next, id) {
             {
                 model: db.Buyer,
                 attributes: ['id', 'name', 'contact', 'email', 'CustomerId'],
-                include: [{ model: db.Customer, attributes: ['id', 'name', 'email', 'company', 'contact'] }]
+                include: [{ model: db.Customer}]
             },
             {
                 model: db.RfqImage

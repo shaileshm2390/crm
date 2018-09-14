@@ -1,5 +1,5 @@
 <div class="card" ng-controller="RfqsController">
-    
+
     <section ng-init="findOneByRfqId()" ng-show="rfq.id != null  && validatePermission">
         <h1>Purchase Order</h1>
         <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
@@ -10,7 +10,7 @@
             <div class="col col-lg-12">
                 <h3>Receive Purchase Order</h3>
                 <div ng-hide="isPoReceived(rfq)" data-ng-controller="PurchaseordersController" data-ng-init="findOne()">
-                    <div >
+                    <div>
                         <div class="row">
                             <ul class="elastislide1">
                                 <li class="img_wrp" data-ng-repeat="image in purchaseorder.PurchaseOrderImages | orderBy : '-createdAt'" style="margin-right:3px;">
@@ -28,7 +28,7 @@
 
                     <br /><br />
                     <input type="hidden" class="form-control hdnPurchaseorderStatus" value="{{purchaseorder.status}}">
-
+                    <input type="hidden" class="form-control hdnPurchaseorderApplication" value="{{purchaseorder.application}}">
                     <div class="control-group">
                         <label for="status" class="control-label">Status</label>
                         <div class="controls">
@@ -40,7 +40,36 @@
                             </div>
                         </div>
                     </div>
-                    <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
+                    <br>
+                    <div class="control-group">
+                        <label class="control-label" for="gstNum">GST Number</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="purchaseorder.gstNum" id="gstNum"  placeholder="GST Number" class="form-control col-sm-6 txtGSTNumber">
+                        </div>
+                        <span class="errorName" style="color:red;"></span>
+                    </div>
+                    <br />
+                    <div class="control-group">
+                        <label class="control-label" for="hsnNum">HSN Number</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="purchaseorder.hsnNum" id="hsnNum"  placeholder="HSN Number" class="form-control col-sm-6 txtHSNNumber">
+                        </div>
+                        <span class="errorName" style="color:red;"></span>
+                    </div>
+                    <br />
+                    <div class="control-group">
+                        <label for="application" class="control-label">Application</label>
+                        <div class="controls">
+                            <div style="width:50%;">
+                                <select class="form-control ddlApplication" id="selectedApplication" data-ng-model="purchaseorder.application" required>
+                                    <option value="">---- Select Application ----</option>
+                                    <option ng-repeat="app in Application" value="{{app}}" ng-selected="app == application">{{app}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString"
+                    />
 
                     <div class="clear clearfix"></div><br />
                     <div class="control-group">
@@ -65,13 +94,11 @@
     <section ng-show="!validatePermission">
         <h1>Loading please wait..!!</h1>
         <div class="progress">
-            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
-            </div>
+            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+                style="width:100%">
         </div>
-    </section>
+</div>
+</section>
 </div>
 
 <script type="text/javascript" src="/js/view/purchaseorder.js"></script>
-
-
-

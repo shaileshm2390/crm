@@ -1,0 +1,151 @@
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!-- Modal -->
+<div class="modal" id="conversionModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1>Add Conversions</h1>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <section class="card">
+                    <div ng-show="message.length > 0">
+                        <div class="alert alert-info">{{message}}</div>
+                    </div>
+                    <form class="form-horizontal myForm" data-ng-submit="add()">
+                        <div class="control-group">
+                            <label class="control-label" for="name">Operation</label>
+                            <div class="controls">
+                                <input type="text" data-ng-model="operation" id="operation" name="operation" placeholder="Operation" class="form-control col-sm-6 txtOperation">
+                            </div>
+                            <span class="error" style="color:red;"></span>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="name">Machine</label>
+                            <div class="controls">
+                                <input type="text" data-ng-model="machine" id="machine" name="machine" placeholder="Machine" class="form-control col-sm-6 txtMachine">
+                            </div>
+                            <span class="error" style="color:red;"></span>
+                        </div>
+
+
+                        <div class="control-group">
+                            <label class="control-label" for="name">Rate/hrs</label>
+                            <div class="controls">
+                                <input type="text" data-ng-model="rate" id="rate" name="rate" placeholder="Rate/hrs" class="form-control col-sm-6 txtRate">
+                            </div>
+                            <span class="error" style="color:red;"></span>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="name">Efficiency (%)</label>
+                            <div class="controls">
+                                <input type="text" data-ng-model="efficiency" id="efficiency" name="efficiency" placeholder="Efficiency" class="form-control col-sm-6 txtEfficiency">
+                            </div>
+                            <span class="error" style="color:red;"></span>
+                        </div>
+
+                        <div class="clear clearfix"></div><br />
+                        <div class="control-group">
+                            <div class="controls">
+                                <a href="#" class="btn btn-primary btnUpdate">Save</a>
+                                <a class="btn btn-secondary" data-dismiss="modal">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+
+                <!--<script src="/js/validation/department.js"></script>-->
+                <script src="/js/lib/form-validation/jquery.validate.min.js"></script>
+                <script src="/js/validation/validations.js"></script>
+                <link href="/css/validations.css" rel="stylesheet" />
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var validConversionForm = function () {
+            var flagOperation = false, flagMachine = false, flagRate = false, flagEfficiency = false;
+
+            if ($.trim($(".txtOperation").val()) != "") {
+                flagOperation = true;
+                $(".txtOperation").css("border", "");
+            }
+            else {
+                flagOperation = false;
+                $(".txtOperation").css("border", "1px solid red");
+            };
+
+            if ($.trim($(".txtRate").val()) != "") {
+                flagRate = true;
+                $(".txtRate").css("border", "");
+            }
+            else {
+                flagRate = false;
+                $(".txtRate").css("border", "1px solid red");
+            };
+
+            if ($.trim($(".txtMachine").val()) != "") {
+                flagMachine = true;
+                $(".txtMachine").css("border", "");
+            }
+            else {
+                flagMachine = false;
+                $(".txtMachine").css("border", "1px solid red");
+            };
+
+            if ($.trim($(".txtEfficiency").val()) != "") {
+                flagEfficiency = true;
+                $(".txtEfficiency").css("border", "");
+            }
+            else {
+                flagEfficiency = false;
+                $(".txtEfficiency").css("border", "1px solid red");
+            }
+
+            return flagOperation && flagMachine && flagRate && flagEfficiency;
+        },
+            saveConversion = function () {
+                console.log("saveConversion");
+                var dfd = $.Deferred();
+                $.ajax({
+                    url: '/conversions/',
+                    method: 'POST',
+                    data: {
+                        operation: $(".txtOperation").val(),
+                        machine: $(".txtMachine").val(),
+                        rate: $(".txtRate").val(),
+                        efficiency: $(".txtEfficiency").val()
+                    }
+                }).done(function (response) {
+                    dfd.resolve(response);
+                });
+                return dfd.promise();
+            };
+
+        $(".btnUpdate").on('click', function (e) {
+            if (validConversionForm()) {
+                console.log("ello if");
+                $.when(saveConversion()).then(function (data) {
+                    console.log("hi");
+                    $machine = $("<option>").html(data.machine).attr({
+                        "data-rate": data.rate,
+                        "data-efficiency": data.efficiency
+                    });
+                    $operation = $("<option>").html(data.operation);
+                    $(".ddlOperation").append($operation);
+                    $(".ddlMachine").append($machine);
+                    $(".close").trigger("click");
+                });
+            }
+            e.stopImmediatePropagation();
+            return false;
+        });
+    });
+</script>

@@ -79,7 +79,13 @@ exports.update = function (req, res) {
         email: req.body.email,
         company: req.body.company,
         name: req.body.name,
-        contact: req.body.contact
+        contact: req.body.contact,
+        payment: req.body.payment,
+        tax: req.body.tax,
+        freight: req.body.freight,
+        packing: req.body.packing,
+        validity: req.body.validity,
+        terms: req.body.terms
     }).then(function (a) {
         if (req.body.imagesString.trim() !== "") {
             var imageArray = req.body.imagesString.split(",");

@@ -10,6 +10,7 @@ module.exports = function (sequelize, DataTypes) {
             associate: function (models) {
                 Rfq.belongsTo(models.User);
                 Rfq.belongsTo(models.Buyer);
+                // Rfq.belongsTo(models.Customer);
                 Rfq.hasMany(models.RfqImage);
                 Rfq.hasMany(models.CostSheet);
                 Rfq.hasMany(models.PurchaseOrder);

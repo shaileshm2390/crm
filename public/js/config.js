@@ -184,6 +184,11 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             controller: 'RawMaterialsController',
             templateUrl: 'views/rawmaterials/edit.html'
         })
+        //  .state('addRawMaterial',{
+        //     url: '/material/popup',
+        //     controller : 'RawMaterialsController',
+        //     templateUrl : 'views/rawmaterials/popup.html'
+        // })
         //.state('viewRawMaterial', {
         //    url: '/material/{rawmaterialId}',
         //    controller: 'RawMaterialsController',

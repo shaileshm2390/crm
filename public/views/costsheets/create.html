@@ -4,8 +4,8 @@
 
 <div class="container-fluid">
     <div class="card" ng-controller="RfqsController">
-        <!-- <div ng-include="'views/rawmaterials/popup.html'" class="pull-right"></div>
-        <div ng-include="'views/htsts/popup.html'"></div> -->
+         <div ng-include="'views/rawmaterials/popup.html'" class="pull-right"></div>
+        <div ng-include="'views/htsts/popup.html'"></div> 
         <div ng-include="'views/conversions/popup.html'"></div>
         <section data-ng-init="findOneByRfqId()" ng-show="rfq.id != null  && validatePermission">
             <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
@@ -178,6 +178,7 @@
 </div>
 
 <!--<script src="/js/view/costsheet.js"></script>-->
+
 <script>
     $(document).ready(function () {
         var bindRemoveParameter = function () {

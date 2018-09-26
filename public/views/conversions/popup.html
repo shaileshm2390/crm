@@ -1,5 +1,3 @@
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
 <!-- Modal -->
 <div class="modal" id="conversionModal" role="dialog">
     <div class="modal-dialog">
@@ -36,7 +34,7 @@
                         <div class="control-group">
                             <label class="control-label" for="name">Rate/hrs</label>
                             <div class="controls">
-                                <input type="text" data-ng-model="rate" id="rate" name="rate" placeholder="Rate/hrs" class="form-control col-sm-6 txtRate">
+                                <input type="text" data-ng-model="rate" id="rate" name="rate" placeholder="Rate/hrs" class="form-control col-sm-6 txtConversionRate">
                             </div>
                             <span class="error" style="color:red;"></span>
                         </div>
@@ -82,13 +80,13 @@
                 $(".txtOperation").css("border", "1px solid red");
             };
 
-            if ($.trim($(".txtRate").val()) != "") {
+            if ($.trim($(".txtConversionRate").val()) != "") {
                 flagRate = true;
-                $(".txtRate").css("border", "");
+                $(".txtConversionRate").css("border", "");
             }
             else {
                 flagRate = false;
-                $(".txtRate").css("border", "1px solid red");
+                $(".txtConversionRate").css("border", "1px solid red");
             };
 
             if ($.trim($(".txtMachine").val()) != "") {
@@ -108,7 +106,6 @@
                 flagEfficiency = false;
                 $(".txtEfficiency").css("border", "1px solid red");
             }
-
             return flagOperation && flagMachine && flagRate && flagEfficiency;
         },
             saveConversion = function () {
@@ -120,7 +117,7 @@
                     data: {
                         operation: $(".txtOperation").val(),
                         machine: $(".txtMachine").val(),
-                        rate: $(".txtRate").val(),
+                        rate: $(".txtConversionRate").val(),
                         efficiency: $(".txtEfficiency").val()
                     }
                 }).done(function (response) {

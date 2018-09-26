@@ -9,15 +9,16 @@
     "type": "git",
     "url": "https://github.com/jpotts18/mean-stack-relational.git"
   },
-  "engines": {},
+  "engines": {   
+  },
   "scripts": {
     "start": "node node_modules/grunt-cli/bin/grunt",
-    "test": "node node_modules/grunt-cli/bin/grunt test"
+    "test": "node node_modules/grunt-cli/bin/grunt test",
+    "postinstall": "bower install && cp config/env/development.json5.sample config/env/development.json5 && cp config/env/production.json5.sample config/env/production.json5 && node node_modules/grunt-cli/bin/grunt copy"
   },
   "dependencies": {
     "async": "latest",
     "body-parser": "^1.14.1",
-    "bootstrap": "^4.1.3",
     "bower": "latest",
     "circular-json": "^0.5.4",
     "compression": "^1.6.0",
@@ -31,15 +32,10 @@
     "express-session": "^1.12.1",
     "glob": "^6.0.1",
     "grunt": "^0.4.5",
-    "grunt-cli": "^0.1.13",
-    "grunt-concurrent": "^2.3.1",
-    "grunt-contrib-jshint": "^1.1.0",
-    "grunt-contrib-nodemon": "^0.5.4",
     "grunt-copy": "latest",
+    "grunt-cli": "^0.1.13",
     "grunt-env": "latest",
-    "html-pdf": "^2.2.0",
     "jade": "^1.11.0",
-    "jquery": "^3.3.1",
     "jshint-stylish": "^2.1.0",
     "json5": "^0.4.0",
     "lodash": "latest",
@@ -59,6 +55,7 @@
     "proxyquire": "^1.7.3",
     "qs": "6.2.1",
     "randomstring": "^1.1.5",
+	"html-pdf":"^2.2.0",
     "request": "^2.87.0",
     "sequelize": "^3.13.0",
     "serve-favicon": "^2.3.0",
@@ -67,7 +64,7 @@
     "winston": "latest"
   },
   "devDependencies": {
-    "chai": "^3.2.0",
+    "chai": "^3.2.0", 
     "grunt-mocha-test": "latest",
     "grunt-contrib-watch": "latest",
     "grunt-karma": "~0.6.2",
@@ -82,6 +79,6 @@
     "karma-requirejs": "~0.2.0",
     "karma-script-launcher": "~0.1.0",
     "mocha": "^2.2.5",
-    "supertest": "latest"
+    "supertest": "latest"  
   }
 }

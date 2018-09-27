@@ -75,7 +75,7 @@
         </div>
     </div>
 
-    <div class="displayCostsheet"></div>
+    <div class="displayCostsheet hide"></div>
     
     <input class="hdnRfqId" id="hdnRfqId" type="hidden" value="{{rfq.id}}" />
     <input class="hdnBuyerDetail" id="hdnBuyerDetail" type="hidden" value="{{rfq.Buyer.name}}" data-email="{{rfq.Buyer.email}}" />
@@ -84,49 +84,88 @@
 <!--<script src="/js/view/quotation.js"></script>-->
 <script>
     $(document).ready(function () {
-        var rfqId, costSheetId, costsheetData
-
-        createTableFormat = function (costsheet) {             
-            var tableHtml,arr=[],v=[];
-            tableHtml = '<h1 align="center" style="margin: 10px 0;"><img src="http://www.metaforgeindia.com/images/logo.png" style="width: 300px;" alt="METAFORGE" /></h1><hr /><br />';
-            tableHtml += "<table align='center' width='50%'>";
-            $.each(costsheet, function (key, item) {
-                console.log(item);
-                $.each(item, function (name, value) {
-                    arr.push(name);
-                   
-                    if (name.toLowerCase() === "total") {
-                         tableHtml += '<tr><td width="50%"><hr /><strong>' +name+ '</strong></td><td  width="50%"><hr /><strong>' + value + '</strong></td></tr>';
-                    } else {
-                        tableHtml += '<tr><td width="50%">' + name + '</td><td  width="50%"><strong>' + value + '</strong></td></tr>';
-                    }
-                    for( var i=0;i<arr.length;i++){
-                //    console.log(arr[i]);
-                }
-                });
-                
-                tableHtml += "</table><hr /><table align='center'  width='50%'>";
-            });
-            tableHtml += "</table>";
-            return tableHtml;
-        },
-
-        //ajax call to save qoute
-        saveQuotation = function () {
-            var dfd = $.Deferred();
-            $.ajax({
-                url: '/quotations/',
-                method: "POST",
-                data: { UserId: window.user.id, RfqId: rfqId, CostSheetId: costSheetId, isCostSheetAttached: ($('.chkAttachCostSheet').prop('checked') ? 1 : 0), emailContent: $(".fr-element").html(), data: costsheetData, buyerEmail: $(".hdnBuyerDetail").data("email") }
-            }).done(function (response) {
-                dfd.resolve(response);
-            });
-            return dfd.promise();
-        },
+        var rfqId, costSheetId, costsheetData,
 
         loadCode = setInterval(function () {
             rfqId = $(".hdnRfqId").val();     
-                if (rfqId.length > 0 && rfqId != "") {
+            if (rfqId.length > 0 && rfqId != "") {
+
+                var createUniqueKeyCostsheet = function (costsheet) {
+                    var count = 0, arr = [];
+                    $.each(costsheet, function (key, item) {
+                        $.each(item, function (name, value) {
+                            if (!arr.some(e => e.hasOwnProperty(name))) {
+                                var itemArray = {};
+                                itemArray[name] = new Array();
+                                itemArray[name].push(value);
+                                arr.push(itemArray);
+                            } else {
+                                if (name != 'Net Weight') {
+                                    arr.filter(e => e.hasOwnProperty(name))[0][name].push(value);
+                                } else if (name == 'Net Weight' && count % 2 == 0) {
+                                    count++;
+                                    arr.filter(e => e.hasOwnProperty(name))[0][name].push(value);
+                                }
+                            }
+                        });
+                    });
+                    return arr;
+                },
+
+                createTableFormat = function (costsheet) {
+                    var strHtml;
+                    strHtml = '<h1 align="center" style="margin: 10px 0;"><img src="http://www.metaforgeindia.com/images/logo.png" style="width: 300px;" alt="METAFORGE" /></h1><hr /><br />';
+                    arr = createUniqueKeyCostsheet(costsheet);
+                    strHtml += '<div  align="center" ><table style="width:50%" border="1">';
+                    $.each(arr, function (k, v) {
+                        $.each(v, function (parameterName, parameterValueArray) {
+                            //console.log(parameterName, parameterValueArray);
+                            if (parameterName == "Operation" || parameterName == "HT/ST" || parameterName == "Total RM Cost" || parameterName == "Total") {
+                                strHtml += '</table>';                                
+                                strHtml += '<br /><table style="width:50%" border="1">';
+                            }
+                            strHtml += '<tr>';
+                            if (parameterName == "Total") {
+                                parameterName = '<strong>' + parameterName + '</strong>';
+                            }
+                            strHtml += '<th width="30%" style="padding:5px;">' + parameterName + '</th>';
+                            strHtml += '<td width="70%"><table  style="width:100%" border="1"><tr>';
+                            $.each(parameterValueArray, function (key, actualValue) {
+
+                                if (parameterName.indexOf("Total") !== -1 || parameterName.indexOf("Percentage") !== -1 || parameterName.indexOf("Profit") !== -1)
+                                {
+                                    if (parameterName.indexOf("Profit") !== -1) {
+                                        actualValue += " %";
+                                    }
+                                    actualValue = '<strong>' + actualValue + '</strong>';
+                                }
+                              
+                                strHtml += '<td  style="padding:5px;" width="' + 100 / parameterValueArray.length + '%">' + actualValue + '</td>';
+                            });
+                            strHtml += '</tr></table></td>';
+                            strHtml += '</tr>';
+                        });
+                        
+                    });
+                    strHtml += '</table></div><br /><br /><br />';
+                    return strHtml;
+                },
+
+
+
+                //ajax call to save qoute
+                saveQuotation = function () {
+                    var dfd = $.Deferred();
+                    $.ajax({
+                        url: '/quotations/',
+                        method: "POST",
+                        data: { UserId: window.user.id, RfqId: rfqId, CostSheetId: costSheetId, isCostSheetAttached: ($('.chkAttachCostSheet').prop('checked') ? 1 : 0), emailContent: $(".fr-element").html(), data: costsheetData, buyerEmail: $(".hdnBuyerDetail").data("email") }
+                    }).done(function (response) {
+                        dfd.resolve(response);
+                    });
+                    return dfd.promise();
+                };
+
                     if ($(".txtEditor:visible").length > 0) {
                         var months = ["Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
                         var dt = new Date();

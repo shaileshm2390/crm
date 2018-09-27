@@ -8,7 +8,7 @@
         <div ng-show="costsheet.status != 'approved'" class="alert alert-danger col col-lg-12">Cost Sheet is not yet approved. Please get an approval from admin</div>
         <div ng-init="findApprovedCostSheetByRfqId()">
             <div ng-show="costsheet.status == 'approved'" class="row">
-                <div class="col col-lg-4">
+                <div class="col col-lg-3">
 
 
                     <h3><strong>Approved Costsheet</strong></h3>
@@ -45,7 +45,7 @@
                     <input type="hidden" class="hdnCostSheetData" value="{{costsheet.data}}" />
 
                 </div>
-                <div class="col col-lg-8">
+                <div class="col col-lg-9">
                     <!-- If quotation is not submitted yet -->
                     <div ng-show="rfq.Quotations.length == 0">
                         <div class="txtEditor" ng-include="'views/quotations/quotation-template.html'">
@@ -66,7 +66,7 @@
                         <label>Costsheet Attached:</label> <span><strong>{{rfq.Quotations[0].isCostSheetAttached == true ? "Yes" : "No"}}</strong></span>
                         <div class="clear clearfix"></div>
                         <label>Mail send on:</label> <span><strong>{{rfq.Quotations[0].createdAt | date:'medium'}}</strong></span>
-
+                        
                         <div ng-bind-html="trustAsHtml(rfq.Quotations[0].emailContent)" class="m-t-10 m-b-10 p-l-5 p-r-5 p-t-5 p-b-5" style="box-shadow:1px 1px 20px rgba(128, 128, 128, 0.8)"></div>
 
                     </div>
@@ -86,12 +86,12 @@
     $(document).ready(function () {
         var rfqId, costSheetId, costsheetData
 
-        createTableFormat = function (costsheet) {
-            // console.log(costsheet);
+        createTableFormat = function (costsheet) {             
             var tableHtml,arr=[],v=[];
             tableHtml = '<h1 align="center" style="margin: 10px 0;"><img src="http://www.metaforgeindia.com/images/logo.png" style="width: 300px;" alt="METAFORGE" /></h1><hr /><br />';
             tableHtml += "<table align='center' width='50%'>";
-            $.each(costsheet, function (key, item) { console.log(item);
+            $.each(costsheet, function (key, item) {
+                console.log(item);
                 $.each(item, function (name, value) {
                     arr.push(name);
                    
@@ -103,14 +103,10 @@
                     for( var i=0;i<arr.length;i++){
                 //    console.log(arr[i]);
                 }
-                
-                    
                 });
-               
                 
                 tableHtml += "</table><hr /><table align='center'  width='50%'>";
-            });console.log(arr.length);
-            console.log(v);
+            });
             tableHtml += "</table>";
             return tableHtml;
         },
@@ -129,36 +125,38 @@
         },
 
         loadCode = setInterval(function () {
-            rfqId = $(".hdnRfqId").val();
-            if ($(".hdnCostSheetData").val() != '') {
-                costsheetData = createTableFormat(JSON.parse($(".hdnCostSheetData").val()));
-                $(".displayCostsheet").html(costsheetData);
-            }
-                costSheetId = $(".hdnCostSheetId").val();
-                if ($(".txtEditor:visible").length > 0) {
-                    var months = ["Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
-                    var dt = new Date();
-                    $(".date").text(dt.getDate() + " " + months[parseInt(dt.getMonth())] + " " + dt.getFullYear());
-                    $('.txtEditor').froalaEditor();
-                }               
-                
-                // save quotation to db
-                $(".btnSubmit").on('click', function (e) {
-                    var $me = $(this);
-                    $me.addClass("hide");
-                    $(".loader").removeClass("hide");
-                    if ($(".fr-element").html().replace(/(<([^>]+)>)/ig, "") != "") {
-                        $.when(saveQuotation()).then(function () {
-                            window.location.reload();
-                            $(".loader").addClass("hide");
-                            $(".quotMsg").removeClass("hide");
-                            window.location.reload();
-                        });
-                    }
-                    e.stopImmediatePropagation();
-                    return false;
-                });
+            rfqId = $(".hdnRfqId").val();     
                 if (rfqId.length > 0 && rfqId != "") {
+                    if ($(".txtEditor:visible").length > 0) {
+                        var months = ["Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
+                        var dt = new Date();
+                        $(".date").text(dt.getDate() + " " + months[parseInt(dt.getMonth())] + " " + dt.getFullYear());
+                        $('.txtEditor').froalaEditor();
+                    }
+
+                    if ($(".hdnCostSheetData").val() != '') {
+                        costsheetData = createTableFormat(JSON.parse($(".hdnCostSheetData").val()));
+                        $(".displayCostsheet").html(costsheetData);
+                    }
+                    costSheetId = $(".hdnCostSheetId").val();
+
+                    // save quotation to db
+                    $(".btnSubmit").on('click', function (e) {
+                        var $me = $(this);
+                        $me.addClass("hide");
+                        $(".loader").removeClass("hide");
+                        if ($(".fr-element").html().replace(/(<([^>]+)>)/ig, "") != "") {
+                            $.when(saveQuotation()).then(function () {
+                                window.location.reload();
+                                $(".loader").addClass("hide");
+                                $(".quotMsg").removeClass("hide");
+                                window.location.reload();
+                            });
+                        }
+                        e.stopImmediatePropagation();
+                        return false;
+                    });
+
                     clearInterval(loadCode);
                 }
             }, 500);

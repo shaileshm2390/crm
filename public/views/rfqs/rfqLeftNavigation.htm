@@ -3,81 +3,129 @@
         margin: 10px 0;
         background-color: #5c4ac7;
         padding: 10px;
+        width: 100%;
     }
 
-    .menubar-nav ul li {
-        display: inline-block;
-        padding: 5px 10px;
-        border-right: 1px solid #fff;
-    }
-
-        .menubar-nav ul li a {
-            color: #fff;
+        .menubar-nav ul li {
+            display: inline-block;
+            padding: 5px 10px;
+            border-right: 1px solid #fff;
         }
 
-        .menubar-nav a { 
-    text-decoration: none;
-    font: 12px/1 Verdana;
-    color: #000;
-    display: block; }
+            .menubar-nav ul li a {
+                color: #fff;
+            }
 
-.menubar-nav a:hover { text-decoration: underline; }
+        .menubar-nav a {
+            text-decoration: none;
+            font: 12px/1 Verdana;
+            color: #000;
+            display: block;
+        }
 
-.menubar-nav ul { 
-    list-style: none;
-    margin: 0;
-    padding: 0; }
+            .menubar-nav a:hover {
+                text-decoration: underline;
+            }
 
-.menubar-nav ul li { margin: 0; padding: 0; }
+        .menubar-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
 
-/* Top-level menu */
-.menubar-nav > ul > li { 
-    /*float: left;*/
-    position: relative; }
-.menubar-nav > ul > li > a { 
-    padding: 10px 30px;
-    /*border-left: 1px solid #000;*/
-    display: block;}
-.menubar-nav > ul > li:first-child { margin: 0; }
-.menubar-nav > ul > li:first-child a { border: 0; }
+            .menubar-nav ul li {
+                margin: 0;
+                padding: 0;
+            }
 
-/* Dropdown Menu */
-.menubar-nav ul li ul { 
-    position: absolute;
-    background: #000;
-    width: 100%; 
-    margin: 0;
-    z-index: 10;
-    padding: 15px 0 0 0;
-    display: none; }
-.menubar-nav ul li ul li { 
-    width: 100%;
-    border: 0;
-    margin: 0 10px;}
+        /* Top-level menu */
+        .menubar-nav > ul > li {
+            /*float: left;*/
+            position: relative;
+        }
 
-.menubar-nav ul li ul a { padding: 2px 0; }
-.menubar-nav ul li:hover ul { display: block;  }
-.menubar-nav ul li ul:hover { display: block;  }
+            .menubar-nav > ul > li > a {
+                padding: 10px 30px;
+                /*border-left: 1px solid #000;*/
+                display: block;
+            }
 
+            .menubar-nav > ul > li:first-child {
+                margin: 0;
+            }
+
+                .menubar-nav > ul > li:first-child a {
+                    border: 0;
+                }
+
+        /* Dropdown Menu */
+        .menubar-nav ul li ul {
+            position: absolute;
+            background: #000;
+            width: 100%;
+            margin: 0;
+            z-index: 10;
+            padding: 15px 0 0 0;
+            display: none;
+        }
+
+            .menubar-nav ul li ul li {
+                width: 100%;
+                border: 0;
+                margin: 0 10px;
+            }
+
+            .menubar-nav ul li ul a {
+                padding: 2px 0;
+            }
+
+        .menubar-nav ul li:hover ul {
+            display: block;
+        }
+
+        .menubar-nav ul li ul:hover {
+            display: block;
+        }
 </style>
-<div class="menubar-nav">
-    <ul>
-        <li><a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}/rfq/{{rfq.id}}"><span>RFQ Detail</span></a></li>
-        <li ng-hide="isPoReceived(rfq)">
-            <a class="has-arrow lnkCostSheetMenu" href="#" aria-expanded="false">
-                <span>Cost Sheet Preparation</span>
-            </a>
-            <ul aria-expanded="false" class="collapse costsheet">
-                <li><a href="/rfq/{{rfq.id}}/costsheet/prepare">Prepare &amp; Send for Approval</a><br /></li>
-                <li><a href="/rfq/{{rfq.id}}/costsheet/approval">Approved &amp; Send to Customer</a><br /></li>
-            </ul>
-         
-        </li>
-        <li ng-show="rfq.CostSheets.length"><a href="/rfq/{{rfq.id}}/quotation/short"><span>Quotation</span></a></li>
-        <li ng-show="displaySampleSubmission(rfq)"><a href="/rfq/{{rfq.id}}/samplesubmission"><span>Sample Submission</span></a></li>
-        <li ng-show="displaySampleSubmission(rfq)"><a href="/rfq/{{rfq.id}}/sampleinspectionreport"><span>Inspection Report</span></a></li>
-        <li ng-show="displayReceivePO(rfq)"><a href="/rfq/{{rfq.id}}/purchaseorder"><span>Receive PO</span></a></li>
 
-    </ul>
+<div class="row">
+    <div class="col col-lg-12 col-md-12 col-sm-12">
+        <div class="pull-right badge badge-success"ng-show="rfq.feasiblity == 1">
+            Feasible
+        </div>
+        <div class="pull-right badge badge-danger" ng-show="rfq.feasiblity == 2">
+            Not Feasible
+        </div>
+        <div class="pull-right badge badge-warning" ng-show="rfq.feasiblity == 0">
+            Check Feasiblility
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="menubar-nav" ng-show="!isFeasible(rfq)">
+        <ul>
+            <li><a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}/rfq/{{rfq.id}}"><span>RFQ Detail</span></a></li>
+        </ul>
+    </div>
+
+    <div class="menubar-nav" ng-show="isFeasible(rfq)">
+        <ul>
+            <li><a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}/rfq/{{rfq.id}}"><span>RFQ Detail</span></a></li>
+            <li ng-hide="isPoReceived(rfq)">
+                <a class="has-arrow lnkCostSheetMenu" href="#" aria-expanded="false">
+                    <span>Cost Sheet Preparation</span>
+                </a>
+                <ul aria-expanded="false" class="collapse costsheet">
+                    <li><a href="/rfq/{{rfq.id}}/costsheet/prepare">Prepare &amp; Send for Approval</a><br /></li>
+                    <li><a href="/rfq/{{rfq.id}}/costsheet/approval">Approved &amp; Send to Customer</a><br /></li>
+                </ul>
+            </li>
+            <li ng-show="rfq.CostSheets.length"><a href="/rfq/{{rfq.id}}/quotation/short"><span>Quotation</span></a></li>
+            <li ng-show="displaySampleSubmission(rfq)"><a href="/rfq/{{rfq.id}}/samplesubmission"><span>Sample Submission</span></a></li>
+            <li ng-show="displaySampleSubmission(rfq)"><a href="/rfq/{{rfq.id}}/sampleinspectionreport"><span>Inspection Report</span></a></li>
+            <li ng-show="displayReceivePO(rfq)"><a href="/rfq/{{rfq.id}}/purchaseorder"><span>Receive PO</span></a></li>
+        </ul>
+    </div>
     <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
 </div>

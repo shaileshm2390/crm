@@ -5,7 +5,6 @@
         <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
 
         <div class="row">
-            <div ng-include="'views/rfqs/rfqLeftNavigation.htm'" class="col col-lg-12"></div>
 
             <div ng-init="findApprovedCostSheetByRfqId()" ng-controller="CostSheetsController">
                 <input type="hidden" class="hdnCostSheetData" value="{{costsheet.data}}" />

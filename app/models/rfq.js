@@ -5,6 +5,11 @@ module.exports = function (sequelize, DataTypes) {
     var Rfq = sequelize.define('Rfq', {
         content: DataTypes.TEXT,
         subject: DataTypes.TEXT,
+        feasiblity: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 0
+        },
     },
         {
             associate: function (models) {

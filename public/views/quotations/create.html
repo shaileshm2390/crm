@@ -3,7 +3,6 @@
     <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
    
     <div class="row">
-        <div ng-include="'views/rfqs/rfqLeftNavigation.htm'" class="col col-lg-12"></div>
 
         <div ng-show="costsheet.status != 'approved'" class="alert alert-danger col col-lg-12">Cost Sheet is not yet approved. Please get an approval from admin</div>
         <div ng-init="findApprovedCostSheetByRfqId()">

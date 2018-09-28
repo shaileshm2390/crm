@@ -109,6 +109,7 @@
                                         <th>Subject</th>
                                         <th>Buyer</th>
                                         <th>Customer</th>
+                                        <th>Feasibility</th>
                                         <th>Created</th>
                                         <th>Action</th>
                                     </tr>
@@ -123,7 +124,14 @@
                                         </td>
                                         <td>
                                             <a href="/customer/{{rfq.Buyer.CustomerId}}">{{rfq.Buyer.Customer.company}}</a>
-                                        </td>                                     
+                                        </td>  
+                                        <td>
+                                               <select class="ddlFeasibility form-control" data-rfqid="{{rfq.id}}" >
+                                                   <option value="0" ng-selected="rfq.feasiblity == 0">Check Feasibility</option>
+                                                   <option value="1" ng-selected="rfq.feasiblity == 1 ">Feasible</option>
+                                                   <option value="2" ng-selected="rfq.feasiblity == 2 ">Not Feasible</option>
+                                               </select>                                          
+                                        </td>                                   
                                         <td>
                                             <span>{{rfq.createdAt | date:'medium'}}</span>
                                         </td>   

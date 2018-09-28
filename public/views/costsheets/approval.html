@@ -4,9 +4,6 @@
         <h1>Approve Cost Sheet</h1>
         <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
 
-
-        <div ng-include="'views/rfqs/rfqLeftNavigation.htm'" class="col col-lg-12"></div>
-
         <h3><strong>Prepared Cost Sheet</strong></h3>
         <div ng-show="!costsheets.length">
             <div>This RFQ don't have any cost sheet prepared <br /><br /><a href="/rfq/{{rfq.id}}/costsheet/prepare">Please click here</a> to prepare one</div>

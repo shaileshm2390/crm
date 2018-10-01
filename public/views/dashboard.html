@@ -1,4 +1,4 @@
-﻿<div data-ng-show="global.authenticated" ng-controller="DashboardsController">
+﻿<div data-ng-show="global.authenticated" ng-controller="DashboardsController" id="test">
     <div class="page-titles">
 		<h3 class="text-primary">Dashboard</h3>
 	</div>
@@ -111,7 +111,7 @@
                                         <th>Customer</th>
                                         <th>Feasibility</th>
                                         <th>Created</th>
-                                        <th>Action</th>
+                                        <th  class="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -126,27 +126,48 @@
                                             <a href="/customer/{{rfq.Buyer.CustomerId}}">{{rfq.Buyer.Customer.company}}</a>
                                         </td>  
                                         <td>
-                                               <select class="ddlFeasibility form-control" data-rfqid="{{rfq.id}}" >
+                                               <select class="ddlFeasibility form-control col-lg-10" data-rfqid="{{rfq.id}}" ng-show="global.user.isAdmin">
                                                    <option value="0" ng-selected="rfq.feasiblity == 0">Check Feasibility</option>
                                                    <option value="1" ng-selected="rfq.feasiblity == 1 ">Feasible</option>
                                                    <option value="2" ng-selected="rfq.feasiblity == 2 ">Not Feasible</option>
-                                               </select>                                          
+                                               </select>  
+                                            <i class="fa fa-spin fa-spinner loader col-lg-2" style="font-size:10px; display:none"></i>
+
+                                            <div ng-show="!global.user.isAdmin">
+                                                    <div class="pull-right badge badge-success" ng-show="rfq.feasiblity == 1">
+                                                        Feasible
+                                                    </div>
+                                                    <div class="pull-right badge badge-danger" ng-show="rfq.feasiblity == 2">
+                                                        Not Feasible
+                                                    </div>
+                                                    <div class="pull-right badge badge-warning" ng-show="rfq.feasiblity == 0">
+                                                        Check Feasibility
+                                                    </div>
+                                            </div>                                        
                                         </td>                                   
                                         <td>
                                             <span>{{rfq.createdAt | date:'medium'}}</span>
                                         </td>   
-                                        <td>
-                                            <a class="btn btn-primary" href="#" ng-click="assignToMeRfq(rfq.id)">Assign to Me</a>
+                                        <td class="text-center">
+                                            <a class="btn btn-primary btnAssign" ng-show="rfq.feasiblity == 1" href="#" ng-click="assignToMeRfq(rfq.id)">Assign to Me</a>
+                                            <span ng-show="rfq.feasiblity != 1" class="lblDash">-</span>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <input type="hidden" class="hdnRfqLength" value="{{rfqs.length}}" />
                         </section>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+        <div class="row" ng-show="!rfqs.length">
+                <div class="col col-lg-12 text-center">
+                    <i class="fa fa-spin fa-spinner" style="font-size:48px;"></i>
+                </div>
+        </div>
 
 
     <div class="row" ng-show="myRfqs.length">
@@ -200,4 +221,43 @@
     <script src="/js/lib/morris-chart/raphael-min.js"></script>
     <script src="/js/lib/morris-chart/morris.js"></script>
     <script src="/js/lib/morris-chart/dashboard1-init.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var loadCode;
+            function actualFunction() {
+                if ($(".hdnRfqLength").length > 0 && $(".hdnRfqLength").val() != "") {
+                    $('.loader').hide();
+                    var UpdateRfqFeasibility = function (ele) {
+                        ele.parent().find('.loader').show();
+                            $.ajax({
+                                url: '/rfqs/feasibility/' + ele.data("rfqid"),
+                                method: "PUT",
+                                data: { Feasiblity: ele.val()}
+                            }).done(function (response) {
+                                if (ele.val() == "1") {
+                                    ele.parent().parent().find(".btnAssign").removeClass('ng-hide');
+                                    ele.parent().parent().find(".lblDash").addClass('ng-hide');
+                                } else {
+                                    ele.parent().parent().find(".btnAssign").addClass('ng-hide');
+                                    ele.parent().parent().find(".lblDash").removeClass('ng-hide');
+                                }
+                                ele.parent().find('.loader').hide();
+                             //   $(".hdnRfqLength").val('');
+                             //   angular.element(document.getElementById('test')).scope().rfqs = null;
+                               // angular.element(document.getElementById('test')).scope().findOpenRfq();
+                               // loadCode = setInterval(actualFunction, 500);
+                            });
+                        };
+
+                        $(".ddlFeasibility").on('change', function () {
+                            UpdateRfqFeasibility($(this));
+                        });
+
+                        clearInterval(loadCode);
+                    }
+            }
+            loadCode = setInterval(actualFunction, 500);
+        });
+    </script>
 </div>

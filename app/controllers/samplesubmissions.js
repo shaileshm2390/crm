@@ -58,6 +58,8 @@ exports.create = function (req, res) {
                 RfqId: req.body.data[index].RfqId
             };
 
+            console.log(sampleSubmissionRequest);
+
             db.Samplesubmission.create(sampleSubmissionRequest).then(function (samplesubmission) {
                 if (!samplesubmission) {
                     return res.send('/signin', { errors: new StandardError('sample submission could not be created') });

@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$stateParams', 'Global', 'Rfqs', '$state', '$window', '$http', '$sce', function ($scope, $stateParams, Global, Rfqs, $state, $window, $http, $sce) {
+var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$stateParams', 'Global', 'Rfqs', '$state', '$window', '$http', '$sce', '$location', function ($scope, $stateParams, Global, Rfqs, $state, $window, $http, $sce, $location) {
     $scope.global = Global;
     $scope.validatePermission = false;
     $scope.globalCheckFeasibility = true;
@@ -39,11 +39,12 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
     };
     
 
-    $scope.findOneByRfqId = function () {        
+    $scope.findOneByRfqId = function () {
         $http.get("/rfqs/" + $stateParams.rfqId)
             .then(function (response) {
                 $scope.rfq = response.data;
-               // if ($scope.isFeasible($scope.rfq)) {
+                var currentUrl = "customer/" + $scope.rfq.Buyer.CustomerId + "/buyer/" + $scope.rfq.BuyerId + "/rfq/" + $scope.rfq.id;
+                if ($scope.isFeasible($scope.rfq) || window.location.href.indexOf(currentUrl) > -1) {
                     for (var index = 0; index < $scope.rfq.RfqImages.length; index++) {
                         if ($scope.rfq.RfqImages[index].imagePath.indexOf(".pdf") > -1) {
                             $scope.rfq.RfqImages[index].displayPath = '/img/pdf.png';
@@ -79,9 +80,9 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
                     }
 
                     $scope.validatePermission = true;
-           //     } else {
-                 //   window.location.href = "/";
-           //     }
+                } else {
+                    window.location.href = currentUrl;
+                }
             }, function (error) {
                 console.log(error, $stateParams.rfqId);
             });

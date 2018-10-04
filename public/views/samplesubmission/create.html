@@ -13,7 +13,7 @@
                 <div class="clear clearfix m-b-10"></div>
 
                 <!-- Earlier records-->
-                <div data-ng-controller="SampleSubmissionsController" data-ng-init="findOne()" class="m-b-10 m-t-10">
+                <div data-ng-controller="SampleSubmissionsController" data-ng-init="findOne()" class="m-b-10 m-t-10" id="sampleSubmissionController">
                     <!-- Update status panel -->
                     <div ng-hide="isPoReceived(rfq)" class="pnlStatusUpdate">
                         <div class="control-group m-b-10">
@@ -141,7 +141,7 @@
                         </div>
 
                     </div>
-
+                    <input type="hidden" class="hdnSamplesubmissionLength" value="{{samplesubmission.length}}" />
                     <table class="table table-bordered table-hover">
                         <tr>
                             <th><strong>Operation</strong></th>
@@ -150,9 +150,9 @@
                             <th><strong>Order To</strong></th>
                             <th><strong>Order Date</strong></th>
                             <th><strong>Order Received</strong></th>
-                            <th><strong>Cost</strong></th>
-                            <th><strong>Modified</strong></th>
                             <th><strong>Description</strong></th>
+                            <th><strong>Cost</strong></th>
+                            <!--<th><strong>Modified</strong></th>-->
                         </tr>
 
                         <tr class="col-lg-3 m-b-10" data-ng-repeat="record in samplesubmission | orderBy : 'id'">
@@ -162,14 +162,15 @@
                             <td>{{record.orderTo}}</td>
                             <td>{{record.orderDate | date:'dd/MM/yyyy'}}</td>
                             <td>{{record.receivedDate | date:'dd/MM/yyyy'}}</td>
-                            <td>{{record.cost | currency : "Rs. "}}</td>
-                            <td>{{record.updatedAt | date:'dd/MM/yyyy'}}</td>
                             <td>{{record.description}}</td>
+                            <td>{{record.cost | currency : "Rs. "}}</td>
+                            <!--<td>{{record.updatedAt | date:'dd/MM/yyyy'}}</td>-->
+                           
                         </tr>
                         <tr>
-                            <td colspan="6"><span class="pull-right"><strong>Total Cost:</strong> </span></td>
+                            <td colspan="7"><span class="pull-right"><strong>Total Cost:</strong> </span></td>
                             <td><span><strong>{{TotalSubmissionCost | currency : "Rs. "}}</strong></span></td>
-                            <td>&nbsp;</td>
+                            
                         </tr>
                     </table>
                 </div>
@@ -210,6 +211,7 @@
             imagesString;
 
         var loadCode = setInterval(function () {
+            if ($(".hdnSamplesubmissionLength").length > 0 && $(".hdnSamplesubmissionLength").val() != "") {
             var isValidForm = function () {
                 var flagStatus = false;
 
@@ -223,7 +225,7 @@
             };
 
 
-            $(".datepicker").datepicker();
+            $(".datepicker").datepicker({ format: 'dd/mm/yyyy' });
 
             $(".btnUpload").on('click', function (e) {
                 if (isValidForm()) {
@@ -298,7 +300,6 @@
                 return dfd.promise();
             };
 
-            $(".datepicker").datepicker();
             $(".lnkAddPanel").on('click', function (e) {
                 $me = $(this);
                 $.get($(this).data('url'), function (response) {
@@ -324,7 +325,7 @@
                         });
 
 
-                        $(".datepicker").datepicker();
+                        $(".datepicker").datepicker({ format: 'dd/mm/yyyy' });
                         bindRemoveRowEvent();
                     });
                 });
@@ -360,13 +361,23 @@
                         }
                     } // for
                     if ((validField.length > 0 && $.inArray(false, validField) < 0)) {
+                        var orderDate = "";
+                        var orderDateArr = $($(".txtOrderDate:visible")[index]).val().split("/");
+                        orderDate = orderDateArr[1] + "/" + orderDateArr[0] + "/" + orderDateArr[2];
+
+                        var orderRecDate = "";
+                        if ($($(".txtOrderReceived:visible")[index]).val() != "") {
+                            var orderRecDateArr = $($(".txtOrderReceived:visible")[index]).val().split("/");
+                            orderRecDate = orderRecDateArr[1] + "/" + orderRecDateArr[0] + "/" + orderRecDateArr[2];
+                        }
+
                         itemObj = {
                             operation: $(".ddlSamplesubmission").val(),
                             stage: $me.data("stage"),
                             stageProcess: ($($(".stage-process:visible")[index]).val() == "Other" ? $($(".stage-process:visible")[index]).parent().find(".txtStageProcess:visible").val() : $($(".stage-process:visible")[index]).val()),
                             orderTo: $($(".txtOrderTo:visible")[index]).val(),
-                            orderDate: $($(".txtOrderDate:visible")[index]).val(),
-                            receivedDate: $($(".txtOrderReceived:visible")[index]).val(),
+                            orderDate: orderDate,
+                            receivedDate: orderRecDate,
                             cost: $($(".txtCost:visible")[index]).val(),
                             description : $($(".txtDescription:visible")[index]).val(),
                             RfqId: rfqId
@@ -380,13 +391,16 @@
                 if (sampleSubmissionList.length > 0) {
                     $.when(saveSampleSubmission()).then(function () {
                         window.location.href = '/rfq/' + $('.hdnRfqId').val() + '/samplesubmission';
+                        //sampleSubmissionController
+                        //angular.element(document.getElementById('sampleSubmissionController')).scope().rfqs = null;
+                       // angular.element(document.getElementById('test')).scope().findOpenRfq();
                     });
                 }
                 e.stopImmediatePropagation();
                 return false;
             });
 
-            if ($(".hdnRfqId").length > 0 && $(".hdnRfqId").val() != "") {
+           
                 rfqId = $(".hdnRfqId").val();
                 $(".ddlUser option[selected]").remove();
                 $(".ddlUser").val($(".hdnUserId").val());

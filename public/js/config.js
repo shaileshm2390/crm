@@ -239,6 +239,13 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
         //    templateUrl: 'views/htsts/view.html'
         //})
 
+        //
+        .state('developerhandover', {
+            url: '/rfq/{rfqId}/developerhandover',
+            controller: 'SampleSubmissionsController',
+            templateUrl: 'views/developerhandover/create.html'
+        })
+
         .state('404', {
             templateUrl: 'views/404.html'
         });

@@ -41,7 +41,7 @@ exports.create = function (req, res) {
     // augment the department by adding the UserId
     // save and return and instance of department on the res object.
     var samplesubmissionList = new Array();
-    db.Samplesubmission.destroy({ where: { operation: req.body.data[0].operation, RfqId: req.body.data[0].RfqId, stageProcess: req.body.data[0].stageProcess } });
+    db.Samplesubmission.destroy({ where: { operation: req.body.data[0].operation, RfqId: req.body.data[0].RfqId, stage: req.body.data[0].stage } });
     if (req.body.data.length > 0) {
         var totalData = req.body.data.length;
         for (var index = 0; index < totalData; index++) {
@@ -58,7 +58,6 @@ exports.create = function (req, res) {
                 RfqId: req.body.data[index].RfqId
             };
 
-            console.log(sampleSubmissionRequest);
 
             db.Samplesubmission.create(sampleSubmissionRequest).then(function (samplesubmission) {
                 if (!samplesubmission) {
@@ -66,7 +65,7 @@ exports.create = function (req, res) {
                 } else {
                     var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
                     db.Watchdog.create({
-                        message: "New Sample Subnission is created",
+                        message: "New Sample Submission is created",
                         ipAddress: ipAddress,
                         pageUrl: fullUrl,
                         userId: req.user.id,

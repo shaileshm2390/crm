@@ -4,6 +4,7 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
     $scope.global = Global;
     $scope.validatePermission = false;
     $scope.globalCheckFeasibility = true;
+    $scope.currentUrl = $location.url();
 
     $scope.trustAsHtml = function (html) {
         return $sce.trustAsHtml(html);

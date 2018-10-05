@@ -1,15 +1,15 @@
 ﻿<style>
     .menubar-nav {
         margin: 10px 0;
-        background-color: #5c4ac7;
-        padding: 10px;
+        background-color: #000;
+        padding: 2px;
         width: 100%;
     }
 
         .menubar-nav ul li {
             display: inline-block;
             padding: 5px 10px;
-            border-right: 1px solid #fff;
+            /*border-right: 1px solid #fff;*/
         }
 
             .menubar-nav ul li a {
@@ -86,33 +86,51 @@
         .menubar-nav ul li ul:hover {
             display: block;
         }
+        .menubar-nav > ul > li {
+            padding: 10px 0;
+        }
+
+        .menubar-nav  > ul > li:hover {
+             background-color: #fff;
+        }
+
+         .menubar-nav > ul > li:hover > a {
+             color: #000 !important;
+        }
+
+        .menu-active{
+            background-color: #fff;
+        }
+        .menu-active > a {
+            color: #000 !important;
+        }
 </style>
 
 <div class="row">
-    <div class="col col-lg-12 col-md-12 col-sm-12">
-        <div class="pull-right badge badge-success"ng-show="rfq.feasiblity == 1">
+    <div class="col col-lg-12 col-md-12 col-sm-12 text-right">
+        <div class="badge badge-info"  style="font-size: 14px;" ng-show="rfq.feasiblity == 1">
             Feasible
         </div>
-        <div class="pull-right badge badge-danger" ng-show="rfq.feasiblity == 2">
+        <div class="badge badge-danger"  style="font-size: 14px;" ng-show="rfq.feasiblity == 2">
             Not Feasible
         </div>
-        <div class="pull-right badge badge-warning" ng-show="rfq.feasiblity == 0">
+        <div class="badge badge-warning"  style="font-size: 14px;" ng-show="rfq.feasiblity == 0">
             Check Feasibility
         </div>
     </div>
 </div>
 
-<div class="row">
+<div class="row" style="margin:10px 0">
     <div class="menubar-nav" ng-show="!isFeasible(rfq)">
         <ul>
-            <li><a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}/rfq/{{rfq.id}}"><span>RFQ Detail</span></a></li>
+            <li class="menu-active"><a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}/rfq/{{rfq.id}}"><span>RFQ Detail</span></a></li>
         </ul>
     </div>
 
     <div class="menubar-nav" ng-show="isFeasible(rfq)">
         <ul>
-            <li><a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}/rfq/{{rfq.id}}"><span>RFQ Detail</span></a></li>
-            <li ng-hide="isPoReceived(rfq)">
+            <li ng-class="{'menu-active':currentUrl == '/customer/'+rfq.Buyer.CustomerId+'/buyer/'+rfq.BuyerId+'/rfq/'+rfq.id }"><a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}/rfq/{{rfq.id}}"><span>RFQ Detail</span></a></li>
+            <li ng-hide="isPoReceived(rfq)" ng-class="{'menu-active': currentUrl.includes('costsheet') }">
                 <a class="has-arrow lnkCostSheetMenu" href="#" aria-expanded="false">
                     <span>Cost Sheet Preparation</span>
                 </a>
@@ -121,11 +139,11 @@
                     <li><a href="/rfq/{{rfq.id}}/costsheet/approval">Approved &amp; Send to Customer</a><br /></li>
                 </ul>
             </li>
-            <li ng-show="rfq.CostSheets.length"><a href="/rfq/{{rfq.id}}/quotation/short"><span>Quotation</span></a></li>
-            <li ng-show="displaySampleSubmission(rfq)"><a href="/rfq/{{rfq.id}}/samplesubmission"><span>Sample Submission</span></a></li>
-            <li ng-show="displaySampleSubmission(rfq)"><a href="/rfq/{{rfq.id}}/sampleinspectionreport"><span>Inspection Report</span></a></li>
-            <li ng-show="displaySampleSubmission(rfq)"><a href="/rfq/{{rfq.id}}/developerhandover"><span>Developer Handover</span></a></li>
-            <li ng-show="displayReceivePO(rfq)"><a href="/rfq/{{rfq.id}}/purchaseorder"><span>Receive PO</span></a></li>
+            <li ng-show="rfq.CostSheets.length"  ng-class="{'menu-active': currentUrl.includes('quotation') }"><a href="/rfq/{{rfq.id}}/quotation/short"><span>Quotation</span></a></li>
+            <li ng-show="displaySampleSubmission(rfq)"  ng-class="{'menu-active': currentUrl.includes('samplesubmission') }"><a href="/rfq/{{rfq.id}}/samplesubmission"><span>Sample Submission</span></a></li>
+            <li ng-show="displaySampleSubmission(rfq)"  ng-class="{'menu-active': currentUrl.includes('sampleinspectionreport') }"><a href="/rfq/{{rfq.id}}/sampleinspectionreport"><span>Inspection Report</span></a></li>
+            <li ng-show="displaySampleSubmission(rfq)"  ng-class="{'menu-active': currentUrl.includes('developerhandover') }"><a href="/rfq/{{rfq.id}}/developerhandover"><span>Developer Handover</span></a></li>
+            <li ng-show="displayReceivePO(rfq)"  ng-class="{'menu-active': currentUrl.includes('purchaseorder') }"><a href="/rfq/{{rfq.id}}/purchaseorder"><span>Receive PO</span></a></li>
         </ul>
     </div>
     <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />

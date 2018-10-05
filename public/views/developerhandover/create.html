@@ -1,10 +1,145 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-	<meta charset="utf-8" />
-</head>
-<body>
+﻿<div class="card" ng-controller="RfqsController">
+    <h1 ng-show="rfq.id != null  && validatePermission">Developer Handover</h1>
+   
+    
+    <section data-ng-init="findOneByRfqId()" ng-show="rfq.id != null  && validatePermission">
 
-</body>
-</html>
+        <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
+
+        <div class="row">
+            <div ng-show="costsheet.status != 'approved'" class="alert alert-danger col col-lg-12">Cost Sheet is not yet approved. Please get an approval from admin</div>
+            <div ng-init="findApprovedCostSheetByRfqId()" class="col col-lg-12">
+                <div ng-show="costsheet.status == 'approved'" class="row">
+                    <div class="col col-lg-3">
+
+
+                        <h3><strong>Approved Costsheet</strong></h3>
+                        <div style="background-color:#e7e7e7; padding: 5px; box-shadow: 1px 1px 5px rgba(128,128,128,0.8)" class="costsheetHtml">
+                            <h6>
+                                <strong> {{costsheet.User.firstName}} {{costsheet.User.lastName}}</strong>
+                                <small>({{costsheet.User.email}})</small>
+                                <small class="pull-right"><i> - {{costsheet.createdAt | date:'medium'}}</i></small>
+                            </h6>
+
+                            <div class="clear clearfix"></div>
+
+                            <div class="row">
+                                <div class="col col-lg-12">
+                                    <div class="clear clearfix"></div><br />
+                                    <div class="cost-sheet-form">
+                                        <div ng-repeat="item in costsheet.data">
+                                            <div class="row" ng-repeat="(key,value) in item" ng-class="(key=='Total') == true && 'm-t-20 font-weight-bold'">
+                                                <div class="col col-lg-6">
+                                                    <label>{{key}}</label>
+                                                </div>
+                                                <div class="col col-lg-6">
+                                                    {{value}}
+                                                </div>
+                                            </div> <hr />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr />
+                        <input type="hidden" class="hdnCostSheetId" value="{{costsheet.id}}" />
+                        <input type="hidden" class="hdnCostSheetData" value="{{costsheet.data}}" />
+
+                    </div>
+                    <div class="col col-lg-9">
+                        <!-- If quotation is not submitted yet -->
+                        <div >
+                            <div class="txtEditor" ng-include="'views/developerhandover/developer-template.html'">
+                            </div>
+                            <div class="clear clearfix fc-clear"></div><br />
+                            <br />
+                            <a class="btn btn-primary btnSubmit" href="#">Save</a>&nbsp; <i class="loader fa fa-spin fa-spinner f-s-21 hide"></i>
+                            <div class="quotMsg alert alert-success m-t-10 hide">Data saved successfully.. Please wait !!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="displayCostsheet hide"></div>
+        <input class="hdnRfqId" id="hdnRfqId" type="hidden" value="{{rfq.id}}" />
+
+    </section>
+    <!--<script src="/js/view/quotation.js"></script>-->
+    <script>
+    $(document).ready(function () {
+        var rfqId, costSheetId, costsheetData,
+
+        loadCode = setInterval(function () {
+            rfqId = $(".hdnRfqId").val();
+            if (rfqId.length > 0 && rfqId != "") {
+                //ajax call to save qoute
+                var saveQuotation = function () {
+                    var dfd = $.Deferred();
+                    //$.ajax({
+                    //    url: '/quotations/',
+                    //    method: "POST",
+                    //    data: { UserId: window.user.id, RfqId: rfqId, CostSheetId: costSheetId, isCostSheetAttached: ($('.chkAttachCostSheet').prop('checked') ? 1 : 0), emailContent: $(".fr-element").html(), data: costsheetData, buyerEmail: $(".hdnBuyerDetail").data("email") }
+                    //}).done(function (response) {
+                    //    dfd.resolve(response);
+                    //});
+                    return dfd.promise();
+                };
+
+                    if ($(".txtEditor:visible").length > 0) {
+                        var months = ["Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
+                        var dt = new Date();
+                        $(".date").text(dt.getDate() + " " + months[parseInt(dt.getMonth())] + " " + dt.getFullYear());
+                        $('.txtEditor').froalaEditor();
+                    }
+
+                    if ($(".hdnCostSheetData").val() != '') {                        
+                    }
+
+                    // save quotation to db
+                    $(".btnSubmit").on('click', function (e) {
+                        var $me = $(this);
+                        $me.addClass("hide");
+                        $(".loader").removeClass("hide");
+                        if ($(".fr-element").html().replace(/(<([^>]+)>)/ig, "") != "") {
+                            $.when(saveQuotation()).then(function () {
+                                window.location.reload();
+                                $(".loader").addClass("hide");
+                                $(".quotMsg").removeClass("hide");
+                                window.location.reload();
+                            });
+                        }
+                        e.stopImmediatePropagation();
+                        return false;
+                    });
+
+                    clearInterval(loadCode);
+                }
+            }, 500);
+    });
+
+
+    </script>
+
+
+    <section ng-show="rfq.id == null && validatePermission">
+        <h1>403 - Forbidden</h1>
+        <p>Access Denied. You don't have access to view this page</p>
+    </section>
+
+    <section ng-show="!validatePermission">
+        <h1>Loading please wait..!!</h1>
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+</div>

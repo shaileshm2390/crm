@@ -5,7 +5,7 @@
     <div class="row">
 
         <div ng-show="costsheet.status != 'approved'" class="alert alert-danger col col-lg-12">Cost Sheet is not yet approved. Please get an approval from admin</div>
-        <div ng-init="findApprovedCostSheetByRfqId()">
+        <div ng-init="findApprovedCostSheetByRfqId()" class="col col-lg-12">
             <div ng-show="costsheet.status == 'approved'" class="row">
                 <div class="col col-lg-3">
 

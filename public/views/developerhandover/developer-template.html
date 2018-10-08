@@ -2,117 +2,349 @@
     <br />
     <p class="ng-scope" style="text-align:center;"><img src="http://www.metaforgeindia.com/images/logo.png" style="width: 300px;" class="fr-fic fr-dib"></p>
 
-    <h3>Developer Handover Document</h3>
 
-    <table border="1" class="ng-scope fr-dashed-borders" style="width: 100%;">
+
+    <table border="0" cellpadding="0" cellspacing="0" style='color: rgb(0, 0, 0);font-family: "Open Sans", sans-serif;font-size: 14px;font-style: normal;font-weight: 400;text-align: left;text-indent: 0px;background-color: rgb(255, 255, 255);width: 100%;' width="711">
         <tbody>
             <tr>
-                <td style="width: 52.1411%; vertical-align: top;">
-                    <strong>GSTIN:</strong>
-                    <br><strong>PAN:</strong><strong><br>TAN:</strong>
-                    <br><strong>IFSC code:</strong>
-                    <br><strong>Bankers:</strong>
-                </td>
-                <td style="width: 47.733%; vertical-align: top;">
+                <td align="left" colspan="8" height="40" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: top;height: 30pt;width: 533pt;" valign="top" width="100%">
 
-                    <p style="text-align: right;">
-                        <strong>METAFORGE ENGINEERING INDIA PVT. LTD.</strong>
-                        <br>Address : &nbsp; S.No. 22/3,
-                        <br>Nasik - Dindori Road,
-                        <br>Mhasrul, Nasik - 422004,
-                        <br>Maharashtra INDIA
-                        <br><strong>Tel</strong>: +91 - 253 - 2530 505 / 2530506
-                        <br><strong>Email: <a href="mailto:mktg@metaforgeindia.com">mktg@metaforgeindia.com</a></strong>
-                    </p>
+                    <table cellpadding="0" cellspacing="0" style="width: 100%;">
+                        <tbody>
+                            <tr>
+                                <td class="xl73" colspan="8" height="40" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 21px;font-weight: 700;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 30pt;width: 533pt;" width="100%">Part Handover Procedure_Marketing to Development</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </td>
             </tr>
             <tr>
-                <td>
-                    <br>
-                </td>
-                <td>
+                <td class="xl68" colspan="8" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">
                     <br>
                 </td>
             </tr>
             <tr>
-                <td style="width: 52.1411%; vertical-align: top;">
-                    <br>To, <b>{{rfq.Buyer.name}}</b>
-                    <br>
+                <td class="xl65" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;vertical-align: middle;height: 15pt;" colspan="2">Enquiry Number</td>
+             
+                <td class="xl74" colspan="3" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;">
                     <br>
                 </td>
-                <td style="width: 47.733%; text-align: left; vertical-align: top;">
-                    <br><strong>Enquiry No.s</strong>:
-                    <br><strong>Date</strong>: <span class="date"></span>
-                    <br><strong>HSN Code</strong>:
-                    <br><strong>Contact Person:</strong> {{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}
-                    <br><br />
+                <td class="xl65" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;vertical-align: middle;">Drg Recd. On</td>
+                <td class="xl74" colspan="2" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;">
+                    <br>
                 </td>
+            </tr>
+            <tr>
+                <td class="xl65" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;vertical-align: middle;height: 15pt;"  colspan="2">Enquiry Date</td>
+               
+                <td class="xl77" colspan="3" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;">{{rfq.createdAt | date :  "dd.MM.yyyy" }}</td>
+                <td class="xl65" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;vertical-align: middle;">Part Number</td>
+                <td class="xl74" colspan="2" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;"></td>
+            </tr>
+            <tr>
+                <td class="xl65" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;vertical-align: middle;height: 15pt;"  colspan="2">Customer</td>
+              
+                <td class="xl72" colspan="3" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;">{{rfq.Buyer.Customer.company}}</td>
+                <td class="xl65" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;vertical-align: middle;">Part Name</td>
+                <td class="xl72" colspan="2" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;"></td>
+            </tr>
+            <tr>
+                <td  colspan="2" class="xl65" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;vertical-align: middle;height: 15pt;">Vehicle</td>
+               
+                <td class="xl72" colspan="3" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl65" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;vertical-align: middle;">Drg Mod No.</td>
+                <td class="xl72" colspan="2" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;">
+                    <br>
+                </td>
+            </tr>
+            <tr>
+                <td  colspan="2" class="xl65" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;vertical-align: middle;height: 15pt;">Quantity Per Month</td>
+                
+                <td class="xl72" colspan="3" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;"></td>
+                <td class="xl78" colspan="3" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;">Material Grade &amp; Wire / Rod Size</td>
+            </tr>
+            <tr>
+                <td  colspan="2" class="xl65" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;vertical-align: middle;height: 15pt;">MEPL Part Number</td>
+                
+                <td class="xl72" colspan="3" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl67" colspan="2" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">As per drg</td>
+                <td class="xl67" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">Actual</td>
+            </tr>
+            <tr>
+                <td  colspan="2" class="xl65" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;vertical-align: middle;height: 15pt;">Target Date</td>
+           
+                <td class="xl72" colspan="3" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;"></td>
+                <td class="xl79" colspan="2" rowspan="2" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;width: 124pt;">
+                    Dia :
+                    <br>&nbsp;Grade :
+                </td>
+                <td class="xl79" rowspan="2" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;width: 69pt;">
+                    Dia :
+                    <br>&nbsp;Grade : 
+                </td>
+            </tr>
+            <tr>
+                <td  colspan="3" class="xl66" height="45" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;height: 33.75pt;">
+                    <br>
+                </td>              
+            </tr>
+            <tr>
+                <td class="xl80" colspan="8" height="21" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 16px;font-weight: 700;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;height: 15.75pt;">PO received on {{rfq.PurchaseOrders[0].createdAt | date : 'dd MMMM yyyy'}}</td>
+            </tr>
+            <tr>
+                <td class="xl81" height="40" rowspan="2" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 30pt;width: 25pt;">
+                    Sr.
+                    <br>&nbsp;No.
+                </td>
+                <td class="xl67" colspan="2" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">Process Flow Diagram</td>
+                <td class="xl67" colspan="2" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">Rate</td>
+                <td class="xl67" rowspan="2" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">Tooling</td>
+                <td class="xl81" rowspan="2" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;width: 59pt;">
+                    Gauges
+                    <br>&nbsp;Instrument
+                </td>
+                <td class="xl81" rowspan="2" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;width: 69pt;">Mfg. Location</td>
+            </tr>
+            <tr>
+                <td class="xl67" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">Quoted</td>
+                <td class="xl67" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">Actual</td>
+                <td class="xl67" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">Target</td>
+                <td class="xl67" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">Actual</td>
+            </tr>
+            <tr>
+                <td class="xl69" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">1</td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">Forging</td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
+                    <br>
+                </td>
+                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
+                    <br>
+                </td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
+                    <br>
+                </td>
+            </tr>
+            <tr>
+                <td class="xl69" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">2</td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">POLYGON MILLING SETUP 1</td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
+                    <br>
+                </td>
+                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
+                    <br>
+                </td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
+                    <br>
+                </td>
+            </tr>
+            <tr>
+                <td class="xl69" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">4</td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">OD TURNING</td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
+                    <br>
+                </td>
+                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
+                    <br>
+                </td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
+                    <br>
+                </td>
+            </tr>
+            <tr>
+                <td class="xl69" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">5</td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">THREADING</td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
+                    <br>
+                </td>
+                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
+                    <br>
+                </td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
+                    <br>
+                </td>
+            </tr>
+            <tr>
+                <td class="xl69" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">6</td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">PLATING</td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
+                    <br>
+                </td>
+                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
+                    <br>
+                </td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
+                    <br>
+                </td>
+            </tr>
+            <tr>
+                <td class="xl69" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">7</td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
+                    <br>
+                </td>
+                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
+                    <br>
+                </td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
+                    <br>
+                </td>
+            </tr>
+            <tr>
+                <td class="xl69" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">8</td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
+                    <br>
+                </td>
+                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
+                    <br>
+                </td>
+                <td class="xl72" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;">
+                    <br>
+                </td>
+            </tr>
+            <tr>
+                <td class="xl69" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">9</td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
+                    <br>
+                </td>
+                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
+                    <br>
+                </td>
+                <td class="xl72" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;">
+                    <br>
+                </td>
+            </tr>
+            <tr>
+                <td class="xl69" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">10</td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
+                    <br>
+                </td>
+                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
+                    <br>
+                </td>
+                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
+                    <br>
+                </td>
+                <td class="xl72" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;">
+                    <br>
+                </td>
+            </tr>
+            <tr>
+                <td class="xl68" colspan="8" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">
+                    <br>
+                </td>
+            </tr>
+            <tr>
+                <td class="xl80" colspan="8" height="21" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 16px;font-weight: 700;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;height: 15.75pt;">Customer&#39;s Contact Details</td>
+            </tr>
+            <tr>
+                <td class="xl72" colspan="2" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;height: 15pt;">Name</td>
+                <td class="xl72" colspan="6" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;">{{rfq.Buyer.Customer.name}}</td>
+            </tr>
+            <tr>
+                <td class="xl72" colspan="2" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;height: 15pt;">Mobile Number</td>
+                <td class="xl72" colspan="6" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;">{{rfq.Buyer.Customer.contact}}</td>
+            </tr>
+            <tr>
+                <td class="xl72" colspan="2" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;height: 15pt;">Email ID</td>
+                <td class="xl82" colspan="6" style="padding: 0px;font-family: Calibri, sans-serif;color: rgb(5, 99, 193);font-size: 15px;font-weight: 400;font-style: normal;text-decoration: underline;text-align: left;vertical-align: middle;"><a href="mailto:{{rfq.Buyer.Customer.email}}" style="color: rgb(92, 74, 199);text-decoration: none !important;background: 0px 0px;">{{rfq.Buyer.Customer.email}}</a></td>
             </tr>
         </tbody>
     </table>
-
-    <p class="ng-scope">
-        <br>
-    </p>
-
-    <p class="ng-scope">Dear Sir/Madam,</p>
-
-    <p class="ng-scope" style="margin-left: 20px;">We are thankful for your inquiry. We are pleased to quote our most competitive rates as under. Please carefully go through the technical specification and commercial terms given below. Awaiting your valued order.</p>
-
-    <p class="ng-scope" style="margin-left: 20px;">
-        <br>
-    </p>
-
-    <table border="1" class="ng-scope" style="width: 100%; margin-left: calc(0%);">
-        <tbody>
-            <tr>
-                <td style="width: 16.6667%; text-align: center;"><strong>Sr.No</strong></td>
-                <td style="width: 16.6667%; text-align: center;"><strong>Part No &amp; Name</strong></td>
-                <td style="width: 16.6667%; text-align: center;"><strong>Price</strong></td>
-            </tr>
-            <tr ng-repeat="item in rfq.LatestCostsheet.RawMaterial">
-                <td style="width: 16.6667%; text-align: center;">{{$index +1}}</td>
-                <td style="width: 16.6667%; text-align: center;">{{item.ProductName}}</td>
-                <td style="width: 16.6667%; text-align: center;">{{item.RMCost}}</td>
-            </tr>
-          
-        </tbody>
-    </table>
-
-    <p class="ng-scope">
-        <br>
-    </p>
-    <hr class="ng-scope">
-
-    <p class="ng-scope"><u>Note</u>:</p>
-
-    <p class="ng-scope">
-        <br>
-    </p>
-    <hr class="ng-scope">
-
-    <p class="ng-scope"><u>Terms:</u></p>
-
-    <table border="1" class="ng-scope" style="width: 100%;">
-        <tbody>
-            <tr>
-                <td style="width: 50.0000%;">Payment : {{rfq.Buyer.Customer.payment}}</td>
-                <td style="width: 50.0000%;">Taxes:{{rfq.Buyer.Customer.tax}}</td>
-            </tr>
-            <tr>
-                <td>Delivery terms:{{rfq.Buyer.Customer.terms}}</td>
-                <td>Freight:{{rfq.Buyer.Customer.freight}}</td>
-            </tr>
-            <tr>
-                <td>Packing:{{rfq.Buyer.Customer.packing}}</td>
-                <td>Validity:{{rfq.Buyer.Customer.validity}}</td>
-            </tr>
-        </tbody>
-    </table>
-    <hr class="ng-scope">
-
-    <p class="ng-scope">Subject to Nashik Jurisdiction&nbsp;</p>
-
+    
+    <hr />
     <p class="ng-scope">Prepared by:&nbsp; <br /><b>{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</b></p>
 
     <p class="ng-scope" style="text-align: right;"><span style="font-size: 9px;">This document is digitally prepared</span></p>

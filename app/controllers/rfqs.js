@@ -81,7 +81,10 @@ exports.all = function (req, res) {
             },
             {
                 model: db.Quotation
-            }
+            },
+             {
+                 model: db.DeveloperHandover
+             }
         ]
     }).then(function (rfqs) {
         return res.jsonp(rfqs);
@@ -124,7 +127,10 @@ exports.rfq = function (req, res, next, id) {
             },
             {
                 model: db.Quotation
-            }
+            },
+             {
+                 model: db.DeveloperHandover
+             }
         ]
     }).then(function (rfq) {
         if (!rfq) {
@@ -170,7 +176,10 @@ exports.rfqByBuyer = function (req, res, next, id) {
             },
             {
                 model: db.Quotation
-            }
+            },
+             {
+                 model: db.DeveloperHandover
+             }
         ]
     }).then(function (rfq) {
         if (!rfq) {
@@ -211,7 +220,10 @@ exports.rfqByUser = function (req, res, next, id) {
             },
             {
                 model: db.Quotation
-            }
+            },
+             {
+                 model: db.DeveloperHandover
+             }
         ]
     }).then(function (rfq) {
         if (!rfq) {

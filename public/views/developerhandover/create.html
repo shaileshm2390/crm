@@ -48,10 +48,14 @@
 
                     </div>
                     <div class="col col-lg-9">
-                        <!-- If quotation is not submitted yet -->
+                        <!-- If developerhandover is not submitted yet -->
                         <div >
-                            <div class="txtEditor" ng-include="'views/developerhandover/developer-template.html'">
+                            <div class="txtEditor create" ng-include="'views/developerhandover/developer-template.html'" ng-show="!rfq.DeveloperHandovers.length">
                             </div>
+
+                            <div class="txtEditor exists" ng-include="'views/developerhandover/developer-template.html'" ng-show="rfq.DeveloperHandovers.length">
+                            </div>
+
                             <div class="clear clearfix fc-clear"></div><br />
                             <br />
                             <a class="btn btn-primary btnSubmit" href="#">Save</a>&nbsp; <i class="loader fa fa-spin fa-spinner f-s-21 hide"></i>
@@ -62,9 +66,9 @@
             </div>
         </div>
 
-        <div class="displayCostsheet hide"></div>
         <input class="hdnRfqId" id="hdnRfqId" type="hidden" value="{{rfq.id}}" />
-
+        <input class="hdnDeveloperHandover" id="hdnDeveloperHandover" type="hidden" value="{{rfq.DeveloperHandovers[0].id}}" />
+       hello {{rfq}}
     </section>
     <!--<script src="/js/view/quotation.js"></script>-->
     <script>
@@ -74,28 +78,41 @@
         loadCode = setInterval(function () {
             rfqId = $(".hdnRfqId").val();
             if (rfqId.length > 0 && rfqId != "") {
+
+                if ($(".hdnDeveloperHandover").val() == "") {
+                    $(".exists").remove();
+                } else {
+                    $(".create").remove();
+                }
+
+
                 //ajax call to save qoute
-                var saveQuotation = function () {
+                var saveDeveloperHandover = function () {
                     var dfd = $.Deferred();
-                    //$.ajax({
-                    //    url: '/quotations/',
-                    //    method: "POST",
-                    //    data: { UserId: window.user.id, RfqId: rfqId, CostSheetId: costSheetId, isCostSheetAttached: ($('.chkAttachCostSheet').prop('checked') ? 1 : 0), emailContent: $(".fr-element").html(), data: costsheetData, buyerEmail: $(".hdnBuyerDetail").data("email") }
-                    //}).done(function (response) {
-                    //    dfd.resolve(response);
-                    //});
+                    if ($(".hdnDeveloperHandover").val() == "") {
+                        $.ajax({
+                            url: '/developerhandovers',
+                            method: "POST",
+                            data: { UserId: window.user.id, RfqId: rfqId, data: $(".fr-element").html() }
+                        }).done(function (response) {
+                            dfd.resolve(response);
+                        });
+                    } else {
+                        $.ajax({
+                            url: '/developerhandovers/' + $(".hdnDeveloperHandover").val(),
+                            method: "PUT",
+                            data: { UserId: window.user.id, RfqId: rfqId, data: $(".fr-element").html() }
+                        }).done(function (response) {
+                            dfd.resolve(response);
+                        });
+                    }
                     return dfd.promise();
-                };
+                    };
 
-                    if ($(".txtEditor:visible").length > 0) {
-                        var months = ["Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
-                        var dt = new Date();
-                        $(".date").text(dt.getDate() + " " + months[parseInt(dt.getMonth())] + " " + dt.getFullYear());
-                        $('.txtEditor').froalaEditor();
-                    }
 
-                    if ($(".hdnCostSheetData").val() != '') {                        
-                    }
+                if ($(".txtEditor:visible").length > 0) {                  
+                    $('.txtEditor').froalaEditor();
+                }
 
                     // save quotation to db
                     $(".btnSubmit").on('click', function (e) {
@@ -103,8 +120,7 @@
                         $me.addClass("hide");
                         $(".loader").removeClass("hide");
                         if ($(".fr-element").html().replace(/(<([^>]+)>)/ig, "") != "") {
-                            $.when(saveQuotation()).then(function () {
-                                window.location.reload();
+                            $.when(saveDeveloperHandover()).then(function () {
                                 $(".loader").addClass("hide");
                                 $(".quotMsg").removeClass("hide");
                                 window.location.reload();

@@ -53,7 +53,7 @@
                             <div class="txtEditor create" ng-include="'views/developerhandover/developer-template.html'" ng-show="!rfq.DeveloperHandovers.length">
                             </div>
 
-                            <div class="txtEditor exists" ng-include="'views/developerhandover/developer-template.html'" ng-show="rfq.DeveloperHandovers.length">
+                            <div class="txtEditor exists" ng-show="rfq.DeveloperHandovers.length" ng-bind-html="trustAsHtml(rfq.DeveloperHandovers[0].data)">
                             </div>
 
                             <div class="clear clearfix fc-clear"></div><br />
@@ -68,12 +68,11 @@
 
         <input class="hdnRfqId" id="hdnRfqId" type="hidden" value="{{rfq.id}}" />
         <input class="hdnDeveloperHandover" id="hdnDeveloperHandover" type="hidden" value="{{rfq.DeveloperHandovers[0].id}}" />
-       hello {{rfq}}
+      
     </section>
-    <!--<script src="/js/view/quotation.js"></script>-->
     <script>
     $(document).ready(function () {
-        var rfqId, costSheetId, costsheetData,
+        var rfqId,
 
         loadCode = setInterval(function () {
             rfqId = $(".hdnRfqId").val();
@@ -89,25 +88,21 @@
                 //ajax call to save qoute
                 var saveDeveloperHandover = function () {
                     var dfd = $.Deferred();
+                    var method;
                     if ($(".hdnDeveloperHandover").val() == "") {
-                        $.ajax({
-                            url: '/developerhandovers',
-                            method: "POST",
-                            data: { UserId: window.user.id, RfqId: rfqId, data: $(".fr-element").html() }
-                        }).done(function (response) {
-                            dfd.resolve(response);
-                        });
+                        method = 'POST';
                     } else {
-                        $.ajax({
-                            url: '/developerhandovers/' + $(".hdnDeveloperHandover").val(),
-                            method: "PUT",
-                            data: { UserId: window.user.id, RfqId: rfqId, data: $(".fr-element").html() }
-                        }).done(function (response) {
-                            dfd.resolve(response);
-                        });
+                        method = 'PUT';
                     }
+                    $.ajax({
+                        url: '/developerhandovers',
+                        method: method,
+                        data: { UserId: window.user.id, RfqId: rfqId, data: $(".fr-element").html(), id: $(".hdnDeveloperHandover").val() }
+                    }).done(function (response) {
+                        dfd.resolve(response);
+                    });
                     return dfd.promise();
-                    };
+                };
 
 
                 if ($(".txtEditor:visible").length > 0) {                  

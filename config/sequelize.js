@@ -35,8 +35,8 @@ winston.info('Initializing Sequelize...');
 //    });
 
 var sequelize = new Sequelize(process.env.DATABASE_URL || config.DATABASE_URL, {
-    // logging: config.enableSequelizeLog === 'true' ? winston.verbose : false
-    logging: console.log
+     logging: config.enableSequelizeLog === 'true' ? winston.verbose : false
+    //logging: console.log
 });
 
 // loop through all files in models directory ignoring hidden files and this file

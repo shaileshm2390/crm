@@ -59,16 +59,20 @@ exports.developerHandover = function (req, res, next, id) {
 };
 
 exports.update = function (req, res) {
-    var developerHandovers = req.developerHandovers;
 
-    developerHandovers.updateAttributes({
-        data: req.body.data
-    }).then(function (a) {       
-        return res.jsonp(a);
-    }).catch(function (err) {
-        return res.render('error', {
-            error: err,
-            status: 500
+    db.DeveloperHandover.find({
+        where: { id: req.body.id }
+    }).then(function (developerHandovers) {
+
+        developerHandovers.updateAttributes({
+            data: req.body.data
+        }).then(function (a) {
+            return res.jsonp(a);
+        }).catch(function (err) {
+            return res.render('error', {
+                error: err,
+                status: 500
+            });
         });
     });
 };

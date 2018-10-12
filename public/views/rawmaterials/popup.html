@@ -133,15 +133,9 @@
 
                         $(".btnSave").on('click', function (e) {
                             if (validRawMaterialForm()) {
-                                $.when(saveRawMaterial()).then(function (data) {
-                                    $option = $("<option>").html(data.material).attr({
-                                        "data-rate": data.rate,
-                                        "data-scrap-rate": data.scrapRate,
-                                        "data-scrap-recovery": data.scrapRecovery,
-                                        "class": "ng-binding ng-scope"
-                                    });
-                                    $(".ddlRawMaterial").append($option);
+                                $.when(saveRawMaterial()).then(function (data) {                                   
                                     $(".close").trigger("click");
+                                    angular.element(document.getElementsByClassName('rawmaterialAdded')).scope().find();
                                 });
                             }
                             e.stopImmediatePropagation();

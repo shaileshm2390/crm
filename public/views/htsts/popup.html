@@ -110,13 +110,9 @@
 
         $(".btnAdd").on('click', function (e) {
             if (validHTSTForm()) {
-                $.when(saveHTST()).then(function (data) {
-                    console.log(data);
-                    $input = $("<option>").html(data.details).attr({
-                        "data-rate": data.rate
-                    });
-                    $(".ddlHtSt").append($input);
+                $.when(saveHTST()).then(function (data) {     
                     $(".close").trigger("click");
+                    angular.element(document.getElementsByClassName('htstAdded')).scope().find();
                 });
             }
             e.stopImmediatePropagation();

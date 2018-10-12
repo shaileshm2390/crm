@@ -109,7 +109,6 @@
             return flagOperation && flagMachine && flagRate && flagEfficiency;
         },
             saveConversion = function () {
-                console.log("saveConversion");
                 var dfd = $.Deferred();
                 $.ajax({
                     url: '/conversions/',
@@ -130,15 +129,8 @@
             if (validConversionForm()) {
                 console.log("ello if");
                 $.when(saveConversion()).then(function (data) {
-                    console.log("hi");
-                    $machine = $("<option>").html(data.machine).attr({
-                        "data-rate": data.rate,
-                        "data-efficiency": data.efficiency
-                    });
-                    $operation = $("<option>").html(data.operation);
-                    $(".ddlOperation").append($operation);
-                    $(".ddlMachine").append($machine);
                     $(".close").trigger("click");
+                    angular.element(document.getElementsByClassName('conversionAdded')).scope().find();
                 });
             }
             e.stopImmediatePropagation();

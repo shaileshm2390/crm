@@ -27,11 +27,11 @@
                                     <!-- <h1>{{item}}</h1> -->
                                     <div ng-controller="RawMaterialsController" ng-init="find()" class="head-row removable-row" ng-class="!$first && 'animated slideInDown'">
                                         <span class="row-remove" ng-hide="$first"><i class="fa fa-minus-circle"></i></span>
-                                        <div ng-include="'views/costsheets/templates/rawMaterialFields.html'"></div>
+                                        <div  class="rawmaterialAdded" ng-include="'views/costsheets/templates/rawMaterialFields.html'"></div>
                                     </div>
                                 </div>
                                 <div ng-controller="RawMaterialsController" ng-init="find()" class="head-row removable-row" ng-show="!rfq.LatestCostsheet.RawMaterial.length">
-                                    <div ng-include="'views/costsheets/templates/rawMaterialFields.html'"></div>
+                                    <div  class="rawmaterialAdded" ng-include="'views/costsheets/templates/rawMaterialFields.html'"></div>
                                 </div>
                             </div>
 
@@ -49,12 +49,12 @@
                                 <div ng-repeat="item in rfq.LatestCostsheet.Conversion">
                                     <div class="head-row removable-row" ng-class="!$first && 'animated slideInDown'">
                                         <span class="row-remove" ng-hide="$first"><i class="fa fa-minus-circle"></i></span>
-                                        <div ng-include="'views/costsheets/templates/conversionFields.html'" ng-controller="ConversionsController" ng-init="find()"></div>
+                                        <div ng-include="'views/costsheets/templates/conversionFields.html'" ng-controller="ConversionsController"  class="conversionAdded" ng-init="find()"></div>
                                     </div>
                                 </div>
 
                                 <div class="head-row removable-row" ng-show="!rfq.LatestCostsheet.Conversion.length">
-                                    <div ng-include="'views/costsheets/templates/conversionFields.html'" ng-controller="ConversionsController" ng-init="find()"></div>
+                                    <div ng-include="'views/costsheets/templates/conversionFields.html'" ng-controller="ConversionsController"  class="conversionAdded" ng-init="find()"></div>
                                 </div>
                             </div>
                         </div>
@@ -70,12 +70,12 @@
                                 <div ng-repeat="item in rfq.LatestCostsheet.HtSt">
                                     <div class="head-row removable-row" ng-class="!$first && 'animated slideInDown'">
                                         <span class="row-remove" ng-hide="$first"><i class="fa fa-minus-circle"></i></span>
-                                        <div ng-include="'views/costsheets/templates/htStFields.html'" ng-controller="HtstsController" ng-init="find()"></div>
+                                        <div ng-include="'views/costsheets/templates/htStFields.html'" ng-controller="HtstsController" class="htstAdded" ng-init="find()"></div>
                                     </div>
                                 </div>
 
                                 <div class="head-row removable-row" ng-show="!rfq.LatestCostsheet.Conversion.length">
-                                    <div ng-include="'views/costsheets/templates/htStFields.html'" ng-controller="HtstsController" ng-init="find()"></div>
+                                    <div ng-include="'views/costsheets/templates/htStFields.html'" ng-controller="HtstsController" class="htstAdded" ng-init="find()"></div>
                                 </div>
                             </div>
                         </div>

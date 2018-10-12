@@ -5,7 +5,7 @@ var app = angular.module('mean.sampleinspectionreports').controller('SampleInspe
     $scope.global = Global;
 
 
-    $scope.Status = ["Ok", "Not ok"];
+    $scope.Status = ["Ok", "Not ok", "Await"];
 
     var url = "http://api.ipstack.com/check?access_key=a0a80aaea559ceb4d5ebacc03c30f6d3";
     $http.get(url).then(function (response) {

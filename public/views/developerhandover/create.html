@@ -49,7 +49,7 @@
                     </div>
                     <div class="col col-lg-9">
                         <!-- If developerhandover is not submitted yet -->
-                        <div >
+                        <div>
                             <div class="txtEditor create" ng-include="'views/developerhandover/developer-template.html'" ng-show="!rfq.DeveloperHandovers.length">
                             </div>
 
@@ -58,8 +58,25 @@
 
                             <div class="clear clearfix fc-clear"></div><br />
                             <br />
+                            <div class="row">
+                                <div class="col col-lg-3">
+                                    <label><strong>Expected Lead Time:</strong></label>
+                                </div>
+                                <div class="col col-lg-3">
+                                    <select class="ddlExpectedLeadTime form-control">
+                                        <option value="">Select Expected Lead Time</option>
+                                        <option value="4" ng-selected="rfq.DeveloperHandovers[0].expectedLeadTime == 4">4 weeks</option>
+                                        <option value="6" ng-selected="rfq.DeveloperHandovers[0].expectedLeadTime ==6">6 weeks</option>
+                                        <option value="8" ng-selected="rfq.DeveloperHandovers[0].expectedLeadTime == 8">8 weeks</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="clear clearfix fc-clear"></div><br />
+                            <br />
                             <a class="btn btn-primary btnSubmit" href="#">Save</a>&nbsp; <i class="loader fa fa-spin fa-spinner f-s-21 hide"></i>
                             <div class="quotMsg alert alert-success m-t-10 hide">Data saved successfully.. Please wait !!</div>
+                            <div class="errorMsg alert alert-danger m-t-10 hide">Fields are required</div>
                         </div>
                     </div>
                 </div>
@@ -97,7 +114,7 @@
                     $.ajax({
                         url: '/developerhandovers',
                         method: method,
-                        data: { UserId: window.user.id, RfqId: rfqId, data: $(".fr-element").html(), id: $(".hdnDeveloperHandover").val() }
+                        data: { UserId: window.user.id, RfqId: rfqId, data: $(".fr-element").html(), id: $(".hdnDeveloperHandover").val(), expectedLeadTime: $(".ddlExpectedLeadTime").val() }
                     }).done(function (response) {
                         dfd.resolve(response);
                     });
@@ -114,12 +131,17 @@
                         var $me = $(this);
                         $me.addClass("hide");
                         $(".loader").removeClass("hide");
-                        if ($(".fr-element").html().replace(/(<([^>]+)>)/ig, "") != "") {
+                        if ($(".fr-element").html().replace(/(<([^>]+)>)/ig, "") != "" && $(".ddlExpectedLeadTime").val() != "") {
                             $.when(saveDeveloperHandover()).then(function () {
                                 $(".loader").addClass("hide");
                                 $(".quotMsg").removeClass("hide");
+                                $(".errorMsg").addClass("hide");
                                 window.location.reload();
                             });
+                        } else {
+                            $me.removeClass("hide");
+                            $(".quotMsg, .loader").addClass("hide");
+                            $(".errorMsg").removeClass("hide");
                         }
                         e.stopImmediatePropagation();
                         return false;

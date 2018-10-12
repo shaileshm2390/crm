@@ -63,16 +63,21 @@
             position: absolute;
             background: #000;
             width: 100%;
-            margin: 0;
+            margin: 10px 0;
             z-index: 10;
-            padding: 15px 0 0 0;
+            padding: 0;
             display: none;
         }
 
             .menubar-nav ul li ul li {
                 width: 100%;
                 border: 0;
-                margin: 0 10px;
+                margin:5px 0;
+                padding: 5px;
+            }
+
+            .menubar-nav ul li ul li:hover {
+                 background-color: #5C4AC7;
             }
 
             .menubar-nav ul li ul a {
@@ -135,8 +140,8 @@
                     <span>Cost Sheet Preparation</span>
                 </a>
                 <ul aria-expanded="false" class="collapse costsheet">
-                    <li><a href="/rfq/{{rfq.id}}/costsheet/prepare">Prepare &amp; Send for Approval</a><br /></li>
-                    <li><a href="/rfq/{{rfq.id}}/costsheet/approval">Approved &amp; Send to Customer</a><br /></li>
+                    <li><a href="/rfq/{{rfq.id}}/costsheet/prepare">Prepare &amp; Send for Approval</a></li>
+                    <li><a href="/rfq/{{rfq.id}}/costsheet/approval">Approved &amp; Send to Customer</a></li>
                 </ul>
             </li>
             <li ng-show="rfq.CostSheets.length"  ng-class="{'menu-active': currentUrl.includes('quotation') }"><a href="/rfq/{{rfq.id}}/quotation/short"><span>Quotation</span></a></li>

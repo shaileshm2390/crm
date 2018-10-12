@@ -84,6 +84,9 @@ exports.all = function (req, res) {
             },
              {
                  model: db.DeveloperHandover
+             },
+             {
+                 model: db.SampleInspectionReport
              }
         ]
     }).then(function (rfqs) {
@@ -130,6 +133,9 @@ exports.rfq = function (req, res, next, id) {
             },
              {
                  model: db.DeveloperHandover
+             },
+             {
+                 model: db.SampleInspectionReport
              }
         ]
     }).then(function (rfq) {
@@ -179,6 +185,9 @@ exports.rfqByBuyer = function (req, res, next, id) {
             },
              {
                  model: db.DeveloperHandover
+             },
+             {
+                 model: db.SampleInspectionReport
              }
         ]
     }).then(function (rfq) {
@@ -223,6 +232,9 @@ exports.rfqByUser = function (req, res, next, id) {
             },
              {
                  model: db.DeveloperHandover
+             },
+             {
+                 model: db.SampleInspectionReport
              }
         ]
     }).then(function (rfq) {

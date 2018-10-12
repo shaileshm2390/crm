@@ -65,8 +65,19 @@ exports.update = function (req, res) {
     }).then(function (developerHandovers) {
 
         developerHandovers.updateAttributes({
-            data: req.body.data
+            data: req.body.data,
+            expectedLeadTime: req.body.expectedLeadTime
         }).then(function (a) {
+            var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
+
+            db.Watchdog.create({
+                message: "Developer handover is updated with id = " + a.id,
+                ipAddress: ipAddress,
+                pageUrl: fullUrl,
+                userId: a.UserId,
+                previousData: "",
+                updatedData: JSON.stringify(a)
+            });
             return res.jsonp(a);
         }).catch(function (err) {
             return res.render('error', {

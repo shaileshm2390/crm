@@ -76,9 +76,10 @@
                 padding: 5px;
             }
 
-            .menubar-nav ul li ul li:hover {
+            .menubar-nav ul li ul li:hover, .submenu-active {
                  background-color: #5C4AC7;
             }
+            
 
             .menubar-nav ul li ul a {
                 padding: 2px 0;
@@ -140,14 +141,19 @@
                     <span>Cost Sheet Preparation</span>
                 </a>
                 <ul aria-expanded="false" class="collapse costsheet">
-                    <li><a href="/rfq/{{rfq.id}}/costsheet/prepare">Prepare &amp; Send for Approval</a></li>
-                    <li><a href="/rfq/{{rfq.id}}/costsheet/approval">Approved &amp; Send to Customer</a></li>
+                    <li   ng-class="{'submenu-active': currentUrl.includes('prepare') }"><a href="/rfq/{{rfq.id}}/costsheet/prepare">Prepare &amp; Send for Approval</a></li>
+                    <li  ng-class="{'submenu-active': currentUrl.includes('approval') }"><a href="/rfq/{{rfq.id}}/costsheet/approval">Approved &amp; Send to Customer</a></li>
                 </ul>
             </li>
             <li ng-show="rfq.CostSheets.length"  ng-class="{'menu-active': currentUrl.includes('quotation') }"><a href="/rfq/{{rfq.id}}/quotation/short"><span>Quotation</span></a></li>
             <li ng-show="displaySampleSubmission(rfq)"  ng-class="{'menu-active': currentUrl.includes('samplesubmission') }"><a href="/rfq/{{rfq.id}}/samplesubmission"><span>Sample Submission</span></a></li>
             <li ng-show="displaySampleSubmission(rfq)"  ng-class="{'menu-active': currentUrl.includes('sampleinspectionreport') }"><a href="/rfq/{{rfq.id}}/sampleinspectionreport"><span>Inspection Report</span></a></li>
-            <li ng-show="displaySampleSubmission(rfq)"  ng-class="{'menu-active': currentUrl.includes('developerhandover') }"><a href="/rfq/{{rfq.id}}/developerhandover"><span>Developer Handover</span></a></li>
+            <li ng-show="displaySampleSubmission(rfq)"  ng-class="{'menu-active': currentUrl.includes('developerhandover') }">
+                <a href="/rfq/{{rfq.id}}/developerhandover"><span>Developer Handover</span></a>
+                <ul aria-expanded="false" class="collapse costsheet">
+                    <li><a href="/rfq/{{rfq.id}}/costsheet/prepare">Actual Cost</a></li>
+                </ul>
+            </li>
             <li ng-show="displayReceivePO(rfq)"  ng-class="{'menu-active': currentUrl.includes('purchaseorder') }"><a href="/rfq/{{rfq.id}}/purchaseorder"><span>Receive PO</span></a></li>
         </ul>
     </div>

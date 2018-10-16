@@ -10,10 +10,12 @@
                 <input type="hidden" class="hdnCostSheetData" value="{{costsheet.data}}" />
             </div>
             <div class="col col-lg-12">
+                <div class="alert alert-success text-center" ng-show="rfq.HandoverSubmitted != null">Submitted to developer department</div>
+
                 <div class="clear clearfix m-b-10"></div>
 
                 <!-- Earlier records-->
-                <div data-ng-controller="SampleSubmissionsController" data-ng-init="findOne()" class="m-b-10 m-t-10" id="sampleSubmissionController">
+                <div style="border: 1px solid #ccc; padding:10px" data-ng-controller="SampleSubmissionsController" data-ng-init="findOne()" class="m-b-10 m-t-10" id="sampleSubmissionController">
                     <!-- Update status panel -->
                     <div ng-hide="isPoReceived(rfq)" class="pnlStatusUpdate">
                         <div class="control-group m-b-10">
@@ -176,7 +178,7 @@
 
                     <div class="clearfix"></div><br />
 
-                    <a class="btnHandOverToDeveloper btn btn-primary pull-right" href="#" ng-show="!rfq.HandoverSubmit.length && samplesubmission.length">Handover</a>
+                    <a class="btnHandOverToDeveloper btn btn-primary pull-right" href="#" ng-show="rfq.HandoverSubmitted == null && samplesubmission.length">Handover</a>                   
                 </div>
                 <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
                 <br />
@@ -191,7 +193,7 @@
     </section>
 
     <section ng-show="!validatePermission">
-        <h1>Loading please wait..!!</h1>
+        <h3>Loading please wait..!!</h3>
         <div class="progress">
             <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
                 style="width:100%">
@@ -302,6 +304,19 @@
                     dfd.resolve(response);
                 });
                 return dfd.promise();
+            },
+
+            saveHandoverSubmittedData = function () {
+                var dfd = $.Deferred();
+                $.ajax({
+                    url: '/handoversubmitted/',
+                    method: "POST",
+                    data: { RfqId: rfqId, UserId: $('.hdnUserId').val() }
+                }).done(function (response) {
+                    $(".lblMsg").html("<span>Submitted successfully !!!</span>").removeClass("hide");
+                    dfd.resolve(response);
+                });
+                return dfd.promise();
             };
 
             $(".lnkAddPanel").on('click', function (e) {
@@ -403,7 +418,6 @@
                 e.stopImmediatePropagation();
                 return false;
             });
-
            
                 rfqId = $(".hdnRfqId").val();
                 $(".ddlUser option[selected]").remove();
@@ -457,6 +471,14 @@
 
                     });
                 }
+
+                $(".btnHandOverToDeveloper").on('click', function () {
+                    if (confirm('Do you want to handover to developer department?')) {
+                        $.when(saveHandoverSubmittedData()).then(function () {
+                            window.location.reload();
+                        });
+                    }
+                });
             }
         }, 500);
     });

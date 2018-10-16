@@ -85,6 +85,9 @@ exports.all = function (req, res) {
              {
                  model: db.DeveloperHandover
              },
+              {
+                  model: db.HandoverSubmitted
+              },
              {
                  model: db.SampleInspectionReport
              }
@@ -134,6 +137,9 @@ exports.rfq = function (req, res, next, id) {
              {
                  model: db.DeveloperHandover
              },
+              {
+                  model: db.HandoverSubmitted
+              },
              {
                  model: db.SampleInspectionReport
              }
@@ -186,6 +192,9 @@ exports.rfqByBuyer = function (req, res, next, id) {
              {
                  model: db.DeveloperHandover
              },
+              {
+                  model: db.HandoverSubmitted
+              },
              {
                  model: db.SampleInspectionReport
              }
@@ -233,6 +242,9 @@ exports.rfqByUser = function (req, res, next, id) {
              {
                  model: db.DeveloperHandover
              },
+              {
+                  model: db.HandoverSubmitted
+              },
              {
                  model: db.SampleInspectionReport
              }

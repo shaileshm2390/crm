@@ -146,8 +146,8 @@ h6 {
 }
 
 h1 {
-    line-height: 40px;
-    font-size: 36px;
+    line-height: 38px;
+    font-size: 28px;    
 }
 
 h2 {
@@ -6332,7 +6332,7 @@ label {
 }
 
 .progress {
-    height: 20px;
+    height: 8px;
 }
 
     .progress-bar.active,
@@ -8410,7 +8410,7 @@ ul.chat li.right {
     right: 0;
 }
 
-::-webkit-scrollbar-track {
+/*::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     background-color: #F5F5F5;
 }
@@ -8423,6 +8423,28 @@ ul.chat li.right {
 ::-webkit-scrollbar-thumb {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
     background-color: #555;
+}*/
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 10px grey; 
+    border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #b30000; 
+    border-radius: 50px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #b30000; 
 }
 
 .error {

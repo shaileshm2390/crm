@@ -48,6 +48,10 @@
 
                     </div>
                     <div class="col col-lg-9">
+
+                        <div ng-show="ExpectedLeadDate != null" class="alert alert-info">Expected Lead date is: <strong>{{ExpectedLeadDate |date:'dd-MM-yyyy'}}</strong></div>
+                        <div class="clear clearfix fc-clear"></div><br />
+
                         <!-- If developerhandover is not submitted yet -->
                         <div>
                             <div class="txtEditor create" ng-include="'views/developerhandover/developer-template.html'" ng-show="!rfq.DeveloperHandovers.length">
@@ -168,11 +172,4 @@
             </div>
         </div>
     </section>
-
-
-
-
-
-
-
 </div>

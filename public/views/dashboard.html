@@ -1,4 +1,7 @@
 ﻿<div data-ng-show="global.authenticated" ng-controller="DashboardsController" id="test">
+    <style>
+        .m-b-0 { color:#000 !important; }
+    </style>
     <div class="page-titles">
 		<h3 class="text-primary">Dashboard</h3>
 	</div>
@@ -6,53 +9,49 @@
 		<div ng-init="find()">
         <div class="row">
             <div class="col-md-3">
-                <div class="card p-30">
+                <div class="card p-2">
                     <div class="media">
                         <div class="media-left meida media-middle">
-                            <span><i class="fa fa-file f-s-80 color-primary"></i></span>
+                            <span><i class="fa fa-file f-s-20 color-primary"></i></span>
                         </div>
                         <div class="media-body media-text-right">
-                            <h2>{{siteSummary.TotalRqf | number}}</h2>
-                            <p class="m-b-0">Total RFQ</p>
-                        </div>
+                            <p class="m-b-0"> {{siteSummary.TotalRqf | number}} Total RFQ</p>
+</div>
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="card p-30">
+                <div class="card p-2">
                     <div class="media">
                         <div class="media-left meida media-middle">
-                            <span><i class="fa fa-file f-s-80 color-success"></i></span>
+                            <span><i class="fa fa-file f-s-20 color-success"></i></span>
                         </div>
                         <div class="media-body media-text-right">
-                            <h2>{{siteSummary.CompletedRfq | number}}</h2>
-                            <p class="m-b-0">Completed</p>
-                        </div>
+                            <p class="m-b-0"> {{siteSummary.CompletedRfq | number}} Completed</p>
+</div>
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="card p-30">
+                <div class="card p-2">
                     <div class="media">
                         <div class="media-left meida media-middle">
-                            <span><i class="fa fa-file f-s-80 color-warning"></i></span>
+                            <span><i class="fa fa-file f-s-20 color-warning"></i></span>
                         </div>
                         <div class="media-body media-text-right">
-                            <h2>{{siteSummary.PendingRqf | number}}</h2>
-                            <p class="m-b-0">Pending</p>
-                        </div>
+                            <p class="m-b-0">{{siteSummary.PendingRqf | number}} Pending </p>
+</div>
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="card p-30">
+                <div class="card p-2">
                     <div class="media">
                         <div class="media-left meida media-middle">
-                            <span><i class="fa fa-file f-s-80 color-danger"></i></span>
+                            <span><i class="fa fa-file f-s-20 color-danger"></i></span>
                         </div>
                         <div class="media-body media-text-right">
-                            <h2>{{siteSummary.OpenRfq | number}}</h2>
-                            <p class="m-b-0">Open</p>
+                            <p class="m-b-0"> {{siteSummary.OpenRfq | number}} Open</p>
                         </div>
                     </div>
                 </div>
@@ -63,7 +62,7 @@
             <div class="col-lg-8">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Extra Area Chart</h4>
+                        <h4 class="card-title">Summary</h4>
                         <div id="extra-area-chart"></div>
                     </div>
                 </div>
@@ -92,6 +91,18 @@
             <!-- column -->
         </div>
 
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-title">
+                            <h4>Pie Chart</h4>
+                        </div>
+                        <div class="card-content">
+                            <div id="basic-Pie" style="height: 370px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
     
 	<div class="row" ng-show="rfqs.length">
@@ -220,7 +231,9 @@
 	</div>
     <script src="/js/lib/morris-chart/raphael-min.js"></script>
     <script src="/js/lib/morris-chart/morris.js"></script>
+    <!--<script src="/js/lib/echart/echarts.js"></script>-->
     <script src="/js/lib/morris-chart/dashboard1-init.js"></script>
+
 
     <script type="text/javascript">
         $(document).ready(function () {

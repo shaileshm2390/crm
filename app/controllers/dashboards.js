@@ -155,7 +155,16 @@ exports.getMyRfq = function (req, res) {
                  model: db.Samplesubmissionimage,
                  order: [['createdAt', 'DESC']],
                  limit: 1,
-             },            
+             },
+              {
+                  model: db.DeveloperHandover
+              },
+              {
+                  model: db.HandoverSubmitted
+              },
+             {
+                 model: db.SampleInspectionReport
+             },
             {
                 model: db.Quotation
             }

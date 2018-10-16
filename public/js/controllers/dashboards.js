@@ -65,6 +65,28 @@ var app = angular.module('mean.dashboards').controller('DashboardsController', [
                         else if ($scope.myRfqs[index].Samplesubmissions.length) {
                             $scope.myRfqs[index].customStatus += "&nbsp; <br /><a class='btn btn-success m-t-5' href='rfq/" + $scope.myRfqs[index].id + "/samplesubmission'>" + $scope.myRfqs[index].Samplesubmissions[0].stage + " " + $scope.myRfqs[index].Samplesubmissions[0].stageProcess + " completed</a>";
                         }
+
+                        if ($scope.myRfqs[index].HandoverSubmitted != null && $scope.myRfqs[index].DeveloperHandovers.length == 0) {
+                            $scope.myRfqs[index].customStatus = "<a class='btn btn-success' href='/rfq/" + $scope.myRfqs[index].id + "/samplesubmission'>Handover to developer</a>";
+                        }
+                        else if ($scope.myRfqs[index].HandoverSubmitted != null && $scope.myRfqs[index].DeveloperHandovers.length) {
+                            var testDate = new Date();
+                            var todayDate = new Date();
+                            var onlydate = new Date($scope.myRfqs[index].HandoverSubmitted.createdAt.split("T")[0]);
+                            var expectedLeadDate = testDate.setDate(onlydate.getDate() + ($scope.myRfqs[index].DeveloperHandovers[0].expectedLeadTime * 7));
+                            expectedLeadDate = new Date(expectedLeadDate);
+
+                            var cssClass = "";
+                            if (expectedLeadDate.getTime() < todayDate.getTime()) {
+                                cssClass = "danger";
+                            } else if (expectedLeadDate.getTime() == todayDate.getTime()) {
+                                cssClass = "warning";
+                            } else {
+                                cssClass = "success";
+                            }
+                            expectedLeadDate = expectedLeadDate.getDate() + "-" + (expectedLeadDate.getMonth() + 1) + "-" + expectedLeadDate.getFullYear();                            
+                            $scope.myRfqs[index].customStatus = "<a class='btn btn-" + cssClass + "' href='/rfq/" + $scope.myRfqs[index].id + "/developerhandover'>Expected Lead date: " + expectedLeadDate + "</a>";
+                        }
                     }
                 }, function (error) {
                     console.log(error);

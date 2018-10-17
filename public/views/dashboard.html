@@ -92,18 +92,88 @@
         </div>
 
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                     <div class="card">
                         <div class="card-title">
-                            <h4>Pie Chart</h4>
+                            <h4>Status Pie</h4>
                         </div>
                         <div class="card-content">
                             <div id="basic-Pie" style="height: 370px"></div>
                         </div>
                     </div>
                 </div>
+
+               
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-title">
+                            <h4>Status Bar</h4>
+                        </div>
+                        <div class="card-content">
+                            <div id="basic-bar" style="height: 370px"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
     </div>
+
+
+        <div class="row" ng-show="!rfqs.length">
+            <div class="col col-lg-12 text-center">
+                <i class="fa fa-spin fa-spinner" style="font-size:48px;"></i>
+            </div>
+        </div>
+
+
+        <div class="row" ng-show="myRfqs.length">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-title">
+                        <h4>My RFQ </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <section ng-init="findMyRfq()" class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Subject</th>
+                                            <th>Buyer</th>
+                                            <th>Customer</th>
+                                            <th>Created</th>
+                                            <th ng-show="global.user.isAdmin">Assign To</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="rfq in myRfqs | orderBy : '-createdAt'">
+                                            <td>
+                                                <a title="View" class="btn" ui-sref="viewRfq({customerId: rfq.Buyer.CustomerId , buyerId: rfq.BuyerId, rfqId : rfq.id})">{{rfq.subject}}</a>
+                                            </td>
+                                            <td>
+                                                <a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}">{{rfq.Buyer.name}}</a>
+                                            </td>
+                                            <td>
+                                                <a href="/customer/{{rfq.Buyer.CustomerId}}"> {{rfq.Buyer.Customer.company}}</a>
+                                            </td>
+                                            <td>
+                                                <span>{{rfq.createdAt | date:'medium'}}</span>
+                                            </td>
+                                            <td ng-show="global.user.isAdmin">
+                                                {{(rfq.User.firstName + " " +  rfq.User.lastName).trim() || rfq.User.email || "-"}}
+                                            </td>
+                                            <td ng-bind-html="trustAsHtml(rfq.customStatus)"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     
 	<div class="row" ng-show="rfqs.length">
         <div class="col-lg-12">
@@ -174,64 +244,13 @@
         </div>
     </div>
 
-        <div class="row" ng-show="!rfqs.length">
-                <div class="col col-lg-12 text-center">
-                    <i class="fa fa-spin fa-spinner" style="font-size:48px;"></i>
-                </div>
-        </div>
+     
 
-
-    <div class="row" ng-show="myRfqs.length">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-title">
-                    <h4>My RFQ </h4>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <section ng-init="findMyRfq()" class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Subject</th>
-                                        <th>Buyer</th>
-                                        <th>Customer</th>
-                                        <th>Created</th>
-                                        <th ng-show="global.user.isAdmin">Assign To</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="rfq in myRfqs | orderBy : '-createdAt'">
-                                        <td>
-                                            <a title="View" class="btn" ui-sref="viewRfq({customerId: rfq.Buyer.CustomerId , buyerId: rfq.BuyerId, rfqId : rfq.id})">{{rfq.subject}}</a>
-                                        </td>
-                                        <td>
-                                            <a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}">{{rfq.Buyer.name}}</a>
-                                        </td>
-                                        <td>
-                                            <a href="/customer/{{rfq.Buyer.CustomerId}}"> {{rfq.Buyer.Customer.company}}</a>
-                                        </td>
-                                        <td>
-                                            <span>{{rfq.createdAt | date:'medium'}}</span>
-                                        </td>
-                                        <td ng-show="global.user.isAdmin">
-                                            {{(rfq.User.firstName + " " +  rfq.User.lastName).trim() || rfq.User.email || "-"}}
-                                        </td>
-                                        <td ng-bind-html="trustAsHtml(rfq.customStatus)"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </section>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 	</div>
     <script src="/js/lib/morris-chart/raphael-min.js"></script>
     <script src="/js/lib/morris-chart/morris.js"></script>
-    <!--<script src="/js/lib/echart/echarts.js"></script>-->
+    <script src="/js/lib/echart/echarts.js"></script>
     <script src="/js/lib/morris-chart/dashboard1-init.js"></script>
 
 

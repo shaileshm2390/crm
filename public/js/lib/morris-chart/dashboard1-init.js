@@ -70,44 +70,100 @@
                 });
             });
 
-/*
-            // Basic Pie Chart
-            var dom = document.getElementById("basic-Pie");
-            var bpChart = echarts.init(dom);
 
-            var app = {};
-            option = null;
-            option = {
-                color: ['#62549a', '#4aa9e9', '#ff6c60', '#eac459', '#25c3b2'],
-                tooltip: {
-                    trigger: 'item',
-                    formatter: '{a} <br/>{b} : {c} ({d}%)'
-                },
-                legend: {
-                    orient: 'vertical',
-                    x: 'left',
-                    data: ['Direct', 'Mail', 'Affiliate', 'AD', 'Search']
-                },
-                calculable: true,
-                series: [
-                    {
-                        name: 'Source',
-                        type: 'pie',
-                        radius: '55%',
-                        center: ['50%', '60%'],
-                        data: [
-                            { value: 335, name: 'Direct' },
-                            { value: 310, name: 'Mail' },
-                            { value: 234, name: 'Affiliate' },
-                            { value: 135, name: 'AD' },
-                            { value: 1548, name: 'Search' }
-                        ]
-                    }
-                ]
-            };
+            
+            $.ajax({
+                url: '/dashboards/getRfqPieChartDetail',
+                method: "GET",
+            }).done(function (obj) {
+                // Basic Pie Chart            
+                var dom = document.getElementById("basic-Pie");
+                var bpChart = echarts.init(dom);
 
-            if (option && typeof option === "object") {
-                bpChart.setOption(option, false);
-            }*/
+                var option = null;
+                option = {
+                    color: ['#62549a', '#4aa9e9', '#ff6c60', '#eac459', '#25c3b2'],
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b} : {c} ({d}%)'
+                    },
+                    legend: {
+                        orient: 'horizontal',
+                        x: 'left',
+                        data: ['Costsheet Prepared', 'Quotation Given', 'Sample Submitted', 'PO Received', 'Developer Handover']
+                    },
+                    calculable: true,
+                    series: [
+                        {
+                            name: 'Status',
+                            type: 'pie',
+                            radius: '75%',
+                            center: ['50%', '60%'],
+                            data: [
+                                { value: obj.CostsheetPrepared, name: 'Costsheet Prepared' },
+                                { value: obj.Quotations, name: 'Quotation Given' },
+                                { value: obj.SampleSubmitted, name: 'Sample Submitted' },
+                                { value: obj.POReceived, name: 'PO Received' },
+                                { value: obj.DeveloperHandovers, name: 'Developer Handover' }
+                            ]
+                        }
+                    ]
+                };
+
+                if (option && typeof option === "object") {
+                    bpChart.setOption(option, false);
+                }
+
+
+                // bar diagram
+                var domBar = document.getElementById("basic-bar");
+                var bChart = echarts.init(domBar);
+
+                var barOption = null;
+                barOption = {
+                    color: ['#62549a'],
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'shadow'
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            data: ['Costsheet Prepared', 'Quotation Given', 'Sample Submitted', 'PO Received', 'Developer Handover'],
+                            axisTick: {
+                                alignWithLabel: true
+                            }
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value'
+                        }
+                    ],
+                    series: [
+                        {
+                            name: 'Status',
+                            type: 'bar',
+                            barWidth: '40%',
+                            data: [obj.CostsheetPrepared, obj.Quotations, obj.SampleSubmitted, obj.POReceived, obj.DeveloperHandovers],
+                        }
+                    ]
+                };
+
+               
+
+                if (barOption && typeof barOption === "object") {
+                    bChart.setOption(barOption, false);
+                }
+
+            });
         }
     });

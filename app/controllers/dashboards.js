@@ -73,7 +73,7 @@ exports.getRfqChartDetail = function (req, res) {
         "WHERE {CONDITION} AND r.createdAt > DATE_SUB(now(), INTERVAL 6 MONTH)  GROUP BY YEAR(r.createdAt), MONTH(r.createdAt) DESC";
     db.sequelize.query(customQuery.replace("{CONDITION}", condition), { type: db.sequelize.QueryTypes.SELECT }).then(function (response) {
         result.Open = response;
-        condition = "po.status = 'completed'" + userCondition;
+        condition = "po.status = 'Complete'" + userCondition;
         db.sequelize.query(customQuery.replace("{CONDITION}", condition), { type: db.sequelize.QueryTypes.SELECT }).then(function (response) {
             result.Completed = response;
             condition = "po.id IS NULL" + userCondition;
@@ -83,6 +83,21 @@ exports.getRfqChartDetail = function (req, res) {
             });
             
         });
+    });
+};
+
+exports.getRfqPieChartDetail = function (req, res) {
+    var condition = "UserId IS NULL",
+        user = req.user,
+        userCondition = "";
+    if (user.Department.name != "Admin") {
+        userCondition = " AND UserId = " + user.id + " ";
+    }
+
+    var customQuery = "SELECT (SELECT Count(id) FROM `CostSheets` WHERE status='approved' {CONDITION}) as CostsheetPrepared, (SELECT Count(id) FROM `Quotations` WHERE 1=1 {CONDITION}) as Quotations, (SELECT Count(id) FROM `HandoverSubmitteds` WHERE 1=1 {CONDITION}) as SampleSubmitted, (SELECT Count(po.id) FROM `PurchaseOrders` po INNER JOIN Rfqs r ON r.Id = po.RfqId  WHERE 1=1 {CONDITION}) as POReceived, (SELECT Count(id) FROM `DeveloperHandovers` WHERE 1=1 {CONDITION}) as DeveloperHandovers";
+    
+    db.sequelize.query(customQuery.replace(/{CONDITION}/g, userCondition), { type: db.sequelize.QueryTypes.SELECT}).then(function (response) {    
+        return res.jsonp(response[0]);
     });
 };
 

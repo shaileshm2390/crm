@@ -13,6 +13,8 @@ module.exports = function (app) {
         .get(users.requiresLogin, dashboards.all)    
     app.route('/dashboards/getRfqChartDetail')
         .get(users.requiresLogin, dashboards.getRfqChartDetail)
+    app.route('/dashboards/getRfqPieChartDetail')
+        .get(users.requiresLogin, dashboards.getRfqPieChartDetail)    
     app.route('/dashboards/getOpenRfq')
         .get(users.requiresLogin, dashboards.getOpenRfq)
     app.route('/dashboards/getMyRfq')

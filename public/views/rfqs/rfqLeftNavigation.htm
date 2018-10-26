@@ -129,13 +129,13 @@
 <div class="row" style="margin:10px 0">
     <div class="menubar-nav" ng-show="!isFeasible(rfq)">
         <ul>
-            <li class="menu-active"><a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}/rfq/{{rfq.id}}"><span>RFQ Detail</span></a></li>
+            <li ng-class="{'menu-active':currentUrl == '/customer/'+rfq.Buyer.CustomerId+'/buyer/'+rfq.BuyerId+'/rfq/'+rfq.id }"><a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}/rfq/{{rfq.id}}"><span>RFQ Detail</span></a></li>
         </ul>
     </div>
 
     <div class="menubar-nav" ng-show="isFeasible(rfq)">
         <ul>
-            <li ng-class="{'menu-active':currentUrl == '/customer/'+rfq.Buyer.CustomerId+'/buyer/'+rfq.BuyerId+'/rfq/'+rfq.id }"><a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}/rfq/{{rfq.id}}"><span>RFQ Detail</span></a></li>
+            <li ng-class="{'menu-active':currentUrl == '/customer/'+rfq.Buyer.CustomerId+'/buyer/'+rfq.BuyerId+'/rfq/'+rfq.id }"><a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}/rfq/{{rfq.id}}"><span>RFQ Detail</span></a></li>            
             <li ng-hide="isPoReceived(rfq)" ng-class="{'menu-active': currentUrl.includes('costsheet') }">
                 <a class="has-arrow lnkCostSheetMenu" href="#" aria-expanded="false">
                     <span>Cost Sheet Preparation</span>

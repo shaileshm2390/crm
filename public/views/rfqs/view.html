@@ -71,45 +71,54 @@
 
             <div ng-include="'views/rfqs/rfqLeftNavigation.htm'" class="col col-lg-12"></div>
 
-        <div class="row">
+        <div class="box-shadow">
             <div class="col col-lg-12">
                 <h3><strong>Email Content</strong></h3>
                 <div class="clear clearfix"></div> <br />
-                <div style=" overflow:auto; max-height 300px">
+                <div style="overflow:auto; max-height 300px">
                     <p ng-bind-html="trustAsHtml(rfq.content)"></p>
                 </div>
             </div>
         </div>
+
+        <hr />
+        <br />
+            <div class="col col-lg-12">
+                <h3><strong>Feasibilities</strong></h3>
+                <div class="clear clearfix"></div> <br />
+                
+            </div>
         
         <script type="text/javascript">
             $(document).ready(function () {
                 //   console.log($scope);
                 var loadCode = setInterval(function () {
-                    if ($(".elastislide").length > 0) {
-                        $('.elastislide').elastislide();
-                    }
-                    if ($(".hdnUserId").val() != "") {
-                        $(".ddlUser option[selected]").remove();
-                        $(".ddlUser").val($(".hdnUserId").val());
-                    }
-
-                    $(".ddlUser").on('change', function () {
-                        var $me = $(this);
-                        var rfqId = $('.hdnRfqId').val();
-                        var ddlUserId = $(this).val();
-                        $.ajax({
-                            url: '/rfqs/' + rfqId,
-                            method: "PUT",
-                            data: { UserId: ddlUserId, id: rfqId }
-                        }).done(function (response) {
-                            if ($me.val() == "") {
-                                $(".lblMsg").html("<span>RFQ assigned to nobody</span>").addClass("alert alert-success");
-                            } else {
-                                $(".lblMsg").html("<span>RFQ assigned to " + $me.find("option:selected").text() + "</span>").addClass("alert alert-success");
-                            }
-                        });
-                    });
                     if ($(".hdnRfqId").length > 0 && $(".hdnRfqId").val() != "") {
+                        if ($(".elastislide").length > 0) {
+                            $('.elastislide').elastislide();
+                        }
+                        if ($(".hdnUserId").val() != "") {
+                            $(".ddlUser option[selected]").remove();
+                            $(".ddlUser").val($(".hdnUserId").val());
+                        }
+
+                        $(".ddlUser").on('change', function () {
+                            var $me = $(this);
+                            var rfqId = $('.hdnRfqId').val();
+                            var ddlUserId = $(this).val();
+                            $.ajax({
+                                url: '/rfqs/' + rfqId,
+                                method: "PUT",
+                                data: { UserId: ddlUserId, id: rfqId }
+                            }).done(function (response) {
+                                if ($me.val() == "") {
+                                    $(".lblMsg").html("<span>RFQ assigned to nobody</span>").addClass("alert alert-success");
+                                } else {
+                                    $(".lblMsg").html("<span>RFQ assigned to " + $me.find("option:selected").text() + "</span>").addClass("alert alert-success");
+                                }
+                            });
+                        });
+                   
                         clearInterval(loadCode);
                     }
                 }, 500);

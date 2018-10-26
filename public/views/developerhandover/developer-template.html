@@ -79,11 +79,11 @@
            
                 <td class="xl72" colspan="3" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;"></td>
                 <td class="xl79" colspan="2" rowspan="2" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;width: 124pt;">
-                    Dia :
+                    &nbsp;Dia :
                     <br>&nbsp;Grade :
                 </td>
                 <td class="xl79" rowspan="2" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;width: 69pt;">
-                    Dia :
+                    &nbsp;Dia :
                     <br>&nbsp;Grade : 
                 </td>
             </tr>
@@ -115,9 +115,11 @@
                 <td class="xl67" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">Target</td>
                 <td class="xl67" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 700;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">Actual</td>
             </tr>
-            <tr>
-                <td class="xl69" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">1</td>
-                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">Forging</td>
+            
+           
+            <tr ng-repeat="item in rfq.LatestCostsheet.Conversion">
+                <td class="xl69" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">{{$index + 1}}</td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">{{item.Operation}}</td>
                 <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
                     <br>
                 </td>
@@ -137,9 +139,10 @@
                     <br>
                 </td>
             </tr>
+            
             <tr>
-                <td class="xl69" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">2</td>
-                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">POLYGON MILLING SETUP 1</td>
+                <td class="xl69" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;"></td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;"></td>
                 <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
                     <br>
                 </td>
@@ -159,9 +162,10 @@
                     <br>
                 </td>
             </tr>
+
             <tr>
-                <td class="xl69" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">4</td>
-                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">OD TURNING</td>
+                <td class="xl69" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;"></td>
+                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;"></td>
                 <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
                     <br>
                 </td>
@@ -181,151 +185,8 @@
                     <br>
                 </td>
             </tr>
-            <tr>
-                <td class="xl69" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">5</td>
-                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">THREADING</td>
-                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
-                    <br>
-                </td>
-                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
-                    <br>
-                </td>
-                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
-                    <br>
-                </td>
-                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
-                    <br>
-                </td>
-                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
-                    <br>
-                </td>
-                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
-                    <br>
-                </td>
-            </tr>
-            <tr>
-                <td class="xl69" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">6</td>
-                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">PLATING</td>
-                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
-                    <br>
-                </td>
-                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
-                    <br>
-                </td>
-                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
-                    <br>
-                </td>
-                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
-                    <br>
-                </td>
-                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
-                    <br>
-                </td>
-                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
-                    <br>
-                </td>
-            </tr>
-            <tr>
-                <td class="xl69" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">7</td>
-                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
-                    <br>
-                </td>
-                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
-                    <br>
-                </td>
-                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
-                    <br>
-                </td>
-                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
-                    <br>
-                </td>
-                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
-                    <br>
-                </td>
-                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
-                    <br>
-                </td>
-                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
-                    <br>
-                </td>
-            </tr>
-            <tr>
-                <td class="xl69" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">8</td>
-                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
-                    <br>
-                </td>
-                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
-                    <br>
-                </td>
-                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
-                    <br>
-                </td>
-                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
-                    <br>
-                </td>
-                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
-                    <br>
-                </td>
-                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
-                    <br>
-                </td>
-                <td class="xl72" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;">
-                    <br>
-                </td>
-            </tr>
-            <tr>
-                <td class="xl69" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">9</td>
-                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
-                    <br>
-                </td>
-                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
-                    <br>
-                </td>
-                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
-                    <br>
-                </td>
-                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
-                    <br>
-                </td>
-                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
-                    <br>
-                </td>
-                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
-                    <br>
-                </td>
-                <td class="xl72" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;">
-                    <br>
-                </td>
-            </tr>
-            <tr>
-                <td class="xl69" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">10</td>
-                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
-                    <br>
-                </td>
-                <td class="xl66" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;vertical-align: middle;">
-                    <br>
-                </td>
-                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
-                    <br>
-                </td>
-                <td class="xl70" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;">
-                    <br>
-                </td>
-                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
-                    <br>
-                </td>
-                <td class="xl71" style='padding: 0px;font-family: "Wingdings 2", serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;'>
-                    <br>
-                </td>
-                <td class="xl72" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;">
-                    <br>
-                </td>
-            </tr>
-            <tr>
-                <td class="xl68" colspan="8" height="20" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 15px;font-weight: 400;font-style: normal;text-decoration: none;text-align: center;vertical-align: middle;height: 15pt;">
-                    <br>
-                </td>
-            </tr>
+
+
             <tr>
                 <td class="xl80" colspan="8" height="21" style="padding: 0px;font-family: Calibri, sans-serif;color: black;font-size: 16px;font-weight: 700;font-style: normal;text-decoration: none;text-align: left;vertical-align: middle;height: 15.75pt;">Customer&#39;s Contact Details</td>
             </tr>

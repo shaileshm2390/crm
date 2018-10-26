@@ -152,7 +152,7 @@
                         {
                             name: 'Status',
                             type: 'bar',
-                            barWidth: '40%',
+                            barWidth: '70%',
                             data: [obj.CostsheetPrepared, obj.Quotations, obj.SampleSubmitted, obj.POReceived, obj.DeveloperHandovers],
                         }
                     ]

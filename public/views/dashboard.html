@@ -57,9 +57,9 @@
                 </div>
             </div>
         </div>
-        <div class="row bg-white m-l-0 m-r-0 box-shadow ">
+        <div class="row   bg-white ">
             <!-- column -->
-            <div class="col-lg-8">
+            <div class="col-lg-8"  style="border-right:15px solid #F9F9F9">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Summary</h4>
@@ -69,7 +69,7 @@
             </div>
             <!-- column -->
             <!-- column -->
-            <div class="col-lg-4">
+            <div class="col-lg-4"  style="border-left:15px solid #F9F9F9" >
                 <div class="card">
                     <div class="card-body browser">
                         <p class="f-w-600">Open <span class="pull-right">{{siteSummary.OpenPercentage}}%</span></p>
@@ -91,7 +91,18 @@
             <!-- column -->
         </div>
 
-            <div class="row">
+            <div class="row">               
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-title">
+                            <h4>Status Bar</h4>
+                        </div>
+                        <div class="card-content">
+                            <div id="basic-bar" style="height: 370px"></div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-lg-4">
                     <div class="card">
                         <div class="card-title">
@@ -103,17 +114,6 @@
                     </div>
                 </div>
 
-               
-                <div class="col-lg-8">
-                    <div class="card">
-                        <div class="card-title">
-                            <h4>Status Bar</h4>
-                        </div>
-                        <div class="card-content">
-                            <div id="basic-bar" style="height: 370px"></div>
-                        </div>
-                    </div>
-                </div>
             </div>
     </div>
 

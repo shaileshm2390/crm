@@ -45,7 +45,7 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
             .then(function (response) {
                 $scope.rfq = response.data;
                 var currentUrl = "customer/" + $scope.rfq.Buyer.CustomerId + "/buyer/" + $scope.rfq.BuyerId + "/rfq/" + $scope.rfq.id;
-                if ($scope.isFeasible($scope.rfq) || window.location.href.indexOf(currentUrl) > -1) {
+                if (window.location.href.indexOf(currentUrl) > -1) {
                     for (var index = 0; index < $scope.rfq.RfqImages.length; index++) {
                         if ($scope.rfq.RfqImages[index].imagePath.indexOf(".pdf") > -1) {
                             $scope.rfq.RfqImages[index].displayPath = '/img/pdf.png';
@@ -119,17 +119,6 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
         $http.put('/rfqs/' + rfqId, { UserId: $window.user.id, id: rfqId }).then(function (response) {
             $scope.findOneByRfqId();
         });
-    };
-
-    $scope.isFeasible = function (rfq) {
-        if ($scope.globalCheckFeasibility) {
-            if (typeof (rfq) != "undefined") {
-                return rfq.feasiblity == 1;
-            }
-            return false;
-        } else {
-            return true;
-        }
     };
 
 }]);

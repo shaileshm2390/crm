@@ -14,8 +14,6 @@ module.exports = function (app) {
     app.route('/rfqs/:rfqId')
         .get(users.requiresLogin, rfqs.rfqs)
         .put(users.requiresLogin, rfqs.update);
-    app.route('/rfqs/feasibility/:rfqId')
-        .put(users.requiresLogin, rfqs.updateFeasiblity);
     app.route('/buyersrfqs/:buyerId')
         .get(users.requiresLogin, rfqs.rfqs);
     app.route('/userrfqs/:userId')

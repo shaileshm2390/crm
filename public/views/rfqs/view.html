@@ -72,25 +72,65 @@
             <div ng-include="'views/rfqs/rfqLeftNavigation.htm'" class="col col-lg-12"></div>
 
         <div class="box-shadow">
-            <div class="col col-lg-12">
-                <h3><strong>Email Content</strong></h3>
-                <div class="clear clearfix"></div> <br />
-                <div style="overflow:auto; max-height 300px">
-                    <p ng-bind-html="trustAsHtml(rfq.content)"></p>
+
+            <style>
+                .feasibility a {
+                    color: #fff !important;
+                }
+            </style>
+            <div class="">
+                <div class="col col-lg-12 feasibility">
+                    <h3><strong>Feasibilities</strong></h3>
+                    <div class="clear clearfix"></div> <br />
+                    <div class="row">
+                        <div class="col col-lg-5">
+                            <input class="txtPartName form-control" type="text" placeholder="Part name" >
+                        </div>
+                        <div class="col col-lg-5">
+                            <input class="chkIsFeasible" type="checkbox" id="chkIsFeasibile">
+                            <label for="chkIsFeasibile">Is Feasible ?</label>
+                        </div>
+                        <div class="col col-lg-2">
+                            <a href="#" class="btn btn-primary lnkAdd  pull-right" title="add row">
+                                <span><i class="fa fa-plus-circle"></i></span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="clear clearfix"></div> <br />
+                    <div class="pnlParameter row">
+                    </div>
+                    <div class="row">
+                        <div class="col col-lg-3 center">
+                            <a href="#" class="btnSubmit btn btn-primary">Save Feasibility</a>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-success" id="lblFeasibleMsg">Feasibility data saved successfully</div>
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="clear clearfix"></div> <br />
+            <div class="">
+                <div class="col col-lg-12">
+                    <h3><strong>Email Content</strong></h3>
+                    <div class="clear clearfix"></div> <br />
+                    <div style="overflow:auto; max-height 300px">
+                        <p ng-bind-html="trustAsHtml(rfq.content)"></p>
+                    </div>
                 </div>
             </div>
         </div>
 
         <hr />
         <br />
-            <div class="col col-lg-12">
-                <h3><strong>Feasibilities</strong></h3>
-                <div class="clear clearfix"></div> <br />
-                
-            </div>
+       
         
         <script type="text/javascript">
             $(document).ready(function () {
+                $("#lblFeasibleMsg").hide();
                 //   console.log($scope);
                 var loadCode = setInterval(function () {
                     if ($(".hdnRfqId").length > 0 && $(".hdnRfqId").val() != "") {
@@ -117,6 +157,83 @@
                                     $(".lblMsg").html("<span>RFQ assigned to " + $me.find("option:selected").text() + "</span>").addClass("alert alert-success");
                                 }
                             });
+                        });
+
+                        var bindRemoveParameter = function () {
+                            $(".lnkRemove").on('click', function () {
+                                //$(this).parent().parent().parent().next().remove(".clearfix");
+                                //$(this).parent().parent().parent().next().remove("br");
+                                var $target = $(this).parent().parent().parent();
+                                $target.hide("slow", function () {
+                                    $target.remove();
+                                });
+                            });
+                        },
+                        createDynamicTextFields = function ($ele, callback) {
+                            var width = "12",
+                                currentTimeStamp = Date.now(),
+                            inputName = $("<input />", { class: 'txtPartName form-control', type: 'text', placeholder: 'Part Name' }),
+                            inputValue = $("<input />", { class: 'chkIsFeasible', type: 'checkbox', id: currentTimeStamp }),
+
+                            divCol5Name = $('<div>', { class: 'col col-lg-5' }).html(inputName),
+                            divCol5Value = $('<div>', { class: 'col col-lg-5' }).html(inputValue).append(' <label for="' + currentTimeStamp + '">Is Feasible ?</label>'),
+                            divCol2Space = $('<div>', { class: 'col col-lg-2' }).html('<a href="#" class="btn btn-danger lnkRemove pull-right" title="remove row"><span><i class="fa fa-minus-circle"></i></span></a >'),
+
+                            divRow = $('<div>', { class: 'row' }).append(divCol5Name, divCol5Value, divCol2Space),
+                            divColWidth = $('<div>', { class: 'col col-' + width + ' animated fadeInDown m-b-5' }).append(divRow);
+
+                            $ele.parents().parents().find(".pnlParameter").append(divColWidth);
+                            bindRemoveParameter();
+                            typeof callback === 'function' && callback();
+                        },
+
+                        savePartFeasibilities = function (feasibilityFields) {
+                            $(".btnSubmit").html('<i class="fa fa-spin fa-spinner"></i>');
+                            $.ajax({
+                                url: '/rfqFeasibilities/',
+                                method: "POST",
+                                data: { RfqId: $(".hdnRfqId").val(), UserId: window.user.id, records: feasibilityFields }
+                            }).done(function (response) {
+                                $(".btnSubmit").html('Save Feasibility');
+                                $("#lblFeasibleMsg").show().delay(5000).fadeOut();
+                            });
+                        };
+
+                        // add dynamic fields to DOM
+                        $(".lnkAdd").on('click', function (e) {
+                            createDynamicTextFields($(this));
+                            if ($(".txtPartName").length == 0) {
+                                $('.btnSubmit ').hide();
+                            } else {
+                                $('.btnSubmit ').show();
+                            }
+                            e.stopImmediatePropagation();
+                            return false;
+                        });
+
+                        $(".btnSubmit").on('click', function () {
+                            var totalRecord = $('.txtPartName').length,
+                                feasibilityFields = [],
+                                validField = [];
+
+                            if (totalRecord > 0) {
+                                $('.txtPartName').each(function (key, item) {
+                                    var obj = {};
+                                    if ($.trim($(item).val()) == "") {
+                                        $(item).css("border", "1px solid red");
+                                        validField.push(false);
+                                    } else {
+                                        $(item).css("border", "");
+                                        obj.partName = $(item).val();
+                                        obj.isFeasible = $(item).parent().parent().find('.chkIsFeasible').prop("checked");
+                                        feasibilityFields.push(obj);
+                                    }
+                                });
+                            }
+                            if ($.inArray(false, validField) < 0) {
+                                console.log(feasibilityFields);
+                                savePartFeasibilities(feasibilityFields);
+                            }
                         });
                    
                         clearInterval(loadCode);

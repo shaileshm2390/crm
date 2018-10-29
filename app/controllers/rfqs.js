@@ -38,23 +38,6 @@ exports.update = function (req, res) {
     });
 };
 
-exports.updateFeasiblity = function (req, res) {
-    if (req.body.Feasiblity == "") {
-        req.body.Feasiblity = null;
-    }
-    var rfq = req.rfq;
-    rfq.updateAttributes({
-        feasiblity: req.body.Feasiblity
-    }).then(function (a) {
-        return res.jsonp(a);
-    }).catch(function (err) {
-        return res.render('/signin', {
-            error: err,
-            status: 500
-        });
-    });
-};
-
 exports.all = function (req, res) {
     db.Rfq.findAll({
         include: [

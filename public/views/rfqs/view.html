@@ -78,22 +78,50 @@
                     color: #fff !important;
                 }
             </style>
-            <div class="">
-                <div class="col col-lg-12 feasibility">
+            <div class="row"  style="margin: 0;">
+                <div class="col col-lg-6 feasibility">
+
                     <h3><strong>Feasibilities</strong></h3>
                     <div class="clear clearfix"></div> <br />
                     <div class="row">
+                        <div class="col col-lg-12">
+                            <a href="#" class="btn btn-primary lnkAdd  pull-right" title="add row">
+                                <span><i class="fa fa-plus-circle"></i></span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="clear clearfix"></div> <br />
+                    <div ng-repeat="item in rfq.RfqFeasibilities" ng-show="rfq.RfqFeasibilities.length > 0">
+                        <div class="row">
+                            <div class="col col-lg-5">
+                                <input class="txtPartName form-control" type="text" placeholder="Part name" value="{{item.partName}}">
+                            </div>
+                            <div class="col col-lg-5">
+                                <input class="chkIsFeasible" type="checkbox" id="chkIsFeasibile{{item.id}}" ng-checked="item.isFeasible == true">
+                                <label for="chkIsFeasibile{{item.id}}">Is Feasible ?</label>
+                            </div>
+                            <div class="col col-lg-2">
+                                <div>
+                                    <a href="#" class="btn btn-danger lnkRemove pull-right" title="remove row"><span><i class="fa fa-minus-circle"></i></span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clear clearfix"></div> <br />
+                    </div>
+
+                    <div class="row" ng-show="rfq.RfqFeasibilities.length == 0">
                         <div class="col col-lg-5">
-                            <input class="txtPartName form-control" type="text" placeholder="Part name" >
+                            <input class="txtPartName form-control" type="text" placeholder="Part name">
                         </div>
                         <div class="col col-lg-5">
                             <input class="chkIsFeasible" type="checkbox" id="chkIsFeasibile">
                             <label for="chkIsFeasibile">Is Feasible ?</label>
                         </div>
                         <div class="col col-lg-2">
-                            <a href="#" class="btn btn-primary lnkAdd  pull-right" title="add row">
-                                <span><i class="fa fa-plus-circle"></i></span>
-                            </a>
+                            <div>
+                                <a href="#" class="btn btn-danger lnkRemove pull-right" title="remove row"><span><i class="fa fa-minus-circle"></i></span></a>
+                            </div>
                         </div>
                     </div>
 
@@ -108,6 +136,74 @@
 
                     <div class="alert alert-success" id="lblFeasibleMsg">Feasibility data saved successfully</div>
                 </div>
+
+                <div class="col col-lg-6 feasibility">
+                    <h3>
+                        Customer Notification<br />
+                        <small>Send mail to customer stating them about infeasible parts</small>
+                    </h3>
+
+                    <div>
+                        <textarea class="tinymce">
+                            <p>Hello dineshbabu.rengarajan@hindujatech.com,</p>
+
+                            <table style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th><strong>Part Number</strong></th>
+                                        <th>&nbsp;<strong>Feasible</strong></th>
+                                        <th><strong>Reason</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 33.3333%;">
+                                            <br>
+                                        </td>
+                                        <td style="width: 33.3333%;">
+                                            <br>
+                                        </td>
+                                        <td style="width: 33.3333%;">
+                                            <br>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <br>
+                                        </td>
+                                        <td>
+                                            <br>
+                                        </td>
+                                        <td>
+                                            <br>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <br>
+                                        </td>
+                                        <td>
+                                            <br>
+                                        </td>
+                                        <td>
+                                            <br>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <p>
+                                <br>Regards,
+                                <br>Metaforge pvt.ltd.
+                            </p>
+
+                        </textarea>
+                    </div> <br />
+                    <div>
+                        <a href="#" class="btnSend btn btn-primary">Send Mail</a>
+                        <input type="hidden" value="{{rfq.Buyer.Customer.email}}" class="hdnCustomerEmail" />
+                    </div>
+                </div>
             </div>
 
             <hr />
@@ -117,7 +213,7 @@
                 <div class="col col-lg-12">
                     <h3><strong>Email Content</strong></h3>
                     <div class="clear clearfix"></div> <br />
-                    <div style="overflow:auto; max-height 300px">
+                    <div style="overflow:auto; max-height: 500px">
                         <p ng-bind-html="trustAsHtml(rfq.content)"></p>
                     </div>
                 </div>
@@ -166,6 +262,11 @@
                                 var $target = $(this).parent().parent().parent();
                                 $target.hide("slow", function () {
                                     $target.remove();
+                                    if ($(".txtPartName").length == 0) {
+                                        $('.btnSubmit ').hide();
+                                    } else {
+                                        $('.btnSubmit ').show();
+                                    }
                                 });
                             });
                         },
@@ -212,12 +313,12 @@
                         });
 
                         $(".btnSubmit").on('click', function () {
-                            var totalRecord = $('.txtPartName').length,
+                            var totalRecord = $('.txtPartName:visible').length,
                                 feasibilityFields = [],
                                 validField = [];
 
                             if (totalRecord > 0) {
-                                $('.txtPartName').each(function (key, item) {
+                                $('.txtPartName:visible').each(function (key, item) {
                                     var obj = {};
                                     if ($.trim($(item).val()) == "") {
                                         $(item).css("border", "1px solid red");
@@ -231,11 +332,17 @@
                                 });
                             }
                             if ($.inArray(false, validField) < 0) {
-                                console.log(feasibilityFields);
                                 savePartFeasibilities(feasibilityFields);
                             }
                         });
-                   
+                        bindRemoveParameter();
+
+                        if ($(".tinymce:visible").length > 0) {
+                            $('.tinymce').froalaEditor({
+                                height: 200
+                            });
+                        }
+
                         clearInterval(loadCode);
                     }
                 }, 500);

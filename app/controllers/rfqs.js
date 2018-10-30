@@ -73,6 +73,9 @@ exports.all = function (req, res) {
               },
              {
                  model: db.SampleInspectionReport
+             },
+             {
+                 model: db.RfqFeasibilities
              }
         ]
     }).then(function (rfqs) {
@@ -125,6 +128,9 @@ exports.rfq = function (req, res, next, id) {
               },
              {
                  model: db.SampleInspectionReport
+             },
+             {
+                 model: db.RfqFeasibilities
              }
         ]
     }).then(function (rfq) {
@@ -180,6 +186,9 @@ exports.rfqByBuyer = function (req, res, next, id) {
               },
              {
                  model: db.SampleInspectionReport
+             },
+             {
+                 model: db.RfqFeasibilities
              }
         ]
     }).then(function (rfq) {
@@ -230,6 +239,9 @@ exports.rfqByUser = function (req, res, next, id) {
               },
              {
                  model: db.SampleInspectionReport
+             },
+             {
+                 model: db.RfqFeasibilities
              }
         ]
     }).then(function (rfq) {

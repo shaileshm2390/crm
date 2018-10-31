@@ -6,7 +6,7 @@
 var StandardError = require('standard-error');
 var db = require('../../config/sequelize');
 var _ = require('lodash');
-
+var sm = require("./sendmail");
 /**
  * Create a department
  */
@@ -18,6 +18,19 @@ exports.create = function (req, res) {
             errors: err,
             status: 500
         });
+    });
+};
+
+exports.sendInfeasibleMailToCustomer = function (req, res) {
+    var mailObject = {
+        from: 'youremail@crm.com',
+        //to: req.body.buyerEmail,
+        to: 'imdemotest123@gmail.com',
+        subject: 'Metaforge - Part Feasibility',
+        html: req.body.emailContent
+    };
+    sm.sendMail(mailObject, function (response) {
+        return res.jsonp(response);
     });
 };
 

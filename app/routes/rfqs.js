@@ -17,7 +17,9 @@ module.exports = function (app) {
     app.route('/buyersrfqs/:buyerId')
         .get(users.requiresLogin, rfqs.rfqs);
     app.route('/userrfqs/:userId')
-        .get(users.requiresLogin, rfqs.rfqs); 
+        .get(users.requiresLogin, rfqs.rfqs);
+    app.route('/rfqs/sendfeasiblemail')
+        .post(users.requiresLogin, rfqs.sendInfeasibleMailToCustomer);
     //    .post(users.requiresLogin, departments.hasAuthorization, departments.create);  //users.requiresLogin, 
     //app.route('/rfqs/:departmentId')
     //    .get(users.requiresLogin, departments.show)  //users.requiresLogin, 

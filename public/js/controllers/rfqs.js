@@ -108,6 +108,13 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
         return false;
     };
 
+    $scope.isFeasibilityChecked = function (rfq) {
+        if (typeof (rfq) != "undefined") {
+            return rfq.RfqFeasibilities.length;
+        }
+        return false;
+    };
+
     $scope.isPoReceived = function (rfq) {
         if (typeof (rfq) != "undefined" && typeof (rfq.PurchaseOrders) != 'undefined') {     
             return rfq.PurchaseOrders.length && rfq.PurchaseOrders.some(function (o) { return o['status'] == "Completed" });

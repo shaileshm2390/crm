@@ -116,6 +116,9 @@ exports.getOpenRfq = function (req, res) {
             },
             {
                 model: db.RfqImage
+            },
+            {
+                model: db.RfqFeasibilities
             }
         ]
     }).then(function (rfq) {
@@ -182,6 +185,9 @@ exports.getMyRfq = function (req, res) {
              },
             {
                 model: db.Quotation
+            },
+            {
+                model: db.RfqFeasibilities
             }
         ]
     }).then(function (rfq) {

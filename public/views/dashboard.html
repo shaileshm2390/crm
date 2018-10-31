@@ -189,7 +189,7 @@
                                     <tr>
                                         <th>Subject</th>
                                         <th>Buyer</th>
-                                        <th>Customer</th>
+                                        <th>Customer</th>                                        
                                         <th>Created</th>
                                         <th  class="text-center">Action</th>
                                     </tr>
@@ -210,7 +210,8 @@
                                             <span>{{rfq.createdAt | date:'medium'}}</span>
                                         </td>   
                                         <td class="text-center">
-                                            <a class="btn btn-primary btnAssign" href="#" ng-click="assignToMeRfq(rfq.id)">Assign to Me</a>
+                                            <a class="btn btn-warning" ui-sref="viewRfq({customerId: rfq.Buyer.CustomerId , buyerId: rfq.BuyerId, rfqId : rfq.id})" ng-show="!rfq.RfqFeasibilities.length">Check Feasibility</a>
+                                            <a class="btn btn-primary btnAssign" href="#" ng-click="assignToMeRfq(rfq.id)"  ng-show="rfq.RfqFeasibilities.length">Assign to Me</a>
                                         </td>
                                     </tr>
                                 </tbody>

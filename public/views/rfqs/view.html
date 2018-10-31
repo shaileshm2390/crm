@@ -145,7 +145,7 @@
 
                     <div>
                         <textarea class="tinymce">
-                            <p>Hello dineshbabu.rengarajan@hindujatech.com,</p>
+                            <p>Hello {{rfq.Buyer.name}},</p>
 
                             <table style="width: 100%;">
                                 <thead>
@@ -201,7 +201,8 @@
                     </div> <br />
                     <div>
                         <a href="#" class="btnSend btn btn-primary">Send Mail</a>
-                        <input type="hidden" value="{{rfq.Buyer.Customer.email}}" class="hdnCustomerEmail" />
+                        <div class="alert alert-success m-t-10 mt-10" id="lblFeasibleMailMsg">Mail send successfully</div>
+                        <input type="hidden" value="{{rfq.Buyer.email}}" class="hdnBuyerEmail" />
                     </div>
                 </div>
             </div>
@@ -226,7 +227,7 @@
         
         <script type="text/javascript">
             $(document).ready(function () {
-                $("#lblFeasibleMsg").hide();
+                $("#lblFeasibleMsg, #lblFeasibleMailMsg").hide();
                 //   console.log($scope);
                 var loadCode = setInterval(function () {
                     if ($(".hdnRfqId").length > 0 && $(".hdnRfqId").val() != "") {
@@ -342,6 +343,18 @@
                                 height: 200
                             });
                         }
+
+                        $(".btnSend").on('click', function () {
+                            $(".btnSend").html('<i class="fa fa-spin fa-spinner"></i>');
+                            $.ajax({
+                                url: '/rfqs/sendfeasiblemail',
+                                method: "POST",
+                                data: { buyerEmail: $(".hdnBuyerEmail").val(), emailContent: $('.tinymce').froalaEditor('html.get') }
+                            }).done(function (response) {
+                                $(".btnSend").html('Send Mail');
+                                $("#lblFeasibleMailMsg").show().delay(5000).fadeOut();
+                            });
+                        });
 
                         clearInterval(loadCode);
                     }

@@ -142,7 +142,7 @@
                 </a>
                 <ul aria-expanded="false" class="collapse costsheet">
                     <li   ng-class="{'submenu-active': currentUrl.includes('prepare') }"><a href="/rfq/{{rfq.id}}/costsheet/prepare">Prepare &amp; Send for Approval</a></li>
-                    <li  ng-class="{'submenu-active': currentUrl.includes('approval') }"><a href="/rfq/{{rfq.id}}/costsheet/approval">Approved &amp; Send to Customer</a></li>
+                    <li  ng-class="{'submenu-active': currentUrl.includes('approval') }"><a href="/rfq/{{rfq.id}}/costsheet/approval">Compare Costsheet</a></li>
                 </ul>
             </li>
             <li ng-show="rfq.CostSheets.length"  ng-class="{'menu-active': currentUrl.includes('quotation') }"><a href="/rfq/{{rfq.id}}/quotation/short"><span>Quotation</span></a></li>

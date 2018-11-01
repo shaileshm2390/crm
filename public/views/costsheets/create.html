@@ -346,7 +346,10 @@
                 method: "POST",
                 data: { UserId: window.user.id, data: data, RfqId: rfqId, status: window.user.isAdmin ? "approved" : "pending" }
             }).done(function (response) {
-                $(".lblMsg").html("<span>Saved successfully !!!</span>").removeClass("hide");
+                $(".lblMsg").html("<span>Saved successfully !!!</span>").removeClass("hide").show().delay(3000).fadeOut();
+                $('html, body').animate({
+                    scrollTop: $(".lblMsg").offset().top
+                }, 500);
                 dfd.resolve(response);
             });
             return dfd.promise();
@@ -422,7 +425,7 @@
                 if ((validField.length > 0 && $.inArray(false, validField) < 0) || $.inArray(false, validPredefinedField) < 0) {
                     // save costsheet
                     $.when(saveCostSheet(JSON.stringify(nameValuePair))).then(function () {
-                        window.location.href = '/rfq/' + $('.hdnRfqId').val() + '/costsheet/prepare';
+                        //window.location.href = '/rfq/' + $('.hdnRfqId').val() + '/costsheet/prepare';
                     });
                 } else {
                     nameValuePair = [];

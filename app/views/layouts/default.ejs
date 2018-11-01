@@ -54,6 +54,9 @@
     <link href="/css/jquery.fancybox.css" rel="stylesheet" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link href="/css/lib/datepicker/bootstrap-datepicker3.min.css" rel="stylesheet" />
+    <link href="/css/jquery.dataTables.css" rel="stylesheet" />
+    <link href="/css/buttons.dataTables.css" rel="stylesheet" />
+    
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:** -->
@@ -179,7 +182,7 @@
 
                                 <% if(user.isAdmin) { %>        
                             <li>
-                                <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-star "></i><span class="hide-menu">Raw Material</span></a>
+                                <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-registered "></i><span class="hide-menu">Raw Material</span></a>
                                 <ul aria-expanded="false" class="collapse">
                                     <li><a href="/material">List</a></li>
                                     <li><a href="/material/create">Add</a></li>
@@ -187,7 +190,7 @@
                             </li>   
 
                             <li>
-                                <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-star "></i><span class="hide-menu">Conversation Master</span></a>
+                                <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-copyright "></i><span class="hide-menu">Conversation Master</span></a>
                                 <ul aria-expanded="false" class="collapse">
                                     <li><a href="/conversion">List</a></li>
                                     <li><a href="/conversion/create">Add</a></li>
@@ -195,7 +198,7 @@
                             </li>  
 
                             <li>
-                                <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-star "></i><span class="hide-menu">HTST Master</span></a>
+                                <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-header " style="font-size: 10px; width: 16px; border: 1px solid; border-radius: 50%; padding: 2px;"></i><span class="hide-menu" style="margin-left: 13px;">HTST Master</span></a>
                                 <ul aria-expanded="false" class="collapse">
                                     <li><a href="/htst">List</a></li>
                                     <li><a href="/htst/create">Add</a></li>
@@ -204,7 +207,10 @@
                             <% } %>
 
                             <li>
-                                <a href="#" aria-expanded="false"><i class="fa fa-line-chart"></i><span class="hide-menu">Reports</span></a>
+                                <a href="#" aria-expanded="false" class="has-arrow  " ><i class="fa fa-line-chart"></i><span class="hide-menu">Reports</span></a>
+                                <ul aria-expanded="false" class="collapse">
+                                    <li><a href="/reports/rfqs">Rfqs</a></li>
+                                </ul>
                             </li>
                         </ul>
                     </nav>
@@ -461,12 +467,21 @@
     <script type="text/javascript" src="/js/wysiwyg/plugins/word_paste.min.js"></script>
   
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script type="text/javascript" src="/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="/js/dataTables.buttons.js"></script>
+    <script type="text/javascript" src="/js/buttons.flash.js"></script>
+    <script type="text/javascript" src="/js/jszip.js"></script>
+    <script type="text/javascript" src="/js/pdfmake.js"></script>
+    <script type="text/javascript" src="/js/vfs_fonts.js"></script>
+    <script type="text/javascript" src="/js/buttons.html5.js"></script>
+    <script type="text/javascript" src="/js/buttons.print.js"></script>
         
     <script type="text/javascript">
         $(document).ready(function () {
             setTimeout(function () {
                 $(".ng-hide[data-ng-show='global.authenticated']").remove();
-            }, 500);            
+            }, 500);   
         });
     </script>
     <% if (typeof user == 'object' && user) { %>

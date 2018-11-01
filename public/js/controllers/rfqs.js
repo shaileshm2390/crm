@@ -45,7 +45,7 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
             .then(function (response) {
                 $scope.rfq = response.data;
                 var currentUrl = "customer/" + $scope.rfq.Buyer.CustomerId + "/buyer/" + $scope.rfq.BuyerId + "/rfq/" + $scope.rfq.id;
-                if (window.location.href.indexOf(currentUrl) > -1) {
+                if ($scope.isFeasibilityChecked($scope.rfq) || window.location.href.indexOf(currentUrl) > -1) {
                     for (var index = 0; index < $scope.rfq.RfqImages.length; index++) {
                         if ($scope.rfq.RfqImages[index].imagePath.indexOf(".pdf") > -1) {
                             $scope.rfq.RfqImages[index].displayPath = '/img/pdf.png';

@@ -1,0 +1,62 @@
+﻿<div class="page-titles">
+    <h3 class="text-primary">Report-RFQs</h3>
+</div>
+
+<div class="container-fluid">
+    <div class="card" ng-controller="RfqsController">
+        <section ng-init="findMyRfq()" class="table-responsive" ng-controller="DashboardsController">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Buyer</th>
+                        <th>Customer</th>
+                        <th>Created</th>
+                        <th ng-show="global.user.isAdmin">Assign To</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="rfq in myRfqs | orderBy : '-createdAt'">
+                        <td>
+                            <a title="View" class="btn" ui-sref="viewRfq({customerId: rfq.Buyer.CustomerId , buyerId: rfq.BuyerId, rfqId : rfq.id})">{{rfq.subject}}</a>
+                        </td>
+                        <td>
+                            <a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}">{{rfq.Buyer.name}}</a>
+                        </td>
+                        <td>
+                            <a href="/customer/{{rfq.Buyer.CustomerId}}"> {{rfq.Buyer.Customer.company}}</a>
+                        </td>
+                        <td>
+                            <span>{{rfq.createdAt | date:'medium'}}</span>
+                        </td>
+                        <td ng-show="global.user.isAdmin">
+                            {{(rfq.User.firstName + " " +  rfq.User.lastName).trim() || rfq.User.email || "-"}}
+                        </td>
+                        <td ng-bind-html="trustAsHtml(rfq.customStatus)"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <input type="hidden" class="hdnRfqLength" value="{{myRfqs.length}}" />
+        </section>
+    </div>
+</div>
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            var loadCode;
+            function actualFunction() {
+                if ($(".hdnRfqLength").length > 0 && $(".hdnRfqLength").val() != "") {
+                    $('.loader').hide();
+                    clearInterval(loadCode);
+                    $('table').DataTable({
+                        dom: 'lBfrtip',
+                        buttons: [
+                            'excel', 'pdf', 'print'
+                        ]
+                    });
+                }
+            }
+            loadCode = setInterval(actualFunction, 500);
+        });
+</script>

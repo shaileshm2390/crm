@@ -240,8 +240,14 @@
             function actualFunction() {
                 if ($(".hdnRfqLength").length > 0 && $(".hdnRfqLength").val() != "") {
                     $('.loader').hide();
-                        clearInterval(loadCode);
-                    }
+                    clearInterval(loadCode);
+                    $('table').DataTable({
+                        dom: 'lBfrtip',
+                        buttons: [
+                            'excel', 'pdf', 'print'
+                        ]
+                    });
+                }
             }
             loadCode = setInterval(actualFunction, 500);
         });

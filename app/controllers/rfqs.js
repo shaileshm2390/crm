@@ -34,6 +34,11 @@ exports.sendInfeasibleMailToCustomer = function (req, res) {
     });
 };
 
+exports.getReports = function (req, res) {
+    console.log(req, req.query.fromDate, req.query.toDate);
+    return res.jsonp([{ fromDate: req.query.fromDate, toDate: req.query.toDate }]);
+};
+
 exports.update = function (req, res) {
     if (req.body.UserId == "") {
         req.body.UserId = null;

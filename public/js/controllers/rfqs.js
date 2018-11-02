@@ -5,6 +5,9 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
     $scope.validatePermission = false;
     $scope.globalCheckFeasibility = true;
     $scope.currentUrl = $location.url();
+    $scope.fromDate = "";
+    $scope.toDate = "";
+    $scope.reports = [];
 
     $scope.trustAsHtml = function (html) {
         return $sce.trustAsHtml(html);
@@ -127,6 +130,17 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
             $scope.findOneByRfqId();
         });
     };
+
+    $scope.findReports = function (numberOfMonths) {
+        if ($scope.fromDate == "" || $scope.toDate == "") {
+            $scope.fromDate = new Date(new Date().setMonth(new Date().getMonth() - numberOfMonths)).toJSON().slice(0, 10).replace('T', ' ');
+            $scope.toDate = new Date().toJSON().slice(0, 10).replace('T', ' ');
+        }
+        var body = { fromDate: $scope.fromDate, toDate: $scope.toDate };
+        $http({ method: 'post', url: "/rfqs/report", params: body }).then(function (response) {
+                $scope.reports = response.data;
+            });
+    }
 
 }]);
 

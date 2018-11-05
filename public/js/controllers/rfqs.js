@@ -138,8 +138,21 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
         }
         var body = { fromDate: $scope.fromDate, toDate: $scope.toDate };
         $http({ method: 'post', url: "/rfqs/report", params: body }).then(function (response) {
-                $scope.reports = response.data;
+            $scope.reports = response.data;
+            var index = 0;
+            $.each($scope.reports, function (key, rfq) {
+                if (rfq.data != null && rfq.data.length > 0) {
+                    var costSheetData = JSON.parse(rfq.data);
+                    $.each(costSheetData, function (key, data) {
+                        if (data.hasOwnProperty("Total")) {
+                            $scope.reports[index].Total = data.Total;
+                        }
+                    });
+                }
+                index++;
             });
+            console.log($scope.reports);
+        });
     }
 
 }]);

@@ -31,44 +31,51 @@
                         <th>Costsheet Prepared</th>
                         <th>Costsheet Approved</th>
                         <th>Quotation</th>
+                        <th>Quoted Price</th>
                         <th>Sample Status</th>
                         <th>Purchase Order</th>
                         <th>SIR</th>
                         <th>Buyer</th>
+                        <th>Buyer Email</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="report in reports">
                         <td>
-                            {{report.subject}}
+                            {{report.subject || "-"}}
                         </td>
                                            
                         <td>
-                            {{report.assignedUser}}                            
+                            {{report.assignedUser || "-"}}                            
                         </td>
                         <td>
-                            {{report.createdAt | date:'dd-MM-yyyy'}}
+                            {{report.createdAt | date:'dd-MM-yyyy' || "-"}}
                         </td>
                         <td>
-                            {{report.FeasibilityCheck}}
+                            {{report.FeasibilityCheck || "-"}}
                         </td>
                         <td>
-                            {{report.LatestCostsheetPrepared | date:'dd-MM-yyyy'}}
+                            {{report.LatestCostsheetPrepared | date:'dd-MM-yyyy' || "-"}}
                         </td>
                         <td>
-                            {{report.LatestCostsheetApproved | date:'dd-MM-yyyy'}}
+                            {{report.LatestCostsheetApproved | date:'dd-MM-yyyy' || "-"}}
                         </td>
                         <td>
-                            {{report.QuotationsPrepared | date:'dd-MM-yyyy'}}
+                            {{report.QuotationsPrepared | date:'dd-MM-yyyy' || "-"}}
                         </td>
                         <td>
-                            {{report.SampleStatus}}
+                            {{report.Total || "-"}}
                         </td>
-                        <td>{{report.PurchaseOrder  | date:'dd-MM-yyyy'}}</td>
+                        <td>
+                            {{report.SampleStatus || "-"}}
+                        </td>
+                        <td>{{report.PurchaseOrder  | date:'dd-MM-yyyy'  || "-"}}</td>
 
-                        <td>{{report.SIR}}</td>
+                        <td>{{report.SIR || "-"}}</td>
                         <td>
-                            {{report.buyerName}}<br />
+                            {{report.buyerName || "-"}}
+                        </td>
+                        <td>
                             <span style="display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; width: 95%;">{{report.buyerEmail}}</span>
                         </td>
                     </tr>
@@ -82,10 +89,12 @@
                         <th>Costsheet Prepared</th>
                         <th>Costsheet Approved</th>
                         <th>Quotation</th>
+                        <th>Quoted Price</th>
                         <th>Sample Status</th>
                         <th>Purchase Order</th>
                         <th>SIR</th>
                         <th>Buyer</th>
+                        <th>Buyer Email</th>
                     </tr>
                 </tbody>
             </table>

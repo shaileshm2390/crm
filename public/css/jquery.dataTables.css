@@ -392,6 +392,7 @@ table.dataTable td {
 .dataTables_wrapper .dataTables_processing,
 .dataTables_wrapper .dataTables_paginate {
   color: #333;
+    margin: 15px 0;
 }
 .dataTables_wrapper .dataTables_scroll {
   clear: both;

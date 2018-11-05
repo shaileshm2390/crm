@@ -9,47 +9,83 @@
             <div class="col col-lg-4">
                 <div class="row">
                     <div class="col col-lg-4">
-                        <input type="text" class="datepicker form-control" ng-model="fromDate" placehoolder="From Date" />
+                        <input type="text" class="datepicker form-control" ng-model="fromDate" placeholder="From Date" />
                         </div>
                     <div class="col col-lg-4 text-right">
-                        <input type="text" class="datepicker form-control" ng-model="toDate" placehoolder="To Date" />
+                        <input type="text" class="datepicker form-control" ng-model="toDate" placeholder="To Date" />
                         </div>
                         <div class="col col-lg-4 text-right">
-                            <button ng-click="findReports(3)" class="btn btn-primary">Search</button>
+                            <button class="btn btn-primary btnSearch">Search</button>
                         </div>
                     </div>
             </div>
         </div>
-        <section ng-init="findReports(3)" class="table-responsive" >
+        <section ng-init="findReports(6)" class="table-responsive"  id="reportSection">
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Subject</th>
-                        <th>Buyer</th>
-                        <th>Customer</th>
+                        <th>Subject</th>                       
+                        <th>Assigned</th>
                         <th>Created</th>
-                        <th ng-show="global.user.isAdmin">Assign To</th>
-                        <th>Status</th>
+                        <th>Feasibility</th>
+                        <th>Costsheet Prepared</th>
+                        <th>Costsheet Approved</th>
+                        <th>Quotation</th>
+                        <th>Sample Status</th>
+                        <th>Purchase Order</th>
+                        <th>SIR</th>
+                        <th>Buyer</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="rfq in myRfqs | orderBy : '-createdAt'">
+                    <tr ng-repeat="report in reports">
                         <td>
-                            <a title="View" class="btn" ui-sref="viewRfq({customerId: rfq.Buyer.CustomerId , buyerId: rfq.BuyerId, rfqId : rfq.id})">{{rfq.subject}}</a>
+                            {{report.subject}}
                         </td>
+                                           
                         <td>
-                            <a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}">{{rfq.Buyer.name}}</a>
-                        </td>
-                        <td>
-                            <a href="/customer/{{rfq.Buyer.CustomerId}}"> {{rfq.Buyer.Customer.company}}</a>
+                            {{report.assignedUser}}                            
                         </td>
                         <td>
-                            <span>{{rfq.createdAt | date:'medium'}}</span>
+                            {{report.createdAt | date:'dd-MM-yyyy'}}
                         </td>
-                        <td ng-show="global.user.isAdmin">
-                            {{(rfq.User.firstName + " " +  rfq.User.lastName).trim() || rfq.User.email || "-"}}
+                        <td>
+                            {{report.FeasibilityCheck}}
                         </td>
-                        <td ng-bind-html="trustAsHtml(rfq.customStatus)"></td>
+                        <td>
+                            {{report.LatestCostsheetPrepared | date:'dd-MM-yyyy'}}
+                        </td>
+                        <td>
+                            {{report.LatestCostsheetApproved | date:'dd-MM-yyyy'}}
+                        </td>
+                        <td>
+                            {{report.QuotationsPrepared | date:'dd-MM-yyyy'}}
+                        </td>
+                        <td>
+                            {{report.SampleStatus}}
+                        </td>
+                        <td>{{report.PurchaseOrder  | date:'dd-MM-yyyy'}}</td>
+
+                        <td>{{report.SIR}}</td>
+                        <td>
+                            {{report.buyerName}}<br />
+                            <span style="display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; width: 95%;">{{report.buyerEmail}}</span>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Assigned</th>
+                        <th>Created</th>
+                        <th>Feasibility</th>
+                        <th>Costsheet Prepared</th>
+                        <th>Costsheet Approved</th>
+                        <th>Quotation</th>
+                        <th>Sample Status</th>
+                        <th>Purchase Order</th>
+                        <th>SIR</th>
+                        <th>Buyer</th>
                     </tr>
                 </tbody>
             </table>
@@ -64,15 +100,42 @@
             function actualFunction() {
                 if ($(".hdnReportLength").length > 0 && $(".hdnReportLength").val() != "") {
                     $('.loader').hide();
-                    clearInterval(loadCode);
-                    $('table').DataTable({
+                    var jqueryDataTableOption = {
                         dom: 'lBfrtip',
+                        fixedHeader: {
+                            header: true,
+                            footer: true,
+                            headerOffset: 60
+                        },
                         buttons: [
-                            'excel', 'pdf', 'print'
-                        ]
+                           // 'excel', 'pdf', 'print'
+                            'excel', 'print'
+                        ]                       
+                    };
+
+                    var oTable;
+                    setTimeout(function () { 
+                        oTable = $('table').DataTable(jqueryDataTableOption);
+                        $(".datepicker").datepicker({ format: 'yyyy-mm-dd' });                       
+                    }, 1000);
+                    clearInterval(loadCode);
+                    $(".btnSearch").on('click', function () {
+                        $(".btnSearch").html("<i class='fa fa-spin fa-spinner'></i>");
+                        if ($.fn.DataTable.isDataTable('table')) {
+                            $('table').DataTable().destroy();
+                        }
+
+                        //$('table tbody').empty();
+
+                        var scope = angular.element(document.getElementById('reportSection')).scope();
+                        scope.findReports(6);
+                        setTimeout(function () {
+                            $('table').DataTable(jqueryDataTableOption);
+                            $(".btnSearch").html("Search");
+                        }, 3000);
                     });
-                    $(".datepicker").datepicker({ format: 'yyyy-mm-dd' });
                 }
+
             }
             loadCode = setInterval(actualFunction, 500);
         });

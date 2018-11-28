@@ -151,7 +151,7 @@
                                                 <a title="View" class="btn" ui-sref="viewRfq({customerId: rfq.Buyer.CustomerId , buyerId: rfq.BuyerId, rfqId : rfq.id})">{{rfq.subject}}</a>
                                             </td>
                                             <td>
-                                                <a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}">{{rfq.Buyer.name}}</a>
+                                                <a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}">{{rfq.Buyer.name || "-"}}</a>
                                             </td>
                                             <td>
                                                 <a href="/customer/{{rfq.Buyer.CustomerId}}"> {{rfq.Buyer.Customer.company}}</a>
@@ -200,7 +200,7 @@
                                             <a title="View" class="btn" ui-sref="viewRfq({customerId: rfq.Buyer.CustomerId , buyerId: rfq.BuyerId, rfqId : rfq.id})">{{rfq.subject}}</a>
                                         </td>
                                         <td>
-                                            <a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}">{{rfq.Buyer.name}}</a>
+                                            <a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}">{{rfq.Buyer.name || "-"}}</a>
                                         </td>
                                         <td>
                                             <a href="/customer/{{rfq.Buyer.CustomerId}}">{{rfq.Buyer.Customer.company}}</a>

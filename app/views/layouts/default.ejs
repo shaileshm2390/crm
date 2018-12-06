@@ -101,6 +101,12 @@
                         <!-- This is  -->
                         <li class="nav-item"><a class="nav-link nav-toggler hidden-md-up text-muted  " href="javascript:void(0)"><i class="mdi mdi-menu"></i></a></li>
                         <li class="nav-item m-l-10"><a class="nav-link sidebartoggler hidden-sm-down text-muted  " href="javascript:void(0)"><i class="ti-menu"></i></a></li>
+						<li class="nav-item m-t-10 m-l-10">
+							<a class="btn btn-primary btnImportRFQ" href="#">Import RFQ</a>
+						</li>
+						<li class="nav-item m-t-10 m-l-10">
+							<div class="alert alert-success lblImportMessage m-b-2" style="display:none; padding: 8px;">Import process is done. Please <a href="/">click here</a> to see RFQ list.</a>
+						</li>
                         <!-- Messages -->
 
                         <!-- End Messages -->
@@ -484,7 +490,19 @@
         $(document).ready(function () {
             setTimeout(function () {
                 $(".ng-hide[data-ng-show='global.authenticated']").remove();
-            }, 500);   
+            }, 500);  
+			
+			$(".btnImportRFQ").on("click", function(){
+				$me = $(this);
+				$(this).html("<i class='fa fa-spinner fa-spin'></i>");
+				$.ajax({url: "http://eventoline.com/gmail/", success: function(result){
+					console.log(result);
+					//$(".lblImportMessage").show().delay(5000).fadeOut();
+					$(".lblImportMessage").show();
+					$me.html("Import RFQ");
+				}});
+				return false;
+			});
         });
     </script>
     <% if (typeof user == 'object' && user) { %>

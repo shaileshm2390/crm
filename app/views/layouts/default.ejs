@@ -495,7 +495,7 @@
 			$(".btnImportRFQ").on("click", function(){
 				$me = $(this);
 				$(this).html("<i class='fa fa-spinner fa-spin'></i>");
-				$.ajax({url: "http://eventoline.com/gmail/", success: function(result){
+				$.ajax({url: window.location.protocol + "//eventoline.com/gmail/", success: function(result){
 					console.log(result);
 					//$(".lblImportMessage").show().delay(5000).fadeOut();
 					$(".lblImportMessage").show();

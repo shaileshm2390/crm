@@ -495,7 +495,11 @@
 			$(".btnImportRFQ").on("click", function(){
 				$me = $(this);
 				$(this).html("<i class='fa fa-spinner fa-spin'></i>");
-				$.ajax({url: window.location.protocol + "//eventoline.com/gmail/", success: function(result){
+				var filename = "";
+				if(window.location.host.indexOf("crmmean") > -1) {
+					filename = "eventoline-gmail.php";
+				}
+				$.ajax({url: window.location.protocol + "//eventoline.com/gmail/" + filename, success: function(result){
 					console.log(result);
 					//$(".lblImportMessage").show().delay(5000).fadeOut();
 					$(".lblImportMessage").show();

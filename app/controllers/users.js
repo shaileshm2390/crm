@@ -16,9 +16,8 @@ var sendResetMail = function (newPassword, email) {
     sm.sendMail({
         from: 'youremail@crm.com',
         to: email,
-        //to: 'shaileshm@imtsolutions.net',
         subject: 'Reset Password',
-        html: '<h1>Hi User,</h1><p>Your new password is : ' + newPassword + '</p><br /> <br /> <a href="localhost:3000/">click here</a> to sign in.'
+        html: '<h1>Hi User,</h1><p>Your new password is : ' + newPassword + '</p><br /> <br /> <a href="http://metaforge.herokuapp.com/">click here</a> to sign in.'
     });
 }
 /**

@@ -24,8 +24,7 @@ exports.create = function (req, res) {
 exports.sendInfeasibleMailToCustomer = function (req, res) {
     var mailObject = {
         from: 'youremail@crm.com',
-        //to: req.body.buyerEmail,
-        to: 'imdemotest123@gmail.com',
+        to: req.body.buyerEmail,
         subject: 'Metaforge - Part Feasibility',
         html: req.body.emailContent
     };

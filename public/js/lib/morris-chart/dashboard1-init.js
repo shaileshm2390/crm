@@ -1,7 +1,7 @@
    // Dashboard 1 Morris-chart
     $(function () {
         "use strict";
-        if (typeof window.user != 'undefined') {
+        if (typeof window.user !== 'undefined') {
             var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
 
                 convertResponseToMorrisData = function (obj) {
@@ -15,21 +15,21 @@
                                     var existingItem = result.filter(function (o) { if (o["period"] === obj[key][index].Month) return o; }),
                                         existingIndex = result.indexOf(existingItem[0]);
 
-                                    if (key == 'Open') {
+                                    if (key === 'Open') {
                                         result[existingIndex].Open = obj[key][index].Count + existingItem[0].Open;
-                                    } else if (key == 'Pending') {
+                                    } else if (key === 'Pending') {
                                         result[existingIndex].Pending = obj[key][index].Count + existingItem[0].Pending;
-                                    } else if (key == 'Completed') {
+                                    } else if (key === 'Completed') {
                                         result[existingIndex].Completed = obj[key][index].Count + existingItem[0].Completed;
                                     }
                                 }
 
                                 else {
-                                    if (key == 'Open') {
+                                    if (key === 'Open') {
                                         result.push({ period: obj[key][index].Month, Open: obj[key][index].Count, Pending: 0, Completed: 0 });
-                                    } else if (key == 'Pending') {
+                                    } else if (key === 'Pending') {
                                         result.push({ period: obj[key][index].Month, Open: 0, Pending: obj[key][index].Count, Completed: 0 });
-                                    } else if (key == 'Completed') {
+                                    } else if (key === 'Completed') {
                                         result.push({ period: obj[key][index].Month, Open: 0, Pending: 0, Completed: obj[key][index].Count });
                                     }
                                 }
@@ -41,7 +41,7 @@
 
             $.ajax({
                 url: '/dashboards/getRfqChartDetail',
-                method: "GET",
+                method: "GET"
             }).done(function (obj) {
                 var result = convertResponseToMorrisData(obj);
                 Morris.Area({
@@ -158,12 +158,108 @@
                     ]
                 };
 
-               
+
 
                 if (barOption && typeof barOption === "object") {
                     bChart.setOption(barOption, false);
                 }
 
             });
+
+             // Customer Benefit Pie
+            var bpChart1;
+            $.ajax({
+                url: '/dashboards/getCustomerBenefitPieChartDetail',
+                method: "GET"
+            }).done(function (obj) {
+               
+                var dom1 = document.getElementById("basic-customer-benefit-pie");
+                bpChart1 = echarts.init(dom1);
+
+                var option1 = null;
+                option1 = {
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b} : Rs.{c} ({d}%)'
+                    },
+                    calculable: true,
+                    series: [
+                        {
+                            name: 'Benefit',
+                            type: 'pie',
+                            radius: '75%',
+                            center: ['50%', '60%'],
+                            data: obj
+                        }
+                    ]
+                };
+
+                if (option1 && typeof option1 === "object") {
+                    bpChart1.setOption(option1, false);
+                }
+
+                // Customer Benefit Bar
+
+                var xDataArray = [];
+                $.each(obj, function (key, item) {
+                    xDataArray.push(item.name);
+                });
+
+                var domBar2 = document.getElementById("basic-customer-benefit-bar");
+                var bChart2 = echarts.init(domBar2);
+
+                var barOption2 = null;
+                barOption2 = {
+                    //color: ['#62549a'],
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'shadow'
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            data: xDataArray,
+                            axisTick: {
+                                alignWithLabel: true
+                            }
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value'
+                        }
+                    ],
+                    series: [
+                        {
+                            name: 'Benefit',
+                            type: 'bar',
+                            barWidth: '70%',
+                            data: obj,
+                        }
+                    ]
+                };
+                if (barOption2 && typeof barOption2 === "object") {
+                    bChart2.setOption(barOption2, false);
+                }
+            });
+
+            //$(".refresh").on('click', function () {
+            //    //$("#basic-customer-benefit-pie").html('');
+            //    //$("#basic-customer-benefit-bar").html('');
+            //    $.ajax({
+            //        url: '/dashboards/getCustomerBenefitPieChartDetail',
+            //        method: "GET"
+            //    }).done(function (obj) {
+            //        bpChart1.setOption({ series: [{ data: [{ "name": "mayur.ramkishor@gmail.com", "value": 2.50 }] }] }, false);
+            //    });
+            //});
         }
     });

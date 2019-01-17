@@ -6,96 +6,96 @@
 		<h3 class="text-primary">Dashboard</h3>
 	</div>
 	<div class="container-fluid">
-		<div ng-init="find()">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card p-2">
-                    <div class="media">
-                        <div class="media-left meida media-middle">
-                            <span><i class="fa fa-file f-s-20 color-primary"></i></span>
-                        </div>
-                        <div class="media-body media-text-right">
-                            <p class="m-b-0"> {{siteSummary.TotalRqf | number}} Total RFQ</p>
-</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card p-2">
-                    <div class="media">
-                        <div class="media-left meida media-middle">
-                            <span><i class="fa fa-file f-s-20 color-success"></i></span>
-                        </div>
-                        <div class="media-body media-text-right">
-                            <p class="m-b-0"> {{siteSummary.CompletedRfq | number}} Completed</p>
-</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card p-2">
-                    <div class="media">
-                        <div class="media-left meida media-middle">
-                            <span><i class="fa fa-file f-s-20 color-warning"></i></span>
-                        </div>
-                        <div class="media-body media-text-right">
-                            <p class="m-b-0">{{siteSummary.PendingRqf | number}} Pending </p>
-</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card p-2">
-                    <div class="media">
-                        <div class="media-left meida media-middle">
-                            <span><i class="fa fa-file f-s-20 color-danger"></i></span>
-                        </div>
-                        <div class="media-body media-text-right">
-                            <p class="m-b-0"> {{siteSummary.OpenRfq | number}} Open</p>
+        <div ng-init="find()">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card p-2">
+                        <div class="media">
+                            <div class="media-left meida media-middle">
+                                <span><i class="fa fa-file f-s-20 color-primary"></i></span>
+                            </div>
+                            <div class="media-body media-text-right">
+                                <p class="m-b-0"> {{siteSummary.TotalRqf | number}} Total RFQ</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="row   bg-white ">
-            <!-- column -->
-            <div class="col-lg-8"  style="border-right:15px solid #F9F9F9">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Summary</h4>
-                        <div id="extra-area-chart"></div>
+                <div class="col-md-3">
+                    <div class="card p-2">
+                        <div class="media">
+                            <div class="media-left meida media-middle">
+                                <span><i class="fa fa-file f-s-20 color-success"></i></span>
+                            </div>
+                            <div class="media-body media-text-right">
+                                <p class="m-b-0"> {{siteSummary.CompletedRfq | number}} Completed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-2">
+                        <div class="media">
+                            <div class="media-left meida media-middle">
+                                <span><i class="fa fa-file f-s-20 color-warning"></i></span>
+                            </div>
+                            <div class="media-body media-text-right">
+                                <p class="m-b-0">{{siteSummary.PendingRqf | number}} Pending </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-2">
+                        <div class="media">
+                            <div class="media-left meida media-middle">
+                                <span><i class="fa fa-file f-s-20 color-danger"></i></span>
+                            </div>
+                            <div class="media-body media-text-right">
+                                <p class="m-b-0"> {{siteSummary.OpenRfq | number}} Open</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- column -->
-            <!-- column -->
-            <div class="col-lg-4"  style="border-left:15px solid #F9F9F9" >
-                <div class="card">
-                    <div class="card-body browser">
-                        <p class="f-w-600">Open <span class="pull-right">{{siteSummary.OpenPercentage}}%</span></p>
-                        <div class="progress ">
-                            <div role="progressbar" style="width: {{siteSummary.OpenPercentage}}%; height:8px;" class="progress-bar bg-danger wow animated progress-animated"></div>
+            <div class="row   bg-white ">
+                <!-- column -->
+                <div class="col-lg-8" style="border-right:15px solid #F9F9F9">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Summary</h4>
+                            <div id="extra-area-chart"></div>
                         </div>
+                    </div>
+                </div>
+                <!-- column -->
+                <!-- column -->
+                <div class="col-lg-4" style="border-left:15px solid #F9F9F9">
+                    <div class="card">
+                        <div class="card-body browser">
+                            <p class="f-w-600">Open <span class="pull-right">{{siteSummary.OpenPercentage}}%</span></p>
+                            <div class="progress ">
+                                <div role="progressbar" style="width: {{siteSummary.OpenPercentage}}%; height:8px;" class="progress-bar bg-danger wow animated progress-animated"></div>
+                            </div>
 
-                        <p class="m-t-30 f-w-600">Completed<span class="pull-right">{{siteSummary.CompletedPercentage}}%</span></p>
-                        <div class="progress">
-                            <div role="progressbar" style="width: {{siteSummary.CompletedPercentage}}%; height:8px;" class="progress-bar bg-success wow animated progress-animated"></div>
-                        </div>
-                        <p class="m-t-30 f-w-600">Pending<span class="pull-right">{{siteSummary.PendingPercentage}}%</span></p>
-                        <div class="progress">
-                            <div role="progressbar" style="width: {{siteSummary.PendingPercentage}}%; height:8px;" class="progress-bar bg-warning wow animated progress-animated"> </div>
+                            <p class="m-t-30 f-w-600">Completed<span class="pull-right">{{siteSummary.CompletedPercentage}}%</span></p>
+                            <div class="progress">
+                                <div role="progressbar" style="width: {{siteSummary.CompletedPercentage}}%; height:8px;" class="progress-bar bg-success wow animated progress-animated"></div>
+                            </div>
+                            <p class="m-t-30 f-w-600">Pending<span class="pull-right">{{siteSummary.PendingPercentage}}%</span></p>
+                            <div class="progress">
+                                <div role="progressbar" style="width: {{siteSummary.PendingPercentage}}%; height:8px;" class="progress-bar bg-warning wow animated progress-animated"> </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- column -->
             </div>
-            <!-- column -->
-        </div>
 
-            <div class="row">               
+            <div class="row">
                 <div class="col-lg-8">
                     <div class="card">
                         <div class="card-title">
-                            <h4>Status Bar</h4>
+                            <h4>RFQs Status Bar</h4>
                         </div>
                         <div class="card-content">
                             <div id="basic-bar" style="height: 370px"></div>
@@ -106,7 +106,7 @@
                 <div class="col-lg-4">
                     <div class="card">
                         <div class="card-title">
-                            <h4>Status Pie</h4>
+                            <h4>RFQs Status Pie</h4>
                         </div>
                         <div class="card-content">
                             <div id="basic-Pie" style="height: 370px"></div>
@@ -115,7 +115,31 @@
                 </div>
 
             </div>
-    </div>
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-title">
+                            <h4>Customer Wise Benefit</h4>
+                        </div>
+                        <div class="card-content">
+                            <div id="basic-customer-benefit-bar" style="height: 370px"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-title">
+                            <h4>Customer Wise Benefit</h4>
+                        </div>
+                        <div class="card-content">
+                            <div id="basic-customer-benefit-pie" style="height: 370px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
         <div class="row" ng-show="!rfqs.length">

@@ -4,14 +4,15 @@ module.exports = function (sequelize, DataTypes) {
 
     var CostSheet = sequelize.define('CostSheet', {
         data: DataTypes.TEXT,
-        status: { type: DataTypes.STRING, defaultValue: "pending" }
+        status: { type: DataTypes.STRING, defaultValue: "pending" },
+        TotalCost: DataTypes.DOUBLE
     },  
-        {
-            associate: function (models) {
-                CostSheet.belongsTo(models.User);
-                CostSheet.belongsTo(models.Rfq);
-            }
-        } 
+    {
+        associate: function (models) {
+            CostSheet.belongsTo(models.User);
+            CostSheet.belongsTo(models.Rfq);
+        }
+    } 
     );
 
     return CostSheet;

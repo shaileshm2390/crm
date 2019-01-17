@@ -99,6 +99,12 @@ exports.getQuotations = function (req, res) {
     return res.jsonp(req.quotations);
 }
 
+exports.updateCustomerFeedback = function (req, res) {
+    db.Quotation.update({ CustomerFeedBack: req.body.customerFeedBack }, { where: { id: req.body.id } }).then(function (updatedRecords) {
+        return res.jsonp(updatedRecords);
+    });
+}
+
 exports.quotationByRfqId = function (req, res, next, id) {
     db.Quotation.findAll({
         where: { RfqId: id },

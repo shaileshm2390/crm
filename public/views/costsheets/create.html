@@ -341,10 +341,11 @@
         // ajax call to save cost sheet
         var saveCostSheet = function (data) {
             var dfd = $.Deferred();
+            var totalCost = $("#txtTotal").val();
             $.ajax({
                 url: '/costsheets/',
                 method: "POST",
-                data: { UserId: window.user.id, data: data, RfqId: rfqId, status: window.user.isAdmin ? "approved" : "pending" }
+                data: { UserId: window.user.id, data: data, RfqId: rfqId, status: window.user.isAdmin ? "approved" : "pending", TotalCost: Number(totalCost.replace(/[^0-9.-]+/g, "")) }
             }).done(function (response) {
                 $(".lblMsg").html("<span>Saved successfully !!!</span>").removeClass("hide").show().delay(3000).fadeOut();
                 $('html, body').animate({

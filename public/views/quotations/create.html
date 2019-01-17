@@ -65,9 +65,22 @@
                         <label>Costsheet Attached:</label> <span><strong>{{rfq.Quotations[0].isCostSheetAttached == true ? "Yes" : "No"}}</strong></span>
                         <div class="clear clearfix"></div>
                         <label>Mail send on:</label> <span><strong>{{rfq.Quotations[0].createdAt | date:'medium'}}</strong></span>
-                        
-                        <div ng-bind-html="trustAsHtml(rfq.Quotations[0].emailContent)" class="m-t-10 m-b-10 p-l-5 p-r-5 p-t-5 p-b-5" style="box-shadow:1px 1px 20px rgba(128, 128, 128, 0.8)"></div>
 
+                        <div ng-bind-html="trustAsHtml(rfq.Quotations[0].emailContent)" class="m-10 p-5" style="border:1px solid #ccc"></div>
+
+                        <div class="clear clearfix fc-clear"></div><hr />
+                        <div class="row m-t-10">
+                            <div class="col-3">
+                                <label>Customer Feedback:</label>
+                            </div>
+                            <div class="col-9">
+                                <select class="form-control ddlFeedBack" style="width:20%" data-quotationid="{{rfq.Quotations[0].id}}">
+                                    <option value="1" ng-selected="rfq.Quotations[0].CustomerFeedBack == 1">Await</option>
+                                    <option value="2" ng-selected="rfq.Quotations[0].CustomerFeedBack == 2">Proceed</option>
+                                    <option value="3" ng-selected="rfq.Quotations[0].CustomerFeedBack == 3">Cancel</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -85,85 +98,84 @@
     $(document).ready(function () {
         var rfqId, costSheetId, costsheetData,
 
-        loadCode = setInterval(function () {
-            rfqId = $(".hdnRfqId").val();     
-            if (rfqId.length > 0 && rfqId != "") {
+            loadCode = setInterval(function () {
+                rfqId = $(".hdnRfqId").val();
+                if (rfqId.length > 0 && rfqId != "") {
 
-                var createUniqueKeyCostsheet = function (costsheet) {
-                    var count = 0, arr = [];
-                    $.each(costsheet, function (key, item) {
-                        $.each(item, function (name, value) {
-                            if (!arr.some(e => e.hasOwnProperty(name))) {
-                                var itemArray = {};
-                                itemArray[name] = new Array();
-                                itemArray[name].push(value);
-                                arr.push(itemArray);
-                            } else {
-                                if (name != 'Net Weight') {
-                                    arr.filter(e => e.hasOwnProperty(name))[0][name].push(value);
-                                } else if (name == 'Net Weight' && count % 2 == 0) {
-                                    count++;
-                                    arr.filter(e => e.hasOwnProperty(name))[0][name].push(value);
-                                }
-                            }
-                        });
-                    });
-                    return arr;
-                },
-
-                createTableFormat = function (costsheet) {
-                    var strHtml;
-                    strHtml = '<h1 align="center" style="margin: 10px 0;"><img src="http://www.metaforgeindia.com/images/logo.png" style="width: 300px;" alt="METAFORGE" /></h1><hr /><br />';
-                    arr = createUniqueKeyCostsheet(costsheet);
-                    strHtml += '<div  align="center" ><table style="width:50%" border="1">';
-                    $.each(arr, function (k, v) {
-                        $.each(v, function (parameterName, parameterValueArray) {
-                            //console.log(parameterName, parameterValueArray);
-                            if (parameterName == "Operation" || parameterName == "HT/ST" || parameterName == "Total RM Cost" || parameterName == "Total") {
-                                strHtml += '</table>';                                
-                                strHtml += '<br /><table style="width:50%" border="1">';
-                            }
-                            strHtml += '<tr>';
-                            if (parameterName == "Total") {
-                                parameterName = '<strong>' + parameterName + '</strong>';
-                            }
-                            strHtml += '<th width="30%" style="padding:5px;">' + parameterName + '</th>';
-                            strHtml += '<td width="70%"><table  style="width:100%" border="1"><tr>';
-                            $.each(parameterValueArray, function (key, actualValue) {
-
-                                if (parameterName.indexOf("Total") !== -1 || parameterName.indexOf("Percentage") !== -1 || parameterName.indexOf("Profit") !== -1)
-                                {
-                                    if (parameterName.indexOf("Profit") !== -1) {
-                                        actualValue += " %";
+                    var createUniqueKeyCostsheet = function (costsheet) {
+                        var count = 0, arr = [];
+                        $.each(costsheet, function (key, item) {
+                            $.each(item, function (name, value) {
+                                if (!arr.some(e => e.hasOwnProperty(name))) {
+                                    var itemArray = {};
+                                    itemArray[name] = new Array();
+                                    itemArray[name].push(value);
+                                    arr.push(itemArray);
+                                } else {
+                                    if (name != 'Net Weight') {
+                                        arr.filter(e => e.hasOwnProperty(name))[0][name].push(value);
+                                    } else if (name == 'Net Weight' && count % 2 == 0) {
+                                        count++;
+                                        arr.filter(e => e.hasOwnProperty(name))[0][name].push(value);
                                     }
-                                    actualValue = '<strong>' + actualValue + '</strong>';
                                 }
-                              
-                                strHtml += '<td  style="padding:5px;" width="' + 100 / parameterValueArray.length + '%">' + actualValue + '</td>';
                             });
-                            strHtml += '</tr></table></td>';
-                            strHtml += '</tr>';
                         });
-                        
-                    });
-                    strHtml += '</table></div><br /><br /><br />';
-                    return strHtml;
-                },
+                        return arr;
+                    },
+
+                        createTableFormat = function (costsheet) {
+                            var strHtml;
+                            strHtml = '<h1 align="center" style="margin: 10px 0;"><img src="http://www.metaforgeindia.com/images/logo.png" style="width: 300px;" alt="METAFORGE" /></h1><hr /><br />';
+                            arr = createUniqueKeyCostsheet(costsheet);
+                            strHtml += '<div  align="center" ><table style="width:50%" border="1">';
+                            $.each(arr, function (k, v) {
+                                $.each(v, function (parameterName, parameterValueArray) {
+                                    //console.log(parameterName, parameterValueArray);
+                                    if (parameterName == "Operation" || parameterName == "HT/ST" || parameterName == "Total RM Cost" || parameterName == "Total") {
+                                        strHtml += '</table>';
+                                        strHtml += '<br /><table style="width:50%" border="1">';
+                                    }
+                                    strHtml += '<tr>';
+                                    if (parameterName == "Total") {
+                                        parameterName = '<strong>' + parameterName + '</strong>';
+                                    }
+                                    strHtml += '<th width="30%" style="padding:5px;">' + parameterName + '</th>';
+                                    strHtml += '<td width="70%"><table  style="width:100%" border="1"><tr>';
+                                    $.each(parameterValueArray, function (key, actualValue) {
+
+                                        if (parameterName.indexOf("Total") !== -1 || parameterName.indexOf("Percentage") !== -1 || parameterName.indexOf("Profit") !== -1) {
+                                            if (parameterName.indexOf("Profit") !== -1) {
+                                                actualValue += " %";
+                                            }
+                                            actualValue = '<strong>' + actualValue + '</strong>';
+                                        }
+
+                                        strHtml += '<td  style="padding:5px;" width="' + 100 / parameterValueArray.length + '%">' + actualValue + '</td>';
+                                    });
+                                    strHtml += '</tr></table></td>';
+                                    strHtml += '</tr>';
+                                });
+
+                            });
+                            strHtml += '</table></div><br /><br /><br />';
+                            return strHtml;
+                        },
 
 
 
-                //ajax call to save qoute
-                saveQuotation = function () {
-                    var dfd = $.Deferred();
-                    $.ajax({
-                        url: '/quotations/',
-                        method: "POST",
-                        data: { UserId: window.user.id, RfqId: rfqId, CostSheetId: costSheetId, isCostSheetAttached: ($('.chkAttachCostSheet').prop('checked') ? 1 : 0), emailContent: $(".fr-element").html(), data: costsheetData, buyerEmail: $(".hdnBuyerDetail").data("email") }
-                    }).done(function (response) {
-                        dfd.resolve(response);
-                    });
-                    return dfd.promise();
-                };
+                        //ajax call to save qoute
+                        saveQuotation = function () {
+                            var dfd = $.Deferred();
+                            $.ajax({
+                                url: '/quotations/',
+                                method: "POST",
+                                data: { UserId: window.user.id, RfqId: rfqId, CostSheetId: costSheetId, isCostSheetAttached: ($('.chkAttachCostSheet').prop('checked') ? 1 : 0), emailContent: $(".fr-element").html(), data: costsheetData, buyerEmail: $(".hdnBuyerDetail").data("email") }
+                            }).done(function (response) {
+                                dfd.resolve(response);
+                            });
+                            return dfd.promise();
+                        };
 
                     if ($(".txtEditor:visible").length > 0) {
                         var months = ["Jan", "Feb", "Mar", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
@@ -195,6 +207,25 @@
                         return false;
                     });
 
+                    // ajax to update the quotation
+                    updateQuotationCustomerFeedback = function (quotationid, customerFeedBack) {
+                        var dfd = $.Deferred();
+                        $.ajax({
+                            url: '/quotations/updateCustomerFeedback',
+                            method: "PUT",
+                            data: { id: quotationid, customerFeedBack: customerFeedBack}
+                        }).done(function (response) {
+                            dfd.resolve(response);
+                        });
+                        return dfd.promise();
+                    };
+
+                    $(".ddlFeedBack").on('change', function () {
+                        var quotationid = $(this).data("quotationid");
+                        $.when(updateQuotationCustomerFeedback(quotationid, $(this).val())).then(function (data) {
+
+                        });
+                    })
                     clearInterval(loadCode);
                 }
             }, 500);

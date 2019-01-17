@@ -101,6 +101,31 @@ exports.getRfqPieChartDetail = function (req, res) {
     });
 };
 
+
+exports.getCustomerBenefitPieChartDetail = function (req, res) {
+    var user = req.user,
+        userCondition = "";
+    if (user.Department.name !== "Admin") {
+        userCondition = " AND c.UserId = " + user.id + " ";
+    }
+
+    var customBenefitQuery = "SELECT cust.name, SUM(c.TotalCost) as value FROM costsheets c INNER JOIN rfqs r ON r.Id = c.RfqId INNER JOIN buyers b ON b.Id = r.BuyerId INNER JOIN customers cust ON cust.Id = b.CustomerId INNER JOIN purchaseorders p ON p.RfqId = r.Id WHERE c.status = 'approved' AND p.status = 'Complete'" + userCondition + "GROUP BY cust.id;";
+
+    //var customBenefitQuery = "SELECT cust.name, SUM(c.TotalCost) as value FROM costsheets c INNER JOIN rfqs r ON r.Id = c.RfqId INNER JOIN buyers b ON b.Id = r.BuyerId INNER JOIN customers cust ON cust.Id = b.CustomerId WHERE c.status = 'approved'" + userCondition + "GROUP BY cust.id;";
+
+    db.sequelize.query(customBenefitQuery, { type: db.sequelize.QueryTypes.SELECT }).then(function (response) {
+        //var arr = [];
+        //for (var i = 0; i < 1000; i++) {
+        //    var obj = {};
+        //    obj.name = "Name" + i;
+        //    obj.value = i;
+        //    arr.push(obj);
+        //}
+        //return res.jsonp(arr);
+        return res.jsonp(response);
+    });
+};
+
 exports.getOpenRfq = function (req, res) {
   
     db.Rfq.findAll({

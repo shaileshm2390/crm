@@ -14,7 +14,10 @@ module.exports = function (app) {
         .post(users.requiresLogin, quotations.create);
 
     app.route('/quotations/rfq/:rfqId')
-       .get(users.requiresLogin, quotations.getQuotations)
+        .get(users.requiresLogin, quotations.getQuotations);
+
+    app.route('/quotations/updateCustomerFeedback')
+        .put(users.requiresLogin, quotations.updateCustomerFeedback);
 
 
     //app.param('id', costsheets.costsheet);

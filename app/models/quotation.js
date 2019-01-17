@@ -6,7 +6,8 @@ module.exports = function (sequelize, DataTypes) {
         data: DataTypes.TEXT,
         emailContent: DataTypes.TEXT,
         //status: { type: DataTypes.STRING, defaultValue: "pending" }
-        isCostSheetAttached: DataTypes.BOOLEAN
+        isCostSheetAttached: DataTypes.BOOLEAN,
+        CustomerFeedBack: DataTypes.STRING // 1-Await, 2-Proceed, 3-Cancel
     },
         {
             associate: function (models) {

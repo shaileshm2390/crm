@@ -14,7 +14,7 @@ module.exports = function (app) {
         .get(users.requiresLogin, costsheets.costsheetById)
         .put(users.requiresLogin, costsheets.update);
     app.route('/rfq/costsheets/:rfqId')
-        .get(users.requiresLogin, costsheets.costsheetsByRfqId)
+        .get(users.requiresLogin, costsheets.costsheetsByRfqId);
     app.route('/costsheets')
         .get(users.requiresLogin, costsheets.all)
         .post(users.requiresLogin, costsheets.create);

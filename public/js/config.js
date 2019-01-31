@@ -239,6 +239,23 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
         //    templateUrl: 'views/htsts/view.html'
         //})
 
+        //  Packing And Forwarding
+        .state('packingAndForwardings', {
+            url: '/packing-and-forwarding',
+            controller: 'PackingAndForwardingsController',
+            templateUrl: 'views/packingAndForwardings/list.html'
+        })
+        .state('createPackingAndForwarding', {
+            url: '/packing-and-forwarding/create',
+            controller: 'PackingAndForwardingsController',
+            templateUrl: 'views/packingAndForwardings/create.html'
+        })
+        .state('editPackingAndForwardings', {
+            url: '/packing-and-forwarding/{packingAndForwardingId}/edit',
+            controller: 'PackingAndForwardingsController',
+            templateUrl: 'views/packingAndForwardings/edit.html'
+        })
+
         // Developer Handover
         .state('developerhandover', {
             url: '/rfq/{rfqId}/developerhandover',

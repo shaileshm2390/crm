@@ -26,7 +26,7 @@
                         <div class="control-group">
                             <label class="control-label" for="name">Rate</label>
                             <div class="controls">
-                                <input type="text" data-ng-model="rate" id="rate" name="rate" placeholder="Rate" class="form-control col-sm-6 txtRate" ng-required="true">
+                                <input type="text" data-ng-model="rate" id="rate" name="rate" placeholder="Rate" class="form-control col-sm-6 txtRmRate" ng-required="true">
                                 <span class="error" style="color:red;" ng-show="myForm.rate.$error.required && myForm.rate.$dirty">
                                     You
                                     can't skip this field
@@ -88,12 +88,12 @@
                                 $(".txtMaterial").css("border", "1px solid red");
                             };
 
-                            if ($.trim($(".txtRate").val()) != "") {
+                            if ($.trim($(".txtRmRate").val()) != "") {
                                 flagRate = true;
-                                $(".txtRate").css("border", "");
+                                $(".txtRmRate").css("border", "");
                             } else {
                                 flagRate = false;
-                                $(".txtRate").css("border", "1px solid red");
+                                $(".txtRmRate").css("border", "1px solid red");
                             };
 
                             if ($.trim($(".txtScrapRate").val()) != "") {
@@ -121,7 +121,7 @@
                                     method: "POST",
                                     data: {
                                         material: $(".txtMaterial").val(),
-                                        rate: $(".txtRate").val(),
+                                        rate: $(".txtRmRate").val(),
                                         scrapRate: $(".txtScrapRate").val(),
                                         scrapRecovery: $(".txtScrapRecovery").val()
                                     }

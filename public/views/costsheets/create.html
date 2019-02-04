@@ -4,9 +4,10 @@
 
 <div class="container-fluid">
     <div class="card" ng-controller="RfqsController">
-         <div ng-include="'views/rawmaterials/popup.html'" class="pull-right"></div>
-        <div ng-include="'views/htsts/popup.html'"></div> 
+        <div ng-include="'views/rawmaterials/popup.html'" class="pull-right"></div>
+        <div ng-include="'views/htsts/popup.html'"></div>
         <div ng-include="'views/conversions/popup.html'"></div>
+        <div ng-include="'views/packingAndForwardings/popup.html'"></div>
         <section data-ng-init="findOneByRfqId()" ng-show="rfq.id != null  && validatePermission">
             <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
             <div class="row">
@@ -17,31 +18,45 @@
                     <div class="row">
                         <div class="col-sm-12 m-b-5">
                             <div class="separatePanel Rawmaterial">
-                                <h4 class="border-bottom p-b-10">Heading
-                                    <a class="pull-right lnkAddRawMaterial lnkAddPanel" data-url="views/costsheets/templates/addRawMaterialFields.html" data-class="Rawmaterial"><span><i
-                                                class="fa fa-plus-circle"></i></span></a>
-                                    <button type="button" class="btn btn-info btn-sm pull-right" data-toggle="modal" data-target="#myModal" style="margin-bottom:8px;margin-right: 10px">Add
-                                        Raw Material</button>
+                                <h4 class="border-bottom p-b-10">
+                                    Heading
+                                    <a class="pull-right lnkAddRawMaterial lnkAddPanel" data-url="views/costsheets/templates/addRawMaterialFields.html" data-class="Rawmaterial">
+                                        <span>
+                                            <i class="fa fa-plus-circle"></i>
+                                        </span>
+                                    </a>
+                                    <button type="button" class="btn btn-info btn-sm pull-right" data-toggle="modal" data-target="#myModal" style="margin-bottom:8px;margin-right: 10px">
+                                        Add
+                                        Raw Material
+                                    </button>
                                 </h4>
                                 <div ng-repeat="item in rfq.LatestCostsheet.RawMaterial">
                                     <!-- <h1>{{item}}</h1> -->
                                     <div ng-controller="RawMaterialsController" ng-init="find()" class="head-row removable-row" ng-class="!$first && 'animated slideInDown'">
                                         <span class="row-remove" ng-hide="$first"><i class="fa fa-minus-circle"></i></span>
-                                        <div  class="rawmaterialAdded" ng-include="'views/costsheets/templates/rawMaterialFields.html'"></div>
+                                        </
+                                        >
+
+                                        <div class="rawmaterialAdded" ng-include="'views/costsheets/templates/rawMaterialFields.html'"></div>
                                     </div>
                                 </div>
                                 <div ng-controller="RawMaterialsController" ng-init="find()" class="head-row removable-row" ng-show="!rfq.LatestCostsheet.RawMaterial.length">
-                                    <div  class="rawmaterialAdded" ng-include="'views/costsheets/templates/rawMaterialFields.html'"></div>
+                                    <div class="rawmaterialAdded" ng-include="'views/costsheets/templates/rawMaterialFields.html'"></div>
                                 </div>
                             </div>
 
                         </div>
                         <div class="col-sm-12 m-b-5">
                             <div class="Conversion separatePanel">
-                                <h4 class="border-bottom p-b-10">Conversion
-                                    <a class="pull-right lnkAddConversion lnkAddPanel" data-url="views/costsheets/templates/addConversionFields.html" data-class="Conversion"><span><i
-                                                class="fa fa-plus-circle"></i></span></a>
-                                    <button type="button" class="btn btn-info btn-sm pull-right" data-toggle="modal" data-target="#conversionModal" style="margin-bottom:8px;margin-right: 10px">Add
+                                <h4 class="border-bottom p-b-10">
+                                    Conversion
+                                    <a class="pull-right lnkAddConversion lnkAddPanel" data-url="views/costsheets/templates/addConversionFields.html" data-class="Conversion">
+                                        <span>
+                                            <i class="fa fa-plus-circle"></i>
+                                        </span>
+                                    </a>
+                                    <button type="button" class="btn btn-info btn-sm pull-right" data-toggle="modal" data-target="#conversionModal" style="margin-bottom:8px;margin-right: 10px">
+                                        Add
                                         Conversion
                                     </button>
                                 </h4>
@@ -49,21 +64,26 @@
                                 <div ng-repeat="item in rfq.LatestCostsheet.Conversion">
                                     <div class="head-row removable-row" ng-class="!$first && 'animated slideInDown'">
                                         <span class="row-remove" ng-hide="$first"><i class="fa fa-minus-circle"></i></span>
-                                        <div ng-include="'views/costsheets/templates/conversionFields.html'" ng-controller="ConversionsController"  class="conversionAdded" ng-init="find()"></div>
+                                        <div ng-include="'views/costsheets/templates/conversionFields.html'" ng-controller="ConversionsController" class="conversionAdded" ng-init="find()"></div>
                                     </div>
                                 </div>
 
                                 <div class="head-row removable-row" ng-show="!rfq.LatestCostsheet.Conversion.length">
-                                    <div ng-include="'views/costsheets/templates/conversionFields.html'" ng-controller="ConversionsController"  class="conversionAdded" ng-init="find()"></div>
+                                    <div ng-include="'views/costsheets/templates/conversionFields.html'" ng-controller="ConversionsController" class="conversionAdded" ng-init="find()"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-12 m-b-5">
                             <div class="HtSt separatePanel">
-                                <h4 class="border-bottom p-b-10">HT/ST
-                                    <a class="pull-right lnkAddHtSt lnkAddPanel" data-url="views/costsheets/templates/addHtStFields.html" data-class="HtSt"><span><i
-                                                class="fa fa-plus-circle"></i></span></a>
-                                    <button type="button" class="btn btn-info btn-sm pull-right" data-toggle="modal" data-target="#htstModal" style="margin-bottom:8px;margin-right: 10px">Add
+                                <h4 class="border-bottom p-b-10">
+                                    HT/ST
+                                    <a class="pull-right lnkAddHtSt lnkAddPanel" data-url="views/costsheets/templates/addHtStFields.html" data-class="HtSt">
+                                        <span>
+                                            <i class="fa fa-plus-circle"></i>
+                                        </span>
+                                    </a>
+                                    <button type="button" class="btn btn-info btn-sm pull-right" data-toggle="modal" data-target="#htstModal" style="margin-bottom:8px;margin-right: 10px">
+                                        Add
                                         HTST
                                     </button>
                                 </h4>
@@ -74,11 +94,42 @@
                                     </div>
                                 </div>
 
-                                <div class="head-row removable-row" ng-show="!rfq.LatestCostsheet.Conversion.length">
+                                <div class="head-row removable-row" ng-show="!rfq.LatestCostsheet.HtSt.length">
                                     <div ng-include="'views/costsheets/templates/htStFields.html'" ng-controller="HtstsController" class="htstAdded" ng-init="find()"></div>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Packing And Forwarding-->
+                        <div class="col-sm-12 m-b-5">
+                            <div class="PackingAndForwarding separatePanel">
+                                <h4 class="border-bottom p-b-10">
+                                    Packing &amp; Forwarding
+                                    <a class="pull-right lnkAddPackingAndForwarding lnkAddPanel" data-url="views/costsheets/templates/addPackingAndForwardingFields.html" data-class="PackingAndForwarding">
+                                        <span>
+                                            <i class="fa fa-plus-circle"></i>
+                                        </span>
+                                    </a>
+                                    <button type="button" class="btn btn-info btn-sm pull-right" data-toggle="modal" data-target="#packingAndForwardingModal" style="margin-bottom:8px;margin-right: 10px">
+                                        Add
+                                        Packing &amp; Forwarding
+                                    </button>
+                                </h4>
+                                <div ng-repeat="item in rfq.LatestCostsheet.PackingForwarding">
+                                    <div class="head-row removable-row" ng-class="!$first && 'animated slideInDown'">
+                                        <span class="row-remove" ng-hide="$first"><i class="fa fa-minus-circle"></i></span>
+                                        <div ng-include="'views/costsheets/templates/packingAndForwardingFields.html'" ng-controller="PackingAndForwardingsController" class="packingAndForwardingAdded" ng-init="find()"></div>
+                                    </div>
+                                </div>
+
+                                <div class="head-row removable-row" ng-show="!rfq.LatestCostsheet.PackingForwarding.length">
+                                    <div ng-include="'views/costsheets/templates/packingAndForwardingFields.html'" ng-controller="PackingAndForwardingsController" class="packingAndForwardingAdded" ng-init="find()"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- EO Packing And Forwarding-->
+
+
                         <div class="col-sm-12 m-b-5">
                             <div class="Total separatePanel">
                                 <h4 class="border-bottom p-b-10">Total &amp; Profit</h4>
@@ -86,42 +137,47 @@
                                     <div class="col">
                                         <label class="txtPredefinedName text-muted m-b-2 f-s-12">Total RM Cost</label>
                                         <input type="text" placeholder="Total RM Cost" class="form-control txtTotalRmCost txtCostField txtPredefinedValue txtAutogenerateEditable"
-                                            id="txtTotalRmCost" />
+                                               id="txtTotalRmCost" />
                                     </div>
                                     <div class="col">
                                         <label class="txtPredefinedName text-muted m-b-2 f-s-12">Total Conversion Cost</label>
                                         <input type="text" placeholder="Total Conversion Cost" class="form-control txtTotalConversionCost txtCostField txtPredefinedValue txtAutogenerateEditable"
-                                            id="txtTotalConversionCost" />
+                                               id="txtTotalConversionCost" />
                                     </div>
                                     <div class="col">
                                         <label class="txtPredefinedName text-muted m-b-2 f-s-12">Total HT/ST Cost</label>
                                         <input type="text" placeholder="Total HT/ST Cost" class="form-control txtTotalHtStCost txtCostField txtPredefinedValue txtAutogenerateEditable"
-                                            id="txtTotalHtStCost" />
+                                               id="txtTotalHtStCost" />
+                                    </div>
+                                    <div class="col">
+                                        <label class="txtPredefinedName text-muted m-b-2 f-s-12">Total Packing & Forwarding Cost</label>
+                                        <input type="text" placeholder="Total Packing & Forwarding Cost" class="form-control txtTotalPackingAndForwardingCost txtCostField txtPredefinedValue txtAutogenerateEditable"
+                                               id="txtTotalPackingAndForwardingCost" />
                                     </div>
                                 </div>
                                 <div class="row head-row ">
                                     <div class="col">
                                         <label class="txtPredefinedName text-muted m-b-2 f-s-12">Percentage RM Cost</label>
                                         <input type="text" placeholder="Profit %" class="form-control txtInputRmCostProfit txtPredefinedValue" id="txtInputRmCostProfit"
-                                            value="{{rfq.LatestCostsheet.PercentageRMCost}}">
+                                               value="{{rfq.LatestCostsheet.PercentageRMCost}}">
                                     </div>
 
                                     <div class="col">
                                         <label class="txtPredefinedName text-muted m-b-2 f-s-12">Profit on RM Cost</label>
                                         <input type="text" placeholder="Profit" class="form-control txtRmCostProfit  txtCostField txtPredefinedValue txtAutogenerateEditable"
-                                            id="txtRmCostProfit" value="{{rfq.LatestCostsheet.ProfitonRMCost}}">
+                                               id="txtRmCostProfit" value="{{rfq.LatestCostsheet.ProfitonRMCost}}">
                                     </div>
 
                                     <div class="col">
                                         <label class="txtPredefinedName text-muted m-b-2 f-s-12">Percentage Conversion Cost</label>
                                         <input type="text" placeholder="Profit %" class="form-control txtInputConversionCostProfit txtPredefinedValue" id="txtInputConversionCostProfit"
-                                            value="{{rfq.LatestCostsheet.PercentageConversionCost}}">
+                                               value="{{rfq.LatestCostsheet.PercentageConversionCost}}">
                                     </div>
 
                                     <div class="col">
                                         <label class="txtPredefinedName text-muted m-b-2 f-s-12">Profit on Conversion Cost</label>
                                         <input type="text" placeholder="Profit" class="form-control txtConversionCostProfit  txtCostField txtPredefinedValue txtAutogenerateEditable"
-                                            id="txtConversionCostProfit" value="{{rfq.LatestCostsheet.ProfitonConversionCost}}">
+                                               id="txtConversionCostProfit" value="{{rfq.LatestCostsheet.ProfitonConversionCost}}">
                                     </div>
                                 </div>
                                 <hr />
@@ -132,7 +188,7 @@
                                     <div class="col col-3">
                                         <label class="txtPredefinedName text-muted m-b-2 f-s-12">Total</label>
                                         <input type="text" placeholder="Total" value="{{rfq.LatestCostsheet.Total}}" class="form-control txtTotal txtPredefinedValue txtAutogenerateEditable"
-                                            id="txtTotal" />
+                                               id="txtTotal" />
                                     </div>
                                 </div>
                             </div>
@@ -142,14 +198,14 @@
 
                     <div class="clear clearfix"></div>
                     <!--<h4 class="border-bottom p-b-10">Additional Parameter
-                        <a href="#" class="btn btn-primary lnkAdd  pull-right" data-width="4" title="add row">
-                            <span><i class="fa fa-plus-circle"></i></span>
-                        </a>
-                    </h4>
+            <a href="#" class="btn btn-primary lnkAdd  pull-right" data-width="4" title="add row">
+                <span><i class="fa fa-plus-circle"></i></span>
+            </a>
+        </h4>
 
-                    <div class="clear clearfix"></div> <br />
-                    <div class="pnlParameter row">
-                    </div>-->
+        <div class="clear clearfix"></div> <br />
+        <div class="pnlParameter row">
+        </div>-->
                     <div class="row">
                         <div class="col col-lg-3 center">
                             <a href="#" class="btnSubmit btn btn-primary">Send for Approval</a>
@@ -168,7 +224,7 @@
             <h3>Loading please wait..!!</h3>
             <div class="progress">
                 <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
-                    style="width:100%">
+                     style="width:100%">
                 </div>
             </div>
         </section>
@@ -282,6 +338,30 @@
                 calculateTotalProfit();
             },
 
+            calculatePackingAndForwardingCost = function ($ele) {
+                var rate = $ele.parent().parent().find(".txtPackingAndForwardingRate").val().replace(/[^\d.]/g, ''),
+                    netWt = $ele.parent().parent().find(".txtNetWt").val().replace(/[^\d.]/g, '');
+
+                if ($ele.parent().parent().find(".ddlPackingAndForwarding").val() != "" && netWt != "" &&
+                    !(isNaN(netWt) && isNaN(rate))) {
+                    var packingAndForwardingCost = Math.ceil((((netWt * rate) / 1000)) * 100) / 100;
+                    $ele.parent().parent().find(".txtPackingAndForwardingCost").val("Rs " + packingAndForwardingCost.toFixed(2));
+                } else {
+                    $ele.parent().parent().find(".txtPackingAndForwardingCost").val('');
+                }
+                var totalPackingAndForwardingCost = 0;
+                $(".txtPackingAndForwardingCost").each(function (key, value) {
+                    if ($(value).val() != "") {
+                        totalPackingAndForwardingCost += parseFloat($(value).val().replace(/[^\d.]/g, ''));
+                    }
+                });
+                $(".txtTotalPackingAndForwardingCost").val("Rs " + totalPackingAndForwardingCost.toFixed(2));
+
+                calculateProfitRmCost();
+                calculateProfitConversionCost();
+                calculateTotalProfit();
+            },
+
             calculateProfitRmCost = function () {
                 var totalCost = $(".txtNetRmCost").val().replace(/[^\d.]/g, ''),
                     profitPercentage = $(".txtInputRmCostProfit").val().replace(/[^\d.]/g, '');
@@ -311,10 +391,17 @@
                     conversionProfit = $(".txtConversionCostProfit").val().replace(/[^\d.]/g, ''),
                     txtTotalRmCost = $(".txtTotalRmCost").val().replace(/[^\d.]/g, ''),
                     txtTotalConversionCost = $(".txtTotalConversionCost").val().replace(/[^\d.]/g, ''),
-                    txtTotalHtStCost = $(".txtTotalHtStCost").val().replace(/[^\d.]/g, '');
-                if (rmProfit != "" && conversionProfit != "" && txtTotalRmCost != "" && txtTotalConversionCost != "" && txtTotalHtStCost != "" &&
-                    !(isNaN(rmProfit) && isNaN(conversionProfit) && isNaN(txtTotalRmCost) && isNaN(txtTotalConversionCost) && isNaN(txtTotalHtStCost))) {
-                    var profit = Math.ceil(((parseFloat(rmProfit) + parseFloat(conversionProfit) + parseFloat(txtTotalRmCost) + parseFloat(txtTotalConversionCost) + parseFloat(txtTotalHtStCost))) * 100) / 100;
+                    txtTotalHtStCost = $(".txtTotalHtStCost").val().replace(/[^\d.]/g, ''),
+                    txtTotalPackingAndForwardingCost = $(".txtTotalPackingAndForwardingCost").val().replace(/[^\d.]/g, '');
+
+                if ($(".txtTotalPackingAndForwardingCost").val() === "") {
+                    $(".txtTotalPackingAndForwardingCost").val("Rs 0.00");
+                    txtTotalPackingAndForwardingCost = "0";
+                }
+
+                if (rmProfit != "" && conversionProfit != "" && txtTotalRmCost != "" && txtTotalConversionCost != "" && txtTotalHtStCost != "" && txtTotalPackingAndForwardingCost != "" &&
+                    !(isNaN(rmProfit) && isNaN(conversionProfit) && isNaN(txtTotalRmCost) && isNaN(txtTotalConversionCost) && isNaN(txtTotalHtStCost) && isNaN(txtTotalPackingAndForwardingCost))) {
+                    var profit = Math.ceil(((parseFloat(rmProfit) + parseFloat(conversionProfit) + parseFloat(txtTotalRmCost) + parseFloat(txtTotalConversionCost) + parseFloat(txtTotalHtStCost) + parseFloat(txtTotalPackingAndForwardingCost))) * 100) / 100;
                     $(".txtTotal").val("Rs " + profit.toFixed(2)).addClass("total-success");
                 } else {
                     $(".txtTotal").val("").removeClass("total-success");
@@ -424,6 +511,7 @@
 
                 if ((validField.length > 0 && $.inArray(false, validField) < 0) || $.inArray(false, validPredefinedField) < 0) {
                     // save costsheet
+                    console.log(JSON.stringify(nameValuePair));
                     $.when(saveCostSheet(JSON.stringify(nameValuePair))).then(function () {
                         //window.location.href = '/rfq/' + $('.hdnRfqId').val() + '/costsheet/prepare';
                     });
@@ -511,6 +599,8 @@
                         calculateRmCost($me);
                     if ($me.parents('.HtSt').length)
                         calculateHtStCost($me);
+                    if ($me.parents('.PackingAndForwarding').length)
+                        calculatePackingAndForwardingCost($me);
                 });
 
                 /*********************************** CONVERSION CALCULATION****************************************/
@@ -563,6 +653,28 @@
 
                 $(".txtHtStRate").on('keyup', function () {
                     calculateHtStCost($me);
+                    calculateProfitRmCost();
+                    calculateProfitConversionCost();
+                    calculateTotalProfit();
+                });
+
+                /*********************************** Packing & Forwarding CALCULATION****************************************/
+                $(".ddlPackingAndForwarding").on('change', function () {
+                    $me = $(this);
+                    if ($me.val() != '') {
+                        $me.parent().parent().find(".txtPackingAndForwardingRate").val("Rs " + $me.find('option:selected').data("rate").toFixed(2));
+                    }
+                    else {
+                        $me.parent().parent().find(".txtPackingAndForwardingRate").val("");
+                    }
+                    calculatePackingAndForwardingCost($me);
+                    calculateProfitRmCost();
+                    calculateProfitConversionCost();
+                    calculateTotalProfit();
+                });
+
+                $(".txtPackingAndForwardingRate").on('keyup', function () {
+                    calculatePackingAndForwardingCost($me);
                     calculateProfitRmCost();
                     calculateProfitConversionCost();
                     calculateTotalProfit();

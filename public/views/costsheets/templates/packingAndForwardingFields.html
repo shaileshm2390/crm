@@ -1,0 +1,21 @@
+﻿    <div ng-controller="PackingAndForwardingsController" class="row">      
+        <div class="col">
+            <label class="txtPredefinedName text-muted m-b-2 f-s-12">Packing & Forwardings</label>
+            <select class="form-control ddlPackingAndForwarding txtPredefinedValue" id="ddlPackingAndForwarding" name="dropdown">
+                <option value="" selected>Select</option>
+                <option ng-repeat="packingAndForwarding in packingAndForwardings" value="{{packingAndForwarding.name}}" data-id="{{packingAndForwarding.id}}" data-rate="{{packingAndForwarding.rate}}" ng-selected="item.PackingForwardings == packingAndForwarding.name">{{packingAndForwarding.name}}</option>
+            </select>
+        </div>
+        <div class="col">
+            <label class="txtPredefinedName text-muted m-b-2 f-s-12">Rate</label>
+            <input type="text" placeholder="Rate" class="form-control txtPackingAndForwardingRate txtPredefinedValue txtAutogenerateEditable" id="txtPackingAndForwardingRate" value="{{item.Rate}}" />
+        </div>
+        <div class="col">
+            <label class="text-muted m-b-2 f-s-12 txtPredefinedName">Net Weight</label>
+            <input type="text" placeholder="Net Weight" class="form-control txtNetWt txtCalculateCost txtPredefinedValue" id="txtNetWt" value="{{item.NetWeight}}" />
+        </div>
+        <div class="col">
+            <label class="txtPredefinedName text-muted m-b-2 f-s-12">Cost</label>
+            <input type="text" placeholder="Packing And Forwardings Cost" class="form-control txtPackingAndForwardingCost txtPredefinedValue txtAutogenerateEditable" id="txtPackingAndForwardingCost"  value="{{item.Cost}}" />
+        </div>
+    </div>

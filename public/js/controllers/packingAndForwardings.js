@@ -79,7 +79,7 @@ var app = angular.module('mean.packingAndForwardings').controller('PackingAndFor
                     previousData: $scope.previousData,
                     updatedData: ""
                 });
-                $window.location.href = "/packingAndForwarding";
+                $window.location.href = "/packing-and-forwarding";
                 //$scope.find();
             });
         }
@@ -121,7 +121,7 @@ var app = angular.module('mean.packingAndForwardings').controller('PackingAndFor
     };
 
     $scope.find = function () {
-        $scope.message = "Loading.. Please wait !!"
+        $scope.message = "Loading.. Please wait !!";
         PackingAndForwardings.query(function (packingAndForwardings) {
             $scope.packingAndForwardings = packingAndForwardings;
             $scope.message = "";
@@ -169,7 +169,7 @@ var app = angular.module('mean.packingAndForwardings').controller('PackingAndFor
 
 app.filter('startFrom', function () {
     return function (input, start) {
-        if (typeof (input) != 'undefined') {
+        if (typeof (input) !== 'undefined') {
             start = +start; //parse to int
             return input.slice(start);
         }

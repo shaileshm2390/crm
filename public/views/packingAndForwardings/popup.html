@@ -1,11 +1,11 @@
 <!-- Modal -->
-<div class="modal" id="htstModal" role="dialog">
+<div class="modal" id="packingAndForwardingModal" role="dialog">
     <div class="modal-dialog">
 
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h1>Add HT/ST</h1>
+                <h1>Add Packing &amp; Forwarding</h1>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -15,9 +15,9 @@
                     </div>
                     <form class="form-horizontal myForm" data-ng-submit="add()">
                         <div class="control-group">
-                            <label class="control-label" for="name">Parameter</label>
+                            <label class="control-label" for="name">Name</label>
                             <div class="controls">
-                                <input type="text" data-ng-model="parameter" id="parameter" name="parameter" placeholder="Parameter" class="form-control col-sm-6 txtParameter">
+                                <input type="text" data-ng-model="name" id="name" name="name" placeholder="Name" class="form-control col-sm-6 txtName">
                                 <span class="error" style="color:red;"></span>
                             </div>
                         </div>
@@ -25,16 +25,7 @@
                         <div class="control-group">
                             <label class="control-label" for="name">Rate/Kg</label>
                             <div class="controls">
-                                <input type="text" data-ng-model="rate" id="rate" name="rate" placeholder="Rate" class="form-control col-sm-6 txtRate txtHtRate">
-                                <span class="error" style="color:red;"></span>
-                            </div>
-                        </div>
-
-
-                        <div class="control-group">
-                            <label class="control-label" for="name">Details</label>
-                            <div class="controls">
-                                <textarea rows="7" style="height:auto;" data-ng-model="details" id="details" name="details" placeholder="Details" class="form-control col-sm-6 txtDetails"></textarea>
+                                <input type="text" data-ng-model="rate" id="rate" name="rate" placeholder="Rate" class="form-control col-sm-6 txtRate txtPackingAndForwardingRate">
                                 <span class="error" style="color:red;"></span>
                             </div>
                         </div>
@@ -42,7 +33,7 @@
                         <div class="clear clearfix"></div><br />
                         <div class="control-group">
                             <div class="controls">
-                                <a href="#" class="btn btn-primary btnAdd">Save</a>
+                                <a href="#" class="btn btn-primary btnPackingAndForwardingAdd">Save</a>
                                 <a class="btn btn-secondary" data-dismiss="modal">Cancel</a>
                             </div>
                         </div>
@@ -60,48 +51,37 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        var validHTSTForm = function () {
-            var flagParameter = false, flagRate = false, flagDetails = false;
+        var validPackingAndForwardingForm = function () {
+            var flagName = false, flagRate = false;
 
-            if ($.trim($(".txtParameter").val()) != "") {
-                flagParameter = true;
-                $(".txtParameter").css("border", "");
+            if ($.trim($(".txtName").val()) != "") {
+                flagName = true;
+                $(".txtName").css("border", "");
             }
             else {
-                flagParameter = false;
-                $(".txtParameter").css("border", "1px solid red");
+                flagName = false;
+                $(".txtName").css("border", "1px solid red");
             };
 
-            if ($.trim($(".txtHtRate").val()) != "") {
+            if ($.trim($(".txtPackingAndForwardingRate").val()) != "") {
                 flagRate = true;
-                $(".txtHtRate").css("border", "");
+                $(".txtPackingAndForwardingRate").css("border", "");
             }
             else {
                 flagRate = false;
-                $(".txtHtRate").css("border", "1px solid red");
+                $(".txtPackingAndForwardingRate").css("border", "1px solid red");
             };
 
-            if ($.trim($(".txtDetails").val()) != "") {
-                flagDetails = true;
-                $(".txtDetails").css("border", "");
-            }
-            else {
-                flagDetails = false;
-                $(".txtDetails").css("border", "1px solid red");
-            }
-            console.log(flagParameter && flagDetails && flagRate);
-            return flagParameter && flagDetails && flagRate;
+            return flagName &&  flagRate;
         },
-            saveHTST = function () {
-                console.log("saveHTSt");
+            savePackingAndForwarding = function () {
                 var dfd = $.Deferred();
                 $.ajax({
-                    url: '/htstmasters/',
+                    url: '/packingAndForwardings/',
                     method: 'POST',
                     data: {
-                        parameter: $(".txtParameter").val(),
-                        details: $(".txtDetails").val(),
-                        rate: $(".txtHtRate").val()
+                        name: $(".txtName").val(),
+                        rate: $(".txtPackingAndForwardingRate").val()
                     }
                 }).done(function (response) {
                     dfd.resolve(response);
@@ -109,11 +89,11 @@
                 return dfd.promise();
             };
 
-        $(".btnAdd").on('click', function (e) {
-            if (validHTSTForm()) {
-                $.when(saveHTST()).then(function (data) {     
+        $(".btnPackingAndForwardingAdd").on('click', function (e) {
+            if (validPackingAndForwardingForm()) {
+                $.when(savePackingAndForwarding()).then(function (data) { 
                     $(".close").trigger("click");
-                    angular.element(document.getElementsByClassName('htstAdded')).scope().find();
+                    angular.element(document.getElementsByClassName('packingAndForwardingAdded')).scope().find();
                 });
             }
             e.stopImmediatePropagation();

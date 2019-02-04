@@ -30,7 +30,7 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
 
                 // Copy the value
                 var val = e[key],
-                  newKey = key.replace(/\s+/g, '').replace(/\//g,'');
+                  newKey = key.replace(/\s+/g, '').replace(/\//g,'').replace("&","");
 
                 // Remove key-value from object
                 delete arr[i][key];
@@ -58,9 +58,9 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
                     }
                     if ($scope.rfq.CostSheets.length > 0) {
                         $scope.rfq.LatestCostsheet = $scope.rfq.CostSheets[$scope.rfq.CostSheets.length - 1];
-                        $scope.rfq.LatestCostsheet.data = JSON.parse($scope.rfq.LatestCostsheet.data)
+                        $scope.rfq.LatestCostsheet.data = JSON.parse($scope.rfq.LatestCostsheet.data);
                         var costSheetData = $scope.RemoveSpaceFromKey($scope.rfq.LatestCostsheet.data);
-                        var RawMaterial = new Array(), Conversion = new Array(), HtSt = new Array();
+                        var RawMaterial = new Array(), Conversion = new Array(), HtSt = new Array(), PackingForwarding = new Array();
                         $.each(costSheetData, function (key, data) {
                             if (data.hasOwnProperty('RawMaterial')) {
                                 RawMaterial.push(data);
@@ -69,7 +69,10 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
                             }
                             else if (data.hasOwnProperty('HTST')) {
                                 HtSt.push(data);
-                            } else if (data.hasOwnProperty("PercentageRMCost")) {
+                            } else if (data.hasOwnProperty('PackingForwardings')) {
+                                PackingForwarding.push(data);
+                            }
+                            else if (data.hasOwnProperty("PercentageRMCost")) {
                                 $scope.rfq.LatestCostsheet.PercentageRMCost = data.PercentageRMCost;
                                 $scope.rfq.LatestCostsheet.ProfitonRMCost = data.ProfitonRMCost;
                                 $scope.rfq.LatestCostsheet.PercentageConversionCost = data.PercentageConversionCost;
@@ -81,6 +84,7 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
                         $scope.rfq.LatestCostsheet.RawMaterial = RawMaterial;
                         $scope.rfq.LatestCostsheet.Conversion = Conversion;
                         $scope.rfq.LatestCostsheet.HtSt = HtSt;
+                        $scope.rfq.LatestCostsheet.PackingForwarding = PackingForwarding;
                     }
 
                     $scope.validatePermission = true;

@@ -324,7 +324,7 @@
             <% } %>
             <!-- End Container fluid  -->
             <!-- footer -->
-            <footer class="footer">© 2018 All rights reserved. </footer>
+            <footer class="footer">© <span id='currentYear'></span> All rights reserved. </footer>
             <!-- End footer -->
         </div>
         <!-- End Page wrapper  -->
@@ -519,9 +519,10 @@
 			});
         });
     </script>
+
     <% if (typeof user == 'object' && user) { %>
     <script type="text/javascript">
-
+		document.getElementById('currentYear').innerHTML = new Date().getFullYear();
         window.user = { id:<%= user.id %>, email: '<%= user.email %>', firstName: '<%= user.firstName %>', lastName: '<%= user.lastName %>', isAdmin: <%= user.isAdmin %>, role:'<%= user.role%>' };
     </script>
     <% } %>

@@ -701,6 +701,8 @@
                         calculateConversionCost($me);
                     if ($me.parents('.HtSt').length)
                         calculateHtStCost($me);
+                    if ($me.parents('.PackingAndForwarding').length)
+                        calculatePackingAndForwardingCost($me);
                     calculateProfitRmCost();
                     calculateProfitConversionCost();
                     calculateTotalProfit();
@@ -738,6 +740,16 @@
                         }
                     });
                     $(".txtTotalHtStCost").val("Rs " + totalHtStCost.toFixed(2)).trigger('keyup');
+                });
+
+                $(".txtPackingAndForwardingCost").on('keyup', function () {
+                    var totalPackingAndForwardingCost = 0
+                    $(".txtPackingAndForwardingCost").each(function (key, value) {
+                        if ($(value).val() != "") {
+                            totalPackingAndForwardingCost += parseFloat($(value).val().replace(/[^\d.]/g, ''));
+                        }
+                    });
+                    $(".txtTotalPackingAndForwardingCost").val("Rs " + totalPackingAndForwardingCost.toFixed(2)).trigger('keyup');
                 });
             },
 
@@ -787,6 +799,7 @@
                     $(".ddlMachine").trigger("change");
                     $(".ddlRawMaterial").trigger("change");
                     $(".ddlHtSt").trigger("change");
+                    $(".ddlPackingAndForwarding").trigger("change");
                 }, 3000);
             }
         }, 500);

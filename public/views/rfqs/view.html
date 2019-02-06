@@ -31,15 +31,20 @@
                     <label class="col-lg-3">Assigned: </label>
                     <div class="col-lg-9">
                         <div ng-hide="isPoReceived(rfq)">
-                            <select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser" required name="UserId" data-ng-model="rfq.UserId" ng-show="global.user.isAdmin">
+                            <!--<select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser" required name="UserId" data-ng-model="rfq.UserId" ng-show="global.user.isAdmin">
+        <option value="">Select </option>
+        <option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
+    </select>
+
+    <div ng-show="!global.user.isAdmin">
+        <strong>{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
+        <a ng-show="(rfq.User.firstName + ' ' + rfq.User.lastName).trim() == ''" class="btn btn-primary pull-right" href="#" ng-click="assignToMeRfq(rfq.id)">Assign to Me</a>
+    </div>-->
+
+                            <select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser" required name="UserId" data-ng-model="rfq.UserId">
                                 <option value="">Select </option>
                                 <option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
                             </select>
-
-                            <div ng-show="!global.user.isAdmin">
-                                <strong>{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
-                                <a ng-show="(rfq.User.firstName + ' ' + rfq.User.lastName).trim() == ''" class="btn btn-primary pull-right" href="#" ng-click="assignToMeRfq(rfq.id)">Assign to Me</a>
-                            </div>
                         </div>
                         <strong ng-show="isPoReceived(rfq)">{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
 

@@ -157,6 +157,21 @@ var app = angular.module('mean.users').controller('UsersController', ['$scope', 
             $scope.message = "";
         });
     };
+
+    $scope.canAccess = function (key) {
+        var marketingAccess = ['prepare costsheet', 'quotation','PO'];
+        var devAccess = ['sample submission', 'inspection report', 'developer handover'];
+        var currentUserRole = $window.user.role;
+
+        if (currentUserRole === 'Dev' && devAccess.includes(key)) {
+            return true;
+        } else if (currentUserRole === 'Marketing' && marketingAccess.includes(key)) {
+            return true;
+        } else if (currentUserRole === 'Admin') {
+            return true;
+        }
+        return false;
+    };
 }]);
 
 //We already have a limitTo filter built-in to angular,

@@ -157,6 +157,26 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
             });
             console.log($scope.reports);
         });
+    };
+
+    $scope.canAccess = function (key) {
+        var marketingAccess = ['prepare costsheet', 'quotation', 'PO', 'costsheet'];
+        var devAccess = ['sample submission', 'inspection report', 'developer handover', 'costsheet'];
+        var currentUserRole = $window.user.role;
+
+        if (currentUserRole === 'Dev' && devAccess.includes(key)) {
+            return true;
+        } else if (currentUserRole === 'Marketing' && marketingAccess.includes(key)) {
+            return true;
+        } else if (currentUserRole === 'Admin') {
+            return true;
+        }
+        return false;
+    };
+
+    $scope.isCurrentRole = function (key) {
+        var currentUserRole = $window.user.role;
+        return currentUserRole == key;
     }
 
 }]);

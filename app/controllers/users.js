@@ -14,7 +14,7 @@ var db = require('../../config/sequelize'),
 
 var sendResetMail = function (newPassword, email) {       
     sm.sendMail({
-        from: 'youremail@crm.com',
+        from: 'info@metaforgeindia.com',
         to: email,
         subject: 'Reset Password',
         html: '<h1>Hi User,</h1><p>Your new password is : ' + newPassword + '</p><br /> <br /> <a href="http://metaforge.herokuapp.com/">click here</a> to sign in.'

@@ -42,13 +42,24 @@ exports.getReports = function (req, res) {
 };
 
 exports.update = function (req, res) {
-    if (req.body.UserId == "") {
+    if (req.body.UserId === "") {
         req.body.UserId = null;
     }
     var rfq = req.rfq;
     rfq.updateAttributes({
         UserId: req.body.UserId        
     }).then(function (a) {
+        if (req.body.UserId !== "" && typeof req.body.assignedEmail !== 'undefined' && req.body.assignedEmail !== '') {
+            var mailObject = {
+                from: 'youremail@crm.com',
+                to: req.body.assignedEmail,
+                subject: 'Metaforge - RFQ Assigned',
+                html: req.body.emailContent
+            };
+            sm.sendMail(mailObject, function (response) {
+                console.log("mail sent to " + req.body.assignedEmail);
+            });
+        }
         return res.jsonp(a);
     }).catch(function (err) {
         return res.render('/signin', {

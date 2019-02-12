@@ -2,7 +2,7 @@
 
     <section data-ng-init="findOneByRfqId()" ng-show="rfq.id != null  && validatePermission">
         <h1>
-            RFQ Detail - {{rfq.subject | capitalize}}
+            RFQ Detail - <span class="rfqSubject">{{rfq.subject | capitalize}}</span>
             <span class="row pull-right">
                 <span>
                     <a class="btn btn-danger" style="color:#fff;" ui-sref="viewBuyer({buyerId : rfq.BuyerId, customerId: rfq.Buyer.CustomerId})"><span>Cancel</span></a>
@@ -32,18 +32,18 @@
                     <div class="col-lg-9">
                         <div ng-hide="isPoReceived(rfq)">
                             <!--<select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser" required name="UserId" data-ng-model="rfq.UserId" ng-show="global.user.isAdmin">
-        <option value="">Select </option>
-        <option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
-    </select>
+            <option value="">Select </option>
+            <option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
+        </select>
 
-    <div ng-show="!global.user.isAdmin">
-        <strong>{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
-        <a ng-show="(rfq.User.firstName + ' ' + rfq.User.lastName).trim() == ''" class="btn btn-primary pull-right" href="#" ng-click="assignToMeRfq(rfq.id)">Assign to Me</a>
-    </div>-->
+        <div ng-show="!global.user.isAdmin">
+            <strong>{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
+            <a ng-show="(rfq.User.firstName + ' ' + rfq.User.lastName).trim() == ''" class="btn btn-primary pull-right" href="#" ng-click="assignToMeRfq(rfq.id)">Assign to Me</a>
+        </div>-->
 
                             <select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser" required name="UserId" data-ng-model="rfq.UserId">
-                                <option value="">Select </option>
-                                <option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
+                                <option value="" data-email="" data-name="">Select </option>
+                                <option ng-repeat="user in users" value="{{user.id}}" data-email="{{user.email}}" data-name='{{user.firstName + " " + user.lastName}}'>{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
                             </select>
                         </div>
                         <strong ng-show="isPoReceived(rfq)">{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
@@ -52,6 +52,8 @@
                         <div class="lblMsg"></div>
                         <input type="hidden" class="hdnUserId" value="{{rfq.UserId}}">
                         <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
+                        <input type="hidden" class="hdnCustomerId" value="{{rfq.Buyer.CustomerId}}" />
+                        <input type="hidden" class="hdnBuyerId" value="{{rfq.BuyerId}}" />
                     </div>
                 </div>
                 <div class="clear clearfix"></div><br />
@@ -244,14 +246,38 @@
                             $(".ddlUser").val($(".hdnUserId").val());
                         }
 
+                        /*
+                         * Assigned mail
+                         * Assigned name
+                         * Rfq subject
+                         * Rfq link
+                         * Sender name
+                         * Date Assigned
+                        */
+
                         $(".ddlUser").on('change', function () {
-                            var $me = $(this);
-                            var rfqId = $('.hdnRfqId').val();
-                            var ddlUserId = $(this).val();
+                            var emailContent,
+                                $me = $(this),
+                                rfqId = $('.hdnRfqId').val(),
+                                ddlUserId = $(this).val(),
+                                assignedEmail = $me.find('option:selected').data('email'),
+                                assignedName = $me.find('option:selected').data('name');
+                            if (assignedEmail !== '') {
+                                var senderName = window.user.firstName + " " + window.user.lastName,
+                                    rfqSubject = $(".rfqSubject").html(),
+                                    rfqLink = "http://metaforge.herokuapp.com/customer/" + $(".hdnCustomerId").val() + "/buyer/" + $(".hdnBuyerId").val() + "/rfq/" + $(".hdnRfqId").val(),
+                                    currentDate = new Date(),
+                                    dateAssigned = currentDate.getDate() + "/" + (currentDate.getMonth() + 1) + "/" + currentDate.getFullYear();
+
+                                emailContent = "Hi " + assignedName;
+                                emailContent += "<br /><br />" + senderName + " has assigned you new RFQ subject as " + rfqSubject + " on " + dateAssigned + ".";
+                                emailContent += "<br />Please <a href='" + rfqLink + "'>click here</a> to see more details";
+                                emailContent += "<br /><br />Best Regards, Metaforge Team<br /> ";
+                            }
                             $.ajax({
                                 url: '/rfqs/' + rfqId,
                                 method: "PUT",
-                                data: { UserId: ddlUserId, id: rfqId }
+                                data: { UserId: ddlUserId, id: rfqId, assignedEmail: assignedEmail, emailContent: emailContent  }
                             }).done(function (response) {
                                 if ($me.val() == "") {
                                     $(".lblMsg").html("<span>RFQ assigned to nobody</span>").addClass("alert alert-success");

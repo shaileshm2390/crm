@@ -8,19 +8,19 @@ var app = angular.module('mean.dashboards').controller('DashboardsController', [
         return $sce.trustAsHtml(html);
     }
 
-    $scope.find = function () {
-        if (typeof $window.user != 'undefined') {
-            $http.get("/dashboards/getSiteSummary")
-                .then(function (response) {
-                    $scope.siteSummary = response.data;
-                }, function (error) {
-                    console.log(error);
-                });
-        }
-    };
+    //$scope.find = function () {
+    //    if (typeof $window.user !== 'undefined') {
+    //        $http.post("/dashboards/getSiteSummary")
+    //            .then(function (response) {
+    //                $scope.siteSummary = response.data;
+    //            }, function (error) {
+    //                console.log(error);
+    //            });
+    //    }
+    //};
 
     $scope.findOpenRfq = function () {
-        if (typeof $window.user != 'undefined') {
+        if (typeof $window.user !== 'undefined') {
             $http.get("/dashboards/getOpenRfq")
                 .then(function (response) {
                     $scope.rfqs = response.data;
@@ -32,7 +32,7 @@ var app = angular.module('mean.dashboards').controller('DashboardsController', [
 
     $scope.findMyRfq = function () {
 
-        if (typeof $window.user != 'undefined') {
+        if (typeof $window.user !== 'undefined') {
             $http.get("/dashboards/getMyRfq")
                 .then(function (response) {
                     $scope.myRfqs = response.data;

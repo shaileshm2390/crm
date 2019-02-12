@@ -5,17 +5,43 @@
  */
 var StandardError = require('standard-error');
 var db = require('../../config/sequelize');
+var defaultMonthDifference = 6;
 /**
  * List of Summary
  */
 exports.all = function (req, res) {
-    var user = req.user;    
-    var condition = {
-        where: { $or: [{ UserId: user.id }, { UserId: null }] }
-    };
-    if (user.isAdmin) {
-        condition = {};
+    var user = req.user, condition = {}, dateTemp, fromDate, toDate;
+
+    dateTemp = new Date();
+    toDate = dateTemp.getFullYear() + "-" + (dateTemp.getMonth() < 10 ? "0" + (dateTemp.getMonth() + 1) : (dateTemp.getMonth() + 1)) + "-" + (dateTemp.getDate() < 10 ? "0" + dateTemp.getDate() : dateTemp.getDate());
+
+    dateTemp.setMonth(dateTemp.getMonth() - defaultMonthDifference);
+    fromDate = dateTemp.getFullYear() + "-" + (dateTemp.getMonth() < 10 ? "0" + (dateTemp.getMonth() + 1) : (dateTemp.getMonth() + 1)) + "-" + (dateTemp.getDate() < 10 ? "0" + dateTemp.getDate() : dateTemp.getDate());
+    
+    if (typeof req.body.fromDate !== 'undefined' && req.body.fromDate !== "") {
+        fromDate = req.body.fromDate;
     }
+    if (typeof req.body.toDate !== 'undefined' && req.body.toDate !== "") {
+        toDate = req.body.toDate;
+    }
+    condition = {
+        where: {
+            $or: [{ UserId: user.id }, { UserId: null }], $and: { createdAt: { $between: [fromDate, toDate] } }
+        },
+        //logging: console.log,
+        //raw: true
+    };
+
+    if (user.isAdmin) {
+        condition = {
+            where: {
+                createdAt: { $between: [fromDate, toDate] }
+            }
+            //, logging: console.log,
+            //raw: true 
+        };
+    }
+    
     var summary = {};
     db.Rfq.findAll(condition).then(function (response) {
         summary.TotalRqf = response.length;
@@ -24,24 +50,19 @@ exports.all = function (req, res) {
         response.forEach(function (data) {
             rfqIds.push(data.id);
         });
-        db.Rfq.count({ where: { UserId: null } }).then(function (openRfq) {
+        db.Rfq.count({ where: { UserId: null, createdAt: { $between: [fromDate, toDate] } } }).then(function (openRfq) {
             summary.OpenRfq = openRfq;
-            var completedCondition = {
+            var completedCondition = {         
                 where: {
                     status: 'complete', RfqId: rfqIds
                 }
+                
             };
-            if (user.isAdmin) {
-                completedCondition = {
-                    where: {
-                        status: 'complete'
-                    }
-                };
-            }
             db.PurchaseOrder.count(completedCondition).then(function (completedPurchaseOrder) {
                 summary.CompletedRfq = completedPurchaseOrder || 0;
 
-                db.Rfq.count({ where: (user.isAdmin ? { UserId: { $ne: null } }  : { UserId: user.id }) }).then(function (TotalWorkedRqf) {
+                db.Rfq.count({
+                    where: { UserId: (user.isAdmin ? { $ne: null } : user.id), createdAt: { $between: [fromDate, toDate] } }}).then(function (TotalWorkedRqf) {
                     summary.PendingRqf = TotalWorkedRqf - completedPurchaseOrder;
 
                     if (summary.TotalRqf > 0) {
@@ -63,14 +84,30 @@ exports.all = function (req, res) {
 exports.getRfqChartDetail = function (req, res) {
     var condition = "r.UserId IS NULL",
         user = req.user,
-        userCondition = "";
-    if (user.Department.name != "Admin") {
+        userCondition = "", dateTemp, fromDate, toDate;
+
+    dateTemp = new Date();
+    toDate = dateTemp.getFullYear() + "-" + (dateTemp.getMonth() < 10 ? "0" + (dateTemp.getMonth() + 1) : (dateTemp.getMonth() + 1)) + "-" + (dateTemp.getDate() < 10 ? "0" + dateTemp.getDate() : dateTemp.getDate());
+
+    dateTemp.setMonth(dateTemp.getMonth() - defaultMonthDifference);
+    fromDate = dateTemp.getFullYear() + "-" + (dateTemp.getMonth() < 10 ? "0" + (dateTemp.getMonth() + 1) : (dateTemp.getMonth() + 1)) + "-" + (dateTemp.getDate() < 10 ? "0" + dateTemp.getDate() : dateTemp.getDate());
+
+
+
+    if (typeof req.body.fromDate !== 'undefined' && req.body.fromDate !== "") {
+        fromDate = req.body.fromDate;
+    }
+    if (typeof req.body.toDate !== 'undefined' && req.body.toDate !== "") {
+        toDate = req.body.toDate;
+    }
+
+    if (user.Department.name !== "Admin") {
         userCondition = " AND r.UserId = " + user.id + " ";
     }
     var result = {};
     var customQuery = "SELECT COUNT(r.id) AS Count, CONCAT(YEAR(r.createdAt) ,'-', MONTH(r.createdAt)) As Month " +
         "FROM `Rfqs` r LEFT JOIN PurchaseOrders po ON  po.RfqId = r.id " +
-        "WHERE {CONDITION} AND r.createdAt > DATE_SUB(now(), INTERVAL 6 MONTH)  GROUP BY YEAR(r.createdAt), MONTH(r.createdAt) DESC";
+        "WHERE {CONDITION} AND r.createdAt BETWEEN '" + fromDate + "' AND '" + toDate + "' GROUP BY YEAR(r.createdAt), MONTH(r.createdAt) DESC";
     db.sequelize.query(customQuery.replace("{CONDITION}", condition), { type: db.sequelize.QueryTypes.SELECT }).then(function (response) {
         result.Open = response;
         condition = "po.status = 'Complete'" + userCondition;
@@ -87,15 +124,33 @@ exports.getRfqChartDetail = function (req, res) {
 };
 
 exports.getRfqPieChartDetail = function (req, res) {
-    var condition = "UserId IS NULL",
-        user = req.user,
-        userCondition = "";
-    if (user.Department.name != "Admin") {
-        userCondition = " AND UserId = " + user.id + " ";
+    var user = req.user,
+        userCondition = "",
+        toDate, fromDate,
+        dateTemp = new Date();
+
+    toDate = dateTemp.getFullYear() + "-" + (dateTemp.getMonth() < 10 ? "0" + (dateTemp.getMonth() + 1) : (dateTemp.getMonth() + 1)) + "-" + (dateTemp.getDate() < 10 ? "0" + dateTemp.getDate() : dateTemp.getDate());
+
+    dateTemp.setMonth(dateTemp.getMonth() - defaultMonthDifference);
+    fromDate = dateTemp.getFullYear() + "-" + (dateTemp.getMonth() < 10 ? "0" + (dateTemp.getMonth() + 1) : (dateTemp.getMonth() + 1)) + "-" + (dateTemp.getDate() < 10 ? "0" + dateTemp.getDate() : dateTemp.getDate());
+       
+
+    if (typeof req.body.fromDate !== 'undefined' && req.body.fromDate !== "") {
+        fromDate = req.body.fromDate;
+    }
+    if (typeof req.body.toDate !== 'undefined' && req.body.toDate !== "") {
+        toDate = req.body.toDate;
+    }
+     
+    userCondition = " AND r.createdAt BETWEEN '" + fromDate + "' AND '" + toDate + "' ";
+    if (user.Department.name !== "Admin") {
+        userCondition += " AND UserId = " + user.id + " ";
     }
 
-    var customQuery = "SELECT (SELECT Count(id) FROM `CostSheets` WHERE status='approved' {CONDITION}) as CostsheetPrepared, (SELECT Count(id) FROM `Quotations` WHERE 1=1 {CONDITION}) as Quotations, (SELECT Count(id) FROM `HandoverSubmitteds` WHERE 1=1 {CONDITION}) as SampleSubmitted, (SELECT Count(po.id) FROM `PurchaseOrders` po INNER JOIN Rfqs r ON r.Id = po.RfqId  WHERE 1=1 {CONDITION}) as POReceived, (SELECT Count(id) FROM `DeveloperHandovers` WHERE 1=1 {CONDITION}) as DeveloperHandovers";
-    
+    var customQuery = "SELECT (SELECT Count(po.id) FROM `CostSheets` po INNER JOIN Rfqs r ON r.Id = po.RfqId WHERE status='approved' {CONDITION}) as CostsheetPrepared, (SELECT Count(po.id) FROM `Quotations` po INNER JOIN Rfqs r ON r.Id = po.RfqId WHERE 1=1 {CONDITION}) as Quotations, (SELECT Count(po.id) FROM `HandoverSubmitteds` po INNER JOIN Rfqs r ON r.Id = po.RfqId WHERE 1=1 {CONDITION}) as SampleSubmitted, (SELECT Count(po.id) FROM `PurchaseOrders` po INNER JOIN Rfqs r ON r.Id = po.RfqId  WHERE 1=1 {CONDITION}) as POReceived, (SELECT Count(po.id) FROM `DeveloperHandovers`  po INNER JOIN Rfqs r ON r.Id = po.RfqId WHERE 1=1 {CONDITION}) as DeveloperHandovers";
+
+    console.log(customQuery.replace(/{CONDITION}/g, userCondition));
+
     db.sequelize.query(customQuery.replace(/{CONDITION}/g, userCondition), { type: db.sequelize.QueryTypes.SELECT}).then(function (response) {    
         return res.jsonp(response[0]);
     });

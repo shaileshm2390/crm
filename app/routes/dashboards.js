@@ -10,14 +10,14 @@ var users = require('../../app/controllers/users'),
 
 module.exports = function (app) {
     app.route('/dashboards/getSiteSummary')
-        .get(users.requiresLogin, dashboards.all)    
+        .post(users.requiresLogin, dashboards.all);  
     app.route('/dashboards/getRfqChartDetail')
-        .get(users.requiresLogin, dashboards.getRfqChartDetail)
+        .post(users.requiresLogin, dashboards.getRfqChartDetail);
     app.route('/dashboards/getRfqPieChartDetail')
-        .get(users.requiresLogin, dashboards.getRfqPieChartDetail)    
+        .post(users.requiresLogin, dashboards.getRfqPieChartDetail);    
     app.route('/dashboards/getOpenRfq')
-        .get(users.requiresLogin, dashboards.getOpenRfq)
+        .get(users.requiresLogin, dashboards.getOpenRfq);
     app.route('/dashboards/getMyRfq')
-        .get(users.requiresLogin, dashboards.getMyRfq)
+        .get(users.requiresLogin, dashboards.getMyRfq);
 };
 

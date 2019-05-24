@@ -1,3 +1,19 @@
+git clone 
+then change db connection in developement.json file
+open cmd and go to root of the project
+
+npm install
+
+npm i grunt-contrib-jshint
+npm i grunt-contrib-nodemon
+npm i grunt-concurrent
+grunt
+
+enjoy !! 
+
+******************************************
+
+
 Alright now the fun begins. First clone or download the repo to your computer.
 
 Clone the repository git clone git@github.com:jpotts18/mean-stack-relational.git.

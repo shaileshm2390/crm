@@ -3,6 +3,15 @@
         "use strict";
         if (typeof window.user !== 'undefined') {
             var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+				 compare = function( a, b ) {
+					  if ( a.period < b.period ){
+						return -1;
+					  }
+					  if ( a.period > b.period ){
+						return 1;
+					  }
+					  return 0;
+				},
 
                 convertResponseToMorrisData = function (obj) {
                     var result = [];
@@ -69,7 +78,7 @@
                     data: { fromDate: fromDate, toDate: toDate }
                 }).done(function (obj) {
                     var result = convertResponseToMorrisData(obj);
-                    morrisArea.setData(result);
+                    morrisArea.setData(result.sort( compare ));
                 });
 
                 $.ajax({
@@ -77,7 +86,6 @@
                     method: "POST",
                     data: { fromDate: fromDate, toDate: toDate }
                 }).done(function (obj) {
-                    console.log(obj);
                     $(".totalRfqCount").html(obj.TotalRqf);
                     $(".completedRfqCount").html(obj.CompletedRfq);
                     $(".pendingRfqCount").html(obj.PendingRqf);

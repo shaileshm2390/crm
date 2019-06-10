@@ -26,7 +26,8 @@ exports.all = function (req, res) {
     }
     condition = {
         where: {
-            $or: [{ UserId: user.id }, { UserId: null }], $and: { createdAt: { $between: [fromDate, toDate] } }
+            $or: [{ UserId: user.id }, { UserId: null }], 
+			$and: { createdAt: { $gte: fromDate, $lte: toDate } }
         },
         //logging: console.log,
         //raw: true
@@ -35,9 +36,9 @@ exports.all = function (req, res) {
     if (user.isAdmin) {
         condition = {
             where: {
-                createdAt: { $between: [fromDate, toDate] }
+                createdAt: { $gte: fromDate, $lte: toDate  }
             }
-            //, logging: console.log,
+            , logging: console.log
             //raw: true 
         };
     }
@@ -50,7 +51,7 @@ exports.all = function (req, res) {
         response.forEach(function (data) {
             rfqIds.push(data.id);
         });
-        db.Rfq.count({ where: { UserId: null, createdAt: { $between: [fromDate, toDate] } } }).then(function (openRfq) {
+        db.Rfq.count({ where: { UserId: null, createdAt: { createdAt: { $gte: fromDate, $lte: toDate  } } } }).then(function (openRfq) {
             summary.OpenRfq = openRfq;
             var completedCondition = {         
                 where: {
@@ -62,7 +63,7 @@ exports.all = function (req, res) {
                 summary.CompletedRfq = completedPurchaseOrder || 0;
 
                 db.Rfq.count({
-                    where: { UserId: (user.isAdmin ? { $ne: null } : user.id), createdAt: { $between: [fromDate, toDate] } }}).then(function (TotalWorkedRqf) {
+                    where: { UserId: (user.isAdmin ? { $ne: null } : user.id), createdAt: { createdAt: { $gte: fromDate, $lte: toDate  }} }}).then(function (TotalWorkedRqf) {
                     summary.PendingRqf = TotalWorkedRqf - completedPurchaseOrder;
 
                     if (summary.TotalRqf > 0) {
@@ -105,9 +106,10 @@ exports.getRfqChartDetail = function (req, res) {
         userCondition = " AND r.UserId = " + user.id + " ";
     }
     var result = {};
-    var customQuery = "SELECT COUNT(r.id) AS Count, CONCAT(YEAR(r.createdAt) ,'-', MONTH(r.createdAt)) As Month " +
+    var customQuery = "SELECT COUNT(r.id) AS Count, DATE_FORMAT(r.createdAt,'%Y-%m') As Month " +
         "FROM `Rfqs` r LEFT JOIN PurchaseOrders po ON  po.RfqId = r.id " +
-        "WHERE {CONDITION} AND r.createdAt BETWEEN '" + fromDate + "' AND '" + toDate + "' GROUP BY YEAR(r.createdAt), MONTH(r.createdAt) DESC";
+        "WHERE {CONDITION} AND r.createdAt BETWEEN '" + fromDate + "' AND '" + toDate + "' GROUP BY YEAR(r.createdAt), MONTH(r.createdAt)  ORDER BY YEAR(r.createdAt) ASC, MONTH(r.createdAt) ASC";
+	//console.log(customQuery.replace("{CONDITION}", condition));
     db.sequelize.query(customQuery.replace("{CONDITION}", condition), { type: db.sequelize.QueryTypes.SELECT }).then(function (response) {
         result.Open = response;
         condition = "po.status = 'Complete'" + userCondition;
@@ -149,7 +151,7 @@ exports.getRfqPieChartDetail = function (req, res) {
 
     var customQuery = "SELECT (SELECT Count(po.id) FROM `CostSheets` po INNER JOIN Rfqs r ON r.Id = po.RfqId WHERE status='approved' {CONDITION}) as CostsheetPrepared, (SELECT Count(po.id) FROM `Quotations` po INNER JOIN Rfqs r ON r.Id = po.RfqId WHERE 1=1 {CONDITION}) as Quotations, (SELECT Count(po.id) FROM `HandoverSubmitteds` po INNER JOIN Rfqs r ON r.Id = po.RfqId WHERE 1=1 {CONDITION}) as SampleSubmitted, (SELECT Count(po.id) FROM `PurchaseOrders` po INNER JOIN Rfqs r ON r.Id = po.RfqId  WHERE 1=1 {CONDITION}) as POReceived, (SELECT Count(po.id) FROM `DeveloperHandovers`  po INNER JOIN Rfqs r ON r.Id = po.RfqId WHERE 1=1 {CONDITION}) as DeveloperHandovers";
 
-    console.log(customQuery.replace(/{CONDITION}/g, userCondition));
+    //console.log(customQuery.replace(/{CONDITION}/g, userCondition));
 
     db.sequelize.query(customQuery.replace(/{CONDITION}/g, userCondition), { type: db.sequelize.QueryTypes.SELECT}).then(function (response) {    
         return res.jsonp(response[0]);

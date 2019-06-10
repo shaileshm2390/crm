@@ -64,7 +64,7 @@ exports.all = function (req, res) {
 
                 db.Rfq.count({
                     where: { UserId: (user.isAdmin ? { $ne: null } : user.id), createdAt: { createdAt: { $gte: fromDate, $lte: toDate  }} }}).then(function (TotalWorkedRqf) {
-                    summary.PendingRqf = TotalWorkedRqf - completedPurchaseOrder;
+                    summary.PendingRqf = (TotalWorkedRqf - completedPurchaseOrder) >= 0 ? TotalWorkedRqf - completedPurchaseOrder : 0;
 
                     if (summary.TotalRqf > 0) {
                         summary.CompletedPercentage = Math.round((summary.CompletedRfq / summary.TotalRqf) * 100);

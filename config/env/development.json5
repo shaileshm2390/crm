@@ -6,10 +6,10 @@
        // username: "event2xa_crm",
        // host: "eventoline.com",	
         //port: 3308
-	//	   name: "crm",
-      //  password: "",
-      //  username: "root",
-      //  host: "localhost",
+		   name: "crm",
+        password: "",
+        username: "root",
+        host: "localhost",
     },
     app: {
         name: "CRM"

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <base href="/">
+<base href="/">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
@@ -11,7 +11,6 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon.png">
-    <title>CRM - Admin</title>
     <!-- Bootstrap Core CSS -->
     <link href="/css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
     <!-- <link href="/css/lib/bootstrap/docs/assets/css/bootstrap.css" rel="stylesheet"> -->
@@ -67,121 +66,131 @@
     <script src="https:**oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https:**oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="Chameleon Admin is a modern Bootstrap 4 webapp &amp; admin dashboard html template with a large number of components, elegant design, clean and organized code.">
+    <meta name="keywords" content="admin template, Chameleon admin template, dashboard template, gradient admin template, responsive admin template, webapp, eCommerce dashboard, analytic dashboard">
+    <meta name="author" content="ThemeSelect">
+    <title>CRM - Admin</title>
+    <link rel="apple-touch-icon" href="New-folder/theme-assets/images/ico/apple-icon-120.png">
+    <link rel="shortcut icon" type="image/x-icon" href="New-folder/theme-assets/images/ico/favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Muli:300,300i,400,400i,600,600i,700,700i%7CComfortaa:300,400,700" rel="stylesheet">
+    <link href="https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome.min.css" rel="stylesheet">
+    <!-- BEGIN VENDOR CSS-->
+    <link rel="stylesheet" type="text/css" href="New-folder/theme-assets/css/vendors.css">
+    <!-- <link rel="stylesheet" type="text/css" href="New-folder/theme-assets/vendors/css/charts/chartist.css"> -->
+    <!-- END VENDOR CSS-->
+    <!-- BEGIN CHAMELEON  CSS-->
+    <link rel="stylesheet" type="text/css" href="New-folder/theme-assets/css/app-lite.css">
+    <!-- END CHAMELEON  CSS-->
+    <!-- BEGIN Page Level CSS-->
+    <link rel="stylesheet" type="text/css" href="New-folder/theme-assets/css/core/menu/menu-types/vertical-menu.css">
+    <link rel="stylesheet" type="text/css" href="New-folder/theme-assets/css/core/colors/palette-gradient.css">
+    <link rel="stylesheet" type="text/css" href="New-folder/theme-assets/css/pages/dashboard-ecommerce.css">
+    <!-- END Page Level CSS-->
+    <!-- BEGIN Custom CSS-->
+    <!-- END Custom CSS-->
 </head>
 
-<body class="fix-header fix-sidebar">
-    <!-- Preloader - style you can find in spinners.css -->
-    <div class="preloader">
-        <svg class="circular" viewBox="25 25 50 50">
-            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
-        </svg>
-    </div>
 
-    <!-- Main wrapper  -->
-    <div id="main-wrapper">
-        <!-- header header  -->
-        <div class="header">
-            <nav class="navbar top-navbar navbar-expand-md navbar-light">
-                <!-- Logo -->
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="/">
-                        <!-- Logo icon -->
-                        <b>
-                            <img src="/img/logo.png" alt="homepage" class="dark-logo" /></b>
-                        <!--End Logo icon -->
-                        <!-- Logo text -->
-                        <span>
-                            <!-- <img src="/img/logo-text.png" alt="homepage" class="dark-logo" /> -->
-                            <strong>CRM</strong>
-                        </span>
-                    </a>
-                </div>
-                <!-- End Logo -->
-                <div class="navbar-collapse">
-                    <!-- toggle and nav items -->
-                    <ul class="navbar-nav mr-auto mt-md-0"  data-ng-controller="HeaderController">
-                        <!-- This is  -->
-                        <li class="nav-item"><a class="nav-link nav-toggler hidden-md-up text-muted  " href="javascript:void(0)"><i class="mdi mdi-menu"></i></a></li>
-                        <li class="nav-item m-l-10"   data-ng-show="global.authenticated"><a class="nav-link sidebartoggler hidden-sm-down text-muted  " href="javascript:void(0)"><i class="ti-menu"></i></a></li>
-						<li class="nav-item m-t-10 m-l-10"  data-ng-show="global.authenticated">
+  <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-menu" data-color="bg-chartbg" data-col="2-columns">
+
+    <!-- fixed-top-->
+    <nav class="header-navbar navbar-expand-md navbar navbar-with-menu navbar-without-dd-arrow fixed-top navbar-semi-light">
+      <div class="navbar-wrapper">
+        <div class="navbar-container content">
+          <div class="collapse navbar-collapse show" id="navbar-mobile">
+            <ul class="nav navbar-nav mr-auto float-left">
+              <li class="nav-item d-block"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu"></i></a></li>
+			  <li class="nav-item m-t-10 m-l-10"  data-ng-show="global.authenticated">
 							<a class="btn btn-primary btnImportRFQ" href="#">Import RFQ</a>
 						</li>
-						<li class="nav-item m-t-10 m-l-10"  data-ng-show="global.authenticated">
-							<div class="alert alert-success lblImportMessage m-b-2" style="display:none; padding: 8px;">Import process is done. Please <a href="/">click here</a> to see RFQ list.</a>
-						</li>
-                        <!-- Messages -->
-
-                        <!-- End Messages -->
-                    </ul>
-                    <!-- User profile and search -->
-                    <ul class="navbar-nav my-lg-0">
-
-                        <li class="nav-item dropdown">
-                            <div class="navbar-inner" data-ng-controller="HeaderController">
-                               <!-- <ul class="nav  pull-left">
-
-                                    <li data-ng-repeat="item in menu" data-ng-show="global.user" ui-route="/{{item.link}}" ng-class="{active: $uiRoute}">|	&nbsp; <a ui-sref="{{item.state}}">{{item.title}}</a>
-                                    </li>
-                                </ul> -->
-                                <ul class="nav pull-right" data-ng-hide="global.authenticated">
-                                  <!--  <li>|	&nbsp; <a ui-sref="SignUp">Signup</a>
-                                    </li>-->
-                                    <li class="divider-vertical"></li>
-                                    <li   data-ng-show="global.authenticated">|	&nbsp; <a ui-sref="SignIn"  target="_self">Signin</a>
-                                    </li>
-                                </ul>
-                                <ul class="nav pull-right" data-ng-show="global.authenticated">
-                                    <li class="dropdown"><strong><a class="dropdown-toggle" data-toggle="dropdown" href="#">Hiya, {{global.user.firstName}}  </strong><b class="caret"></b>
-                                    </a>
-                                        <li>|	<a ng-click="SignOut()" href="#">Signout</a>
-                                        </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
+              <!-- <li class="nav-item d-none d-md-block"><a class="nav-link nav-link-expand" href="#"><i class="ficon ft-maximize"></i></a></li> -->
+              <!-- <li class="nav-item dropdown navbar-search"><a class="nav-link dropdown-toggle hide" data-toggle="dropdown" href="#"><i class="ficon ft-search"></i></a> -->
+                <ul class="dropdown-menu">
+                  <li class="arrow_box">
+                    <form>
+                      <div class="input-group search-box">
+                        <div class="position-relative has-icon-right full-width">
+                          <input class="form-control" id="search" type="text" placeholder="Search here...">
+                          <div class="form-control-position navbar-search-close"><i class="ft-x">   </i></div>
+                        </div>
+                      </div>
+                    </form>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <!-- <ul class="nav navbar-nav float-right">          -->
+              <!-- <li class="dropdown dropdown-language nav-item"><a class="dropdown-toggle nav-link" id="dropdown-flag" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="flag-icon flag-icon-us"></i><span class="selected-language"></span></a> -->
+                <!-- <div class="dropdown-menu" aria-labelledby="dropdown-flag"> -->
+                  <!-- <div class="arrow_box"><a class="dropdown-item" href="#"><i class="flag-icon flag-icon-us"></i> English</a><a class="dropdown-item" href="#"><i class="flag-icon flag-icon-cn"></i> Chinese</a><a class="dropdown-item" href="#"><i class="flag-icon flag-icon-ru"></i> Russian</a><a class="dropdown-item" href="#"><i class="flag-icon flag-icon-fr"></i> French</a><a class="dropdown-item" href="#"><i class="flag-icon flag-icon-es"></i> Spanish</a></div> -->
+                <!-- </div> -->
+              <!-- </li> -->
+            <!-- </ul> -->
+            <ul class="nav navbar-nav float-right">
+              <!-- <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon ft-mail">             </i></a> -->
+                <!-- <div class="dropdown-menu dropdown-menu-right"> -->
+                  <!-- <div class="arrow_box_right"><a class="dropdown-item" href="#"><i class="ft-book"></i> Read Mail</a><a class="dropdown-item" href="#"><i class="ft-bookmark"></i> Read Later</a><a class="dropdown-item" href="#"><i class="ft-check-square"></i> Mark all Read       </a></div> -->
+                <!-- </div> -->
+              <!-- </li> -->
+              <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">             <span class="avatar avatar-online"><img src="New-folder/theme-assets/images/portrait/small/avatar-s-19.png" alt="avatar"><i></i></span></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <div class="arrow_box_right"><a class="dropdown-item" href="#"><span class="avatar avatar-online"><img src="New-folder/theme-assets/images/portrait/small/avatar-s-19.png" alt="avatar"><span class="user-name text-bold-700 ml-1">John Doe</span></span></a>
+                    <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i class="ft-user"></i> Edit Profile</a><a class="dropdown-item" href="#"><i class="ft-mail"></i> My Inbox</a><a class="dropdown-item" href="#"><i class="ft-check-square"></i> Task</a><a class="dropdown-item" href="#"><i class="ft-message-square"></i> Chats</a>
+                    <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i class="ft-power"></i> Logout</a>
+                  </div>
                 </div>
-            </nav>
+              </li>
+            </ul>
+          </div>
         </div>
-        <!-- End header header -->
-        <!-- Left Sidebar  -->
-        <div data-ng-controller="HeaderController">
+      </div>
+    </nav>
 
-            <div class="left-sidebar">
-                <!-- Sidebar scroll-->
-                <div class="scroll-sidebar">
-                    <!-- Sidebar navigation-->
-                    <nav class="sidebar-nav">
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
 
-                        <ul class="sidebarnav" data-ng-show="!global.authenticated">
-                            <li class="nav-label"><a ui-sref="SignIn"  target="_self">Signin</a></li>
-                            <li class="nav-devider"></li>
-                        </ul>
-                        <ul id="sidebarnav" data-ng-show="global.authenticated">
-                            <li class="nav-devider"></li>
+
+    <div class="main-menu menu-fixed menu-light menu-accordion    menu-shadow " data-scroll-to-active="true" data-img="New-folder/theme-assets/images/backgrounds/02.jpg">
+      <div class="navbar-header">
+        <ul class="nav navbar-nav flex-row">       
+          <li class="nav-item mr-auto"><a class="navbar-brand" href="index.html"><img class="brand-logo" alt="homepage" src="/img/logo.png"/>
+              <h3 class="brand-text">CRM</h3></a></li>
+          <li class="nav-item d-md-none"><a class="nav-link close-navbar"><i class="ft-x"></i></a></li>
+        </ul>
+      </div>
+      <div class="main-menu-content">
+	  <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+          <li class="nav-devider"></li>
                             <li class="nav-label">Home</li>
-                            <li><a href="/" target="_self"><i class="fa fa-tachometer"></i><span class="hide-menu">Dashboard</span>     </a>              
+                            <li><a href="/" target="_self"><i class="ft-home"></i>Dashboard</a>              
                             </li>
                              <li class="nav-label">My Section</li>        
                              <% if(user.isAdmin) { %>                                              
-                            <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-object-group"></i><span class="hide-menu">Departments</span></a>
-                                <ul aria-expanded="false" class="collapse">
-                                    <li><a href="/department">List</a></li>
-                                    <li><a href="/department/create">Add</a></li>
+                            <li class="nav-item has-sub open"><a class="has-arrow" href="#" aria-expanded="false"><i class="fa fa-object-group"></i><span class="hide-menu">Departments</span></a>
+                                <ul class="menu-content" style="">
+								<li class="is-shown"><a href="/department">List</a></li>
+								<li class="is-shown"><a href="/department/create">Add</a></li>
                                 </ul>
+								<!-- <ul aria-expanded="false" class="collapse"> -->
+                                    <!-- <li><a href="/department">List</a></li> -->
+                                    <!-- <li><a href="/department/create">Add</a></li> -->
+                                <!-- </ul> -->
                             </li>                            
-                            <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-user-secret"></i><span class="hide-menu">Users</span></a>
-                                <ul aria-expanded="false" class="collapse">
-                                    <li><a href="/user">List</a></li>
-                                    <li><a href="/user/create">Add</a></li>
+                            <li class="nav-item has-sub"><a href="#"><i class="ft-users"></i><span class="hide-menu">Users</span></a>
+                                <ul class="menu-content" style="">
+								<li class="is-shown"><a href="/user">List</a></li>
+								<li class="is-shown"><a href="/user/create">Add</a></li>
                                 </ul>
                             </li>
 
                             <% } %>
                             <% if(user.isAdmin) { %>        
-                            <li><a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-users "></i><span class="hide-menu">Customers</span></a>
-                                <ul aria-expanded="false" class="collapse">
-                                    <li><a href="/customer">List</a></li>                                      
-                                    <li><a href="/customer/create">Add</a></li>                                   
+                            <li class="nav-item has-sub open"><a href="#" aria-expanded="false"><i class="fa fa-users"></i><span class="hide-menu">Customers</span></a>
+                                <ul class="menu-content" style="">
+								<li class="is-shown"><a href="/customer">List</a></li>
+								<li class="is-shown"><a href="/customer/create">Add</a></li>
                                 </ul>
                             </li>    
                              <% } else { %>
@@ -190,35 +199,35 @@
                                 <% } %>
 
                                 <% if(user.isAdmin) { %>        
-                            <li>
+                            <li class="nav-item has-sub open">
                                 <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-registered "></i><span class="hide-menu">Raw Material</span></a>
-                                <ul aria-expanded="false" class="collapse">
-                                    <li><a href="/material">List</a></li>
-                                    <li><a href="/material/create">Add</a></li>
+                                <ul class="menu-content" style="">
+                                    <li class="is-shown"><a href="/material">List</a></li>
+                                    <li class="is-shown"><a href="/material/create">Add</a></li>
                                 </ul>
                             </li>   
 
-                            <li>
+                            <li class="nav-item has-sub open">
                                 <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-copyright "></i><span class="hide-menu">Conversation Master</span></a>
-                                <ul aria-expanded="false" class="collapse">
-                                    <li><a href="/conversion">List</a></li>
-                                    <li><a href="/conversion/create">Add</a></li>
+                                <ul class="menu-content" style="">
+                                    <li class="is-shown"><a href="/conversion">List</a></li>
+                                    <li class="is-shown"><a href="/conversion/create">Add</a></li>
                                 </ul>
                             </li>  
 
-                            <li>
+                            <li class="nav-item has-sub open">
                                 <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-header " style="font-size: 10px; width: 16px; border: 1px solid; border-radius: 50%; padding: 2px;"></i><span class="hide-menu" style="margin-left: 13px;">HTST Master</span></a>
-                                <ul aria-expanded="false" class="collapse">
-                                    <li><a href="/htst">List</a></li>
-                                    <li><a href="/htst/create">Add</a></li>
+                                <ul class="menu-content" style="">
+                                    <li class="is-shown"><a href="/htst">List</a></li>
+                                    <li class="is-shown"><a href="/htst/create">Add</a></li>
                                 </ul>
                             </li>  
 
-							 <li>
+							 <li class="nav-item has-sub open">
                                 <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-bus"></i><span class="hide-menu">Packing & Forward</span></a>
-                                <ul aria-expanded="false" class="collapse">
-                                    <li><a href="/packing-and-forwarding">List</a></li>
-                                    <li><a href="/packing-and-forwarding/create">Add</a></li>
+                                <ul class="menu-content" style="">
+                                    <li class="is-shown"><a href="/packing-and-forwarding">List</a></li>
+                                    <li class="is-shown"><a href="/packing-and-forwarding/create">Add</a></li>
                                 </ul>
                             </li>
                             <% } %>
@@ -230,12 +239,17 @@
                                 </ul>-->
                                 <a href="/reports/rfqs" aria-expanded="false"><i class="fa fa-line-chart"></i><span class="hide-menu">Reports</span></a>                             
                             </li>
-                        </ul>
-                    </nav>
-                    <!-- End Sidebar navigation -->
-                </div>
-                <!-- End Sidebar scroll-->
-            </div>
+        </ul>
+
+      </div>
+	  
+      <div class="navigation-background"></div>
+    </div>
+
+    <div class="app-content content">
+      <div class="content-wrapper">
+        <div class="content-wrapper-before"></div>
+        <div class="content-header row">
         </div>
         <!-- End Left Sidebar  -->
         <!-- Page wrapper  -->
@@ -324,16 +338,13 @@
                 </div>
             </div>
             <% } %>
-            <!-- End Container fluid  -->
-            <!-- footer -->
-            <footer class="footer">© <span id='currentYear'></span> All rights reserved. </footer>
-            <!-- End footer -->
-        </div>
-        <!-- End Page wrapper  -->
+            </div>
+		</div>
     </div>
-    <input type="hidden" id="hdnPageSize" value="5" />
-    <!-- End Wrapper -->
-    <!-- All Jquery -->
+    <!-- ////////////////////////////////////////////////////////////////////////////-->
+	
+	<input type="hidden" id="hdnPageSize" value="5" />
+	<!-- All Jquery -->
     <script src="/js/lib/jquery/jquery.min.js"></script>
     
     <!-- Bootstrap tether Core JavaScript -->
@@ -497,11 +508,24 @@
     <script type="text/javascript" src="/js/vfs_fonts.js"></script>
     <script type="text/javascript" src="/js/buttons.html5.js"></script>
     <script type="text/javascript" src="/js/buttons.print.js"></script>
-        
-
-	
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.5.1/flatpickr.min.js"></script>
-
+	
+<!--<script src="New-folder/theme-assets/js/core/app-menu-lite.js" type="text/javascript"></script>
+<script src="New-folder/theme-assets/js/core/app-lite.js" type="text/javascript"></script>-->
+<script src="New-folder/theme-assets/vendors/js/menu/app-menu.js" type="text/javascript"></script>
+    <!-- <!-- BEGIN VENDOR JS--> -->
+    <!-- <script src="New-folder/theme-assets/vendors/js/vendors.min.js" type="text/javascript"></script> -->
+    <!-- <!-- BEGIN VENDOR JS--> -->
+    <!-- <!-- BEGIN PAGE VENDOR JS--> -->
+    <!-- <script src="New-folder/theme-assets/vendors/js/charts/chartist.min.js" type="text/javascript"></script> -->
+    <!-- <!-- END PAGE VENDOR JS--> -->
+    <!-- <!-- BEGIN CHAMELEON  JS--> -->
+    <!-- <script src="New-folder/theme-assets/js/core/app-menu-lite.js" type="text/javascript"></script> -->
+    <!-- <script src="New-folder/theme-assets/js/core/app-lite.js" type="text/javascript"></script> -->
+    <!-- <!-- END CHAMELEON  JS--> -->
+    <!-- <!-- BEGIN PAGE LEVEL JS--> -->
+    <!-- <script src="New-folder/theme-assets/js/scripts/pages/dashboard-lite.js" type="text/javascript"></script> -->
+    <!-- <!-- END PAGE LEVEL JS--> -->
     <script type="text/javascript">
         $(document).ready(function () {
             setTimeout(function () {
@@ -515,7 +539,7 @@
 				if(window.location.host.indexOf("crmmean") > -1) {
 					folder = "gmail-demo";
 				}
-				$.ajax({url: window.location.protocol + "//eventoline.com/" + folder + "/", success: function(result){
+				$.ajax({url: window.location.protocol + "//localhost/crmcron/" + folder + "/", success: function(result){
 					console.log(result);
 					//$(".lblImportMessage").show().delay(5000).fadeOut();
 					$(".lblImportMessage").show();

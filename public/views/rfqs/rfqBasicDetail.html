@@ -55,12 +55,12 @@
                 <div class="row">
                     <ul id="carousel" class="elastislide">
                         <li data-ng-repeat="image in rfq.RfqImages| orderBy : '-createdAt'">
-                            <a ng-hide="image.isDownloadable" href="{{image.imagePath}}">
+                            <a data-fancybox="gallery" href="{{image.imagePath}}">
                                 <img src="{{image.displayPath}}" alt="image{{image.id}}" />
-                            </a>
-                            <a ng-show="!image.isDownloadable" data-fancybox="gallery" href="{{image.imagePath}}">
-                                <img src="{{image.displayPath}}" alt="image{{image.id}}" />
-                            </a>
+                            </a> <br />
+                            <div style="text-align:center;">
+                                <a target="_blank" href="{{image.imagePath}}"><i class="fa fa-download"></i></a>
+                            </div>
                         </li>
 
                     </ul>

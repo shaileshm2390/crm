@@ -52,6 +52,8 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
                     for (var index = 0; index < $scope.rfq.RfqImages.length; index++) {
                         if ($scope.rfq.RfqImages[index].imagePath.indexOf(".pdf") > -1) {
                             $scope.rfq.RfqImages[index].displayPath = '/img/pdf.png';
+                        } else if ($scope.rfq.RfqImages[index].imagePath.indexOf(".xls") > -1) {
+                            $scope.rfq.RfqImages[index].displayPath = '/img/excel.png';
                         } else {
                             $scope.rfq.RfqImages[index].displayPath = $scope.rfq.RfqImages[index].imagePath;
                         }

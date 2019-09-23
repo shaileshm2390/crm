@@ -55,10 +55,10 @@
                 <div class="row">
                     <ul id="carousel" class="elastislide">
                         <li data-ng-repeat="image in rfq.RfqImages| orderBy : '-createdAt'">
-                            <a ng-hide="image.displayPath.indexOf('.xls') > -1" data-fancybox="gallery" href="{{image.imagePath}}">
+                            <a ng-hide="image.isDownloadable" href="{{image.imagePath}}">
                                 <img src="{{image.displayPath}}" alt="image{{image.id}}" />
                             </a>
-                            <a ng-show="image.displayPath.indexOf('.xls') > -1" href="{{image.imagePath}}">
+                            <a ng-show="!image.isDownloadable" data-fancybox="gallery" href="{{image.imagePath}}">
                                 <img src="{{image.displayPath}}" alt="image{{image.id}}" />
                             </a>
                         </li>

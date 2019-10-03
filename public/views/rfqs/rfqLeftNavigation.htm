@@ -156,5 +156,12 @@
             <li ng-show="displaySampleSubmission(rfq)  && canAccess('inspection report')" ng-class="{'menu-active': currentUrl.includes('sampleinspectionreport') }"><a href="/rfq/{{rfq.id}}/sampleinspectionreport"><span>Inspection Report</span></a></li>
         </ul>
     </div>
+    <div class="col-12 text-center m-t-10 m-b-10 alert alert-info">
+        <small class="f-s-14" style="color:#000;">
+            Subject: <strong>{{rfq.subject}}</strong>
+            &nbsp; | &nbsp; Type: <strong>{{rfq.type  || "-"}}</strong>
+            &nbsp; | &nbsp; Buyer: <strong >{{rfq.Buyer.name || "-"}}</strong>
+        </small>
+    </div>
     <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
 </div>

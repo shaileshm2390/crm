@@ -5,6 +5,7 @@ module.exports = function (sequelize, DataTypes) {
     var Rfq = sequelize.define('Rfq', {
         content: DataTypes.TEXT,
         subject: DataTypes.TEXT,
+        type: DataTypes.STRING
     },
         {
             associate: function (models) {

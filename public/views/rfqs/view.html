@@ -51,6 +51,7 @@
                         <br />
                         <div class="lblMsg"></div>
                         <input type="hidden" class="hdnUserId" value="{{rfq.UserId}}">
+                        <input type="hidden" class="hdnRfqType" value="{{rfq.type}}">
                         <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
                         <input type="hidden" class="hdnCustomerId" value="{{rfq.Buyer.CustomerId}}" />
                         <input type="hidden" class="hdnBuyerId" value="{{rfq.BuyerId}}" />
@@ -93,13 +94,22 @@
 
                     <h3><strong>Feasibilities</strong></h3>
                     <div class="clear clearfix"></div> <br />
-                    <div class="row">
-                        <div class="col col-lg-12">
-                            <a href="#" class="btn btn-primary lnkAdd  pull-right" title="add row">
-                                <span><i class="fa fa-plus-circle"></i></span>
-                            </a>
+                        <div class="row">
+                            <div class="col col-lg-3">RFQ Type</div>
+                            <div class="col col-lg-9">
+                                <select class="form-control ddlRfqType">
+                                    <option value="">Select</option>
+                                    <option value="Fresh">Fresh</option>
+                                    <option value="Regular">Regular</option>
+                                    <option value="ECN">ECN</option>
+                                </select>
+                            </div>
+                            <div class="col col-lg-12 mt-3">
+                                <a href="#" class="btn btn-primary lnkAdd  pull-right" title="add row">
+                                    <span><i class="fa fa-plus-circle"></i></span>
+                                </a>
+                            </div>
                         </div>
-                    </div>
 
                     <div class="clear clearfix"></div> <br />
                     <div ng-repeat="item in rfq.RfqFeasibilities" ng-show="rfq.RfqFeasibilities.length > 0">
@@ -249,6 +259,11 @@
                             $(".ddlUser").val($(".hdnUserId").val());
                         }
 
+                        if ($(".hdnRfqType").val() != "") {
+                            $(".ddlRfqType option[selected]").remove();
+                            $(".ddlRfqType").val($(".hdnRfqType").val());
+                        }
+
                         /*
                          * Assigned mail
                          * Assigned name
@@ -328,7 +343,7 @@
                             $.ajax({
                                 url: '/rfqFeasibilities/',
                                 method: "POST",
-                                data: { RfqId: $(".hdnRfqId").val(), UserId: window.user.id, records: feasibilityFields }
+                                data: { RfqId: $(".hdnRfqId").val(), UserId: window.user.id, records: feasibilityFields, RfqType: $(".ddlRfqType").val() }
                             }).done(function (response) {
                                 $(".btnSubmit").html('Save Feasibility');
                                 $("#lblFeasibleMsg").show().delay(5000).fadeOut();

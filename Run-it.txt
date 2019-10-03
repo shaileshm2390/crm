@@ -7,7 +7,7 @@ npm install
 npm i grunt-contrib-jshint
 npm i grunt-contrib-nodemon
 npm i grunt-concurrent
-grunt
+grunt OR node node_modules/grunt-cli/bin/grunt
 
 enjoy !! 
 

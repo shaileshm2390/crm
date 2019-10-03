@@ -94,6 +94,9 @@ exports.update = function (req, res) {
                 previousData: "",
                 updatedData: JSON.stringify(req.body.records)
             });
+
+            db.sequelize.query("UPDATE `rfqs` SET `type` = '" + req.body.RfqType + "' WHERE id = '" + req.body.RfqId + "'", { type: db.sequelize.QueryTypes.UPDATE });
+
             return res.jsonp(rfqFeasibilities);
         }).catch(function (err) {
             return res.send('/signin', {

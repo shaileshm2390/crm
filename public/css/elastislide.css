@@ -72,15 +72,15 @@
 	display: block;
 }
 
-.elastislide-carousel ul li a {
-	display: inline-block;
-	/*width: 100%;*/
+.elastislide-carousel ul li a[data-fancybox] {
+    display: inline-block;
+    /*width: 100%;*/
 }
 
-.elastislide-carousel ul li a img {
-	display: block;
-	/*border: 2px solid white;*/
-	max-width: 100%;
+.elastislide-carousel ul li a[data-fancybox] img {
+    display: block;
+    /*border: 2px solid white;*/
+    max-width: 100%;
 }
 
 /* Navigation Arrows */

@@ -8539,13 +8539,13 @@ ul.chat li.right {
     max-width: 80px !important;	
 	margin: 0 3px !important;
 }
-.elastislide-carousel ul li a {
-	height: 65px;
-	/*max-height: 100% !important;*/
-	border: 1px solid #333;
-	padding: 5px;
-	margin: 0 3px !important;
-	width: 100%;
+.elastislide-carousel ul li a[data-fancybox] {
+    height: 65px;
+    /*max-height: 100% !important;*/
+    border: 1px solid #333;
+    padding: 5px;
+    margin: 0 3px !important;
+    width: 100%;
 }
 .elastislide-carousel ul li a img{
     max-height: 100%;

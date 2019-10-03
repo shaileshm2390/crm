@@ -49,12 +49,17 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
                 $scope.rfq = response.data;
                 var currentUrl = "customer/" + $scope.rfq.Buyer.CustomerId + "/buyer/" + $scope.rfq.BuyerId + "/rfq/" + $scope.rfq.id;
                 if ($scope.isFeasibilityChecked($scope.rfq) || window.location.href.indexOf(currentUrl) > -1) {
+                    var isDownloadable = false;
                     for (var index = 0; index < $scope.rfq.RfqImages.length; index++) {
                         if ($scope.rfq.RfqImages[index].imagePath.indexOf(".pdf") > -1) {
                             $scope.rfq.RfqImages[index].displayPath = '/img/pdf.png';
+                        } else if ($scope.rfq.RfqImages[index].imagePath.indexOf(".xls") > -1) {
+                            $scope.rfq.RfqImages[index].displayPath = '/img/excel.png';
+                            isDownloadable = true;
                         } else {
                             $scope.rfq.RfqImages[index].displayPath = $scope.rfq.RfqImages[index].imagePath;
                         }
+                        $scope.rfq.RfqImages[index].isDownloadable = isDownloadable;
                     }
                     if ($scope.rfq.CostSheets.length > 0) {
                         $scope.rfq.LatestCostsheet = $scope.rfq.CostSheets[$scope.rfq.CostSheets.length - 1];

@@ -147,7 +147,7 @@
         </div>
 
 
-        <div class="row" ng-show="!rfqs.length">
+        <div class="row" ng-show="{{rfqs !== undefined && !rfqs.length}}">
             <div class="col col-lg-12 text-center">
                 <i class="fa fa-spin fa-spinner" style="font-size:48px;"></i>
             </div>

@@ -145,7 +145,9 @@ var app = angular.module('mean.users').controller('UsersController', ['$scope', 
         Users.query(function (users) {            
             $scope.users = users;
             $scope.message = "";
+            console.log($scope.users);
         });
+        
     };
 
     $scope.findOne = function () {

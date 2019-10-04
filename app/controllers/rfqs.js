@@ -45,22 +45,35 @@ exports.update = function (req, res) {
     if (req.body.UserId === "") {
         req.body.UserId = null;
     }
-    var rfq = req.rfq;
-    rfq.updateAttributes({
-        UserId: req.body.UserId        
-    }).then(function (a) {
-        if (req.body.UserId !== "" && typeof req.body.assignedEmail !== 'undefined' && req.body.assignedEmail !== '') {
-            var mailObject = {
-                from: 'youremail@crm.com',
-                to: req.body.assignedEmail,
-                subject: 'Metaforge - RFQ Assigned',
-                html: req.body.emailContent
-            };
-            sm.sendMail(mailObject, function (response) {
-                console.log("mail sent to " + req.body.assignedEmail);
-            });
+    var updateObj = {
+        UserId: req.body.UserId
+    };
+    
+    db.User.find({ where: { id: req.body.UserId }, include: { model: db.Department, attributes: ['id', 'name'] } }).then(function (user) {
+        console.log(user);
+        if (user !== null && user.Department.name === 'Marketing') {   
+            updateObj.marketingUserId = req.body.UserId;
         }
-        return res.jsonp(a);
+        var rfq = req.rfq;
+        rfq.updateAttributes(updateObj).then(function (a) {
+            if (req.body.UserId !== "" && typeof req.body.assignedEmail !== 'undefined' && req.body.assignedEmail !== '') {
+                var mailObject = {
+                    from: 'info@metaforge.com',
+                    to: req.body.assignedEmail,
+                    subject: 'Metaforge - RFQ Assigned',
+                    html: req.body.emailContent
+                };
+                sm.sendMail(mailObject, function (response) {
+                    console.log("mail sent to " + req.body.assignedEmail);
+                });
+            }
+            return res.jsonp(a);
+        }).catch(function (err) {
+            return res.render('/signin', {
+                error: err,
+                status: 500
+            });
+        });        
     }).catch(function (err) {
         return res.render('/signin', {
             error: err,
@@ -123,7 +136,7 @@ exports.rfq = function (req, res, next, id) {
     var user = req.user;
     var userCondition = { id: id }
     if (user.Department.name != "Admin") {
-        userCondition.$or = [{ UserId: user.id }, { UserId: null }];
+        userCondition.$or = [{ UserId: user.id }, { marketingUserId: user.id }, { UserId: null }];
     }
     db.Rfq.find({
         where: userCondition, include: [
@@ -237,7 +250,8 @@ exports.rfqByBuyer = function (req, res, next, id) {
 
 exports.rfqByUser = function (req, res, next, id) {
     db.Rfq.findAll({
-        where: { UserId: id }, include: [
+        where: {
+            $or: [{ UserId: id }, { marketingUserId: id }] }, include: [
             {
                 model: db.User,
                 attributes: ['id', 'email', 'firstName', 'lastName']

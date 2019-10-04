@@ -32,15 +32,14 @@
                     <div class="col-lg-9">
                         <div ng-hide="isPoReceived(rfq)">
                             <!--<select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser" required name="UserId" data-ng-model="rfq.UserId" ng-show="global.user.isAdmin">
-            <option value="">Select </option>
-            <option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
-        </select>
+        <option value="">Select </option>
+        <option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
+    </select>
 
-        <div ng-show="!global.user.isAdmin">
-            <strong>{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
-            <a ng-show="(rfq.User.firstName + ' ' + rfq.User.lastName).trim() == ''" class="btn btn-primary pull-right" href="#" ng-click="assignToMeRfq(rfq.id)">Assign to Me</a>
-        </div>-->
-
+    <div ng-show="!global.user.isAdmin">
+        <strong>{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
+        <a ng-show="(rfq.User.firstName + ' ' + rfq.User.lastName).trim() == ''" class="btn btn-primary pull-right" href="#" ng-click="assignToMeRfq(rfq.id)">Assign to Me</a>
+    </div>-->               
                             <select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser" required name="UserId" data-ng-model="rfq.UserId">
                                 <option value="" data-email="" data-name="">Select </option>
                                 <option ng-repeat="user in users" value="{{user.id}}" data-email="{{user.email}}" data-name='{{user.firstName + " " + user.lastName}}'>{{user.firstName + " " + user.lastName}} ({{user.email}})</option>

@@ -12,8 +12,11 @@ module.exports = function (app) {
         .post(users.requiresLogin, rfqFeasibilities.update);
         //.post(users.requiresLogin, rfqFeasibilities.save);
 
+    app.route('/rfqFeasibilities/attachments')
+        .post(users.requiresLogin, rfqFeasibilities.uploadattachment);
+
     app.route('/rfqFeasibilities/rfq/:rfqId')
-       .get(users.requiresLogin, rfqFeasibilities.getRfqFeasibilities)
+        .get(users.requiresLogin, rfqFeasibilities.getRfqFeasibilities);
     
     app.param('rfqId', rfqFeasibilities.rfqFeasibilitiesByRfqId);
 };

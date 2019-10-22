@@ -27,6 +27,26 @@ var app = angular.module('mean.sampleinspectionreports').controller('SampleInspe
    
     $scope.findOne = function () {
         $http.get("/rfq/sampleInspectionReports/" + $stateParams.rfqId).then(function (response) {
+            //if (response.data[index].imagePath.indexOf(".pdf") > -1) {
+            //    response.data[index].displayPath = '/img/pdf.png';
+            //} else if (response.data[index].imagePath.indexOf(".xls") > -1) {
+            //    response.data[index].displayPath = '/img/excel.png';
+            //} else {
+            //    response.data[index].displayPath = response.data[index].imagePath;
+            //}
+
+            for (var outerindex = 0; outerindex < response.data.length; outerindex++) {
+                for (var index = 0; index < response.data[outerindex].SampleInspectionReportImages.length; index++) {
+                    if (response.data[outerindex].SampleInspectionReportImages[index].imagePath.indexOf(".pdf") > -1) {
+                        response.data[outerindex].SampleInspectionReportImages[index].displayPath = '/img/pdf.png';
+                    } else if (response.data[outerindex].SampleInspectionReportImages[index].imagePath.indexOf(".xls") > -1) {
+                        response.data[outerindex].SampleInspectionReportImages[index].displayPath = '/img/excel.png';
+                    } else {
+                        response.data[outerindex].SampleInspectionReportImages[index].displayPath = response.data[index].imagePath;
+                    }
+                }
+            }
+            console.log(response.data);
             $scope.sampleInspectionReports = response.data;
         });
     };

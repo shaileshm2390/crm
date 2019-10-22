@@ -43,10 +43,11 @@ exports.create = function (req, res) {
     var samplesubmissionList = new Array();
     db.Samplesubmission.destroy({ where: { operation: req.body.data[0].operation, RfqId: req.body.data[0].RfqId, stage: req.body.data[0].stage } });
     if (req.body.data.length > 0) {
-        var totalData = req.body.data.length;
+        var totalData = req.body.data.length,
+            sampleSubmissionRequest; 
         for (var index = 0; index < totalData; index++) {
 
-            var sampleSubmissionRequest = {
+            sampleSubmissionRequest = {
                 operation: req.body.data[index].operation,
                 stage: req.body.data[index].stage,
                 stageProcess: req.body.data[index].stageProcess,
@@ -55,7 +56,8 @@ exports.create = function (req, res) {
                 receivedDate: req.body.data[index].receivedDate,
                 cost: req.body.data[index].cost,
                 description : req.body.data[index].description,
-                RfqId: req.body.data[index].RfqId
+                RfqId: req.body.data[index].RfqId,
+                expectedDate: req.body.data[index].expectedDate
             };
 
 

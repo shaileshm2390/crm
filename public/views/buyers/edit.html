@@ -98,9 +98,22 @@
                 });
 
                 var myDropzone = new Dropzone('#myId', {
-                    url: "/buyerimages/"
+                    url: "/buyerimages/",
+                    addRemoveLinks: true,
+                    dictRemoveFile: 'Remove',
+                    removedfile: function (file) {
+                        if (file.previewElement != null && file.previewElement.parentNode != null) {
+                            var path = $(file.previewElement).data('path');
+                            file.previewElement.parentNode.removeChild(file.previewElement);
+                            imagesArray = imagesArray.filter(function (value, index, arr) {
+                                return value != path;
+                            });
+                        }
+                    }
                 });
+
                 myDropzone.on("success", function (file, response) {
+                    $(file.previewElement).data('path', response.pathFromRoot);
                     imagesArray.push(response.pathFromRoot);
                 });
 

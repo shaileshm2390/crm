@@ -3,24 +3,30 @@
     <div class="row">
         <div class="col">
             <label class="txtPredefinedName  text-muted m-b-2 f-s-12">Process</label>
-            <select class="stage-process form-control txtValue ddlRawmaterialSamplesubmission">                
-            </select>
+            <select class="stage-process form-control txtValue ddlRawmaterialSamplesubmission"></select>
             <input type="hidden" value="{{record.stageProcess}}" class="hdnRawmaterialSamplesubmission" />
         </div>
         <div class="col">
             <label class="txtPredefinedName text-muted m-b-2 f-s-12">Order To</label>
-            <input type="text" placeholder="Order To" class="form-control txtOrderTo txtValue" id="txtOrderTo" value="{{record.orderTo}}"
-            />
+            <input type="text" placeholder="Order To" class="form-control txtOrderTo txtValue" id="txtOrderTo" value="{{record.orderTo}}" />
         </div>
         <div class="col">
             <label class="txtPredefinedName  text-muted m-b-2 f-s-12">Order Date</label>
-            <input type="text" placeholder="Order Date" class="form-control txtOrderDate datepicker txtValue" id="txtOrderDate" value="{{record.orderDate | date:'dd/MM/yyyy'}}"
-            />
+            <input type="text" placeholder="Order Date" class="form-control txtOrderDate datepicker txtValue" id="txtOrderDate" value="{{record.orderDate | date:'dd/MM/yyyy'}}" />
+        </div>
+        <div class="col">
+            <label class="txtPredefinedName text-muted m-b-2 f-s-12">Expected Date</label>
+            <input type="text" placeholder="Expected Date" class="form-control txtExpectedDate datepicker txtValue" id="txtExpectedDate"
+                   value="{{record.expectedDate | date:'dd/MM/yyyy'}}" />
         </div>
         <div class="col">
             <label class="txtPredefinedName text-muted m-b-2 f-s-12">Order Received</label>
             <input type="text" placeholder="Order Received" class="form-control txtOrderReceived datepicker txtValue" id="txtOrderReceived"
-                value="{{record.receivedDate | date:'dd/MM/yyyy'}}" />
+                   value="{{record.receivedDate | date:'dd/MM/yyyy'}}" />
+        </div>
+        <div class="col">
+            <label class="txtPredefinedName text-muted m-b-2 f-s-12">Cost</label>
+            <input type="text" placeholder="Cost" class="form-control txtCost txtValue" id="txtCost" value="{{record.cost}}" />
         </div>
         <div class="col">
             <label class="txtPredefinedName text-muted m-b-2 f-s-12">Description</label>

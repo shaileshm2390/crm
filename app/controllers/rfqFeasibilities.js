@@ -125,7 +125,24 @@ exports.all = function (req, res) {
 
 exports.getRfqFeasibilities = function (req, res) {
     return res.jsonp(req.rfqFeasibilities);
-}
+};
+
+exports.uploadattachment = function (req, res) {
+    // augment the department by adding the UserId
+    // save and return and instance of department on the res object.
+    var sampleFile = req.files;
+    sampleFile.file.name = Math.floor(Date.now() / 1000) + "-" + sampleFile.file.name;
+    sampleFile.file.mv(__dirname + '/../../public/temp/' + sampleFile.file.name, function (err) {
+        if (err) {
+            console.log(err);
+            res.status(500).send(err);
+        } else {
+            var response = { pathFromRoot: "/temp/" + sampleFile.file.name, success: true };
+
+            return res.jsonp(response);
+        }
+    });
+};
 
 exports.rfqFeasibilitiesByRfqId = function (req, res, next, id) {
     db.RfqFeasibilities.findAll({

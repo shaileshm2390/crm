@@ -15,6 +15,7 @@ results
 
 npm-debug.log
 node_modules
+public/temp
 
 # From Mean Stack
 bower_components/
@@ -23,6 +24,7 @@ bower_components/
 .sass-cache/
 node_modules/
 public/lib
+public/temp
 test/coverage/
 migrations/
 

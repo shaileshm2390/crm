@@ -11,7 +11,7 @@ var users = require('../../app/controllers/users'),
 module.exports = function (app) {
     app.route('/samplesubmissions')
         .get(users.requiresLogin, samplesubmissions.all)   //users.requiresLogin, 
-        .post(users.requiresLogin, samplesubmissions.create)  //users.requiresLogin, purchaseorders.hasAuthorization, 
+        .post(users.requiresLogin, samplesubmissions.create);  //users.requiresLogin, purchaseorders.hasAuthorization, 
 
     app.route('/rfq/samplesubmissions/:rfqId')
         .get(users.requiresLogin, samplesubmissions.samplesubmissionsByRfqId)

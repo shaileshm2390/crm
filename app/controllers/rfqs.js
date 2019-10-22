@@ -23,11 +23,26 @@ exports.create = function (req, res) {
 
 exports.sendInfeasibleMailToCustomer = function (req, res) {
     var mailObject = {
-        from: 'youremail@crm.com',
+        from: 'info@metaforgeindia.com',
         to: req.body.buyerEmail,
         subject: 'Metaforge - Part Feasibility',
         html: req.body.emailContent
     };
+    var attachments = [];
+    if (req.body.attachments.length > 0) {
+        for (var index = 0; index < req.body.attachments.length; index++) {
+            var filenameArr = req.body.attachments[index].split("/");
+            attachments.push({
+                filename: filenameArr[filenameArr.length - 1],
+                path: './public/' + req.body.attachments[index]
+            });
+        }
+    }
+    if (attachments.length > 0) {
+        mailObject.attachments = attachments;
+    }
+   
+
     sm.sendMail(mailObject, function (response) {
         return res.jsonp(response);
     });

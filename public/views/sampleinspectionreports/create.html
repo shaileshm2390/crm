@@ -24,9 +24,12 @@
                                     <div class="col col-lg-4">{{sampleInspectionReport.report}}</div>
                                     <div class="col col-lg-4">
                                         <div class="row">
-                                            <a class="m-b-3 col-lg-3 col" data-fancybox="gallery" href="{{image.imagePath}}" data-ng-repeat="image in sampleInspectionReport.SampleInspectionReportImages | orderBy : '-createdAt'">
-                                                <img src="{{image.imagePath}}" alt="image{{image.id}}" class="img-responsive responsive" />
-                                            </a>
+                                            <div class="m-b-3 col-2 col" data-ng-repeat="image in sampleInspectionReport.SampleInspectionReportImages | orderBy : '-createdAt'">
+                                                <a data-fancybox="gallery" href="{{image.imagePath}}" >
+                                                    <img src="{{image.displayPath}}" alt="image{{image.id}}" class="img-responsive responsive" />
+                                                </a>
+                                                <a href="{{image.imagePath}}" target="_blank"><i class="fa fa-download"></i></a>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col col-lg-2">{{sampleInspectionReport.createdAt | date:'medium'}}</div>
@@ -109,10 +112,22 @@
 
                 clearInterval(loadCode);
                 var myDropzone = new Dropzone('#myId', {
-                    url: "/purchaseorderimages/"
+                    url: "/purchaseorderimages/",
+                    addRemoveLinks: true,
+                    dictRemoveFile: 'Remove',
+                    removedfile: function (file) {
+                        if (file.previewElement != null && file.previewElement.parentNode != null) {
+                            var path = $(file.previewElement).data('path');
+                            file.previewElement.parentNode.removeChild(file.previewElement);
+                            imagesArray = imagesArray.filter(function (value, index, arr) {
+                                return value != path;
+                            });
+                        }
+                    }
                 });
 
                 myDropzone.on("success", function (file, response) {
+                    $(file.previewElement).data('path', response.pathFromRoot);
                     imagesArray.push(response.pathFromRoot);
                 });
 

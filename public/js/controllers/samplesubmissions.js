@@ -119,7 +119,7 @@ var app = angular.module('mean.samplesubmissions').controller('SampleSubmissions
 
     $scope.findOne = function () {
         $http.get("/rfq/samplesubmissions/" + $stateParams.rfqId).then(function (response) {
-            $scope.TotalSubmissionCost = 0
+            $scope.TotalSubmissionCost = 0;
             $scope.samplesubmission = response.data;
             if (response.data.length > 0) {
                 for (var index = 0; index < response.data.length; index++) {
@@ -132,6 +132,15 @@ var app = angular.module('mean.samplesubmissions').controller('SampleSubmissions
 
     $scope.findSampleSubmissionImages = function () {    
         $http.get("/samplesubmissionimages/rfqId/" + $stateParams.rfqId).then(function (response) {
+            for (var index = 0; index < response.data.length; index++) {
+                if (response.data[index].imagePath.indexOf(".pdf") > -1) {
+                    response.data[index].displayPath = '/img/pdf.png';
+                } else if (response.data[index].imagePath.indexOf(".xls") > -1) {
+                    response.data[index].displayPath = '/img/excel.png';
+                } else {
+                    response.data[index].displayPath = response.data[index].imagePath;
+                }
+            }
             $scope.samplesubmissionimages = response.data;
             });
     };

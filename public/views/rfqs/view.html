@@ -87,6 +87,9 @@
                 .feasibility a {
                     color: #fff !important;
                 }
+                .feasibility a.dz-remove {
+                    color: #000 !important;
+                }
             </style>
             <div class="row"  style="margin: 0;">
                 <div class="col col-lg-6 feasibility">
@@ -164,60 +167,74 @@
 
                     <div>
                         <textarea class="tinymce">
-                            <p>Hello {{rfq.Buyer.name}},</p>
+                        <p>Hello {{rfq.Buyer.name}},</p>
 
-                            <table style="width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th><strong>Part Number</strong></th>
-                                        <th>&nbsp;<strong>Feasible</strong></th>
-                                        <th><strong>Reason</strong></th>
+                        <table style="width: 100%;">
+                        <thead>
+                        <tr>
+                        <th><strong>Part Number</strong></th>
+                        <th>&nbsp;<strong>Feasible</strong></th>
+                        <th><strong>Reason</strong></th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="width: 33.3333%;">
-                                            <br>
+                        <tbody>
+                        <tr>
+                        <td style="width: 33.3333%;">
+                        <br>
+
                                         </td>
-                                        <td style="width: 33.3333%;">
-                                            <br>
+                        <td style="width: 33.3333%;">
+                        <br>
+
                                         </td>
-                                        <td style="width: 33.3333%;">
-                                            <br>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <br>
-                                        </td>
-                                        <td>
-                                            <br>
-                                        </td>
-                                        <td>
-                                            <br>
+                        <td style="width: 33.3333%;">
+                        <br>
+
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            <br>
+                        <tr>
+                        <td>
+                        <br>
+
                                         </td>
-                                        <td>
-                                            <br>
+                        <td>
+                        <br>
+
                                         </td>
-                                        <td>
-                                            <br>
+                        <td>
+                        <br>
+
+                                        </td>
+                                    </tr>
+                        <tr>
+                        <td>
+                        <br>
+
+                                        </td>
+                        <td>
+                        <br>
+
+                                        </td>
+                        <td>
+                        <br>
+
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
 
-                            <p>
-                                <br>Regards,
-                                <br>Metaforge pvt.ltd.
+                        <p>
+                        <br>Regards,
+                        <br>Metaforge pvt.ltd.
                             </p>
 
                         </textarea>
                     </div> <br />
+
+                    <div class=" col col-lg-12">
+                        <div id="myId" class="dropzone m-t-10 m-b-10 "></div>
+                    </div> <br />
+
                     <div>
                         <a href="#" class="btnSend btn btn-primary">Send Mail</a>
                         <div class="alert alert-success m-t-10 mt-10" id="lblFeasibleMailMsg">Mail send successfully</div>
@@ -250,6 +267,27 @@
                 //   console.log($scope);
                 var loadCode = setInterval(function () {
                     if ($(".hdnRfqId").length > 0 && $(".hdnRfqId").val() != "") {
+                        var imagesArray = [];
+                        var myDropzone = new Dropzone('#myId', {
+                            url: "/rfqFeasibilities/attachments",
+                            addRemoveLinks: true,
+                            dictRemoveFile: 'Remove',
+                            removedfile: function (file) {
+                                if (file.previewElement != null && file.previewElement.parentNode != null) {
+                                    var path = $(file.previewElement).data('path');
+                                    file.previewElement.parentNode.removeChild(file.previewElement);
+                                    imagesArray = imagesArray.filter(function (value, index, arr) {
+                                        return value != path;
+                                    });
+                                }
+                            }
+                        });
+
+                        myDropzone.on("success", function (file, response) {
+                            $(file.previewElement).data('path', response.pathFromRoot);
+                            imagesArray.push(response.pathFromRoot);
+                        });
+
                         if ($(".elastislide").length > 0) {
                             $('.elastislide').elastislide();
                         }
@@ -397,7 +435,7 @@
                             $.ajax({
                                 url: '/rfqs/sendfeasiblemail',
                                 method: "POST",
-                                data: { buyerEmail: $(".hdnBuyerEmail").val(), emailContent: $('.tinymce').froalaEditor('html.get') }
+                                data: { buyerEmail: $(".hdnBuyerEmail").val(), emailContent: $('.tinymce').froalaEditor('html.get'), attachments: imagesArray }
                             }).done(function (response) {
                                 $(".btnSend").html('Send Mail');
                                 $("#lblFeasibleMailMsg").show().delay(5000).fadeOut();

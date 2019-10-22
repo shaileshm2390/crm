@@ -11,8 +11,8 @@ module.exports = {
             secure: false,
             requireTLS: true,
             auth: {
-                user: 'imdemotest@gmail.com',
-                pass: 'imorsetech'
+                user: 'imdemotest123@gmail.com',
+                pass: '!m0rseTech123$%'
             }
         });
 

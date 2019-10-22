@@ -10,7 +10,8 @@ module.exports = function (sequelize, DataTypes) {
         orderDate: DataTypes.DATE,
         receivedDate: DataTypes.DATE,
         description : DataTypes.TEXT,
-        cost : DataTypes.STRING
+        cost: DataTypes.STRING,
+        expectedDate: DataTypes.DATE
     },
         {
             associate: function (models) {

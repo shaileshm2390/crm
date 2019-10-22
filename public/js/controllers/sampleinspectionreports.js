@@ -42,7 +42,7 @@ var app = angular.module('mean.sampleinspectionreports').controller('SampleInspe
                     } else if (response.data[outerindex].SampleInspectionReportImages[index].imagePath.indexOf(".xls") > -1) {
                         response.data[outerindex].SampleInspectionReportImages[index].displayPath = '/img/excel.png';
                     } else {
-                        response.data[outerindex].SampleInspectionReportImages[index].displayPath = response.data[index].imagePath;
+                        response.data[outerindex].SampleInspectionReportImages[index].displayPath = response.data[outerindex].SampleInspectionReportImages[index].imagePath;
                     }
                 }
             }

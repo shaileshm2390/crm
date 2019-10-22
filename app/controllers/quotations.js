@@ -24,7 +24,7 @@ exports.create = function (req, res) {
     
     db.Quotation.create(req.body).then(function (quotation) {      
         var mailObject = {
-            from: 'youremail@crm.com',
+            from: 'info@metaforgeindia.com',
             to: req.body.buyerEmail,
             subject: 'Metaforge - Quotation',
             html: req.body.emailContent

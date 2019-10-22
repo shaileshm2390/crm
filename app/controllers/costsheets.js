@@ -100,7 +100,7 @@ exports.approvedCostsheetByRfqId = function (req, res, next, id) {
 
 exports.sendMail = function (req, res) {
     var result = sm.sendMail({
-        from: 'info@crm.com',
+        from: 'info@metaforgeindia.com',
         to: req.costSheet.Rfq.Buyer.email,
         subject: 'Cost Sheet',
         html: '<h1>Hi ' + req.costSheet.Rfq.Buyer.name + ',</h1><p>Your cost sheet are as follow : ' + req.costSheet.data + '</p>'

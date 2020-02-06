@@ -129,6 +129,7 @@
                 myDropzone.on("success", function (file, response) {
                     $(file.previewElement).data('path', response.pathFromRoot);
                     imagesArray.push(response.pathFromRoot);
+                    $(file.previewElement).append($('<input>').attr({ 'type': 'text', 'class': 'txtName form-control mt-2', 'placeholder': 'Name' }));
                 });
 
                 $(".btn-Save").on('click', function (e) {

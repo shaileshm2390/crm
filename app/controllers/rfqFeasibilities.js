@@ -60,11 +60,11 @@ exports.rfqFeasibilities = function (req, res, next, id) {
 
 exports.update = function (req, res) {
 
-    db.RfqFeasibilities.destroy({
-        where: { RfqId: req.body.RfqId }
-    }).then(function () {
+    //db.RfqFeasibilities.destroy({
+    //    where: { RfqId: req.body.RfqId }
+    //}).then(function () {
 
-        var insertQuery = "INSERT INTO `RfqFeasibilities` (partName, isFeasible, RfqId, UserId,CreatedAt) VALUES";
+        var insertQuery = "INSERT INTO `RfqFeasibilities` (partName, isFeasible, RfqId, UserId,CreatedAt) VALUES";       
         var valuesArray = [];
 
         function twoDigits(d) {
@@ -77,9 +77,13 @@ exports.update = function (req, res) {
             return this.getUTCFullYear() + "-" + twoDigits(1 + this.getUTCMonth()) + "-" + twoDigits(this.getUTCDate()) + " " + twoDigits(this.getUTCHours()) + ":" + twoDigits(this.getUTCMinutes()) + ":" + twoDigits(this.getUTCSeconds());
         };
 
-        for (var index = 0; index < req.body.records.length; index++) {
+    for (var index = 0; index < req.body.records.length; index++) {
+        if (req.body.records[index].partId === 0) {
             valuesArray.push("('" + req.body.records[index].partName + "'," + (req.body.records[index].isFeasible == "true" ? 1 : 0) + ",'" + req.body.RfqId + "','" + req.body.UserId + "', '" + new Date().toMysqlFormat() + "')");
+        } else {
+            // update query
         }
+    }
         insertQuery += valuesArray.join(", ");
 
         db.sequelize.query(insertQuery, { type: db.sequelize.QueryTypes.INSERT }).then(function (rfqFeasibilities) {        
@@ -104,7 +108,7 @@ exports.update = function (req, res) {
                 status: 500
             });
         });
-    });
+    //});
 };
 
 exports.all = function (req, res) {

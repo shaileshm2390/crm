@@ -4,5 +4,7 @@
     enableSequelizeLog: "false", // type chosen as string for no particular reason
     expressSessionSecret: '$uper$ecret$e$$ionKey', // replace with your own in production
 	//DATABASE_URL: "mysql://event2xa_crm:SPx[yUO7T]Jx@eventoline.com:3306/event2xa_crm"
-	DATABASE_URL: "mysql://b91e618ac161bd:47afd899@us-cdbr-iron-east-01.cleardb.net/heroku_734b08a860f2a57?reconnect=true"
+	//DATABASE_URL: "mysql://b91e618ac161bd:47afd899@us-cdbr-iron-east-01.cleardb.net/heroku_734b08a860f2a57?reconnect=true"
+	//DATABASE_URL: "mysql://root:*3:M0XoP6Nmnw5@103.212.121.81/metaforge_crm"
+	DATABASE_URL: "mysql://imorsdnq_imorscrm:!R?CTKdnRG-e@imorsetech.com:3306/imorsdnq_crm"
 }

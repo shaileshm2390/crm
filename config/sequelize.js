@@ -34,9 +34,16 @@ winston.info('Initializing Sequelize...');
 //        logging: config.enableSequelizeLog === 'true' ? winston.verbose : false
 //    });
 
-var sequelize = new Sequelize(process.env.DATABASE_URL || config.DATABASE_URL, {
-     logging: config.enableSequelizeLog === 'true' ? winston.verbose : false
-    //logging: console.log
+//var sequelize = new Sequelize(process.env.DATABASE_URL || config.DATABASE_URL, {
+//     logging: config.enableSequelizeLog === 'true' ? winston.verbose : false
+//    //logging: console.log
+//});
+
+var sequelize = new Sequelize("imorsdnq_crm", "imorsdnq_imorscrm", "!R?CTKdnRG-e", {
+    host: "imorsetech.com",
+        port: 3306,
+        dialect: 'mysql',
+        logging: config.enableSequelizeLog === 'true' ? winston.verbose : false
 });
 
 // loop through all files in models directory ignoring hidden files and this file
@@ -57,7 +64,7 @@ Object.keys(db).forEach(function (modelName) {
         db[modelName].options.associate(db)
     }
 });
-
+ 
 // Synchronizing any model changes with database. 
 // set FORCE_DB_SYNC=true in the environment, or the program parameters to drop the database,
 //   and force model changes into it, if required;

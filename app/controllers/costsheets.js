@@ -246,3 +246,42 @@ exports.costsheetsByRfqId = function (req, res) {
 exports.costsheetById = function (req, res) {
     return res.jsonp(req.costSheet);
 };
+
+
+exports.costsheetsByRfqIdAndPartId = function (req, res) {
+    db.CostSheet.findAll({
+        where: { RfqId: req.rfqId2, PartId: req.partId   },
+        include: [
+            {
+                model: db.User,
+                attributes: ['id', 'email', 'firstName', 'lastName']
+            },
+            {
+                model: db.Rfq,
+                include: [
+                    {
+                        model: db.Buyer,
+                        include: [
+                            {
+                                model: db.Customer
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }).then(function (costSheets) {
+        if (!costSheets) {
+            return res.jsonp(new Error('Failed to load CostSheet ' + id));
+        } else {
+            if (costSheets.length > 0) {
+                for (var index = 0; index < costSheets.length; index++) {
+                    costSheets[index].data = JSON.parse(costSheets[index].data);
+                }
+            }
+            return res.jsonp(costSheets);
+        }
+    }).catch(function (err) {
+        return res.jsonp(err);
+    });
+};

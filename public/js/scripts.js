@@ -66,6 +66,10 @@ $(function() {
             color: "#dcdcdc"
         }),
 
+        $('.has-sub').on('click', function () {
+            $(this).toggleClass("open")
+        });
+
         $(".message-center").slimScroll({
             position: "right",
             size: "5px",

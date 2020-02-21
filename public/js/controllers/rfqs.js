@@ -30,7 +30,7 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
 
                 // Copy the value
                 var val = e[key],
-                  newKey = key.replace(/\s+/g, '').replace(/\//g,'').replace("&","");
+                    newKey = key.replace(/\s+/g, '').replace(/\//g, '').replace("&", "");
 
                 // Remove key-value from object
                 delete arr[i][key];
@@ -41,7 +41,7 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
         });
         return arr;
     };
-    
+
 
     $scope.findOneByRfqId = function () {
         $http.get("/rfqs/" + $stateParams.rfqId)
@@ -108,13 +108,13 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
 
     $scope.displaySampleSubmission = function (rfq) {
         if (typeof (rfq) != "undefined") {
-             return rfq.CostSheets.length && rfq.CostSheets.some(function (o) { return o['status'] == 'approved' });
+            return rfq.CostSheets.length && rfq.CostSheets.some(function (o) { return o['status'] == 'approved' });
         }
         return false;
     };
 
     $scope.displayReceivePO = function (rfq) {
-        if (typeof (rfq) != "undefined") {            
+        if (typeof (rfq) != "undefined") {
             return rfq.Quotations.length;
         }
         return false;
@@ -128,7 +128,7 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
     };
 
     $scope.isPoReceived = function (rfq) {
-        if (typeof (rfq) != "undefined" && typeof (rfq.PurchaseOrders) != 'undefined') {     
+        if (typeof (rfq) != "undefined" && typeof (rfq.PurchaseOrders) != 'undefined') {
             return rfq.PurchaseOrders.length && rfq.PurchaseOrders.some(function (o) { return o['status'] == "Completed" });
         }
         return false;
@@ -190,4 +190,56 @@ app.filter('capitalize', function () {
     return function (input) {
         return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
     }
+});
+
+$(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+    var actions = $("table td:last-child").html();
+    // Append table with add row form on add new button click
+    
+    $(document).on("click", ".add-new", function () {
+        $(this).attr("disabled", "disabled");
+        var index = $("table tbody tr:last-child").index();
+        var row = '<tr>' +
+            '<td><input type="text" class="form-control" name="name" id="name"></td>' +
+            '<td>' + actions + '</td>' +
+            '</tr>';
+        $("table").append(row);
+        $("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+    // Add row on add button click
+    $(document).on("click", ".add", function () {
+        var empty = false;
+        var input = $(this).parents("tr").find('input[type="text"]');
+        input.each(function () {
+            if (!$(this).val()) {
+                $(this).addClass("error");
+                empty = true;
+            } else {
+                $(this).removeClass("error");
+            }
+        });
+        $(this).parents("tr").find(".error").first().focus();
+        if (!empty) {
+            input.each(function () {
+                $(this).parent("td").html($(this).val());
+            });
+            $(this).parents("tr").find(".add, .edit").toggle();
+            $(".add-new").removeAttr("disabled");
+        }
+    });
+    // Edit row on edit button click
+    $(document).on("click", ".edit", function () {
+        $(this).parents("tr").find("td:not(:last-child)").each(function () {
+            $(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
+        });
+        $(this).parents("tr").find(".add, .edit").toggle();
+        $(".add-new").attr("disabled", "disabled");
+    });
+    // Delete row on delete button click
+    $(document).on("click", ".delete", function () {
+        $(this).parents("tr").remove();
+        $(".add-new").removeAttr("disabled");
+    });
 });

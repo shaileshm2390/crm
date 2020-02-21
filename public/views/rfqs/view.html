@@ -1,4 +1,108 @@
- <div class="card">
+<style type="text/css">
+    body {
+        color: #404E67;
+        background: #F5F7FA;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    .table-wrapper {
+        width: 700px;
+        margin: 30px auto;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    }
+
+    .table-title {
+        padding-bottom: 10px;
+        margin: 0 0 10px;
+    }
+
+        .table-title h2 {
+            margin: 6px 0 0;
+            font-size: 22px;
+        }
+
+        .table-title .add-new {
+            float: right;
+            height: 30px;
+            font-weight: bold;
+            font-size: 12px;
+            text-shadow: none;
+            min-width: 100px;
+            border-radius: 50px;
+            line-height: 13px;
+        }
+
+            .table-title .add-new i {
+                margin-right: 4px;
+            }
+
+    table.table {
+        table-layout: fixed;
+    }
+
+        table.table tr th, table.table tr td {
+            border-color: #e9e9e9;
+        }
+
+        table.table th i {
+            font-size: 13px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        table.table th:last-child {
+            width: 100px;
+        }
+
+        table.table td a {
+            cursor: pointer;
+            display: inline-block;
+            margin: 0 5px;
+            min-width: 24px;
+        }
+
+            table.table td a.add {
+                color: #27C46B;
+            }
+
+            table.table td a.edit {
+                color: #FFC107;
+            }
+
+            table.table td a.delete {
+                color: #E34724;
+            }
+
+        table.table td i {
+            font-size: 19px;
+        }
+
+        table.table td a.add i {
+            font-size: 24px;
+            margin-right: -1px;
+            position: relative;
+            top: 3px;
+        }
+
+        table.table .form-control {
+            height: 32px;
+            line-height: 32px;
+            box-shadow: none;
+            border-radius: 2px;
+        }
+
+            table.table .form-control.error {
+                border-color: #f50000;
+            }
+
+        table.table td .add {
+            display: none;
+        }
+</style>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<div class="card">
 
     <section data-ng-init="findOneByRfqId()" ng-show="rfq.id != null  && validatePermission">
         <h1>
@@ -30,16 +134,19 @@
                 <div class="row">
                     <label class="col-lg-3">Assigned: </label>
                     <div class="col-lg-9">
+                        >
+                        ed
                         <div ng-hide="isPoReceived(rfq)">
+                            fq
                             <!--<select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser" required name="UserId" data-ng-model="rfq.UserId" ng-show="global.user.isAdmin">
-        <option value="">Select </option>
-        <option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
-    </select>
+                                <option value="">Select </option>
+                                <option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
+                            </select>
 
-    <div ng-show="!global.user.isAdmin">
-        <strong>{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
-        <a ng-show="(rfq.User.firstName + ' ' + rfq.User.lastName).trim() == ''" class="btn btn-primary pull-right" href="#" ng-click="assignToMeRfq(rfq.id)">Assign to Me</a>
-    </div>-->               
+                            <div ng-show="!global.user.isAdmin">
+                                <strong>{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
+                                <a ng-show="(rfq.User.firstName + ' ' + rfq.User.lastName).trim() == ''" class="btn btn-primary pull-right" href="#" ng-click="assignToMeRfq(rfq.id)">Assign to Me</a>
+                            </div>-->
                             <select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser" required name="UserId" data-ng-model="rfq.UserId">
                                 <option value="" data-email="" data-name="">Select </option>
                                 <option ng-repeat="user in users" value="{{user.id}}" data-email="{{user.email}}" data-name='{{user.firstName + " " + user.lastName}}'>{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
@@ -79,7 +186,7 @@
         <div class="clear clearfix"></div> <br />
         <hr />
 
-            <div ng-include="'views/rfqs/rfqLeftNavigation.htm'" class="col col-lg-12"></div>
+        <div ng-include="'views/rfqs/rfqLeftNavigation.htm'" class="col col-lg-12"></div>
 
         <div class="box-shadow">
 
@@ -87,31 +194,32 @@
                 .feasibility a {
                     color: #fff !important;
                 }
-                .feasibility a.dz-remove {
-                    color: #000 !important;
-                }
+
+                    .feasibility a.dz-remove {
+                        color: #000 !important;
+                    }
             </style>
-            <div class="row"  style="margin: 0;">
+            <div class="row" style="margin: 0;">
                 <div class="col col-lg-6 feasibility">
 
                     <h3><strong>Feasibilities</strong></h3>
                     <div class="clear clearfix"></div> <br />
-                        <div class="row">
-                            <div class="col col-lg-3">RFQ Type</div>
-                            <div class="col col-lg-9">
-                                <select class="form-control ddlRfqType">
-                                    <option value="">Select</option>
-                                    <option value="Fresh">Fresh</option>
-                                    <option value="Regular">Regular</option>
-                                    <option value="ECN">ECN</option>
-                                </select>
-                            </div>
-                            <div class="col col-lg-12 mt-3">
-                                <a href="#" class="btn btn-primary lnkAdd  pull-right" title="add row">
-                                    <span><i class="fa fa-plus-circle"></i></span>
-                                </a>
-                            </div>
+                    <div class="row">
+                        <div class="col col-lg-3">RFQ Type</div>
+                        <div class="col col-lg-9">
+                            <select class="form-control ddlRfqType">
+                                <option value="">Select</option>
+                                <option value="Fresh">Fresh</option>
+                                <option value="Regular">Regular</option>
+                                <option value="ECN">ECN</option>
+                            </select>
                         </div>
+                        <div class="col col-lg-12 mt-3">
+                            <a href="#" class="btn btn-primary lnkAdd  pull-right" title="add row">
+                                <span><i class="fa fa-plus-circle"></i></span>
+                            </a>
+                        </div>
+                    </div>
 
                     <div class="clear clearfix"></div> <br />
                     <div ng-repeat="item in rfq.RfqFeasibilities" ng-show="rfq.RfqFeasibilities.length > 0">
@@ -157,7 +265,45 @@
                     </div>
 
                     <div class="alert alert-success" id="lblFeasibleMsg">Feasibility data saved successfully</div>
+
+                    <br /><br />
+                    <h3><strong>Add Parts</strong></h3>
+                    <div class="clear clearfix"></div> <br />
+                    <div class="row">
+                            <div class="table-wrapper">
+                                <div class="table-title">
+                                    <div class="row">
+                                        <div class="col-sm-8"><h2><b>Parts</b></h2></div>
+                                        <div class="col-sm-4">
+                                            <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Part Name</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Part 1</td>
+                                            <td>
+                                                <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
+                                                <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                                <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                    </div>
                 </div>
+
+
+
 
                 <div class="col col-lg-6 feasibility">
                     <h3>
@@ -181,43 +327,34 @@
                         <tr>
                         <td style="width: 33.3333%;">
                         <br>
-
                                         </td>
                         <td style="width: 33.3333%;">
                         <br>
-
                                         </td>
                         <td style="width: 33.3333%;">
                         <br>
-
                                         </td>
                                     </tr>
                         <tr>
                         <td>
                         <br>
-
                                         </td>
                         <td>
                         <br>
-
                                         </td>
                         <td>
                         <br>
-
                                         </td>
                                     </tr>
                         <tr>
                         <td>
                         <br>
-
                                         </td>
                         <td>
                         <br>
-
                                         </td>
                         <td>
                         <br>
-
                                         </td>
                                     </tr>
                                 </tbody>
@@ -259,8 +396,8 @@
 
         <hr />
         <br />
-       
-        
+
+
         <script type="text/javascript">
             $(document).ready(function () {
                 $("#lblFeasibleMsg, #lblFeasibleMailMsg").hide();
@@ -332,7 +469,7 @@
                             $.ajax({
                                 url: '/rfqs/' + rfqId,
                                 method: "PUT",
-                                data: { UserId: ddlUserId, id: rfqId, assignedEmail: assignedEmail, emailContent: emailContent  }
+                                data: { UserId: ddlUserId, id: rfqId, assignedEmail: assignedEmail, emailContent: emailContent }
                             }).done(function (response) {
                                 if ($me.val() == "") {
                                     $(".lblMsg").html("<span>RFQ assigned to nobody</span>").addClass("alert alert-success");
@@ -357,35 +494,35 @@
                                 });
                             });
                         },
-                        createDynamicTextFields = function ($ele, callback) {
-                            var width = "12",
-                                currentTimeStamp = Date.now(),
-                            inputName = $("<input />", { class: 'txtPartName form-control', type: 'text', placeholder: 'Part Name' }),
-                            inputValue = $("<input />", { class: 'chkIsFeasible', type: 'checkbox', id: currentTimeStamp }),
+                            createDynamicTextFields = function ($ele, callback) {
+                                var width = "12",
+                                    currentTimeStamp = Date.now(),
+                                    inputName = $("<input />", { class: 'txtPartName form-control', type: 'text', placeholder: 'Part Name' }),
+                                    inputValue = $("<input />", { class: 'chkIsFeasible', type: 'checkbox', id: currentTimeStamp }),
 
-                            divCol5Name = $('<div>', { class: 'col col-lg-5' }).html(inputName),
-                            divCol5Value = $('<div>', { class: 'col col-lg-5' }).html(inputValue).append(' <label for="' + currentTimeStamp + '">Is Feasible ?</label>'),
-                            divCol2Space = $('<div>', { class: 'col col-lg-2' }).html('<a href="#" class="btn btn-danger lnkRemove pull-right" title="remove row"><span><i class="fa fa-minus-circle"></i></span></a >'),
+                                    divCol5Name = $('<div>', { class: 'col col-lg-5' }).html(inputName),
+                                    divCol5Value = $('<div>', { class: 'col col-lg-5' }).html(inputValue).append(' <label for="' + currentTimeStamp + '">Is Feasible ?</label>'),
+                                    divCol2Space = $('<div>', { class: 'col col-lg-2' }).html('<a href="#" class="btn btn-danger lnkRemove pull-right" title="remove row"><span><i class="fa fa-minus-circle"></i></span></a >'),
 
-                            divRow = $('<div>', { class: 'row' }).append(divCol5Name, divCol5Value, divCol2Space),
-                            divColWidth = $('<div>', { class: 'col col-' + width + ' animated fadeInDown m-b-5' }).append(divRow);
+                                    divRow = $('<div>', { class: 'row' }).append(divCol5Name, divCol5Value, divCol2Space),
+                                    divColWidth = $('<div>', { class: 'col col-' + width + ' animated fadeInDown m-b-5' }).append(divRow);
 
-                            $ele.parents().parents().find(".pnlParameter").append(divColWidth);
-                            bindRemoveParameter();
-                            typeof callback === 'function' && callback();
-                        },
+                                $ele.parents().parents().find(".pnlParameter").append(divColWidth);
+                                bindRemoveParameter();
+                                typeof callback === 'function' && callback();
+                            },
 
-                        savePartFeasibilities = function (feasibilityFields) {
-                            $(".btnSubmit").html('<i class="fa fa-spin fa-spinner"></i>');
-                            $.ajax({
-                                url: '/rfqFeasibilities/',
-                                method: "POST",
-                                data: { RfqId: $(".hdnRfqId").val(), UserId: window.user.id, records: feasibilityFields, RfqType: $(".ddlRfqType").val() }
-                            }).done(function (response) {
-                                $(".btnSubmit").html('Save Feasibility');
-                                $("#lblFeasibleMsg").show().delay(5000).fadeOut();
-                            });
-                        };
+                            savePartFeasibilities = function (feasibilityFields) {
+                                $(".btnSubmit").html('<i class="fa fa-spin fa-spinner"></i>');
+                                $.ajax({
+                                    url: '/rfqFeasibilities/',
+                                    method: "POST",
+                                    data: { RfqId: $(".hdnRfqId").val(), UserId: window.user.id, records: feasibilityFields, RfqType: $(".ddlRfqType").val() }
+                                }).done(function (response) {
+                                    $(".btnSubmit").html('Save Feasibility');
+                                    $("#lblFeasibleMsg").show().delay(5000).fadeOut();
+                                });
+                            };
 
                         // add dynamic fields to DOM
                         $(".lnkAdd").on('click', function (e) {

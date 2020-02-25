@@ -15,8 +15,13 @@ module.exports = function (app) {
     //app.route('/rfqParts/attachments')
     //    .post(users.requiresLogin, rfqFeasibilities.uploadattachment);
 
-    app.route('/rfqParts/rfq/:rfqId')
+    app.route('/rfqParts/:rfqId')
         .get(users.requiresLogin, rfqParts.getRfqParts);
+        
+
+    app.route('/rfqParts/delete/:partId')
+        .delete(users.requiresLogin, rfqParts.destroy);
 
     app.param('rfqId', rfqParts.rfqPartsByRfqId);
+    app.param('partId', rfqParts.rfqPartsByPartId);
 };

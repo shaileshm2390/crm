@@ -220,8 +220,9 @@ $(document).ready(function () {
 
         deletePartDetails = function (id) {
             $.ajax({
-                url: '/rfqParts/' + id,
-                method: "DELETE"
+                url: '/rfqParts/delete/' + id,
+                method: "DELETE",
+                 data: { RfqId: $(".hdnRfqId").val()}
             }).done(function (response) {
                 $("#lblPartMsg").html('Part has been deleted successfully');
                 $("#lblPartMsg").show().delay(5000).fadeOut();
@@ -254,9 +255,9 @@ $(document).ready(function () {
                 partDetails.push(obj)
                 $.when(savePartDetails(partDetails)).then(function (response) {
                     if (response > 0) {
-                        $me.parent().find(".addParts").data('id', "'" + response + "'");
-                        $me.parent().find(".editParts").data('id', "'" + response + "'");
-                        $me.parent().find(".deleteParts").data('id', "'" + response + "'");
+                        $me.attr('data-id',response);
+                        $me.parent().find(".editParts").attr('data-id', response);
+                        $me.parent().find(".deleteParts").attr('data-id', response);
                     }
                 });
                 ;

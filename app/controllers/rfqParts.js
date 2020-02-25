@@ -75,6 +75,20 @@ exports.rfqPartsByRfqId = function (req, res, next, id) {
     });
 };
 
+exports.rfqPartsByPartId = function (req, res, next, id) {
+    db.RfqParts.find({ where: { id: id } }).then(function (rfqParts) {
+        if (!rfqParts) {
+            req.rfqParts = {};
+            return next();
+        } else {
+            req.rfqParts = rfqParts;
+            return next();
+        }
+    }).catch(function (err) {
+        return next(err);
+    });
+};
+
 exports.update = function (req, res) {
     function twoDigits(d) {
         if (0 <= d && d < 10) return "0" + d.toString();
@@ -85,11 +99,8 @@ exports.update = function (req, res) {
     Date.prototype.toMysqlFormat = function () {
         return this.getUTCFullYear() + "-" + twoDigits(1 + this.getUTCMonth()) + "-" + twoDigits(this.getUTCDate()) + " " + twoDigits(this.getUTCHours()) + ":" + twoDigits(this.getUTCMinutes()) + ":" + twoDigits(this.getUTCSeconds());
     };
-    console.log("Bhau alo.", req.body.records[0].id);
     if (parseInt(req.body.records[0].id) === 0) {
-        console.log("Bhau Insert made ala.");
         db.sequelize.query("INSERT INTO `RfqParts` (partName, createdAt,updatedAt, RfqId) VALUES ('" + req.body.records[0].partName + "','" + new Date().toMysqlFormat() + "','" + new Date().toMysqlFormat() + "','" + req.body.RfqId + "')", { type: db.sequelize.QueryTypes.INSERT }).then(function (rfqParts) {
-            console.log("bhau insert zala");
             // insert watchdog data
             var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
 
@@ -129,4 +140,17 @@ exports.update = function (req, res) {
             });
         });
     }
+};
+
+exports.destroy = function (req, res) {
+    // create a new variable to hold the department that was placed on the req object.
+    var rfqParts = req.rfqParts;
+    db.RfqParts.destroy({ where: { id: req.rfqParts.id } }).then(function () {
+            return res.jsonp(rfqParts);
+    }).catch(function (err) {
+        return res.render('error', {
+            error: err,
+            status: 500
+        });
+    });
 };

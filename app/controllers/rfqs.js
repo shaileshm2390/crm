@@ -135,7 +135,10 @@ exports.all = function (req, res) {
              },
              {
                  model: db.RfqFeasibilities
-             }
+            },
+            {
+                model: db.RfqParts
+            }
         ]
     }).then(function (rfqs) {
         return res.jsonp(rfqs);
@@ -159,7 +162,7 @@ exports.rfq = function (req, res, next, id) {
         userCondition.$or = [{ UserId: user.id }, { marketingUserId: user.id }, { UserId: null }];
     }
     db.Rfq.find({
-        where: userCondition, include: [
+        where: userCondition, include: [            
             {
                 model: db.User,
                 attributes: ['id', 'email', 'firstName', 'lastName']
@@ -197,7 +200,10 @@ exports.rfq = function (req, res, next, id) {
              },
              {
                  model: db.RfqFeasibilities
-             }
+            },
+            {
+                model: db.RfqParts
+            }
         ]
     }).then(function (rfq) {
         if (!rfq) {

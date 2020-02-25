@@ -46,87 +46,92 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
 
     $scope.findOneByRfqId = function () {
         var url = "/rfqs/" + $stateParams.rfqId;
-        if (typeof $scope.partId !== "undefined" && $scope.partId !== "") {
+        if (typeof $scope.partId !== "undefined" && $scope.partId !== "" && $scope.partId !== null) {
             url += "?partId=" + $scope.partId;
         }
+        $scope.rfq = { id: $stateParams.rfqId };
         $http.get(url)
-        .then(function (response) {
-            $scope.rfq = response.data;
-            var currentUrl = "customer/" + $scope.rfq.Buyer.CustomerId + "/buyer/" + $scope.rfq.BuyerId + "/rfq/" + $scope.rfq.id;
-            if ($scope.isFeasibilityChecked($scope.rfq) || window.location.href.indexOf(currentUrl) > -1) {
-                var isDownloadable = false;
-                for (var index = 0; index < $scope.rfq.RfqImages.length; index++) {
-                    if ($scope.rfq.RfqImages[index].imagePath.indexOf(".pdf") > -1) {
-                        $scope.rfq.RfqImages[index].displayPath = '/img/pdf.png';
-                    } else if ($scope.rfq.RfqImages[index].imagePath.indexOf(".xls") > -1) {
-                        $scope.rfq.RfqImages[index].displayPath = '/img/excel.png';
-                        isDownloadable = true;
-                    } else {
-                        $scope.rfq.RfqImages[index].displayPath = $scope.rfq.RfqImages[index].imagePath;
-                    }
-                    $scope.rfq.RfqImages[index].isDownloadable = isDownloadable;
-                }
-                if ($scope.rfq.CostSheets.length > 0) {
-                    $scope.rfq.LatestCostsheet = $scope.rfq.CostSheets[$scope.rfq.CostSheets.length - 1];
-                    $scope.rfq.LatestCostsheet.data = JSON.parse($scope.rfq.LatestCostsheet.data);
-                    var costSheetData = $scope.RemoveSpaceFromKey($scope.rfq.LatestCostsheet.data);
-                    var RawMaterial = new Array(), Conversion = new Array(), HtSt = new Array(), PackingForwarding = new Array();
-                    $.each(costSheetData, function (key, data) {
-                        if (data.hasOwnProperty('RawMaterial')) {
-                            RawMaterial.push(data);
-                        } else if (data.hasOwnProperty('Operation')) {
-                            Conversion.push(data);
+            .then(function (response) {
+                if (response.data !== null) {
+                    $scope.rfq = response.data;
+                    var currentUrl = "customer/" + $scope.rfq.Buyer.CustomerId + "/buyer/" + $scope.rfq.BuyerId + "/rfq/" + $scope.rfq.id;
+                    if ($scope.isFeasibilityChecked($scope.rfq) || window.location.href.indexOf(currentUrl) > -1) {
+                        var isDownloadable = false;
+                        for (var index = 0; index < $scope.rfq.RfqImages.length; index++) {
+                            if ($scope.rfq.RfqImages[index].imagePath.indexOf(".pdf") > -1) {
+                                $scope.rfq.RfqImages[index].displayPath = '/img/pdf.png';
+                            } else if ($scope.rfq.RfqImages[index].imagePath.indexOf(".xls") > -1) {
+                                $scope.rfq.RfqImages[index].displayPath = '/img/excel.png';
+                                isDownloadable = true;
+                            } else {
+                                $scope.rfq.RfqImages[index].displayPath = $scope.rfq.RfqImages[index].imagePath;
+                            }
+                            $scope.rfq.RfqImages[index].isDownloadable = isDownloadable;
                         }
-                        else if (data.hasOwnProperty('HTST')) {
-                            HtSt.push(data);
-                        } else if (data.hasOwnProperty('PackingForwardings')) {
-                            PackingForwarding.push(data);
+                        if ($scope.rfq.CostSheets.length > 0) {
+                            $scope.rfq.LatestCostsheet = $scope.rfq.CostSheets[$scope.rfq.CostSheets.length - 1];
+                            $scope.rfq.LatestCostsheet.data = JSON.parse($scope.rfq.LatestCostsheet.data);
+                            var costSheetData = $scope.RemoveSpaceFromKey($scope.rfq.LatestCostsheet.data);
+                            var RawMaterial = new Array(), Conversion = new Array(), HtSt = new Array(), PackingForwarding = new Array();
+                            $.each(costSheetData, function (key, data) {
+                                if (data.hasOwnProperty('RawMaterial')) {
+                                    RawMaterial.push(data);
+                                } else if (data.hasOwnProperty('Operation')) {
+                                    Conversion.push(data);
+                                }
+                                else if (data.hasOwnProperty('HTST')) {
+                                    HtSt.push(data);
+                                } else if (data.hasOwnProperty('PackingForwardings')) {
+                                    PackingForwarding.push(data);
+                                }
+                                else if (data.hasOwnProperty("PercentageRMCost")) {
+                                    $scope.rfq.LatestCostsheet.PercentageRMCost = data.PercentageRMCost;
+                                    $scope.rfq.LatestCostsheet.ProfitonRMCost = data.ProfitonRMCost;
+                                    $scope.rfq.LatestCostsheet.PercentageConversionCost = data.PercentageConversionCost;
+                                    $scope.rfq.LatestCostsheet.ProfitonConversionCost = data.ProfitonConversionCost;
+                                } else if (data.hasOwnProperty("Total")) {
+                                    $scope.rfq.LatestCostsheet.Total = data.Total;
+                                }
+                            });
+                            $scope.rfq.LatestCostsheet.RawMaterial = RawMaterial;
+                            $scope.rfq.LatestCostsheet.Conversion = Conversion;
+                            $scope.rfq.LatestCostsheet.HtSt = HtSt;
+                            $scope.rfq.LatestCostsheet.PackingForwarding = PackingForwarding;
                         }
-                        else if (data.hasOwnProperty("PercentageRMCost")) {
-                            $scope.rfq.LatestCostsheet.PercentageRMCost = data.PercentageRMCost;
-                            $scope.rfq.LatestCostsheet.ProfitonRMCost = data.ProfitonRMCost;
-                            $scope.rfq.LatestCostsheet.PercentageConversionCost = data.PercentageConversionCost;
-                            $scope.rfq.LatestCostsheet.ProfitonConversionCost = data.ProfitonConversionCost;
-                        } else if (data.hasOwnProperty("Total")) {
-                            $scope.rfq.LatestCostsheet.Total = data.Total;
-                        }
-                    });
-                    $scope.rfq.LatestCostsheet.RawMaterial = RawMaterial;
-                    $scope.rfq.LatestCostsheet.Conversion = Conversion;
-                    $scope.rfq.LatestCostsheet.HtSt = HtSt;
-                    $scope.rfq.LatestCostsheet.PackingForwarding = PackingForwarding;
-                }
 
-                $scope.validatePermission = true;
-                if ($scope.rfq.HandoverSubmitted !== null && $scope.rfq.HandoverSubmitted.id != null && $scope.rfq.DeveloperHandovers != null && $scope.rfq.DeveloperHandovers.length > 0) {
-                    var testDate = new Date();
-                    var onlydate = new Date($scope.rfq.HandoverSubmitted.createdAt.split("T")[0]);
-                    $scope.ExpectedLeadDate = testDate.setDate(onlydate.getDate() + ($scope.rfq.DeveloperHandovers[0].expectedLeadTime * 7));
+                        $scope.validatePermission = true;
+                        if ($scope.rfq.HandoverSubmitted !== null && $scope.rfq.HandoverSubmitted.id != null && $scope.rfq.DeveloperHandovers != null && $scope.rfq.DeveloperHandovers.length > 0) {
+                            var testDate = new Date();
+                            var onlydate = new Date($scope.rfq.HandoverSubmitted.createdAt.split("T")[0]);
+                            $scope.ExpectedLeadDate = testDate.setDate(onlydate.getDate() + ($scope.rfq.DeveloperHandovers[0].expectedLeadTime * 7));
+                        }
+                    } else {
+                        window.location.href = currentUrl;
+                    }
+
                 }
-            } else {
-                window.location.href = currentUrl;
-            }
-        }, function (error) {
-            console.log(error, $stateParams.rfqId);
-        });
+            }, function (error) {
+                console.log(error, $stateParams.rfqId);
+            });
     };
 
     $scope.displaySampleSubmission = function (rfq) {
-        if (typeof (rfq) != "undefined") {
+        if (typeof (rfq) != "undefined" && typeof (rfq.CostSheets) != "undefined") {
             return rfq.CostSheets.length && rfq.CostSheets.some(function (o) { return o['status'] == 'approved' });
         }
         return false;
     };
 
     $scope.displayReceivePO = function (rfq) {
-        if (typeof (rfq) != "undefined") {
+        if (typeof (rfq) != "undefined" && typeof (rfq.Quotations) != "undefined") {
             return rfq.Quotations.length;
         }
         return false;
     };
 
+
     $scope.isFeasibilityChecked = function (rfq) {
-        if (typeof (rfq) != "undefined") {
+        if (typeof (rfq) != "undefined" && typeof (rfq.RfqFeasibilities) != "undefined") {
             return rfq.RfqFeasibilities.length;
         }
         return false;
@@ -199,29 +204,65 @@ app.filter('capitalize', function () {
 
 $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
-    var actions = $("table td:last-child").html();
+    //var actions = 
     // Append table with add row form on add new button click
+
+    var savePartDetails = function (partDetails) {
+        var dfd = $.Deferred();
+        $.ajax({
+            url: '/rfqParts/',
+            method: "POST",
+            data: { RfqId: $(".hdnRfqId").val(), records: partDetails }
+        }).done(function (response) {
+            $("#lblPartMsg").html('Part data saved successfully');
+            $("#lblPartMsg").show().delay(5000).fadeOut();
+            dfd.resolve(response);
+        });
+        return dfd.promise();
+    },
+
+        deletePartDetails = function (id) {
+            $.ajax({
+                url: '/rfqParts/' + id,
+                method: "DELETE"
+            }).done(function (response) {
+                $("#lblPartMsg").html('Part has been deleted successfully');
+                $("#lblPartMsg").show().delay(5000).fadeOut();
+            });
+        };
     
     $(document).on("click", ".add-new", function () {
         $(this).attr("disabled", "disabled");
-        var index = $("table tbody tr:last-child").index();
+        var index = $("table.tblParts tbody tr:last-child").index();
         var row = '<tr>' +
             '<td><input type="text" class="form-control" name="name" id="name"></td>' +
-            '<td>' + actions + '</td>' +
+            '<td><a class="add addParts" data-id="0" title="Add" data-toggle="tooltip"><i class="fa fa-save" style="color:#27C46B;"></i></a><a class="edit editParts" data-id="0" title="Edit" data-toggle="tooltip"><i class="fa fa-pencil" style="color:#FF922B;"></i></a><a class="delete deleteParts" data-id="0" title="Delete" data-toggle="tooltip"><i class="fa fa-trash" style="color:#E34724;"></i></a></td>' +
             '</tr>';
-        $("table").append(row);
-        $("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
+        $("table.tblParts").append(row);
+        $("table.tblParts tbody tr").eq(index + 1).find(".add, .edit").toggle();
         $('[data-toggle="tooltip"]').tooltip();
     });
     // Add row on add button click
     $(document).on("click", ".add", function () {
-        var empty = false;
+        var empty = false, $me = $(this);
         var input = $(this).parents("tr").find('input[type="text"]');
         input.each(function () {
             if (!$(this).val()) {
                 $(this).addClass("error");
                 empty = true;
             } else {
+                var obj = {}, partDetails = [];
+                    obj.partName = $.trim($(this).val());
+                obj.id = parseInt($me.attr("data-id"));
+                partDetails.push(obj)
+                $.when(savePartDetails(partDetails)).then(function (response) {
+                    if (response > 0) {
+                        $me.parent().find(".addParts").data('id', "'" + response + "'");
+                        $me.parent().find(".editParts").data('id', "'" + response + "'");
+                        $me.parent().find(".deleteParts").data('id', "'" + response + "'");
+                    }
+                });
+                ;
                 $(this).removeClass("error");
             }
         });
@@ -244,6 +285,9 @@ $(document).ready(function () {
     });
     // Delete row on delete button click
     $(document).on("click", ".delete", function () {
+        if (parseInt($(this).attr('data-id')) !== 0) {
+            deletePartDetails(parseInt($(this).attr('data-id')));
+        }
         $(this).parents("tr").remove();
         $(".add-new").removeAttr("disabled");
     });

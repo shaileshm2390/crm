@@ -20,10 +20,22 @@
                             </span>
                         </small>
                     </h3>
-                    
+
                     <div class="alert alert-success lblMsg hide"></div>
                     <div class="clear clearfix"></div>
+
                     <div class="row">
+                        <div class="col col-lg-4 m-b-10">
+                            Select Part
+                            <select class="form-control ddlParts">
+                                <option value="">Select Part</option>
+                                <option ng-repeat="item in rfq.RfqParts" value="{{item.id}}" ng-selected="item.id == partId">{{item.partName}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="clear clearfix"></div>
+                    <div class="row section-costsheet" ng-show="partId != null">
                         <div class="col-sm-12 m-b-5">
                             <div class="separatePanel Rawmaterial">
                                 <h4 class="border-bottom p-b-10">
@@ -214,7 +226,7 @@
     <div class="clear clearfix"></div> <br />
     <div class="pnlParameter row">
     </div>-->
-                    <div class="row">
+                    <div class="row section-costsheet"  ng-show="partId != null">
                         <div class="col col-lg-3 center">
                             <a href="#" class="btnSubmit btn btn-primary">Send for Approval</a>
                         </div>
@@ -758,6 +770,15 @@
                         }
                     });
                     $(".txtTotalPackingAndForwardingCost").val("Rs " + totalPackingAndForwardingCost.toFixed(2)).trigger('keyup');
+                });
+
+
+                $(".ddlParts").on('change', function () {
+                    if ($(this).val()) {                        
+                        window.location.href = "/rfq/" + $(".hdnRfqId").val() + "/costsheet/prepare/" + $(this).val();
+                    } else {
+                        $(".section-costsheet").hide();
+                    }
                 });
             },
 

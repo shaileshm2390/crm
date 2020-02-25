@@ -274,13 +274,14 @@
                             <div class="table-wrapper">
                                 <div class="table-title">
                                     <div class="row">
+                                        <div class="alert alert-success col-sm-12 d-none" id="lblPartMsg">Part data saved successfully</div>
                                         <div class="col-sm-8"><h2><b>Parts</b></h2></div>
                                         <div class="col-sm-4">
                                             <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
                                         </div>
                                     </div>
                                 </div>
-                                <table class="table table-bordered">
+                                <table class="table table-bordered tblParts">
                                     <thead>
                                         <tr>
                                             <th>Part Name</th>
@@ -297,6 +298,14 @@
                                             </td>
                                         </tr>
 
+                                            <tr ng-repeat="item in rfq.RfqParts" ng-show="rfq.RfqParts.length > 0">
+                                                <td>{{item.partName}}</td>
+                                                <td>
+                                                    <a class="add addParts" data-id="{{item.id}}" title="Add" data-toggle="tooltip"><i class="fa fa-save" style="color:#27C46B;"></i></a>
+                                                    <a class="edit editParts" data-id="{{item.id}}" title="Edit" data-toggle="tooltip"><i class="fa fa-pencil" style="color:#FF922B;"></i></a>
+                                                    <a class="delete deleteParts" data-id="{{item.id}}" title="Delete" data-toggle="tooltip"><i class="fa fa-trash" style="color:#E34724;"></i></a>
+                                                </td>
+                                            </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -560,6 +569,7 @@
                                 savePartFeasibilities(feasibilityFields);
                             }
                         });
+
                         bindRemoveParameter();
 
                         if ($(".tinymce:visible").length > 0) {

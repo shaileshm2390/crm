@@ -21,8 +21,7 @@ module.exports = function (app) {
     app.route('/rfqs/sendfeasiblemail')
         .post(users.requiresLogin, rfqs.sendInfeasibleMailToCustomer);
     app.route('/rfqs/report')
-        .post(users.requiresLogin, rfqs.getReports);
-    
+        .post(users.requiresLogin, rfqs.getReports);   
     //    .post(users.requiresLogin, departments.hasAuthorization, departments.create);  //users.requiresLogin, 
     //app.route('/rfqs/:departmentId')
     //    .get(users.requiresLogin, departments.show)  //users.requiresLogin, 

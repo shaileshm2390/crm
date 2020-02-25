@@ -148,8 +148,13 @@ exports.all = function (req, res) {
 };
 
 exports.rfq = function (req, res, next, id) {
-    var user = req.user;
-    var userCondition = { id: id }
+
+    var user = req.user,
+    userCondition = { id: id },
+        partCondition = {};
+    if (typeof req.query.partId !== "undefined") {
+        partCondition = { RfqPartId: req.query.partId};
+    }
     if (user.Department.name != "Admin") {
         userCondition.$or = [{ UserId: user.id }, { marketingUserId: user.id }, { UserId: null }];
     }
@@ -174,7 +179,9 @@ exports.rfq = function (req, res, next, id) {
                 model: db.PurchaseOrder
             },
             {
-                model: db.CostSheet
+                model: db.CostSheet,
+                include: [{ model: db.RfqParts }],
+                where: partCondition
             },
             {
                 model: db.Quotation

@@ -120,9 +120,12 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
 
         // CostSheets
         .state('prepareCostSheet', {
-            url: '/rfq/{rfqId}/costsheet/prepare',
+            url: '/rfq/{rfqId}/costsheet/prepare/:partId',
             controller: 'CostSheetsController',
-            templateUrl: 'views/costsheets/create.html'
+            templateUrl: 'views/costsheets/create.html',
+            params: {
+                partId: {squash:true, value: null}
+            }
         })
 
         .state('approveCostSheet', {

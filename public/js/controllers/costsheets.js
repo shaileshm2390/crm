@@ -2,6 +2,7 @@
 
 var app = angular.module('mean.costsheets').controller('CostSheetsController', ['$scope', '$stateParams', 'Global', 'CostSheets', '$state', '$window', '$http', '$sce', function ($scope, $stateParams, Global, CostSheets, $state, $window, $http, $sce) {
     $scope.global = Global;
+    $scope.partId = $stateParams.partId; 
 
     $scope.trustAsHtml = function (html) {
         return $sce.trustAsHtml(html);

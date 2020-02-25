@@ -12,7 +12,13 @@
             <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
             <div class="row">
                 <div class="col col-lg-12 cost-sheet-form">
-                    <h3><strong>Prepare Standard Format Cost Sheet</strong> 
+                    <h3>
+                        <strong>Prepare Standard Format Cost Sheet</strong>
+                        <small>
+                            <span class="pull-right">
+                                <strong ng-class="((rfq.LatestCostsheet.status=='approved') ? 'badge badge-success' : (rfq.LatestCostsheet.status=='rejected') ? 'badge badge-danger' : 'badge badge-warning')">{{rfq.LatestCostsheet.status | capitalize}}</strong>
+                            </span>
+                        </small>
                     </h3>
                     
                     <div class="alert alert-success lblMsg hide"></div>

@@ -289,6 +289,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <tr>
+                                            <td>Part 1</td>
+                                            <td>
+                                                <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
+                                                <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                                                <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                                            </td>
+                                        </tr>
+
                                             <tr ng-repeat="item in rfq.RfqParts" ng-show="rfq.RfqParts.length > 0">
                                                 <td>{{item.partName}}</td>
                                                 <td>
@@ -297,7 +306,6 @@
                                                     <a class="delete deleteParts" data-id="{{item.id}}" title="Delete" data-toggle="tooltip"><i class="fa fa-trash" style="color:#E34724;"></i></a>
                                                 </td>
                                             </tr>
-
                                     </tbody>
                                 </table>
                             </div>

@@ -8,6 +8,7 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
     $scope.fromDate = "";
     $scope.toDate = "";
     $scope.reports = [];
+    $scope.partId = $stateParams.partId;
 
     $scope.trustAsHtml = function (html) {
         return $sce.trustAsHtml(html);
@@ -44,62 +45,70 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
 
 
     $scope.findOneByRfqId = function () {
-        $http.get("/rfqs/" + $stateParams.rfqId)
+        var url = "/rfqs/" + $stateParams.rfqId;
+        if (typeof $scope.partId !== "undefined" && $scope.partId !== "" && $scope.partId !== null) {
+            url += "?partId=" + $scope.partId;
+        }
+        $scope.rfq = { id: $stateParams.rfqId };
+        $http.get(url)
             .then(function (response) {
-                $scope.rfq = response.data;
-                var currentUrl = "customer/" + $scope.rfq.Buyer.CustomerId + "/buyer/" + $scope.rfq.BuyerId + "/rfq/" + $scope.rfq.id;
-                if ($scope.isFeasibilityChecked($scope.rfq) || window.location.href.indexOf(currentUrl) > -1) {
-                    var isDownloadable = false;
-                    for (var index = 0; index < $scope.rfq.RfqImages.length; index++) {
-                        if ($scope.rfq.RfqImages[index].imagePath.indexOf(".pdf") > -1) {
-                            $scope.rfq.RfqImages[index].displayPath = '/img/pdf.png';
-                        } else if ($scope.rfq.RfqImages[index].imagePath.indexOf(".xls") > -1) {
-                            $scope.rfq.RfqImages[index].displayPath = '/img/excel.png';
-                            isDownloadable = true;
-                        } else {
-                            $scope.rfq.RfqImages[index].displayPath = $scope.rfq.RfqImages[index].imagePath;
+                if (response.data !== null) {
+                    $scope.rfq = response.data;
+                    var currentUrl = "customer/" + $scope.rfq.Buyer.CustomerId + "/buyer/" + $scope.rfq.BuyerId + "/rfq/" + $scope.rfq.id;
+                    if ($scope.isFeasibilityChecked($scope.rfq) || window.location.href.indexOf(currentUrl) > -1) {
+                        var isDownloadable = false;
+                        for (var index = 0; index < $scope.rfq.RfqImages.length; index++) {
+                            if ($scope.rfq.RfqImages[index].imagePath.indexOf(".pdf") > -1) {
+                                $scope.rfq.RfqImages[index].displayPath = '/img/pdf.png';
+                            } else if ($scope.rfq.RfqImages[index].imagePath.indexOf(".xls") > -1) {
+                                $scope.rfq.RfqImages[index].displayPath = '/img/excel.png';
+                                isDownloadable = true;
+                            } else {
+                                $scope.rfq.RfqImages[index].displayPath = $scope.rfq.RfqImages[index].imagePath;
+                            }
+                            $scope.rfq.RfqImages[index].isDownloadable = isDownloadable;
                         }
-                        $scope.rfq.RfqImages[index].isDownloadable = isDownloadable;
-                    }
-                    if ($scope.rfq.CostSheets.length > 0) {
-                        $scope.rfq.LatestCostsheet = $scope.rfq.CostSheets[$scope.rfq.CostSheets.length - 1];
-                        $scope.rfq.LatestCostsheet.data = JSON.parse($scope.rfq.LatestCostsheet.data);
-                        var costSheetData = $scope.RemoveSpaceFromKey($scope.rfq.LatestCostsheet.data);
-                        var RawMaterial = new Array(), Conversion = new Array(), HtSt = new Array(), PackingForwarding = new Array();
-                        $.each(costSheetData, function (key, data) {
-                            if (data.hasOwnProperty('RawMaterial')) {
-                                RawMaterial.push(data);
-                            } else if (data.hasOwnProperty('Operation')) {
-                                Conversion.push(data);
-                            }
-                            else if (data.hasOwnProperty('HTST')) {
-                                HtSt.push(data);
-                            } else if (data.hasOwnProperty('PackingForwardings')) {
-                                PackingForwarding.push(data);
-                            }
-                            else if (data.hasOwnProperty("PercentageRMCost")) {
-                                $scope.rfq.LatestCostsheet.PercentageRMCost = data.PercentageRMCost;
-                                $scope.rfq.LatestCostsheet.ProfitonRMCost = data.ProfitonRMCost;
-                                $scope.rfq.LatestCostsheet.PercentageConversionCost = data.PercentageConversionCost;
-                                $scope.rfq.LatestCostsheet.ProfitonConversionCost = data.ProfitonConversionCost;
-                            } else if (data.hasOwnProperty("Total")) {
-                                $scope.rfq.LatestCostsheet.Total = data.Total;
-                            }
-                        });
-                        $scope.rfq.LatestCostsheet.RawMaterial = RawMaterial;
-                        $scope.rfq.LatestCostsheet.Conversion = Conversion;
-                        $scope.rfq.LatestCostsheet.HtSt = HtSt;
-                        $scope.rfq.LatestCostsheet.PackingForwarding = PackingForwarding;
+                        if ($scope.rfq.CostSheets.length > 0) {
+                            $scope.rfq.LatestCostsheet = $scope.rfq.CostSheets[$scope.rfq.CostSheets.length - 1];
+                            $scope.rfq.LatestCostsheet.data = JSON.parse($scope.rfq.LatestCostsheet.data);
+                            var costSheetData = $scope.RemoveSpaceFromKey($scope.rfq.LatestCostsheet.data);
+                            var RawMaterial = new Array(), Conversion = new Array(), HtSt = new Array(), PackingForwarding = new Array();
+                            $.each(costSheetData, function (key, data) {
+                                if (data.hasOwnProperty('RawMaterial')) {
+                                    RawMaterial.push(data);
+                                } else if (data.hasOwnProperty('Operation')) {
+                                    Conversion.push(data);
+                                }
+                                else if (data.hasOwnProperty('HTST')) {
+                                    HtSt.push(data);
+                                } else if (data.hasOwnProperty('PackingForwardings')) {
+                                    PackingForwarding.push(data);
+                                }
+                                else if (data.hasOwnProperty("PercentageRMCost")) {
+                                    $scope.rfq.LatestCostsheet.PercentageRMCost = data.PercentageRMCost;
+                                    $scope.rfq.LatestCostsheet.ProfitonRMCost = data.ProfitonRMCost;
+                                    $scope.rfq.LatestCostsheet.PercentageConversionCost = data.PercentageConversionCost;
+                                    $scope.rfq.LatestCostsheet.ProfitonConversionCost = data.ProfitonConversionCost;
+                                } else if (data.hasOwnProperty("Total")) {
+                                    $scope.rfq.LatestCostsheet.Total = data.Total;
+                                }
+                            });
+                            $scope.rfq.LatestCostsheet.RawMaterial = RawMaterial;
+                            $scope.rfq.LatestCostsheet.Conversion = Conversion;
+                            $scope.rfq.LatestCostsheet.HtSt = HtSt;
+                            $scope.rfq.LatestCostsheet.PackingForwarding = PackingForwarding;
+                        }
+
+                        $scope.validatePermission = true;
+                        if ($scope.rfq.HandoverSubmitted !== null && $scope.rfq.HandoverSubmitted.id != null && $scope.rfq.DeveloperHandovers != null && $scope.rfq.DeveloperHandovers.length > 0) {
+                            var testDate = new Date();
+                            var onlydate = new Date($scope.rfq.HandoverSubmitted.createdAt.split("T")[0]);
+                            $scope.ExpectedLeadDate = testDate.setDate(onlydate.getDate() + ($scope.rfq.DeveloperHandovers[0].expectedLeadTime * 7));
+                        }
+                    } else {
+                        window.location.href = currentUrl;
                     }
 
-                    $scope.validatePermission = true;
-                    if ($scope.rfq.HandoverSubmitted !== null && $scope.rfq.HandoverSubmitted.id != null && $scope.rfq.DeveloperHandovers != null && $scope.rfq.DeveloperHandovers.length > 0) {
-                        var testDate = new Date();
-                        var onlydate = new Date($scope.rfq.HandoverSubmitted.createdAt.split("T")[0]);
-                        $scope.ExpectedLeadDate = testDate.setDate(onlydate.getDate() + ($scope.rfq.DeveloperHandovers[0].expectedLeadTime * 7));
-                    }
-                } else {
-                    window.location.href = currentUrl;
                 }
             }, function (error) {
                 console.log(error, $stateParams.rfqId);
@@ -107,28 +116,22 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
     };
 
     $scope.displaySampleSubmission = function (rfq) {
-        if (typeof (rfq) != "undefined") {
+        if (typeof (rfq) != "undefined" && typeof (rfq.CostSheets) != "undefined") {
             return rfq.CostSheets.length && rfq.CostSheets.some(function (o) { return o['status'] == 'approved' });
         }
         return false;
     };
 
     $scope.displayReceivePO = function (rfq) {
-        if (typeof (rfq) != "undefined") {
+        if (typeof (rfq) != "undefined" && typeof (rfq.Quotations) != "undefined") {
             return rfq.Quotations.length;
         }
         return false;
     };
 
-    $scope.isFeasibilityChecked = function (rfq) {
-        if (typeof (rfq) != "undefined") {
-            return rfq.RfqFeasibilities.length;
-        }
-        return false;
-    };
 
     $scope.isFeasibilityChecked = function (rfq) {
-        if (typeof (rfq) != "undefined") {
+        if (typeof (rfq) != "undefined" && typeof (rfq.RfqFeasibilities) != "undefined") {
             return rfq.RfqFeasibilities.length;
         }
         return false;

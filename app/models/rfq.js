@@ -23,6 +23,7 @@ module.exports = function (sequelize, DataTypes) {
                 Rfq.hasMany(models.SampleInspectionReport);
                 Rfq.hasOne(models.HandoverSubmitted);
                 Rfq.hasMany(models.RfqFeasibilities);
+                Rfq.hasMany(models.RfqParts);
             }
         }
     );

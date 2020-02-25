@@ -135,7 +135,10 @@ exports.all = function (req, res) {
              },
              {
                  model: db.RfqFeasibilities
-             }
+            },
+            {
+                model: db.RfqParts
+            }
         ]
     }).then(function (rfqs) {
         return res.jsonp(rfqs);
@@ -190,7 +193,10 @@ exports.rfq = function (req, res, next, id) {
              },
              {
                  model: db.RfqFeasibilities
-             }
+            },
+            {
+                model: db.RfqParts
+            }
         ]
     }).then(function (rfq) {
         if (!rfq) {

@@ -74,3 +74,59 @@ exports.rfqPartsByRfqId = function (req, res, next, id) {
         return next(err);
     });
 };
+
+exports.update = function (req, res) {
+    function twoDigits(d) {
+        if (0 <= d && d < 10) return "0" + d.toString();
+        if (-10 < d && d < 0) return "-0" + (-1 * d).toString();
+        return d.toString();
+    }
+
+    Date.prototype.toMysqlFormat = function () {
+        return this.getUTCFullYear() + "-" + twoDigits(1 + this.getUTCMonth()) + "-" + twoDigits(this.getUTCDate()) + " " + twoDigits(this.getUTCHours()) + ":" + twoDigits(this.getUTCMinutes()) + ":" + twoDigits(this.getUTCSeconds());
+    };
+    console.log("Bhau alo.", req.body.records[0].id);
+    if (parseInt(req.body.records[0].id) === 0) {
+        console.log("Bhau Insert made ala.");
+        db.sequelize.query("INSERT INTO `RfqParts` (partName, createdAt,updatedAt, RfqId) VALUES ('" + req.body.records[0].partName + "','" + new Date().toMysqlFormat() + "','" + new Date().toMysqlFormat() + "','" + req.body.RfqId + "')", { type: db.sequelize.QueryTypes.INSERT }).then(function (rfqParts) {
+            console.log("bhau insert zala");
+            // insert watchdog data
+            var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
+
+            db.Watchdog.create({
+                message: "New Part details is inserted with RFQ id = " + req.body.RfqId,
+                ipAddress: ipAddress,
+                pageUrl: fullUrl,
+                previousData: "",
+                updatedData: JSON.stringify(req.body.records)
+            });
+
+            return res.jsonp(rfqParts);
+        }).catch(function (err) {
+            return res.send('/signin', {
+                errors: err,
+                status: 500
+            });
+        });
+    } else {
+        db.sequelize.query("Update `RfqParts` SET partName = '" + req.body.records[0].partName + "', updatedAt = '" + new Date().toMysqlFormat() + "' WHERE id = '" + req.body.records[0].id + "' AND RfqId = '" + req.body.RfqId + "'", { type: db.sequelize.QueryTypes.UPDATE }).then(function (rfqParts) {
+            // insert watchdog data
+            var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
+
+            db.Watchdog.create({
+                message: "Part details has been updated successfully with RFQ id = " + req.body.RfqId,
+                ipAddress: ipAddress,
+                pageUrl: fullUrl,
+                previousData: "",
+                updatedData: JSON.stringify(req.body.records)
+            });
+            return res.jsonp(rfqParts);
+        }).catch(function (err) {
+            console.log(err);
+            return res.send('/signin', {
+                errors: err,
+                status: 500
+            });
+        });
+    }
+};

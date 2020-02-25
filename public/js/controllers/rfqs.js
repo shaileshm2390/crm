@@ -127,6 +127,13 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
         return false;
     };
 
+    $scope.isFeasibilityChecked = function (rfq) {
+        if (typeof (rfq) != "undefined") {
+            return rfq.RfqFeasibilities.length;
+        }
+        return false;
+    };
+
     $scope.isPoReceived = function (rfq) {
         if (typeof (rfq) != "undefined" && typeof (rfq.PurchaseOrders) != 'undefined') {
             return rfq.PurchaseOrders.length && rfq.PurchaseOrders.some(function (o) { return o['status'] == "Completed" });
@@ -194,29 +201,65 @@ app.filter('capitalize', function () {
 
 $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
-    var actions = $("table td:last-child").html();
+    //var actions = 
     // Append table with add row form on add new button click
+
+    var savePartDetails = function (partDetails) {
+        var dfd = $.Deferred();
+        $.ajax({
+            url: '/rfqParts/',
+            method: "POST",
+            data: { RfqId: $(".hdnRfqId").val(), records: partDetails }
+        }).done(function (response) {
+            $("#lblPartMsg").html('Part data saved successfully');
+            $("#lblPartMsg").show().delay(5000).fadeOut();
+            dfd.resolve(response);
+        });
+        return dfd.promise();
+    },
+
+        deletePartDetails = function (id) {
+            $.ajax({
+                url: '/rfqParts/' + id,
+                method: "DELETE"
+            }).done(function (response) {
+                $("#lblPartMsg").html('Part has been deleted successfully');
+                $("#lblPartMsg").show().delay(5000).fadeOut();
+            });
+        };
     
     $(document).on("click", ".add-new", function () {
         $(this).attr("disabled", "disabled");
-        var index = $("table tbody tr:last-child").index();
+        var index = $("table.tblParts tbody tr:last-child").index();
         var row = '<tr>' +
             '<td><input type="text" class="form-control" name="name" id="name"></td>' +
-            '<td>' + actions + '</td>' +
+            '<td><a class="add addParts" data-id="0" title="Add" data-toggle="tooltip"><i class="fa fa-save" style="color:#27C46B;"></i></a><a class="edit editParts" data-id="0" title="Edit" data-toggle="tooltip"><i class="fa fa-pencil" style="color:#FF922B;"></i></a><a class="delete deleteParts" data-id="0" title="Delete" data-toggle="tooltip"><i class="fa fa-trash" style="color:#E34724;"></i></a></td>' +
             '</tr>';
-        $("table").append(row);
-        $("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
+        $("table.tblParts").append(row);
+        $("table.tblParts tbody tr").eq(index + 1).find(".add, .edit").toggle();
         $('[data-toggle="tooltip"]').tooltip();
     });
     // Add row on add button click
     $(document).on("click", ".add", function () {
-        var empty = false;
+        var empty = false, $me = $(this);
         var input = $(this).parents("tr").find('input[type="text"]');
         input.each(function () {
             if (!$(this).val()) {
                 $(this).addClass("error");
                 empty = true;
             } else {
+                var obj = {}, partDetails = [];
+                    obj.partName = $.trim($(this).val());
+                obj.id = parseInt($me.attr("data-id"));
+                partDetails.push(obj)
+                $.when(savePartDetails(partDetails)).then(function (response) {
+                    if (response > 0) {
+                        $me.parent().find(".addParts").data('id', "'" + response + "'");
+                        $me.parent().find(".editParts").data('id', "'" + response + "'");
+                        $me.parent().find(".deleteParts").data('id', "'" + response + "'");
+                    }
+                });
+                ;
                 $(this).removeClass("error");
             }
         });
@@ -239,6 +282,9 @@ $(document).ready(function () {
     });
     // Delete row on delete button click
     $(document).on("click", ".delete", function () {
+        if (parseInt($(this).attr('data-id')) !== 0) {
+            deletePartDetails(parseInt($(this).attr('data-id')));
+        }
         $(this).parents("tr").remove();
         $(".add-new").removeAttr("disabled");
     });

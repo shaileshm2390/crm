@@ -184,7 +184,8 @@ exports.rfq = function (req, res, next, id) {
             {
                 model: db.CostSheet,
                 include: [{ model: db.RfqParts }],
-                where: partCondition
+                where: partCondition,
+                required:false
             },
             {
                 model: db.Quotation

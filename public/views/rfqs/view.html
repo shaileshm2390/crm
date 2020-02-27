@@ -1,107 +1,4 @@
-<style type="text/css">
-    body {
-        color: #404E67;
-        background: #F5F7FA;
-        font-family: 'Open Sans', sans-serif;
-    }
 
-    .table-wrapper {
-        width: 700px;
-        margin: 30px auto;
-        background: #fff;
-        padding: 20px;
-        box-shadow: 0 1px 1px rgba(0,0,0,.05);
-    }
-
-    .table-title {
-        padding-bottom: 10px;
-        margin: 0 0 10px;
-    }
-
-        .table-title h2 {
-            margin: 6px 0 0;
-            font-size: 22px;
-        }
-
-        .table-title .add-new {
-            float: right;
-            height: 30px;
-            font-weight: bold;
-            font-size: 12px;
-            text-shadow: none;
-            min-width: 100px;
-            border-radius: 50px;
-            line-height: 13px;
-        }
-
-            .table-title .add-new i {
-                margin-right: 4px;
-            }
-
-    table.table {
-        table-layout: fixed;
-    }
-
-        table.table tr th, table.table tr td {
-            border-color: #e9e9e9;
-        }
-
-        table.table th i {
-            font-size: 13px;
-            margin: 0 5px;
-            cursor: pointer;
-        }
-
-        table.table th:last-child {
-            width: 100px;
-        }
-
-        table.table td a {
-            cursor: pointer;
-            display: inline-block;
-            margin: 0 5px;
-            min-width: 24px;
-        }
-
-            table.table td a.add {
-                color: #27C46B;
-            }
-
-            table.table td a.edit {
-                color: #FFC107;
-            }
-
-            table.table td a.delete {
-                color: #E34724;
-            }
-
-        table.table td i {
-            font-size: 19px;
-        }
-
-        table.table td a.add i {
-            font-size: 24px;
-            margin-right: -1px;
-            position: relative;
-            top: 3px;
-        }
-
-        table.table .form-control {
-            height: 32px;
-            line-height: 32px;
-            box-shadow: none;
-            border-radius: 2px;
-        }
-
-            table.table .form-control.error {
-                border-color: #f50000;
-            }
-
-        table.table td .add {
-            display: none;
-        }
-</style>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <div class="card">
 
     <section data-ng-init="findOneByRfqId()" ng-show="rfq.id != null  && validatePermission">
@@ -134,20 +31,16 @@
                 <div class="row">
                     <label class="col-lg-3">Assigned: </label>
                     <div class="col-lg-9">
-                        >
-
-                        ed
                         <div ng-hide="isPoReceived(rfq)">
-                            fq
                             <!--<select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser" required name="UserId" data-ng-model="rfq.UserId" ng-show="global.user.isAdmin">
-                                <option value="">Select </option>
-                                <option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
-                            </select>
+            <option value="">Select </option>
+            <option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
+        </select>
 
-                            <div ng-show="!global.user.isAdmin">
-                                <strong>{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
-                                <a ng-show="(rfq.User.firstName + ' ' + rfq.User.lastName).trim() == ''" class="btn btn-primary pull-right" href="#" ng-click="assignToMeRfq(rfq.id)">Assign to Me</a>
-                            </div>-->
+        <div ng-show="!global.user.isAdmin">
+            <strong>{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
+            <a ng-show="(rfq.User.firstName + ' ' + rfq.User.lastName).trim() == ''" class="btn btn-primary pull-right" href="#" ng-click="assignToMeRfq(rfq.id)">Assign to Me</a>
+        </div>-->
                             <select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser" required name="UserId" data-ng-model="rfq.UserId">
                                 <option value="" data-email="" data-name="">Select </option>
                                 <option ng-repeat="user in users" value="{{user.id}}" data-email="{{user.email}}" data-name='{{user.firstName + " " + user.lastName}}'>{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
@@ -271,44 +164,41 @@
                     <h3><strong>Add Parts</strong></h3>
                     <div class="clear clearfix"></div> <br />
                     <div class="row">
-                            <div class="table-wrapper">
-                                <div class="table-title">
-                                    <div class="row">
-                                        <div class="alert alert-success col-sm-12 d-none" id="lblPartMsg">Part data saved successfully</div>
-                                        <div class="col-sm-8"><h2><b>Parts</b></h2></div>
-                                        <div class="col-sm-4">
-                                            <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
-                                        </div>
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="alert alert-success col-sm-12" id="lblPartMsg"></div>
+                                    <div class="col-sm-8"><h2><b>Parts</b></h2></div>
+                                    <div class="col-sm-4">
+                                        <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
                                     </div>
                                 </div>
-                                <table class="table table-bordered tblParts">
-                                    <thead>
-                                        <tr>
-                                            <th>Part Name</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Part 1</td>
-                                            <td>
-                                                <a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
-                                                <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                                                <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                                            </td>
-                                        </tr>
-
-                                            <tr ng-repeat="item in rfq.RfqParts" ng-show="rfq.RfqParts.length > 0">
-                                                <td>{{item.partName}}</td>
-                                                <td>
-                                                    <a class="add addParts" data-id="{{item.id}}" title="Add" data-toggle="tooltip"><i class="fa fa-save" style="color:#27C46B;"></i></a>
-                                                    <a class="edit editParts" data-id="{{item.id}}" title="Edit" data-toggle="tooltip"><i class="fa fa-pencil" style="color:#FF922B;"></i></a>
-                                                    <a class="delete deleteParts" data-id="{{item.id}}" title="Delete" data-toggle="tooltip"><i class="fa fa-trash" style="color:#E34724;"></i></a>
-                                                </td>
-                                            </tr>
-                                    </tbody>
-                                </table>
                             </div>
+                            <table class="table table-bordered tblParts">
+                                <thead>
+                                    <tr>
+                                        <th>Part Name</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in rfq.RfqParts" ng-show="rfq.RfqParts.length > 0">
+                                        <td>{{item.partName}}</td>
+                                        <td>
+                                            <a class="add addParts" data-id="{{item.id}}" title="Add" data-toggle="tooltip"><i class="fa fa-save" style="color:#27C46B;"></i></a>
+                                            <a class="edit editParts" data-id="{{item.id}}" title="Edit" data-toggle="tooltip"><i class="fa fa-pencil" style="color:#FF922B;"></i></a>
+                                            <a class="delete deleteParts" data-id="{{item.id}}" title="Delete" data-toggle="tooltip"><i class="fa fa-trash" style="color:#E34724;"></i></a>
+                                            <a href="/rfq/{{rfq.id}}/costsheet/prepare/{{item.id}}" class="CostSheet lnkCostSheet" data-id="{{item.id}}" title="Cost Sheet" data-toggle="tooltip"><i class="fa fa-columns" style="color:#6B5CA9;"></i></a>
+                                            <a href="/rfq/{{rfq.id}}/quotation/short/{{item.id}}" class="Quotation lnkQuotation" data-id="{{item.id}}" title="Quotation" data-toggle="tooltip"><i class="fa fa-money" style="color:#6B5CA9;"></i></a>
+                                            <a href="/rfq/{{rfq.id}}/samplesubmission/{{item.id}}" class="sampleSubmission lnkSampleSubmission" data-id="{{item.id}}" title="Sample Submission" data-toggle="tooltip"><i class="fa fa-sticky-note" style="color:#6B5CA9;"></i></a>
+                                            <a href="/rfq/{{rfq.id}}/sampleinspectionreport/{{item.id}}" class="sampleInspectionReport lnkSampleInspectionReport" data-id="{{item.id}}" title="Sample Inspection Report" data-toggle="tooltip"><i class="fa fa-clipboard" style="color:#6B5CA9;"></i></a>
+                                            
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
@@ -337,34 +227,43 @@
                         <tr>
                         <td style="width: 33.3333%;">
                         <br>
+
                                         </td>
                         <td style="width: 33.3333%;">
                         <br>
+
                                         </td>
                         <td style="width: 33.3333%;">
                         <br>
+
                                         </td>
                                     </tr>
                         <tr>
                         <td>
                         <br>
+
                                         </td>
                         <td>
                         <br>
+
                                         </td>
                         <td>
                         <br>
+
                                         </td>
                                     </tr>
                         <tr>
                         <td>
                         <br>
+
                                         </td>
                         <td>
                         <br>
+
                                         </td>
                         <td>
                         <br>
+
                                         </td>
                                     </tr>
                                 </tbody>
@@ -410,7 +309,7 @@
 
         <script type="text/javascript">
             $(document).ready(function () {
-                $("#lblFeasibleMsg, #lblFeasibleMailMsg").hide();
+                $("#lblFeasibleMsg, #lblFeasibleMailMsg, #lblPartMsg").hide();
                 //   console.log($scope);
                 var loadCode = setInterval(function () {
                     if ($(".hdnRfqId").length > 0 && $(".hdnRfqId").val() != "") {

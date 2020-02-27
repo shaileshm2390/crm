@@ -29,27 +29,24 @@
                     <div class="col-lg-8">
                         <div ng-hide="isPoReceived(rfq)">
                             <!--<select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser" required name="UserId" data-ng-model="rfq.UserId" ng-show="global.user.isAdmin">
-            <option value="">Select </option>
-            <option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
-        </select>-->
+                                <option value="">Select </option>
+                                <option ng-repeat="user in users" value="{{user.id}}">{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
+                            </select>-->
                             <select ng-controller="UsersController" ng-init="find()" class="form-control ddlUser" required name="UserId" data-ng-model="rfq.UserId">
                                 <option value="" data-email="" data-name="">Select </option>
                                 <option ng-repeat="user in users" value="{{user.id}}" data-email="{{user.email}}" data-name='{{user.firstName + " " + user.lastName}}'>{{user.firstName + " " + user.lastName}} ({{user.email}})</option>
                             </select>
 
                             <!--<div ng-show="!global.user.isAdmin">
-            <strong>{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
-            <a ng-show="(rfq.User.firstName + ' ' + rfq.User.lastName).trim() == ''" class="btn btn-primary pull-right" href="#" ng-click="assignToMeRfq(rfq.id)">Assign to Me</a>
-        </div>-->
+                                <strong>{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
+                                <a ng-show="(rfq.User.firstName + ' ' + rfq.User.lastName).trim() == ''" class="btn btn-primary pull-right" href="#" ng-click="assignToMeRfq(rfq.id)">Assign to Me</a>
+                            </div>-->
                         </div>
                         <strong ng-show="isPoReceived(rfq)">{{(rfq.User.firstName + " " + rfq.User.lastName).trim() || "-"}}</strong>
 
                         <br />
                         <div class="lblMsg"></div>
-                        <input type="hidden" class="hdnUserId" value="{{rfq.UserId}}">
-                        <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
-                        <input type="hidden" class="hdnCustomerId" value="{{rfq.Buyer.CustomerId}}" />
-                        <input type="hidden" class="hdnBuyerId" value="{{rfq.BuyerId}}" />
+
                     </div>
                 </div>
                 <div class="row">
@@ -76,61 +73,64 @@
     </div>
     <div class="clear clearfix"></div> <br />
     <hr />
-    </div>
+</div>
+<input type="hidden" class="hdnUserId" value="{{rfq.UserId}}">
+<input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
+<input type="hidden" class="hdnCustomerId" value="{{rfq.Buyer.CustomerId}}" />
+<input type="hidden" class="hdnBuyerId" value="{{rfq.BuyerId}}" />
+<script type="text/javascript">
+    $(document).ready(function () {
+        //   console.log($scope);
+        var loadCode = setInterval(function () {
+            if ($(".hdnUserId").val() != "") {
+                $(".ddlUser option[selected]").remove();
+                $(".ddlUser").val($(".hdnUserId").val());
+            }
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            //   console.log($scope);
-            var loadCode = setInterval(function () {
-                if ($(".hdnUserId").val() != "") {
-                    $(".ddlUser option[selected]").remove();
-                    $(".ddlUser").val($(".hdnUserId").val());
+            $(".ddlUser").on('change', function () {
+                var emailContent,
+                    $me = $(this),
+                    rfqId = $('.hdnRfqId').val(),
+                    ddlUserId = $(this).val(),
+                    assignedEmail = $me.find('option:selected').data('email'),
+                    assignedName = $me.find('option:selected').data('name');
+                if (assignedEmail !== '') {
+                    var senderName = window.user.firstName + " " + window.user.lastName,
+                        rfqSubject = $(".rfqSubject").html(),
+                        rfqLink = "http://metaforge.herokuapp.com/customer/" + $(".hdnCustomerId").val() + "/buyer/" + $(".hdnBuyerId").val() + "/rfq/" + $(".hdnRfqId").val(),
+                        currentDate = new Date(),
+                        dateAssigned = currentDate.getDate() + "/" + (currentDate.getMonth() + 1) + "/" + currentDate.getFullYear();
+
+                    emailContent = "Hi " + assignedName;
+                    emailContent += "<br /><br />" + senderName + " has assigned you new RFQ subject as " + rfqSubject + " on " + dateAssigned + ".";
+                    emailContent += "<br />Please <a href='" + rfqLink + "'>click here</a> to see more details";
+                    emailContent += "<br /><br />Best Regards, Metaforge Team<br /> ";
                 }
-
-                $(".ddlUser").on('change', function () {
-                    var emailContent,
-                        $me = $(this),
-                        rfqId = $('.hdnRfqId').val(),
-                        ddlUserId = $(this).val(),
-                        assignedEmail = $me.find('option:selected').data('email'),
-                        assignedName = $me.find('option:selected').data('name');
-                    if (assignedEmail !== '') {
-                        var senderName = window.user.firstName + " " + window.user.lastName,
-                            rfqSubject = $(".rfqSubject").html(),
-                            rfqLink = "http://metaforge.herokuapp.com/customer/" + $(".hdnCustomerId").val() + "/buyer/" + $(".hdnBuyerId").val() + "/rfq/" + $(".hdnRfqId").val(),
-                            currentDate = new Date(),
-                            dateAssigned = currentDate.getDate() + "/" + (currentDate.getMonth() + 1) + "/" + currentDate.getFullYear();
-
-                        emailContent = "Hi " + assignedName;
-                        emailContent += "<br /><br />" + senderName + " has assigned you new RFQ subject as " + rfqSubject + " on " + dateAssigned + ".";
-                        emailContent += "<br />Please <a href='" + rfqLink + "'>click here</a> to see more details";
-                        emailContent += "<br /><br />Best Regards, Metaforge Team<br /> ";
+                $.ajax({
+                    url: '/rfqs/' + rfqId,
+                    method: "PUT",
+                    data: { UserId: ddlUserId, id: rfqId, assignedEmail: assignedEmail, emailContent: emailContent }
+                }).done(function (response) {
+                    if ($me.val() == "") {
+                        $(".lblMsg").html("<span>RFQ assigned to nobody</span>").addClass("alert alert-success");
+                    } else {
+                        $(".lblMsg").html("<span>RFQ assigned to " + $me.find("option:selected").text() + "</span>").addClass("alert alert-success");
                     }
-                    $.ajax({
-                        url: '/rfqs/' + rfqId,
-                        method: "PUT",
-                        data: { UserId: ddlUserId, id: rfqId, assignedEmail: assignedEmail, emailContent: emailContent }
-                    }).done(function (response) {
-                        if ($me.val() == "") {
-                            $(".lblMsg").html("<span>RFQ assigned to nobody</span>").addClass("alert alert-success");
-                        } else {
-                            $(".lblMsg").html("<span>RFQ assigned to " + $me.find("option:selected").text() + "</span>").addClass("alert alert-success");
-                        }
-                    });
                 });
+            });
 
-                $(".btnShowBasicDetail").on('click', function (e) {
-                    $(".basic").toggle("slow");
-                    e.stopImmediatePropagation();
-                    return false;
-                });
+            $(".btnShowBasicDetail").on('click', function (e) {
+                $(".basic").toggle("slow");
+                e.stopImmediatePropagation();
+                return false;
+            });
 
-                if ($(".hdnUserId").length > 0 && $(".hdnUserId").val() != "") {
-                    clearInterval(loadCode);                    
-                }
-            }, 500);
-        });
-    </script>
+            if ($(".hdnUserId").length > 0 && $(".hdnUserId").val() != "") {
+                clearInterval(loadCode);
+            }
+        }, 500);
+    });
+</script>
 
 
-    <div ng-include="'views/rfqs/rfqLeftNavigation.htm'"></div>
+<div ng-include="'views/rfqs/rfqLeftNavigation.htm'"></div>

@@ -8,7 +8,7 @@ var db = require('../../config/sequelize');
 var _ = require('lodash');
 var sm = require("./sendmail");
 
-const request = require('request');
+const request = require('request'); 
 var ipAddress;
 request('http://api.ipstack.com/check?access_key=a0a80aaea559ceb4d5ebacc03c30f6d3', { json: true }, (err, res, body) => {
     if (err) { return console.log(err); }
@@ -20,7 +20,8 @@ request('http://api.ipstack.com/check?access_key=a0a80aaea559ceb4d5ebacc03c30f6d
  */
 exports.create = function (req, res) {
     if (req.body.status == "approved") {
-        db.CostSheet.update({ status: 'rejected' }, { where: { RfqId: req.body.RfqId } }).then(function (updatedRecords) {
+        db.CostSheet.update({ status: 'rejected' }, {
+            where: { RfqId: req.body.RfqId, RfqPartId: req.body.RfqPartId} }).then(function (updatedRecords) {
             db.CostSheet.create(req.body).then(function (costSheet) {
                 var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
                 db.Watchdog.create({

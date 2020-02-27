@@ -49,10 +49,10 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
         if (typeof $scope.partId !== "undefined" && $scope.partId !== "" && $scope.partId !== null) {
             url += "?partId=" + $scope.partId;
         }
-        $scope.rfq = { id: $stateParams.rfqId };
+        //$scope.rfq = { id: $stateParams.rfqId };
         $http.get(url)
             .then(function (response) {
-                if (response.data !== null) {
+                if (Object.keys(response.data).length !== 0 && response.data !== null) {
                     $scope.rfq = response.data;
                     var currentUrl = "customer/" + $scope.rfq.Buyer.CustomerId + "/buyer/" + $scope.rfq.BuyerId + "/rfq/" + $scope.rfq.id;
                     if ($scope.isFeasibilityChecked($scope.rfq) || window.location.href.indexOf(currentUrl) > -1) {
@@ -109,6 +109,9 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
                         window.location.href = currentUrl;
                     }
 
+                } else {
+                    $scope.rfq = { id: $stateParams.rfqId };
+                    $scope.validatePermission = true;
                 }
             }, function (error) {
                 console.log(error, $stateParams.rfqId);
@@ -261,6 +264,8 @@ $(document).ready(function () {
                         $me.attr('data-id',response);
                         $me.parent().find(".editParts").attr('data-id', response);
                         $me.parent().find(".deleteParts").attr('data-id', response);
+                        var row = '<a href="/rfq/' + $(".hdnRfqId").val() + '/costsheet/prepare/' + response + '" class="CostSheet lnkCostSheet" data-id="' + response + '" title="Cost Sheet" data-toggle="tooltip"><i class="fa fa-columns" style="color:#6B5CA9;"></i></a><a href="/rfq/' + $(".hdnRfqId").val() + '/quotation/short/' + response + '"" class="Quotation lnkQuotation" data-id="' + response + '" title="Quotation" data-toggle="tooltip"><i class="fa fa-money" style="color:#6B5CA9;"></i></a><a href="/rfq/' + $(".hdnRfqId").val() + '/samplesubmission/' + response + '"" class="sampleSubmission lnkSampleSubmission" data-id="' + response + '" title="Sample Submission" data-toggle="tooltip"><i class="fa fa-sticky-note" style="color:#6B5CA9;"></i></a><a href = "/rfq/' + $(".hdnRfqId").val() + '/sampleinspectionreport/' + response + '"" class="sampleInspectionReport lnkSampleInspectionReport" data-id="' + response + '" title="Sample Inspection Report" data-toggle="tooltip"><i class="fa fa-clipboard" style="color:#6B5CA9;"></i></a>';
+                        $me.parent().append(row);
                     }
                 });
                 ;

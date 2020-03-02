@@ -1,52 +1,63 @@
+<div class="material-create">
 <h1>Add Material</h1>
 <section class="card">
     <div class="clearfix"></div> <br />
     <div ng-show="message.length > 0">
         <div class="alert alert-info">{{message}}</div>
     </div>
-	<form class="form-horizontal myForm" data-ng-submit="create()">
-		<div class="control-group">
-			<label class="control-label" for="name">Material</label>
-			<div class="controls">
-				<input type="text" data-ng-model="material" id="material" name="material" placeholder="Material" class="form-control col-sm-6 txtMaterial" >
-			</div>
-            <span class="error" style="color:red;"></span>
-		</div>	
-        
-        <div class="control-group">
-            <label class="control-label" for="name">Rate</label>
-            <div class="controls">
-                <input type="text" data-ng-model="rate" id="rate" name="rate" placeholder="Rate" class="form-control col-sm-6 txtRate">
+    <form class="form-horizontal myForm" data-ng-submit="create()">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-6">
+                <div class="control-group">
+                    <label class="control-label" for="name">Material</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="material" id="material" name="material" placeholder="Material" class="form-control col-sm-6 txtMaterial input-create" >
+                    </div>
+                    <span class="error" style="color:red;"></span>
+                </div>	
             </div>
-            <span class="error" style="color:red;"></span>
-        </div>	
-
-
-        <div class="control-group">
-            <label class="control-label" for="name">Scrap Rate</label>
-            <div class="controls">
-                <input type="text" data-ng-model="scrapRate" id="scrapRate" name="scrapRate" placeholder="Scrap Rate" class="form-control col-sm-6 txtScrapRate">
+            <div class="col-sm-12 col-md-12 col-lg-6">
+                <div class="control-group">
+                    <label class="control-label" for="name">Rate</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="rate" id="rate" name="rate" placeholder="Rate" class="form-control col-sm-6 txtRate input-create">
+                    </div>
+                    <span class="error" style="color:red;"></span>
+                </div>	
             </div>
-            <span class="error" style="color:red;"></span>
-        </div>	
+        </div>
 
-        <div class="control-group">
-            <label class="control-label" for="name">Scrap Recovery</label>
-            <div class="controls">
-                <input type="text" data-ng-model="scrapRecovery" id="scrapRecovery" name="scrapRecovery" placeholder="Scrap Recovery" class="form-control col-sm-6 txtScrapRecovery">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-6">
+                <div class="control-group">
+                    <label class="control-label" for="name">Scrap Rate</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="scrapRate" id="scrapRate" name="scrapRate" placeholder="Scrap Rate" class="form-control col-sm-6 txtScrapRate input-create">
+                    </div>
+                    <span class="error" style="color:red;"></span>
+                </div>	
             </div>
-            <span class="error" style="color:red;"></span>
-        </div>	
-        	
+            <div class="col-sm-12 col-md-12 col-lg-6">
+                <div class="control-group">
+                    <label class="control-label" for="name">Scrap Recovery</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="scrapRecovery" id="scrapRecovery" name="scrapRecovery" placeholder="Scrap Recovery" class="form-control col-sm-6 txtScrapRecovery input-create">
+                    </div>
+                    <span class="error" style="color:red;"></span>
+                </div>	
+            </div>
+        </div>
+
         <div class="clear clearfix" ></div><br />
-		<div class="control-group">
+        <div class="control-group">
             <div class="controls">
                 <input type="submit" class="btn btn-primary btn-Save" value="Save">
                 <a class="btn btn-secondary" href="/material">Cancel</a>
             </div>
-		</div>
-	</form>
+        </div>
+    </form>
 </section>
+</div>
 
 <!--<script src="/js/validation/department.js"></script>-->
 <script src="/js/lib/form-validation/jquery.validate.min.js"></script>

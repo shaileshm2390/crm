@@ -1,36 +1,43 @@
-<h1>Add Packing & Forwarding</h1>
-<section class="card">
-    <div ng-show="message.length == 0">
-        <div class="alert alert-info">{{message}}</div>
-    </div>
-	<form class="form-horizontal myForm" data-ng-submit="create()">
-		<div class="control-group">
-			<label class="control-label" for="name">Name</label>
-			<div class="controls">
-				<input type="text" data-ng-model="name" id="name" name="name" placeholder="Name" class="form-control col-sm-6 txtName" >
-			</div>
-            <span class="error" style="color:red;"></span>
-		</div>	
-        
-        <div class="control-group">
-            <label class="control-label" for="name">Rate/Kg</label>
-            <div class="controls">
-                <input type="text" data-ng-model="rate" id="rate" name="rate" placeholder="Rate" class="form-control col-sm-6 txtPackingAndForwardingRate">
-            </div>
-            <span class="error" style="color:red;"></span>
-        </div>	
+<div class="material-create htst-page-create">
+    <h1>Add Packing & Forwarding</h1>
+    <section class="card">
+        <div ng-show="message.length == 0">
+            <div class="alert alert-info">{{message}}</div>
+        </div>
+        <form class="form-horizontal myForm" data-ng-submit="create()">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                    <div class="control-group">
+                        <label class="control-label" for="name">Name</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="name" id="name" name="name" placeholder="Name" class="form-control col-sm-6 txtName input-create" >
+                        </div>
+                        <span class="error" style="color:red;"></span>
+                    </div>
+                </div>
 
-        <div class="clear clearfix" ></div><br />
-		<div class="control-group">
-            <div class="controls">
-                <input type="submit" class="btn btn-primary btn-Save" value="Save">
-                <a class="btn btn-secondary" href="/packing-and-forwarding">Cancel</a>
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                    <div class="control-group">
+                        <label class="control-label" for="name">Rate/Kg</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="rate" id="rate" name="rate" placeholder="Rate" class="form-control col-sm-6 txtPackingAndForwardingRate input-create">
+                        </div>
+                        <span class="error" style="color:red;"></span>
+                    </div>	
+                </div>
             </div>
-		</div>
-	</form>
-</section>
 
-<!--<script src="/js/validation/department.js"></script>-->
-<script src="/js/lib/form-validation/jquery.validate.min.js"></script>
-<script src="/js/validation/validations.js"></script>
-<link href="/css/validations.css" rel="stylesheet" />
+            <div class="clear clearfix" ></div><br />
+            <div class="control-group">
+                <div class="controls">
+                    <input type="submit" class="btn btn-primary btn-Save" value="Save">
+                    <a class="btn btn-secondary" href="/packing-and-forwarding">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <!--<script src="/js/validation/department.js"></script>-->
+    <script src="/js/lib/form-validation/jquery.validate.min.js"></script>
+    <script src="/js/validation/validations.js"></script>
+    <link href="/css/validations.css" rel="stylesheet" />

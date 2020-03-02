@@ -19,13 +19,14 @@
                 <div class="clear clearfix"></div><br />
                 <div class="row">
                     <div class="col col-lg-9">
-                        <p><label>Customer Name: </label><strong class="lblCustomerName">{{customer.name}}</strong></p>
-                        <p><label>Email: </label><strong>{{customer.email}}</strong></p>
-                        <p><label>Contact: </label><strong>{{customer.contact}}</strong></p>
+                        <p><label>Customer Name: </label> <strong class="lblCustomerName">{{customer.name}}</strong></p>
+                        <p><label>Email: </label> <strong>{{customer.email}}</strong></p>
+                        <p><label>Company: </label> <strong>{{customer.company}}</strong></p>
+                        <p><label>Contact: </label> <strong>{{customer.contact}}</strong></p>
                     </div>
-                    <div class="col col-lg-3">
+                    <!-- <div class="col col-lg-3">
                         <p><label>Company: </label><strong>{{customer.company}}</strong></p>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="row">
                     <ul id="carousel" class="elastislide">
@@ -67,7 +68,7 @@
                     <form class="form-horizontal" data-ng-submit="create()" name="myForm" id="myForm">
                         <div class="row" style=" padding:5px;">
                             <textarea data-ng-model="comment" name="comment" id="comment" placeholder="Add new comment" class="form-control col-lg-10"></textarea>
-                            <input type="submit" class="btn btn-secondary col-lg-2" value="Comment">
+                            <input type="submit" class="btn btn-secondary col-lg-2 comment-btn" value="Comment">
                         </div>
                     </form>
                 </div>

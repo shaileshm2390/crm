@@ -1,45 +1,55 @@
-<h1>Add HT/ST</h1>
-<section class="card">
-    <div ng-show="message.length == 0">
-        <div class="alert alert-info">{{message}}</div>
-    </div>
-	<form class="form-horizontal myForm" data-ng-submit="create()">
-		<div class="control-group">
-			<label class="control-label" for="name">Parameter</label>
-			<div class="controls">
-				<input type="text" data-ng-model="parameter" id="parameter" name="parameter" placeholder="Parameter" class="form-control col-sm-6 txtParameter" >
-			</div>
-            <span class="error" style="color:red;"></span>
-		</div>	
-        
-        <div class="control-group">
-            <label class="control-label" for="name">Rate/Kg</label>
-            <div class="controls">
-                <input type="text" data-ng-model="rate" id="rate" name="rate" placeholder="Rate" class="form-control col-sm-6 txtRate">
+<div class="material-create htst-page-create">
+    <h1>Add HT/ST</h1>
+    <section class="card">
+        <div ng-show="message.length == 0">
+            <div class="alert alert-info">{{message}}</div>
+        </div>
+        <form class="form-horizontal myForm" data-ng-submit="create()">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                    <div class="control-group">
+                        <label class="control-label" for="name">Parameter</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="parameter" id="parameter" name="parameter" placeholder="Parameter" class="form-control col-sm-6 txtParameter input-create" >
+                        </div>
+                        <span class="error" style="color:red;"></span>
+                    </div>	
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                    <div class="control-group">
+                        <label class="control-label" for="name">Rate/Kg</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="rate" id="rate" name="rate" placeholder="Rate" class="form-control col-sm-6 txtRate input-create">
+                        </div>
+                        <span class="error" style="color:red;"></span>
+                    </div>	
+                </div>
             </div>
-            <span class="error" style="color:red;"></span>
-        </div>	
 
-
-        <div class="control-group">
-            <label class="control-label" for="name">Details</label>
-            <div class="controls">
-                <textarea rows="7" style="height:auto;" data-ng-model="details" id="details" name="details" placeholder="Details" class="form-control col-sm-6 txtDetails"></textarea>
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                    <div class="control-group">
+                        <label class="control-label" for="name">Details</label>
+                        <div class="controls">
+                            <textarea rows="7" style="height:auto;" data-ng-model="details" id="details" name="details" placeholder="Details" class="form-control col-sm-6 txtDetails input-create"></textarea>
+                        </div>
+                        <span class="error" style="color:red;"></span>
+                    </div>	
+                </div>
             </div>
-            <span class="error" style="color:red;"></span>
-        </div>	
 
-        <div class="clear clearfix" ></div><br />
-		<div class="control-group">
-            <div class="controls">
-                <input type="submit" class="btn btn-primary btn-Save" value="Save">
-                <a class="btn btn-secondary" href="/htst">Cancel</a>
+            <div class="clear clearfix" ></div><br />
+            <div class="control-group">
+                <div class="controls">
+                    <input type="submit" class="btn btn-primary btn-Save" value="Save">
+                    <a class="btn btn-secondary" href="/htst">Cancel</a>
+                </div>
             </div>
-		</div>
-	</form>
-</section>
+        </form>
+    </section>
 
-<!--<script src="/js/validation/department.js"></script>-->
-<script src="/js/lib/form-validation/jquery.validate.min.js"></script>
-<script src="/js/validation/validations.js"></script>
-<link href="/css/validations.css" rel="stylesheet" />
+    <!--<script src="/js/validation/department.js"></script>-->
+    <script src="/js/lib/form-validation/jquery.validate.min.js"></script>
+    <script src="/js/validation/validations.js"></script>
+    <link href="/css/validations.css" rel="stylesheet" />

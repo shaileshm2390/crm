@@ -1,101 +1,142 @@
+<div class="material-create customer-create">
 <h1>Add Customer</h1>
 <section class="card">
-    <div class="clearfix"></div> <br />
-    <div ng-show="message.length > 0">
-        <div class="alert alert-info">{{message}}</div>
-    </div>
-    <form class="form-horizontal myForm" data-ng-submit="create()">
-        <div class="control-group">
-            <label class="control-label" for="email">Email</label>
-            <div class="controls">
-                <input type="text" data-ng-model="email" name="email" id="email" placeholder="Email" class="form-control col-sm-6 txtEmail">
-            </div>
-            <span class="errorEmail" style="color:red;"></span>
-        </div>
-        <br />
+	<div class="clearfix"></div> <br />
+	<div ng-show="message.length > 0">
+		<div class="alert alert-info">{{message}}</div>
+	</div>
+	<form class="form-horizontal myForm" data-ng-submit="create()">
+		<div class="row">
+			<div class="col-sm-12 col-md-12 col-lg-6">
+				<div class="control-group">
+					<label class="control-label" for="email">Email</label>
+					<div class="controls">
+						<input type="text" data-ng-model="email" name="email" id="email" placeholder="Email" class="form-control col-sm-6 txtEmail input-create">
+					</div>
+					<span class="errorEmail" style="color:red;"></span>
+				</div>
+			</div>
+			<br />
 
+			<div class="col-sm-12 col-md-12 col-lg-6">
+				<div class="control-group">
+					<label class="control-label" for="company">Company</label>
+					<div class="controls">
+						<input type="text" data-ng-model="company" id="company" name="company" placeholder="Company" class="form-control col-sm-6 txtCompany input-create">
+					</div>
+					<span class="errorCompany" style="color:red;"></span>
+				</div>
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col-sm-12 col-md-12 col-lg-6">
+				<div class="control-group">
+					<label class="control-label" for="name">Name</label>
+					<div class="controls">
+						<input type="text" data-ng-model="name" id="name" name="name" placeholder="Name" class="form-control col-sm-6 txtName input-create">
+					</div>
+					<span class="errorName" style="color:red;"></span>
+				</div>
+			</div>
+			<br />
 
-        <div class="control-group">
-            <label class="control-label" for="company">Company</label>
-            <div class="controls">
-                <input type="text" data-ng-model="company" id="company" name="company" placeholder="Company" class="form-control col-sm-6 txtCompany">
-            </div>
-            <span class="errorCompany" style="color:red;"></span>
-        </div>
-        <br />
+			<div class="col-sm-12 col-md-12 col-lg-6">
+				<div class="control-group">
+					<label class="control-label" for="contact">Contact Number</label>
+					<div class="controls">
+						<input type="tel" data-ng-model="contact" id="contact" name="contact" placeholder="Contact Number" class="form-control col-sm-6 txtContact input-create">
+					</div>
+					<span class="errorContact" style="color:red;"></span>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12 col-md-12 col-lg-6">
+				<div class="control-group">
+					<label class="control-label" for="payment">Payments</label>
+					<div class="controls">
+						<input type="text" data-ng-model="payment" name="payment" id="payment" placeholder="Payments" class="form-control col-sm-6 txtPayments input-create">
+					</div>
+				</div>
+			</div>
+			<br/>
+			<div class="col-sm-12 col-md-12 col-lg-6">
+				<div class="control-group">
+					<label class="control-label" for="tax">Taxes</label>
+					<div class="controls">
+						<input type="text" data-ng-model="tax" name="tax" id="tax" placeholder="Taxes" class="form-control col-sm-6 txtTaxes input-create">
+					</div>
+				</div>
+			</div>
+		</div>
+		<br />
 
-        <div class="control-group">
-            <label class="control-label" for="name">Name</label>
-            <div class="controls">
-                <input type="text" data-ng-model="name" id="name" name="name" placeholder="Name" class="form-control col-sm-6 txtName">
-            </div>
-            <span class="errorName" style="color:red;"></span>
-        </div>
-        <br />
+		<div class="row">
+			<div class="col-sm-12 col-md-12 col-lg-6">
 
-        <div class="control-group">
-            <label class="control-label" for="contact">Contact Number</label>
-            <div class="controls">
-                <input type="tel" data-ng-model="contact" id="contact" name="contact" placeholder="Contact Number" class="form-control col-sm-6 txtContact">
-            </div>
-            <span class="errorContact" style="color:red;"></span>
-        </div>
+				<div class="control-group">
+					<label class="control-label" for="freight">Freight</label>
+					<div class="controls">
+						<input type="text" data-ng-model="freight" name="freight" id="freight" placeholder="Freight" class="form-control col-sm-6 txtFreight input-create">
+					</div>
+				</div>
+			</div>
+			<br />
+			<div class="col-sm-12 col-md-12 col-lg-6">
+				<div class="control-group">
+					<label class="control-label" for="packing">Packing</label>
+					<div class="controls">
+						<input type="text" data-ng-model="packing" name="packing" id="packing" placeholder="Packing" class="form-control col-sm-6 txtPacking input-create datepicker txtValue" value="{{record.packing}} | date : 'dd/MM/YYYY'">
+					</div>
+				</div>
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col-sm-12 col-md-12 col-lg-6">
+				<div class="control-group">
+					<label class="control-label" for="validity">Validity</label>
+					<div class="controls">
+						<input type="text" data-ng-model="validity" name="validity" id="validity" placeholder="Validity" class="form-control col-sm-6 txtValidity datepicker txtValue input-create" value="{{record.validity}} | date : 'dd/MM/YYYY'">
+					</div>
+				</div>
+			</div>
+			<br />
+			<div class="col-sm-12 col-md-12 col-lg-6">
+				<div class="control-group">
+					<label class="control-label" for="terms">Delivery Terms</label>
+					<div class="controls">
+						<input type="text" data-ng-model="terms" name="terms" id="terms" placeholder="Delivery Terms" class="form-control col-sm-6 txtD_terms input-create">
+					</div>
+				</div>
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<div class="col-sm-12 col-md-12 col-lg-6">
+				<div class="control-group">
+					<label class="control-label">Images</label>
+					<div class="controls">
+						<div id="myId" class="dropzone col-sm-6 input-create"></div>
+					</div>
+				</div>
 
-        <div class="control-group">
-            <label class="control-label" for="payment">Payments</label>
-            <div class="controls">
-                <input type="text" data-ng-model="payment" name="payment" id="payment" placeholder="Payments" class="form-control col-sm-6 txtPayments">
-            <br/>
+				<input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString"
+				/>
+			</div>
+		</div>
 
-        <div class="control-group">
-            <label class="control-label" for="tax">Taxes</label>
-            <div class="controls">
-                <input type="text" data-ng-model="tax" name="tax" id="tax" placeholder="Taxes" class="form-control col-sm-6 txtTaxes">
-            <br />
-
-        <div class="control-group">
-            <label class="control-label" for="freight">Freight</label>
-            <div class="controls">
-                <input type="text" data-ng-model="freight" name="freight" id="freight" placeholder="Freight" class="form-control col-sm-6 txtFreight">
-            <br />
-
-        <div class="control-group">
-            <label class="control-label" for="packing">Packing</label>
-            <div class="controls">
-                <input type="text" data-ng-model="packing" name="packing" id="packing" placeholder="Packing" class="form-control col-sm-6 txtPacking datepicker txtValue" value="{{record.packing}} | date : 'dd/MM/YYYY'">
-            <br />
-
-        <div class="control-group">
-            <label class="control-label" for="validity">Validity</label>
-            <div class="controls">
-                <input type="text" data-ng-model="validity" name="validity" id="validity" placeholder="Validity" class="form-control col-sm-6 txtValidity datepicker txtValue" value="{{record.validity}} | date : 'dd/MM/YYYY'">
-            <br />
-
-        <div class="control-group">
-            <label class="control-label" for="terms">Delivery Terms</label>
-            <div class="controls">
-                <input type="text" data-ng-model="terms" name="terms" id="terms" placeholder="Delivery Terms" class="form-control col-sm-6 txtD_terms">
-            <br />
-
-        <div class="control-group">
-            <label class="control-label">Images</label>
-            <div class="controls">
-                <div id="myId" class="dropzone col-sm-6"></div>
-            </div>
-        </div>
-
-        <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString"
-        />
-
-        <div class="clear clearfix"></div><br />
-        <div class="control-group">
-            <div class="controls">
-                <input type="submit" class="btn btn-primary btn-Save" value="Save">
-                <a class="btn btn-secondary" href="/customer">Cancel</a>
-            </div>
-        </div>
-    </form>
+		<div class="clear clearfix"></div><br />
+		<div class="control-group">
+			<div class="controls">
+				<input type="submit" class="btn btn-primary btn-Save" value="Save">
+				<a class="btn btn-secondary" href="/customer">Cancel</a>
+			</div>
+		</div>
+	</form>
 </section>
+</div>
 
 <script src="/js/lib/form-validation/jquery.validate.min.js"></script>
 <!--<script src="/js/lib/form-validation/jquery.validate-init.js"></script>-->
@@ -104,19 +145,19 @@
 
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        var imagesArray = [];
-        var myDropzone = new Dropzone('#myId', {
-            url: "/customerimages/"
-        });
-        $(".datepicker").datepicker();
-        myDropzone.on("success", function (file, response) {
-            console.log(response);
-            imagesArray.push(response.pathFromRoot);
-        });
+	$(document).ready(function () {
+		var imagesArray = [];
+		var myDropzone = new Dropzone('#myId', {
+			url: "/customerimages/"
+		});
+		$(".datepicker").datepicker();
+		myDropzone.on("success", function (file, response) {
+			console.log(response);
+			imagesArray.push(response.pathFromRoot);
+		});
 
-        $(".btn-Save").on('click', function () {
-            $(".hdnImages").val(imagesArray.join(",")).trigger('change');
-        });
-    });
+		$(".btn-Save").on('click', function () {
+			$(".hdnImages").val(imagesArray.join(",")).trigger('change');
+		});
+	});
 </script>

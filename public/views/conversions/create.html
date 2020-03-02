@@ -1,53 +1,65 @@
-<h1>Add Conversion</h1>
-<section class="card">
-    <div ng-show="message.length > 0">
-        <div class="alert alert-info">{{message}}</div>
-    </div>
-	<form class="form-horizontal myForm" data-ng-submit="create()">
-		<div class="control-group">
-			<label class="control-label" for="name">Operation</label>
-			<div class="controls">
-				<input type="text" data-ng-model="operation" id="operation" name="operation" placeholder="Operation" class="form-control col-sm-6 txtOperation" >
-			</div>
-            <span class="error" style="color:red;"></span>
-		</div>	
-        
-        <div class="control-group">
-            <label class="control-label" for="name">Machine</label>
-            <div class="controls">
-                <input type="text" data-ng-model="machine" id="machine" name="machine" placeholder="Machine" class="form-control col-sm-6 txtMachine">
-            </div>
-            <span class="error" style="color:red;"></span>
-        </div>	
+<div class="material-create conversion-page-create">
+    <h1>Add Conversion</h1>
+    <section class="card">
+        <div ng-show="message.length > 0">
+            <div class="alert alert-info">{{message}}</div>
+        </div>
+        <form class="form-horizontal myForm" data-ng-submit="create()">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                    <div class="control-group">
+                        <label class="control-label" for="name">Operation</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="operation" id="operation" name="operation" placeholder="Operation" class="form-control col-sm-6 txtOperation input-create" >
+                        </div>
+                        <span class="error" style="color:red;"></span>
+                    </div>	
+                </div>
 
-
-        <div class="control-group">
-            <label class="control-label" for="name">Rate/hrs</label>
-            <div class="controls">
-                <input type="text" data-ng-model="rate" id="rate" name="rate" placeholder="Rate/hrs" class="form-control col-sm-6 txtRate">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                    <div class="control-group">
+                        <label class="control-label" for="name">Machine</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="machine" id="machine" name="machine" placeholder="Machine" class="form-control col-sm-6 txtMachine input-create">
+                        </div>
+                        <span class="error" style="color:red;"></span>
+                    </div>	
+                </div>
             </div>
-            <span class="error" style="color:red;"></span>
-        </div>	
 
-        <div class="control-group">
-            <label class="control-label" for="name">Efficiency (%)</label>
-            <div class="controls">
-                <input type="text" data-ng-model="efficiency" id="efficiency" name="efficiency" placeholder="Efficiency" class="form-control col-sm-6 txtEfficiency">
-            </div>
-            <span class="error" style="color:red;"></span>
-        </div>	
-        	
-        <div class="clear clearfix" ></div><br />
-		<div class="control-group">
-            <div class="controls">
-                <input type="submit" class="btn btn-primary btn-Save" value="Save">
-                <a class="btn btn-secondary" href="/conversion">Cancel</a>
-            </div>
-		</div>
-	</form>
-</section>
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                    <div class="control-group">
+                        <label class="control-label" for="name">Rate/hrs</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="rate" id="rate" name="rate" placeholder="Rate/hrs" class="form-control col-sm-6 txtRate input-create">
+                        </div>
+                        <span class="error" style="color:red;"></span>
+                    </div>	
+                </div>
 
-<!--<script src="/js/validation/department.js"></script>-->
-<script src="/js/lib/form-validation/jquery.validate.min.js"></script>
-<script src="/js/validation/validations.js"></script>
-<link href="/css/validations.css" rel="stylesheet" />
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                    <div class="control-group">
+                        <label class="control-label" for="name">Efficiency (%)</label>
+                        <div class="controls">
+                            <input type="text" data-ng-model="efficiency" id="efficiency" name="efficiency" placeholder="Efficiency" class="form-control col-sm-6 txtEfficiency input-create">
+                        </div>
+                        <span class="error" style="color:red;"></span>
+                    </div>	
+                </div>
+            </div>
+
+            <div class="clear clearfix" ></div><br />
+            <div class="control-group">
+                <div class="controls">
+                    <input type="submit" class="btn btn-primary btn-Save" value="Save">
+                    <a class="btn btn-secondary" href="/conversion">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <!--<script src="/js/validation/department.js"></script>-->
+    <script src="/js/lib/form-validation/jquery.validate.min.js"></script>
+    <script src="/js/validation/validations.js"></script>
+    <link href="/css/validations.css" rel="stylesheet" />

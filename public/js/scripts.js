@@ -70,6 +70,10 @@ $(function() {
             $(this).toggleClass("open")
         });
 
+        $('.nav-menu-main').on('click',function(){
+ 			$('body').toggleClass('menu-expanded');
+		});
+
         $(".message-center").slimScroll({
             position: "right",
             size: "5px",

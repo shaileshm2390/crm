@@ -8,7 +8,7 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
     $scope.fromDate = "";
     $scope.toDate = "";
     $scope.reports = [];
-    $scope.partId = $stateParams.partId;
+    $scope.partId = $stateParams.partId || 0;
 
     $scope.trustAsHtml = function (html) {
         return $sce.trustAsHtml(html);

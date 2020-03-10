@@ -163,16 +163,19 @@ exports.sendMail = function (req, res) {
 exports.update = function (req, res) {
 
     // create a new variable to hold the department that was placed on the req object.
-    var costSheet = req.costSheet;
-
-    costSheet.updateAttributes({
-        status: req.body.status
-    }).then(function (a) {
-        return res.jsonp(a);
-    }).catch(function (err) {
-        return res.render('error', {
-            error: err,
-            status: 500
+    db.CostSheet.update({ status: 'rejected' }, {
+        where: { RfqId: req.body.RfqId, RfqPartId: req.body.RfqPartId }
+    }).then(function (updatedRecords) {
+        var costSheet = req.costSheet;
+        costSheet.updateAttributes({
+            status: req.body.status
+        }).then(function (a) {
+            return res.jsonp(a);
+        }).catch(function (err) {
+            return res.render('error', {
+                error: err,
+                status: 500
+            });
         });
     });
 };
@@ -211,7 +214,7 @@ exports.all = function (req, res) {
 
 exports.costsheetByRfqId = function (req, res, next, id) {
     db.CostSheet.findAll({
-        where: { RfqId: id },
+        where: { RfqId: id, RfqPartId: req.query.partId},
         include: [
             {
                 model: db.User,

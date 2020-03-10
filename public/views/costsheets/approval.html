@@ -5,95 +5,107 @@
         <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
 
         <h3><strong>Prepared Cost Sheet</strong></h3>
-        <div ng-show="!costsheets.length">
+        <div class="alert alert-success lblMsg hide"></div>
+        <div class="clear clearfix"></div>
+
+        <div class="row">
+            <div class="col col-lg-4 m-b-10">
+                Select Part
+                <select class="form-control ddlParts">
+                    <option value="">Select Part</option>
+                    <option ng-repeat="item in rfq.RfqParts" value="{{item.id}}" ng-selected="item.id == partId">{{item.partName}}</option>
+                </select>
+            </div>
+        </div>
+        <div ng-show="!costsheets.length && partId != 0">
             <div>This RFQ don't have any cost sheet prepared <br /><br /><a href="/rfq/{{rfq.id}}/costsheet/prepare">Please click here</a> to prepare one</div>
         </div>
-     
+
         <div ng-init="findByRfqId()" ng-show="costsheets.length">
-            <div class="row">            
-                    <div ng-repeat="costsheet in costsheets | orderBy: '-createdAt'" class="col col-lg- costsheet-approval-row">
-                        <div style="background-color:#e7e7e7; padding: 5px">
+            <div class="row">
+                <div ng-repeat="costsheet in costsheets | orderBy: '-createdAt'" class="col col-lg- costsheet-approval-row">
+                    <div style="background-color:#e7e7e7; padding: 5px">
 
-                            <h6>
-                                Created by:
-                                <strong> {{costsheet.User.firstName}} {{costsheet.User.lastName}}</strong>
-                                <small>({{costsheet.User.email}})</small><br /><br />
-                                <small><i> - {{costsheet.createdAt | date:'medium'}}</i></small>
+                        <h6>
+                            Created by:
+                            <strong> {{costsheet.User.firstName}} {{costsheet.User.lastName}}</strong>
+                            <small>({{costsheet.User.email}})</small><br /><br />
+                            <small><i> - {{costsheet.createdAt | date:'medium'}}</i></small>
 
-                                <span class="pull-right">
-                                    <strong ng-class="((costsheet.status=='approved') ? 'badge badge-success' : (costsheet.status=='rejected') ? 'badge badge-danger' : 'badge badge-warning')">{{costsheet.status | capitalize}}</strong>
-                                </span>
-                            </h6>
+                            <span class="pull-right">
+                                <strong ng-class="((costsheet.status=='approved') ? 'badge badge-success' : (costsheet.status=='rejected') ? 'badge badge-danger' : 'badge badge-warning')">{{costsheet.status | capitalize}}</strong>
+                            </span>
+                        </h6>
 
-                            <div class="clear clearfix"></div><br />
+                        <div class="clear clearfix"></div><br />
 
-                            <div class="row">
-                                <div ng-show="global.user.isAdmin" style="border-left:1px solid rgba(0,0,0,.1)"  class="col col-lg-12">
-                                    <div style="text-align:center;">
+                        <div class="row">
+                            <div ng-show="global.user.isAdmin" style="border-left:1px solid rgba(0,0,0,.1)" class="col col-lg-12">
+                                <div style="text-align:center;">
 
-                                        <!--<a ng-class="(global.user.isAdmin && 'btn-update btn btn-primary') || 'btn btn-primary'" data-parameter="{{costsheet.data}}" href="#" title="Copy and modify">
-                                            <span><i class="fa fa-wrench"></i></span>
-                                        </a>-->
-                                        <a class="btn btn-success lnkUpdateStatus" data-id="{{costsheet.id}}" data-status="approved" href="#" title="Click to approve" ng-hide="costsheet.status == 'approved'">
-                                            <span><i class="fa fa-thumbs-o-up"></i></span>
-                                        </a>
-                                        <a class="btn btn-danger lnkUpdateStatus" data-id="{{costsheet.id}}" data-status="rejected" href="#" title="Click to reject" ng-hide="costsheet.status == 'rejected'">
-                                            <span><i class="fa fa-ban"></i></span>
-                                        </a>
-                                        <a class="btn btn-warning lnkUpdateStatus" data-id="{{costsheet.id}}" data-status="pending" href="#" title="Click to pending" ng-hide="costsheet.status == 'pending'">
-                                            <span><i class="fa fa-clock-o"></i></span>
-                                        </a>
-                                        <!--<a class="btn btn-primary btn-mail" data-id="{{costsheet.id}}" href="#" ng-show="costsheet.status == 'approved'" title="Mail cost sheet to {{rfq.Buyer.name}}">
-                                            <span><i class="fa fa-envelope"></i></span>
-                                        </a>-->
+                                    <!--<a ng-class="(global.user.isAdmin && 'btn-update btn btn-primary') || 'btn btn-primary'" data-parameter="{{costsheet.data}}" href="#" title="Copy and modify">
+                                    <span><i class="fa fa-wrench"></i></span>
+                                </a>-->
+                                    <a class="btn btn-success lnkUpdateStatus" data-id="{{costsheet.id}}" data-status="approved" href="#" title="Click to approve" ng-hide="costsheet.status == 'approved'">
+                                        <span><i class="fa fa-thumbs-o-up"></i></span>
+                                    </a>
+                                    <a class="btn btn-danger lnkUpdateStatus" data-id="{{costsheet.id}}" data-status="rejected" href="#" title="Click to reject" ng-hide="costsheet.status == 'rejected'">
+                                        <span><i class="fa fa-ban"></i></span>
+                                    </a>
+                                    <a class="btn btn-warning lnkUpdateStatus" data-id="{{costsheet.id}}" data-status="pending" href="#" title="Click to pending" ng-hide="costsheet.status == 'pending'">
+                                        <span><i class="fa fa-clock-o"></i></span>
+                                    </a>
+                                    <!--<a class="btn btn-primary btn-mail" data-id="{{costsheet.id}}" href="#" ng-show="costsheet.status == 'approved'" title="Mail cost sheet to {{rfq.Buyer.name}}">
+                                    <span><i class="fa fa-envelope"></i></span>
+                                </a>-->
 
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col col-lg-12 cost-sheet-form">
-                                    <hr />
-                                    <div>
-                                        <strong>Cost Sheet Parameter </strong>
-                                        <a href="#" class="btn btn-primary lnkAdd  pull-right" data-width="12" title="add row">
-                                            <span><i class="fa fa-plus-circle"></i></span>
-                                        </a>
-                                    </div>
-                                    <br />
-                                    <hr />
-
-                                    
-
-                                    <div class="clear clearfix"></div><br />
-                                    <div>
-                                        <div class="pnlParameter row">
-                                        </div>
-                                        <div ng-repeat="item in costsheet.data" class="head-row">                                           
-                                            <div class="row f-s-13 removable-row" style="padding:0px;" ng-repeat="(key,value) in item"  ng-class="(key=='Total') == true && 'm-t-20 font-weight-bold'"> 
-                                                <span class="row-remove"><i class="fa fa-minus-circle"></i></span>
-                                                <div class="col col-lg-5">
-                                                    <label class="txtPredefinedName">{{key}}</label>
-                                                </div>
-                                                <div class="col col-lg-2">:</div>
-                                                <div class="col col-lg-5">
-                                                    <input type="text" value="{{value}}" class="form-control txtPredefinedValue" title="{{value}}" />
-                                                </div>
-                                            </div> <hr />
-                                        </div>
-
-                                        <div class="clear clearfix"></div>
-                                        <div class="row">
-                                            <a class="btn btn-primary btnUpdateAndApproved btnSubmit" href="#" style="margin: 10px auto;">Update &amp; Approve</a>
-                                        </div>
-                                    </div>         
-                                                       
                                 </div>
                             </div>
                         </div>
-                    </div>                
+                        <div class="row">
+                            <div class="col col-lg-12 cost-sheet-form">
+                                <hr />
+                                <div>
+                                    <strong>Cost Sheet Parameter </strong>
+                                    <a href="#" class="btn btn-primary lnkAdd  pull-right" data-width="12" title="add row">
+                                        <span><i class="fa fa-plus-circle"></i></span>
+                                    </a>
+                                </div>
+                                <br />
+                                <hr />
+
+
+
+                                <div class="clear clearfix"></div><br />
+                                <div>
+                                    <div class="pnlParameter row">
+                                    </div>
+                                    <div ng-repeat="item in costsheet.data" class="head-row">
+                                        <div class="row f-s-13 removable-row" style="padding:0px;" ng-repeat="(key,value) in item" ng-class="(key=='Total') == true && 'm-t-20 font-weight-bold'">
+                                            <span class="row-remove"><i class="fa fa-minus-circle"></i></span>
+                                            <div class="col col-lg-5">
+                                                <label class="txtPredefinedName">{{key}}</label>
+                                            </div>
+                                            <div class="col col-lg-2">:</div>
+                                            <div class="col col-lg-5">
+                                                <input type="text" value="{{value}}" class="form-control txtPredefinedValue" title="{{value}}" />
+                                            </div>
+                                        </div> <hr />
+                                    </div>
+
+                                    <div class="clear clearfix"></div>
+                                    <div class="row">
+                                        <a class="btn btn-primary btnUpdateAndApproved btnSubmit" href="#" style="margin: 10px auto;">Update &amp; Approve</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-          
+
         <div class="create-costsheet hide">
             <div class="alert alert-success lblMsg hide"></div>
             <div class="clear clearfix"></div> <br />

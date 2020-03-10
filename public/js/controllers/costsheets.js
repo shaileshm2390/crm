@@ -9,7 +9,7 @@ var app = angular.module('mean.costsheets').controller('CostSheetsController', [
     }
 
     $scope.findByRfqId = function () {
-        $http.get("/rfq/costsheets/" + $stateParams.rfqId)
+        $http.get("/rfq/costsheets/" + $stateParams.rfqId + "?partId=" + $stateParams.partId)
             .then(function (response) {
                 $scope.costsheets = response.data;
             }, function (error) {

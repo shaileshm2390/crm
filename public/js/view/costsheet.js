@@ -163,7 +163,7 @@
         $.ajax({
             url: '/costsheets/',
             method: "POST",
-            data: { UserId: window.user.id, data: data, RfqId: rfqId, status: window.user.isAdmin ? "approved" : "pending" }
+            data: { UserId: window.user.id, data: data, RfqId: rfqId, status: window.user.isAdmin ? "approved" : "pending", RfqPartId: parseInt($('.ddlParts').val()) }
         }).done(function (response) {
             $(".lblMsg").html("<span>Saved successfully !!!</span>").removeClass("hide");
             dfd.resolve(response);
@@ -188,6 +188,14 @@
             }
             e.stopImmediatePropagation();
             return false;
+        });
+
+        $(".ddlParts").on('change', function () {
+            if ($(this).val()) {
+                window.location.href = "/rfq/" + $(".hdnRfqId").val() + "/costsheet/approval/" + $(this).val();
+            } else {
+                $(".section-costsheet").hide();
+            }
         });
 
         // save cost sheet to db
@@ -241,7 +249,7 @@
             if ((validField.length > 0 && $.inArray(false, validField) < 0) || $.inArray(false, validPredefinedField) < 0) {
                 // save costsheet
                 $.when(saveCostSheet(JSON.stringify(nameValuePair))).then(function () {
-                    window.location.href = '/rfq/' + $('.hdnRfqId').val() + '/costsheet/approval';
+                    window.location.href = '/rfq/' + $('.hdnRfqId').val() + '/costsheet/approval/' + $('.ddlParts').val();
                 });
             } else {
                 nameValuePair = [];
@@ -274,7 +282,7 @@
                 $.ajax({
                     url: '/costsheets/' + $(this).data("id"),
                     method: "PUT",
-                    data: { status: $(this).data("status") }
+                    data: { status: $(this).data("status"), RfqId: $('.hdnRfqId').val(), RfqPartId: $('.ddlParts').val()}
                 }).done(function (response) {
                     window.location.reload();
                 });

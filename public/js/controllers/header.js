@@ -14,7 +14,8 @@ angular.module('mean.system').controller('HeaderController', ['$scope', 'Global'
     
     $scope.isCollapsed = false;
 
-    $scope.SignOut = function(){
+    $scope.SignOut = function () {
+        console.log("Hi");
         SignOut.get(function(response){
             if(response.status === 'success'){
                 $scope.global = null;

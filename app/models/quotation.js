@@ -12,6 +12,8 @@ module.exports = function (sequelize, DataTypes) {
             associate: function (models) {
                 Quotation.belongsTo(models.User);
                 Quotation.belongsTo(models.CostSheet);
+                Quotation.belongsTo(models.RfqParts);
+                Quotation.hasMany(models.QuotationsCostSheet);
             }
         }
     );

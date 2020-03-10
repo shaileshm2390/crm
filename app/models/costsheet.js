@@ -4,6 +4,7 @@ module.exports = function (sequelize, DataTypes) {
 
     var CostSheet = sequelize.define('CostSheet', {
         data: DataTypes.TEXT,
+        TotalCost: DataTypes.STRING,
         status: { type: DataTypes.STRING, defaultValue: "pending" }
     },  
         {

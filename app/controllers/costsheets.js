@@ -57,46 +57,94 @@ exports.create = function (req, res) {
 };
 
 exports.approvedCostsheetByRfqId = function (req, res, next, id) {
-    db.CostSheet.find({
-        where: [{ RfqId: id }, {status: 'approved'}],
-        order: [['createdAt', 'DESC']],
-        limit: 1,
-        include: [
-            {
-                model: db.User,
-                attributes: ['id', 'email', 'firstName', 'lastName']
-            },
-            {
-                model: db.Rfq,
-                include: [
-                    {
-                        model: db.Buyer,
-                        include: [
-                            {
-                                model: db.Customer,
-                                required: false
-                            }
-                        ],
-                        required: false
+    console.log(id, req.query.partId);
+    if (typeof req.query.partId === 'undefined' || req.query.partId === 0) {
+        db.CostSheet.findAll({
+            where: [{ RfqId: id }, { status: 'approved' }],
+            order: [['createdAt', 'DESC']],
+            include: [
+                {
+                    model: db.User,
+                    attributes: ['id', 'email', 'firstName', 'lastName']
+                },
+                {
+                    model: db.RfqParts,
+                    attributes: ['id', 'partName']
+                },
+                {
+                    model: db.Rfq,
+                    include: [
+                        {
+                            model: db.Buyer,
+                            include: [
+                                {
+                                    model: db.Customer,
+                                    required: false
+                                }
+                            ],
+                            required: false
+                        }
+                    ]
+                }
+            ]
+        }).then(function (costSheets) {
+            console.log("costSheet" + costSheets);
+            if (!costSheets) {
+                return next(new Error('Failed to load CostSheet ' + id));
+            } else {
+                if (costSheets.length > 0) {
+                    for (var index = 0; index < costSheets.length; index++) {
+                        costSheets[index].data = JSON.parse(costSheets[index].data);
                     }
-                ]
+                }
+                req.costSheet = costSheets;
+                return next();
             }
-        ]
-    }).then(function (costSheet) {
-        if (!costSheet) {
-            req.costSheet = {};
-            return next();
-        } else {
-            if (costSheet.data.length > 0) {
-                costSheet.data = JSON.parse(costSheet.data);
+        }).catch(function (err) {
+            return next(err);
+        });
+    } else {
+        db.CostSheet.findAll({
+            where: [{ RfqId: id }, { status: 'approved' }, { RfqPartId: req.query.partId }],
+            order: [['createdAt', 'DESC']],
+            include: [
+                {
+                    model: db.User,
+                    attributes: ['id', 'email', 'firstName', 'lastName']
+                },
+                {
+                    model: db.Rfq,
+                    include: [
+                        {
+                            model: db.Buyer,
+                            include: [
+                                {
+                                    model: db.Customer,
+                                    required: false
+                                }
+                            ],
+                            required: false
+                        }
+                    ]
+                }
+            ]
+        }).then(function (costSheets) {
+            if (!costSheets) {
+                return next(new Error('Failed to load CostSheet ' + id));
+            } else {
+                if (costSheets.length > 0) {
+                    for (var index = 0; index < costSheets.length; index++) {
+                        costSheets[index].data = JSON.parse(costSheets[index].data);
+                    }
+                }
+                req.costSheet = costSheets;
+                return next();
             }
-            req.costSheet = costSheet;
-            return next();
-        }
-    }).catch(function (err) {
-        return next(err);
-    });
-}
+        }).catch(function (err) {
+            return next(err);
+        });
+    }
+};
 
 
 exports.sendMail = function (req, res) {
@@ -246,43 +294,4 @@ exports.costsheetsByRfqId = function (req, res) {
 
 exports.costsheetById = function (req, res) {
     return res.jsonp(req.costSheet);
-};
-
-
-exports.costsheetsByRfqIdAndPartId = function (req, res) {
-    db.CostSheet.findAll({
-        where: { RfqId: req.rfqId2, PartId: req.partId   },
-        include: [
-            {
-                model: db.User,
-                attributes: ['id', 'email', 'firstName', 'lastName']
-            },
-            {
-                model: db.Rfq,
-                include: [
-                    {
-                        model: db.Buyer,
-                        include: [
-                            {
-                                model: db.Customer
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
-    }).then(function (costSheets) {
-        if (!costSheets) {
-            return res.jsonp(new Error('Failed to load CostSheet ' + id));
-        } else {
-            if (costSheets.length > 0) {
-                for (var index = 0; index < costSheets.length; index++) {
-                    costSheets[index].data = JSON.parse(costSheets[index].data);
-                }
-            }
-            return res.jsonp(costSheets);
-        }
-    }).catch(function (err) {
-        return res.jsonp(err);
-    });
 };

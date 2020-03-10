@@ -188,7 +188,10 @@ exports.rfq = function (req, res, next, id) {
                 required:false
             },
             {
-                model: db.Quotation
+                model: db.Quotation//,
+                //include: [{ model: db.RfqParts }],
+                //where: partCondition,
+                //required: false
             },
              {
                  model: db.DeveloperHandover

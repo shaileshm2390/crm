@@ -62,63 +62,67 @@
     </p>
 
     <table border="1" class="ng-scope" style="width: 100%; margin-left: calc(0%);">
-        <tbody>
+        <thead>
             <tr>
-                <td style="width: 16.6667%; text-align: center;"><strong>Sr.No</strong></td>
-                <td style="width: 16.6667%; text-align: center;"><strong>Part No &amp; Name</strong></td>
+                <th style="width: 16.6667%; text-align: center;"><strong>Sr.No</strong></th>
+                <th style="width: 16.6667%; text-align: center;"><strong>Part No &amp; Name</strong></th>
                 <!-- <td style="width: 16.6667%; text-align: center;"><strong>Monthly Volume</strong></td>
-                <td style="width: 16.6667%; text-align: center;"><strong>Currency</strong></td> -->
-                <td style="width: 16.6667%; text-align: center;"><strong>Price</strong></td>
+            <td style="width: 16.6667%; text-align: center;"><strong>Currency</strong></td> -->
+                <th style="width: 16.6667%; text-align: center;"><strong>Price</strong></th>
                 <!-- <td style="width: 16.6667%; text-align: center;"><strong>Price / pcs</strong></td> -->
             </tr>
-            <tr ng-repeat="item in rfq.LatestCostsheet.RawMaterial">
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in costsheet">
                 <td style="width: 16.6667%; text-align: center;">{{$index +1}}</td>
-                <td style="width: 16.6667%; text-align: center;">{{item.ProductName}}</td>
+                <td style="width: 16.6667%; text-align: center;">{{item.RfqPart.partName}}</td>
                 <!-- <td style="width: 16.6667%; text-align: center;">5000</td>
-                <td style="width: 16.6667%; text-align: center;">INR</td> -->
-                <td style="width: 16.6667%; text-align: center;">{{item.RMCost}}</td>
+        <td style="width: 16.6667%; text-align: center;">INR</td> -->
+                <td style="width: 16.6667%; text-align: center;">
+                    {{item.TotalCost != null ? item.TotalCost :"-"}}
+                </td>
                 <!-- <td style="width: 16.6667%; text-align: center;">05.00</td> -->
             </tr>
             <!-- <tr>
-                <td>
-                    <br>
-                </td>
-                <td>
-                    <br>
-                </td>
-                <td>
-                    <br>
-                </td>
-                <td>
-                    <br>
-                </td>
-                <td>
-                    <br>
-                </td>
-                <td>
-                    <br>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <br>
-                </td>
-                <td>
-                    <br>
-                </td>
-                <td>
-                    <br>
-                </td>
-                <td>
-                    <br>
-                </td>
-                <td>
-                    <br>
-                </td>
-                <td>
-                    <br>
-                </td>
-            </tr> -->
+        <td>
+            <br><tr ng-repeat="item in row.data">
+        </td>
+        <td>
+            <br>
+        </td>
+        <td>
+            <br>
+        </td>
+        <td>
+            <br>
+        </td>
+        <td>
+            <br>
+        </td>
+        <td>
+            <br>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <br>
+        </td>
+        <td>
+            <br>
+        </td>
+        <td>
+            <br>
+        </td>
+        <td>
+            <br>
+        </td>
+        <td>
+            <br>
+        </td>
+        <td>
+            <br>
+        </td>
+    </tr> -->
         </tbody>
     </table>
 

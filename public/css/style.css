@@ -6574,6 +6574,9 @@ label {
     height: 8px;
 }
 
+.browser {
+    height: auto !important;
+}
 .tdl-holder {
     margin: 0 auto;
 }
@@ -8619,27 +8622,6 @@ ul.chat li.right {
 }*/
 
 /* width */
-::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 10px grey; 
-    border-radius: 10px;
-}
- 
-/* Handle */
-::-webkit-scrollbar-thumb {
-    background: #b30000; 
-    border-radius: 50px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: #b30000; 
-}
 
 .error {
     color: #e6294b;
@@ -8848,4 +8830,15 @@ ul.chat li.right {
 
     .tblParts td .add {
         display: none;
+    }
+
+
+.page-titles {    
+    background: none !important;
+    box-shadow: none !important;
+    border-bottom: 1px solid #fff;
+}
+    .page-titles h3 {
+        text-align: center !important;
+        color: #ffffff !important;
     }

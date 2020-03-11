@@ -131,7 +131,10 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
         .state('approveCostSheet', {
             url: '/rfq/{rfqId}/costsheet/approval/:partId',
             controller: 'CostSheetsController',
-            templateUrl: 'views/costsheets/approval.html'
+            templateUrl: 'views/costsheets/approval.html',
+            params: {
+                partId: { squash: true, value: null }
+            }
         })
 
         // CostSheets

@@ -323,7 +323,7 @@
                 }
             }
             %>
-             <% if (((typeof user == 'object' && user.id != null && !isPageRestrict) || req.originalUrl == "/signin" || req.originalUrl == "/")) { %>
+             <% if (((typeof user == 'object' && user.id != null && !isPageRestrict) || req.originalUrl.split("?")[0] == "/signin" || req.originalUrl == "/")) { %>
             <!-- Container fluid  
             <div class="container-fluid">
                 <br />-->
@@ -332,6 +332,9 @@
                 <!-- End PAge Content 
             </div>-->
             <% } else { %>
+				<script type="text/javascript">
+					window.location.href = "/signin?redirect="+ window.location.pathname;
+				</script>
             <div>
             <div class="card" style="text-align:center;">
                     <br />

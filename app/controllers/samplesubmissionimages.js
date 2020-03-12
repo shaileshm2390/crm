@@ -38,7 +38,7 @@ exports.samplesubmissionimage = function (req, res, next, id) {
 
 
 exports.getByRfqId = function (req, res, next, id) {
-    db.Samplesubmissionimage.findAll({ where: { RfqId: id } }).then(function (samplesubmissionimages) {
+    db.Samplesubmissionimage.findAll({ where: { RfqId: id, RfqPartId: req.query.partId } }).then(function (samplesubmissionimages) {
         if (!samplesubmissionimages) {
             return next(new Error('Failed to load sample images ' + id));
         } else {           
@@ -84,7 +84,8 @@ exports.insert = function (req, res) {
                // imagePath: imageArray[index].replace("/temp/", "/uploads/"),
                 imagePath: imageArray[index],
                 RfqId: req.body.RfqId,
-                operation: req.body.operation
+                operation: req.body.operation,
+                RfqPartId: req.body.RfqPartId
             };
             db.Samplesubmissionimage.create(request).then(function (samplesubmissionimages) {
                 if (!samplesubmissionimages) {

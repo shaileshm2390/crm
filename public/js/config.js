@@ -160,9 +160,12 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
 
         //sample submission
         .state('sampleSubmission', {
-            url: '/rfq/{rfqId}/samplesubmission',
+            url: '/rfq/{rfqId}/samplesubmission/:partId',
             controller: 'SampleSubmissionsController',
-            templateUrl: 'views/samplesubmission/create.html'
+            templateUrl: 'views/samplesubmission/create.html',
+            params: {
+                partId: { squash: true, value: null }
+            }
         })
 
 

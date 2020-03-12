@@ -41,7 +41,7 @@ exports.create = function (req, res) {
     // augment the department by adding the UserId
     // save and return and instance of department on the res object.
     var samplesubmissionList = new Array();
-    db.Samplesubmission.destroy({ where: { operation: req.body.data[0].operation, RfqId: req.body.data[0].RfqId, stage: req.body.data[0].stage } });
+    db.Samplesubmission.destroy({ where: { operation: req.body.data[0].operation, RfqId: req.body.data[0].RfqId, stage: req.body.data[0].stage, RfqPartId: req.body.data[0].RfqPartId } });
     if (req.body.data.length > 0) {
         var totalData = req.body.data.length,
             sampleSubmissionRequest; 
@@ -57,11 +57,13 @@ exports.create = function (req, res) {
                 cost: req.body.data[index].cost,
                 description : req.body.data[index].description,
                 RfqId: req.body.data[index].RfqId,
+                RfqPartId: req.body.data[index].RfqPartId,
                 expectedDate: req.body.data[index].expectedDate
             };
 
-
+            console.log(sampleSubmissionRequest);
             db.Samplesubmission.create(sampleSubmissionRequest).then(function (samplesubmission) {
+                console.log("Created");
                 if (!samplesubmission) {
                     return res.send('/signin', { errors: new StandardError('sample submission could not be created') });
                 } else {
@@ -256,7 +258,7 @@ exports.samplesubmissionsByRfqId = function (req, res) {
 
 exports.samplesubmissionByRfqId = function (req, res, next, id) {
     db.Samplesubmission.findAll({
-        where: { RfqId: id },
+        where: { RfqId: id, RfqPartId: req.query.partId},
         include: [
 
             {

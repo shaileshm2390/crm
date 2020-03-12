@@ -7,16 +7,34 @@
         <div class="row">
 
             <div ng-init="findApprovedCostSheetByRfqId()" ng-controller="CostSheetsController">
-                <input type="hidden" class="hdnCostSheetData" value="{{costsheet.data}}" />
+                <input type="hidden" class="hdnCostSheetData" value="{{costsheet[0].data}}" />
             </div>
             <div class="col col-lg-12">
                 <div class="alert alert-success text-center" ng-show="rfq.HandoverSubmitted != null">Submitted to developer department</div>
+                <div class="alert alert-success lblMsg hide"></div>
+                <div class="clear clearfix"></div>
+
+                <div class="row">
+                    <div class="col col-lg-4 m-b-10">
+                        Select Part
+                        <select class="form-control ddlParts">
+                            <option value="">Select Part</option>
+                            <option ng-repeat="item in rfq.RfqParts" value="{{item.id}}" ng-selected="item.id == partId">{{item.partName}}</option>
+                        </select>
+                    </div>
+                </div>
 
                 <div class="clear clearfix m-b-10"></div>
 
                 <!-- Earlier records-->
-                <div style="border: 1px solid #ccc; padding:10px" data-ng-controller="SampleSubmissionsController" data-ng-init="findOne()" class="m-b-10 m-t-10" id="sampleSubmissionController">
+                <div style="border: 1px solid #ccc; padding:10px" data-ng-controller="SampleSubmissionsController" data-ng-init="findOne()" class="m-b-10 m-t-10" id="sampleSubmissionController" ng-show="partId != 0">
                     <!-- Update status panel -->
+                    <span>
+                        {{isPoReceived(rfq)}}
+                    </span>
+                    <span>
+                        {{partId}}
+                    </span>
                     <div ng-hide="isPoReceived(rfq)" class="pnlStatusUpdate">
                         <div class="control-group m-b-10">
                             <div class="controls row cost-sheet-form">
@@ -56,8 +74,7 @@
                                                 <div id="myId" class="dropzone"></div>
                                             </div>
                                             <br />
-                                            <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString"
-                                            />
+                                            <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
                                             <div class="clear clearfix"></div><br />
                                             <div class="control-group">
                                                 <div class="controls">
@@ -72,16 +89,21 @@
                                                 <label class="control-label default-message"><strong>Please select status</strong></label>
                                                 <h4 class="p-b-10">
                                                     <a class="pull-right lnkAddTooling lnkAddPanel" data-url="views/samplesubmission/toolingDefaultTemplate.htm" data-class="tooling"
-                                                        data-operation="{{record.operation}}"><span><i
-                                                                class="fa fa-plus-circle"></i></span></a>
+                                                       data-operation="{{record.operation}}">
+                                                        <span>
+                                                            <i class="fa fa-plus-circle"></i>
+                                                        </span>
+                                                    </a>
                                                 </h4>
                                                 <div ng-show="samplesubmission.length > 0" class="submission hide {{record.operation.replace(' ','-') | lowercase }}" data-ng-repeat="record in samplesubmission | orderBy : '-createdAt' | filter: {stage: 'Tooling'}">
                                                     <div ng-include="'views/samplesubmission/toolingTemplate.htm'" class="col col-lg-12"></div>
                                                 </div>
                                                 <div ng-include="'views/samplesubmission/toolingDefaultTemplate.htm'"></div>
                                             </div>
-                                            <div class="col col-lg-2 m-t-10"><a href="#" class="btn btn-secondary btnSaveSample hide"
-                                                    data-stage="Tooling">Save</a></div>
+                                            <div class="col col-lg-2 m-t-10">
+                                                <a href="#" class="btn btn-secondary btnSaveSample hide"
+                                                   data-stage="Tooling">Save</a>
+                                            </div>
                                         </div>
 
                                         <!-- raw material-->
@@ -90,16 +112,21 @@
                                                 <label class="control-label default-message"><strong>Please select status</strong></label>
                                                 <h4 class="p-b-10">
                                                     <a class="pull-right lnkAddTooling lnkAddPanel" data-url="views/samplesubmission/rawmaterialDefaultTemplate.htm" data-class="rawmaterial"
-                                                        data-operation="{{record.operation}}"><span><i
-                                                                class="fa fa-plus-circle"></i></span></a>
+                                                       data-operation="{{record.operation}}">
+                                                        <span>
+                                                            <i class="fa fa-plus-circle"></i>
+                                                        </span>
+                                                    </a>
                                                 </h4>
                                                 <div ng-show="samplesubmission.length > 0" class="submission hide {{record.operation.replace(' ','-') | lowercase }}" data-ng-repeat="record in samplesubmission | orderBy : '-createdAt' | filter: {stage: 'Raw Material'}">
                                                     <div ng-include="'views/samplesubmission/rawmaterialTemplate.htm'" class="col col-lg-12"></div>
                                                 </div>
                                                 <div ng-include="'views/samplesubmission/rawmaterialDefaultTemplate.htm'"></div>
                                             </div>
-                                            <div class="col col-lg-2 m-t-10"><a href="#" class="btn btn-secondary btnSaveSample hide"
-                                                    data-stage="Raw Material">Save</a></div>
+                                            <div class="col col-lg-2 m-t-10">
+                                                <a href="#" class="btn btn-secondary btnSaveSample hide"
+                                                   data-stage="Raw Material">Save</a>
+                                            </div>
 
                                         </div>
 
@@ -109,16 +136,21 @@
                                                 <label class="control-label default-message"><strong>Please select status</strong></label>
                                                 <h4 class="p-b-10">
                                                     <a class="pull-right lnkAddTooling lnkAddPanel" data-url="views/samplesubmission/gaugeDefaultTemplate.htm" data-class="gauge"
-                                                        data-operation="{{record.operation}}"><span><i
-                                                                class="fa fa-plus-circle"></i></span></a>
+                                                       data-operation="{{record.operation}}">
+                                                        <span>
+                                                            <i class="fa fa-plus-circle"></i>
+                                                        </span>
+                                                    </a>
                                                 </h4>
                                                 <div ng-show="samplesubmission.length > 0" class="submission hide {{record.operation.replace(' ','-') | lowercase }}" data-ng-repeat="record in samplesubmission | orderBy : '-createdAt' | filter: {stage: 'Gauge'}">
                                                     <div ng-include="'views/samplesubmission/gaugeTemplate.htm'" class="col col-lg-12"></div>
                                                 </div>
                                                 <div ng-include="'views/samplesubmission/gaugeDefaultTemplate.htm'"></div>
                                             </div>
-                                            <div class="col col-lg-2 m-t-10"><a href="#" class="btn btn-secondary btnSaveSample hide"
-                                                    data-stage="Gauge">Save</a></div>
+                                            <div class="col col-lg-2 m-t-10">
+                                                <a href="#" class="btn btn-secondary btnSaveSample hide"
+                                                   data-stage="Gauge">Save</a>
+                                            </div>
 
                                         </div>
 
@@ -128,16 +160,21 @@
                                                 <label class="control-label default-message"><strong>Please select status</strong></label>
                                                 <h4 class="p-b-10">
                                                     <a class="pull-right lnkAddTooling lnkAddPanel" data-url="views/samplesubmission/conversionDefaultTemplate.htm" data-class="conversion"
-                                                        data-operation="{{record.operation}}"><span><i
-                                                                class="fa fa-plus-circle"></i></span></a>
+                                                       data-operation="{{record.operation}}">
+                                                        <span>
+                                                            <i class="fa fa-plus-circle"></i>
+                                                        </span>
+                                                    </a>
                                                 </h4>
                                                 <div ng-show="samplesubmission.length > 0" class="submission hide {{record.operation.replace(' ','-') | lowercase }}" data-ng-repeat="record in samplesubmission | orderBy : '-createdAt' | filter: {stage: 'Conversion'}">
                                                     <div ng-include="'views/samplesubmission/conversionTemplate.htm'" class="col col-lg-12"></div>
                                                 </div>
                                                 <div ng-include="'views/samplesubmission/conversionDefaultTemplate.htm'"></div>
                                             </div>
-                                            <div class="col col-lg-2 m-t-10"><a href="#" class="btn btn-secondary btnSaveSample hide"
-                                                    data-stage="Conversion">Save</a></div>
+                                            <div class="col col-lg-2 m-t-10">
+                                                <a href="#" class="btn btn-secondary btnSaveSample hide"
+                                                   data-stage="Conversion">Save</a>
+                                            </div>
 
                                         </div>
                                     </div>
@@ -177,13 +214,13 @@
                         <tr>
                             <td colspan="8"><span class="pull-right"><strong>Total Cost:</strong> </span></td>
                             <td><span><strong>{{TotalSubmissionCost | currency : "Rs. "}}</strong></span></td>
-                            
+
                         </tr>
                     </table>
 
                     <div class="clearfix"></div><br />
 
-                    <a class="btnHandOverToDeveloper btn btn-primary pull-right" href="#" ng-show="rfq.HandoverSubmitted == null && samplesubmission.length">Handover</a>                   
+                    <a class="btnHandOverToDeveloper btn btn-primary pull-right" href="#" ng-show="rfq.HandoverSubmitted == null && samplesubmission.length">Handover</a>
                 </div>
                 <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
                 <br />
@@ -247,7 +284,7 @@
                     $.ajax({
                         url: '/samplesubmissionimagesintodb/',
                         method: "POST",
-                        data: { operation: operation, imagesString: imagesString, RfqId: rfqId }
+                        data: { operation: operation, imagesString: imagesString, RfqId: rfqId, RfqPartId: parseInt($('.ddlParts').val()) }
                     }).done(function (response) {
                         $(".lblMsg").html("<span>Drawing uploaded  successfully for " + operation + "</span>").removeClass("hide");
                         window.location.reload();
@@ -364,7 +401,15 @@
                 }
             });
 
-            bindRemoveRowEvent();
+                bindRemoveRowEvent();
+
+                $(".ddlParts").on('change', function () {
+                    if ($(this).val()) {
+                        window.location.href = "/rfq/" + $(".hdnRfqId").val() + "/samplesubmission/" + $(this).val();
+                    } else {
+                        $(".pnlStatusUpdate").hide();
+                    }
+                });
 
             $(".btnSaveSample").on('click', function (e) {
                 $me = $(this);
@@ -411,6 +456,7 @@
                             cost: $($(".txtCost:visible")[index]).val(),
                             description: $($(".txtDescription:visible")[index]).val(),
                             expectedDate: expectedDate,
+                            RfqPartId: parseInt($('.ddlParts').val()),
                             RfqId: rfqId
                         };
                         sampleSubmissionList.push(itemObj);
@@ -421,7 +467,7 @@
                 });
                 if (sampleSubmissionList.length > 0) {
                     $.when(saveSampleSubmission()).then(function () {
-                        window.location.href = '/rfq/' + $('.hdnRfqId').val() + '/samplesubmission';
+                        window.location.href = '/rfq/' + $('.hdnRfqId').val() + '/samplesubmission/' + $('.ddlParts').val() ;
                         //sampleSubmissionController
                         //angular.element(document.getElementById('sampleSubmissionController')).scope().rfqs = null;
                        // angular.element(document.getElementById('test')).scope().findOpenRfq();

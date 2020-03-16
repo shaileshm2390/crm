@@ -29,12 +29,6 @@
                 <!-- Earlier records-->
                 <div style="border: 1px solid #ccc; padding:10px" data-ng-controller="SampleSubmissionsController" data-ng-init="findOne()" class="m-b-10 m-t-10" id="sampleSubmissionController" ng-show="partId != 0">
                     <!-- Update status panel -->
-                    <span>
-                        {{isPoReceived(rfq)}}
-                    </span>
-                    <span>
-                        {{partId}}
-                    </span>
                     <div ng-hide="isPoReceived(rfq)" class="pnlStatusUpdate">
                         <div class="control-group m-b-10">
                             <div class="controls row cost-sheet-form">

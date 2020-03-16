@@ -152,9 +152,12 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
 
         //purchase order
         .state('createPurchaseOrder', {
-            url: '/rfq/{rfqId}/purchaseorder',
+            url: '/rfq/{rfqId}/purchaseorder/:partId',
             controller: 'PurchaseordersController',
-            templateUrl: 'views/purchaseorders/create.html'
+            templateUrl: 'views/purchaseorders/create.html',
+            params: {
+                partId: { squash: true, value: null }
+            }
         })
 
 

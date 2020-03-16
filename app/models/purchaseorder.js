@@ -12,6 +12,7 @@ module.exports = function (sequelize, DataTypes) {
             associate: function (models) {
                 PurchaseOrder.belongsTo(models.Rfq);
                 PurchaseOrder.hasMany(models.PurchaseOrderImage);
+                PurchaseOrder.belongsTo(models.RfqParts);
             }
         }
     );

@@ -8,73 +8,87 @@
         <div class="row">
             <div class="col col-lg-12">
                 <h3>Receive Purchase Order</h3>
-                <div ng-hide="isPoReceived(rfq)" data-ng-controller="PurchaseordersController" data-ng-init="findOne()">
-                    <div>
-                        <div class="row">
-                            <ul class="elastislide1">
-                                <li class="img_wrp" data-ng-repeat="image in purchaseorder.PurchaseOrderImages | orderBy : '-createdAt'" style="margin-right:3px;">
-                                    <a data-fancybox="gallery" href="{{image.imagePath}}">
-                                        <img src="{{image.imagePath}}" alt="image{{image.id}}" height="180" />
-                                    </a>
-                                    <a ng-click="deleteImage(image.id)"><i class="close fa fa-close" aria-hidden="true" /></a>
-                                </li>
+                <div class="alert alert-success lblMsg hide"></div>
+                <div class="clear clearfix"></div>
 
-                            </ul>
-                        </div>
+                <div class="row">
+                    <div class="col col-lg-4 m-b-10">
+                        Select Part
+                        <select class="form-control ddlParts">
+                            <option value="">Select Part</option>
+                            <option ng-repeat="item in rfq.RfqParts" value="{{item.id}}" ng-selected="item.id == partId">{{item.partName}}</option>
+                        </select>
                     </div>
-                    <br /><br />
-                    <div id="myId" class="dropzone"></div>
+                </div>
+                <div ng-show="partId != 0" class="purchaseOrderSection">
+                    <div ng-hide="isPoReceived(rfq)" data-ng-controller="PurchaseordersController" data-ng-init="findOne()">
+                        <div>
+                            <div class="row">
+                                <ul class="elastislide1">
+                                    <li class="img_wrp" data-ng-repeat="image in purchaseorder.PurchaseOrderImages | orderBy : '-createdAt'" style="margin-right:3px;">
+                                        <a data-fancybox="gallery" href="{{image.imagePath}}">
+                                            <img src="{{image.imagePath}}" alt="image{{image.id}}" height="180" />
+                                        </a>
+                                        <a ng-click="deleteImage(image.id)"><i class="close fa fa-close" aria-hidden="true" /></a>
+                                    </li>
 
-                    <br /><br />
-                    <input type="hidden" class="form-control hdnPurchaseorderStatus" value="{{purchaseorder.status}}">
-                    <input type="hidden" class="form-control hdnPurchaseorderApplication" value="{{purchaseorder.application}}">
-                    <div class="control-group">
-                        <label for="status" class="control-label">Status</label>
-                        <div class="controls">
-                            <div style="width:50%;">
-                                <select class="form-control ddlPurchaseorder" id="selectedStatus" data-ng-model="purchaseorder.status" required>
-                                    <option value="">---- Select Status ----</option>
-                                    <option ng-repeat="staticStatus in Status" value="{{staticStatus}}" ng-selected="staticStatus == status">{{staticStatus}}</option>
-                                </select>
+                                </ul>
                             </div>
                         </div>
-                    </div>
-                    <br>
-                    <div class="control-group">
-                        <label class="control-label" for="gstNum">GST Number</label>
-                        <div class="controls">
-                            <input type="text" data-ng-model="purchaseorder.gstNum" id="gstNum"  placeholder="GST Number" class="form-control col-sm-6 txtGSTNumber">
-                        </div>
-                        <span class="errorName" style="color:red;"></span>
-                    </div>
-                    <br />
-                    <div class="control-group">
-                        <label class="control-label" for="hsnNum">HSN Number</label>
-                        <div class="controls">
-                            <input type="text" data-ng-model="purchaseorder.hsnNum" id="hsnNum"  placeholder="HSN Number" class="form-control col-sm-6 txtHSNNumber">
-                        </div>
-                        <span class="errorName" style="color:red;"></span>
-                    </div>
-                    <br />
-                    <div class="control-group">
-                        <label for="application" class="control-label">Application</label>
-                        <div class="controls">
-                            <div style="width:50%;">
-                                <select class="form-control ddlApplication" id="selectedApplication" data-ng-model="purchaseorder.application" required>
-                                    <option value="">---- Select Application ----</option>
-                                    <option ng-repeat="app in Application" value="{{app}}" ng-selected="app == application">{{app}}</option>
-                                </select>
+                        <br /><br />
+                        <div id="myId" class="dropzone"></div>
+
+                        <br /><br />
+                        <input type="hidden" class="form-control hdnPurchaseorderStatus" value="{{purchaseorder.status}}">
+                        <input type="hidden" class="form-control hdnPurchaseorderApplication" value="{{purchaseorder.application}}">
+                        <input type="hidden" class="form-control hdnPurchaseorderId" value="{{purchaseorder.id}}">
+                        <div class="control-group">
+                            <label for="status" class="control-label">Status</label>
+                            <div class="controls">
+                                <div style="width:50%;">
+                                    <select class="form-control ddlPurchaseorder" id="selectedStatus" data-ng-model="purchaseorder.status" required>
+                                        <option value="">---- Select Status ----</option>
+                                        <option ng-repeat="staticStatus in Status" value="{{staticStatus}}" ng-selected="staticStatus == status">{{staticStatus}}</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString"
-                    />
+                        <br>
+                        <div class="control-group">
+                            <label class="control-label" for="gstNum">GST Number</label>
+                            <div class="controls">
+                                <input type="text" data-ng-model="purchaseorder.gstNum" id="gstNum" placeholder="GST Number" class="form-control col-sm-6 txtGSTNumber">
+                            </div>
+                            <span class="errorName" style="color:red;"></span>
+                        </div>
+                        <br />
+                        <div class="control-group">
+                            <label class="control-label" for="hsnNum">HSN Number</label>
+                            <div class="controls">
+                                <input type="text" data-ng-model="purchaseorder.hsnNum" id="hsnNum" placeholder="HSN Number" class="form-control col-sm-6 txtHSNNumber">
+                            </div>
+                            <span class="errorName" style="color:red;"></span>
+                        </div>
+                        <br />
+                        <div class="control-group">
+                            <label for="application" class="control-label">Application</label>
+                            <div class="controls">
+                                <div style="width:50%;">
+                                    <select class="form-control ddlApplication" id="selectedApplication" data-ng-model="purchaseorder.application" required>
+                                        <option value="">---- Select Application ----</option>
+                                        <option ng-repeat="app in Application" value="{{app}}" ng-selected="app == application">{{app}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
 
-                    <div class="clear clearfix"></div><br />
-                    <div class="control-group">
-                        <div class="controls">
-                            <input type="submit" class="btn btn-primary btn-Save" value="Save">
-                            <a class="btn btn-secondary" href="javascript:window.history.back();">Cancel</a>
+                        <div class="clear clearfix"></div><br />
+                        <div class="control-group">
+                            <div class="controls">
+                                <a href="#" class="btn btn-primary btn-Save">Save</a>
+                                <a class="btn btn-secondary" href="javascript:window.history.back();">Cancel</a>
+                            </div>
                         </div>
                     </div>
                 </div>

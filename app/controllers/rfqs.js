@@ -194,7 +194,10 @@ exports.rfq = function (req, res, next, id) {
                 //required: false
             },
              {
-                 model: db.DeveloperHandover
+                 model: db.DeveloperHandover,
+                 include: [{ model: db.RfqParts }],
+                 where: partCondition,
+                 required: false
              },
               {
                   model: db.HandoverSubmitted

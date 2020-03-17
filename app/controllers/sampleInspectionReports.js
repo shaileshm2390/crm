@@ -178,7 +178,7 @@ exports.sampleInspectionReportsByRfqId = function (req, res) {
 
 exports.sampleInspectionReportByRfqId = function (req, res, next, id) {
     db.SampleInspectionReport.findAll({
-        where: { RfqId: id },
+        where: { RfqId: id, RfqPartId: req.query.partId },
         include: [
 
             {

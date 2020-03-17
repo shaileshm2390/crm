@@ -174,9 +174,12 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
 
         //sampleinspectionreport
         .state('createSampleInspectionReport', {
-            url: '/rfq/{rfqId}/sampleinspectionreport',
+            url: '/rfq/{rfqId}/sampleinspectionreport/:partId',
             controller: 'SampleInspectionReportsController',
-            templateUrl: 'views/sampleinspectionreports/create.html'
+            templateUrl: 'views/sampleinspectionreports/create.html',
+            params: {
+                partId: { squash: true, value: null }
+            }
         })
 
 
@@ -270,9 +273,12 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
 
         // Developer Handover
         .state('developerhandover', {
-            url: '/rfq/{rfqId}/developerhandover',
+            url: '/rfq/{rfqId}/developerhandover/:partId',
             controller: 'CostSheetsController',
-            templateUrl: 'views/developerhandover/create.html'
+            templateUrl: 'views/developerhandover/create.html',
+            params: {
+                partId: { squash: true, value: null }
+            }
         })
 
         // Reports

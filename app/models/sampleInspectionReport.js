@@ -9,7 +9,8 @@ module.exports = function (sequelize, DataTypes) {
         {
             associate: function (models) {
                 SampleInspectionReport.belongsTo(models.Rfq);
-                SampleInspectionReport.hasMany(models.SampleInspectionReportImage)
+                SampleInspectionReport.hasMany(models.SampleInspectionReportImage);
+                SampleInspectionReport.belongsTo(models.RfqParts);
             }
         }
     );

@@ -5,20 +5,33 @@
     <section data-ng-init="findOneByRfqId()" ng-show="rfq.id != null  && validatePermission">
 
         <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
+        <div class="alert alert-success lblMsg hide"></div>
+        <div class="clear clearfix"></div>
 
         <div class="row">
-            <div ng-show="costsheet.status != 'approved'" class="alert alert-danger col col-lg-12">Cost Sheet is not yet approved. Please get an approval from admin</div>
+            <div class="col col-lg-4 m-b-10">
+                Select Part
+                <select class="form-control ddlParts">
+                    <option value="">Select Part</option>
+                    <option ng-repeat="item in rfq.RfqParts" value="{{item.id}}" ng-selected="item.id == partId">{{item.partName}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="clear clearfix m-b-10"></div>
+        <div class="row pnlRecord" ng-show="partId != 0">
+            <div ng-show="costsheet[0].status != 'approved'" class="alert alert-danger col col-lg-12">Cost Sheet is not yet approved. Please get an approval from admin</div>
             <div ng-init="findApprovedCostSheetByRfqId()" class="col col-lg-12">
-                <div ng-show="costsheet.status == 'approved'" class="row">
+                <div ng-show="costsheet[0].status == 'approved'" class="row">
                     <div class="col col-lg-3">
 
 
                         <h3><strong>Approved Costsheet</strong></h3>
                         <div style="background-color:#e7e7e7; padding: 5px; box-shadow: 1px 1px 5px rgba(128,128,128,0.8)" class="costsheetHtml">
                             <h6>
-                                <strong> {{costsheet.User.firstName}} {{costsheet.User.lastName}}</strong>
-                                <small>({{costsheet.User.email}})</small>
-                                <small class="pull-right"><i> - {{costsheet.createdAt | date:'medium'}}</i></small>
+                                <strong> {{costsheet[0].User.firstName}} {{costsheet[0].User.lastName}}</strong>
+                                <small>({{costsheet[0].User.email}})</small>
+                                <small class="pull-right"><i> - {{costsheet[0].createdAt | date:'medium'}}</i></small>
                             </h6>
 
                             <div class="clear clearfix"></div>
@@ -27,7 +40,7 @@
                                 <div class="col col-lg-12">
                                     <div class="clear clearfix"></div><br />
                                     <div class="cost-sheet-form">
-                                        <div ng-repeat="item in costsheet.data">
+                                        <div ng-repeat="item in costsheet[0].data">
                                             <div class="row" ng-repeat="(key,value) in item" ng-class="(key=='Total') == true && 'm-t-20 font-weight-bold'">
                                                 <div class="col col-lg-6">
                                                     <label>{{key}}</label>
@@ -43,8 +56,8 @@
                         </div>
 
                         <hr />
-                        <input type="hidden" class="hdnCostSheetId" value="{{costsheet.id}}" />
-                        <input type="hidden" class="hdnCostSheetData" value="{{costsheet.data}}" />
+                        <input type="hidden" class="hdnCostSheetId" value="{{costsheet[0].id}}" />
+                        <input type="hidden" class="hdnCostSheetData" value="{{costsheet[0].data}}" />
 
                     </div>
                     <div class="col col-lg-9">
@@ -89,7 +102,7 @@
 
         <input class="hdnRfqId" id="hdnRfqId" type="hidden" value="{{rfq.id}}" />
         <input class="hdnDeveloperHandover" id="hdnDeveloperHandover" type="hidden" value="{{rfq.DeveloperHandovers[0].id}}" />
-      
+
     </section>
     <script>
     $(document).ready(function () {
@@ -118,7 +131,7 @@
                     $.ajax({
                         url: '/developerhandovers',
                         method: method,
-                        data: { UserId: window.user.id, RfqId: rfqId, data: $(".fr-element").html(), id: $(".hdnDeveloperHandover").val(), expectedLeadTime: $(".ddlExpectedLeadTime").val() }
+                        data: { UserId: window.user.id, RfqId: rfqId, data: $(".fr-element").html(), id: $(".hdnDeveloperHandover").val(), expectedLeadTime: $(".ddlExpectedLeadTime").val(), RfqPartId: parseInt($('.ddlParts').val()) }
                     }).done(function (response) {
                         dfd.resolve(response);
                     });
@@ -129,6 +142,14 @@
                 if ($(".txtEditor:visible").length > 0) {                  
                     $('.txtEditor').froalaEditor();
                 }
+
+                $(".ddlParts").on('change', function () {
+                    if ($(this).val()) {
+                        window.location.href = "/rfq/" + $(".hdnRfqId").val() + "/developerhandover/" + $(this).val();
+                    } else {
+                        $(".pnlRecord").hide();
+                    }
+                });
 
                     // save quotation to db
                     $(".btnSubmit").on('click', function (e) {

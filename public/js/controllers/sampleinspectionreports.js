@@ -26,7 +26,7 @@ var app = angular.module('mean.sampleinspectionreports').controller('SampleInspe
     };
    
     $scope.findOne = function () {
-        $http.get("/rfq/sampleInspectionReports/" + $stateParams.rfqId).then(function (response) {
+        $http.get("/rfq/sampleInspectionReports/" + $stateParams.rfqId + "?partId=" + $scope.partId).then(function (response) {
             //if (response.data[index].imagePath.indexOf(".pdf") > -1) {
             //    response.data[index].displayPath = '/img/pdf.png';
             //} else if (response.data[index].imagePath.indexOf(".xls") > -1) {

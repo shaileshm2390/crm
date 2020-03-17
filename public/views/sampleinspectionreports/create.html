@@ -6,56 +6,68 @@
 
 
         <div class="row">
-            <div class="col col-lg-12">
-                    <div data-ng-controller="SampleInspectionReportsController" data-ng-init="findOne()" ng-show="sampleInspectionReports.length > 0" class="row">
-                        <hr />
-                        <div class="col col-lg-12 card">
-                            <div class="row m-b-3">
-                                <div class="col col-lg-2"><strong>Status</strong></div>
-                                <div class="col col-lg-4"><strong>Report</strong></div>
-                                <div class="col col-lg-4"><strong>Attachment</strong></div>
-                                <div class="col col-lg-2"><strong>Created At</strong></div>
-                            </div>
-                            <div class="clear clearfix"></div>
+            <div class="alert alert-success lblMsg hide"></div>
+            <div class="clear clearfix"></div>
+                <div class="col col-lg-4 m-b-10">
+                    Select Part
+                    <select class="form-control ddlParts">
+                        <option value="">Select Part</option>
+                        <option ng-repeat="item in rfq.RfqParts" value="{{item.id}}" ng-selected="item.id == partId">{{item.partName}}</option>
+                    </select>
+                </div>
 
-                            <div data-ng-repeat="sampleInspectionReport in sampleInspectionReports | orderBy : '-createdAt'">
-                                <div class="row m-b-3">
-                                    <div class="col col-lg-2">{{sampleInspectionReport.status}}</div>
-                                    <div class="col col-lg-4">{{sampleInspectionReport.report}}</div>
-                                    <div class="col col-lg-4">
-                                        <div class="row">
-                                            <div class="m-b-3 col-2 col" data-ng-repeat="image in sampleInspectionReport.SampleInspectionReportImages | orderBy : '-createdAt'">
-                                                <a data-fancybox="gallery" href="{{image.imagePath}}" >
-                                                    <img src="{{image.displayPath}}" alt="image{{image.id}}" class="img-responsive responsive" />
-                                                </a>
-                                                <a href="{{image.imagePath}}" target="_blank"><i class="fa fa-download"></i></a>
-                                            </div>
+            <div class="clear clearfix m-b-10"></div>
+
+            <div class="col col-lg-12" ng-show="partId != 0">
+                <div data-ng-controller="SampleInspectionReportsController" data-ng-init="findOne()" ng-show="sampleInspectionReports.length > 0" class="row">
+                    <hr />
+                    <div class="col col-lg-12 card">
+                        <div class="row m-b-3">
+                            <div class="col col-lg-2"><strong>Status</strong></div>
+                            <div class="col col-lg-4"><strong>Report</strong></div>
+                            <div class="col col-lg-4"><strong>Attachment</strong></div>
+                            <div class="col col-lg-2"><strong>Created At</strong></div>
+                        </div>
+                        <div class="clear clearfix"></div>
+
+                        <div data-ng-repeat="sampleInspectionReport in sampleInspectionReports | orderBy : '-createdAt'">
+                            <div class="row m-b-3">
+                                <div class="col col-lg-2">{{sampleInspectionReport.status}}</div>
+                                <div class="col col-lg-4">{{sampleInspectionReport.report}}</div>
+                                <div class="col col-lg-4">
+                                    <div class="row">
+                                        <div class="m-b-3 col-2 col" data-ng-repeat="image in sampleInspectionReport.SampleInspectionReportImages | orderBy : '-createdAt'">
+                                            <a data-fancybox="gallery" href="{{image.imagePath}}">
+                                                <img src="{{image.displayPath}}" alt="image{{image.id}}" class="img-responsive responsive" />
+                                            </a>
+                                            <a href="{{image.imagePath}}" target="_blank"><i class="fa fa-download"></i></a>
                                         </div>
                                     </div>
-                                    <div class="col col-lg-2">{{sampleInspectionReport.createdAt | date:'medium'}}</div>
                                 </div>
-                                <div class="clear clearfix"></div>
+                                <div class="col col-lg-2">{{sampleInspectionReport.createdAt | date:'medium'}}</div>
                             </div>
+                            <div class="clear clearfix"></div>
                         </div>
                     </div>
-                  
+                </div>
+
                 <h3 class="col col-lg-12">Add Sample Inspection Report</h3>
                 <div class=" col col-lg-12">
                     <div id="myId" class="dropzone m-t-10 m-b-10 "></div>
                 </div>
 
-                    <div class="control-group">
-                        <label for="status" class="control-label  col col-lg-12">Status</label>
-                        <div class="controls">
-                            <div class="col col-lg-6">
-                                <select class="form-control ddlPurchaseorder" id="selectedStatus" data-ng-model="status" required>
-                                    <option value="">Select Status</option>
-                                    <option ng-repeat="status in Status" value="{{status}}">{{status}}</option>
-                                </select>
-                                <div class="error hide error-status">Please select status</div>
-                            </div>
+                <div class="control-group">
+                    <label for="status" class="control-label  col col-lg-12">Status</label>
+                    <div class="controls">
+                        <div class="col col-lg-6">
+                            <select class="form-control ddlPurchaseorder" id="selectedStatus" data-ng-model="status" required>
+                                <option value="">Select Status</option>
+                                <option ng-repeat="status in Status" value="{{status}}">{{status}}</option>
+                            </select>
+                            <div class="error hide error-status">Please select status</div>
                         </div>
                     </div>
+                </div>
                 <br />
                 <div class="control-group">
                     <label for="report" class="control-label col col-lg-12">Reason</label>
@@ -65,19 +77,19 @@
                         </div>
                     </div>
                 </div>
-                
-                    <div class="clear clearfix"></div><br />
-                    <div class="control-group">
-                        <div class="controls">
-                            <input type="submit" class="btn btn-primary btn-Save" value="Save">
-                            <a class="btn btn-secondary" href="javascript:window.history.back();">Cancel</a>
-                        </div>
+
+                <div class="clear clearfix"></div><br />
+                <div class="control-group">
+                    <div class="controls">
+                        <input type="submit" class="btn btn-primary btn-Save" value="Save">
+                        <a class="btn btn-secondary" href="javascript:window.history.back();">Cancel</a>
                     </div>
                 </div>
-                <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
-                <br />
-
             </div>
+            <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
+            <br />
+
+        </div>
       
     </section>
 
@@ -132,6 +144,14 @@
                     $(file.previewElement).append($('<input>').attr({ 'type': 'text', 'class': 'txtName form-control mt-2', 'placeholder': 'Name' }));
                 });
 
+                $(".ddlParts").on('change', function () {
+                    if ($(this).val()) {
+                        window.location.href = "/rfq/" + $(".hdnRfqId").val() + "/sampleinspectionreport/" + $(this).val();
+                    } else {
+                        $(".pnlStatusUpdate").hide();
+                    }
+                });
+
                 $(".btn-Save").on('click', function (e) {
                     if ($(".ddlPurchaseorder").val() != "") {
                         $(".error-status").hide();
@@ -142,7 +162,7 @@
                         $.ajax({
                             url: '/sampleInspectionReports/',
                             method: "POST",
-                            data: { status: selectedStatus, imagesString: imagesString, RfqId: rfqId, report: report }
+                            data: { status: selectedStatus, imagesString: imagesString, RfqId: rfqId, report: report, RfqPartId: parseInt($('.ddlParts').val()) }
                         }).done(function (response) {
                             $(".lblMsg").html("<span>Saved successfully !!!</span>").removeClass("hide");
                             window.location.reload(true);

@@ -1,7 +1,6 @@
 <div class="page-titles">
     <h3 class="text-primary">Prepare Cost Sheet</h3>
 </div>
-
 <div class="container-fluid">
     <div class="card" ng-controller="RfqsController">
         <div ng-include="'views/rawmaterials/popup.html'" class="pull-right"></div>
@@ -26,11 +25,22 @@
 
                     <div class="row">
                         <div class="col col-lg-4 m-b-10">
-                            Select Part
                             <select class="form-control ddlParts">
                                 <option value="">Select Part</option>
                                 <option ng-repeat="item in rfq.RfqParts" value="{{item.id}}" ng-selected="item.id == partId">{{item.partName}}</option>
                             </select>
+                        </div>
+
+                        <div class="col col-lg-4 m-b-10">
+                            <div class="wrapper" ng-app="autocompleteApp" ng-controller="mainController">
+                                <autocomplete choices="items" enteredtext="text"
+                                              minlength="1" selected="selected"></autocomplete>
+                                <!--<pre>
+                                    Entered text: {{text}}
+                                    Minimum length: {{minlength}}
+                                    Selected: {{selected}}
+                                </pre>-->
+                            </div>
                         </div>
                     </div>
 
@@ -218,15 +228,15 @@
 
                     <div class="clear clearfix"></div>
                     <!--<h4 class="border-bottom p-b-10">Additional Parameter
-        <a href="#" class="btn btn-primary lnkAdd  pull-right" data-width="4" title="add row">
-            <span><i class="fa fa-plus-circle"></i></span>
-        </a>
-    </h4>
+                        <a href="#" class="btn btn-primary lnkAdd  pull-right" data-width="4" title="add row">
+                            <span><i class="fa fa-plus-circle"></i></span>
+                        </a>
+                    </h4>
 
-    <div class="clear clearfix"></div> <br />
-    <div class="pnlParameter row">
-    </div>-->
-                    <div class="row section-costsheet"  ng-show="partId != 0">
+                    <div class="clear clearfix"></div> <br />
+                    <div class="pnlParameter row">
+                    </div>-->
+                    <div class="row section-costsheet" ng-show="partId != 0">
                         <div class="col col-lg-3 center">
                             <a href="#" class="btnSubmit btn btn-primary">Send for Approval</a>
                         </div>
@@ -251,9 +261,31 @@
     </div>
 
 </div>
+<style>
+    .wrapper {
+        margin: auto;
+        max-width: 400px;
+    }
 
+    .autocomplete, pre {
+        width: calc(100% - 20px);
+    }
+
+    .inputtext {
+        border: 1px solid grey;
+        margin: 0;
+        padding: 5px;
+        width: 100%;
+    }
+
+    .choices .choice {
+        border: 1px solid #ccc;
+        cursor: pointer;
+        padding: 5px;
+        width: 100%;
+    }
+</style>
 <!--<script src="/js/view/costsheet.js"></script>-->
-
 <script>
     $(document).ready(function () {
         var bindRemoveParameter = function () {
@@ -774,7 +806,7 @@
 
 
                 $(".ddlParts").on('change', function () {
-                    if ($(this).val()) {                        
+                    if ($(this).val()) {
                         window.location.href = "/rfq/" + $(".hdnRfqId").val() + "/costsheet/prepare/" + $(this).val();
                     } else {
                         $(".section-costsheet").hide();

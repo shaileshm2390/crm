@@ -1,0 +1,7 @@
+﻿<div class="autocomplete">
+    <input class="inputtext form-control" type="text" ng-model="enteredtext" ng-keyup="filterItems()" />
+    <div class="choices" ng-show="isVisible.suggestions">
+        <div class="choice" ng-repeat="choice in filteredChoices"
+             ng-click="selectItem(choice.index)">{{choice.label}}</div>
+    </div>
+</div>

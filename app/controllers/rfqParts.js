@@ -75,6 +75,18 @@ exports.rfqPartsByRfqId = function (req, res, next, id) {
     });
 };
 
+
+exports.getAllRfqParts = function (req, res) {
+    db.RfqParts.findAll().then(function (parts) {
+        return res.jsonp(parts);
+    }).catch(function (err) {
+        return res.render('error', {
+            error: err,
+            status: 500
+        });
+    });
+};
+
 exports.rfqPartsByPartId = function (req, res, next, id) {
     db.RfqParts.find({ where: { id: id } }).then(function (rfqParts) {
         if (!rfqParts) {

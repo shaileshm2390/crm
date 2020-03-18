@@ -3068,9 +3068,9 @@ h3.brand-text.crm-text-new {
 }
 
 .modal-header .close {
-    font-size: 14px;
-    margin-right: 15px;
-    margin-top: 5px;
+    font-size: 2em;
+    margin-right: 0px;
+    margin-top: 1px;
 }
 
 .modal-content {
@@ -8840,5 +8840,5 @@ ul.chat li.right {
 }
     .page-titles h3 {
         text-align: center !important;
-        color: #ffffff !important;
+        color: #000 !important;
     }

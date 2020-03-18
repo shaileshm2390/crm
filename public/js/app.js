@@ -1,5 +1,5 @@
 "use strict";
-angular.module('mean', ['ngCookies', 'ngResource', 'ui.router', 'ui.bootstrap', 'ui.route', 'mean.system', 'mean.auth', 'mean.departments', 'mean.customers', 'mean.customercomments', 'mean.buyercomments', 'mean.users', 'mean.buyers', 'mean.rfqs', 'satellizer', 'angularFblogin', 'mean.watchdogs', 'mean.rfqcomments', 'mean.purchaseorders', 'mean.purchaseorderimages', 'mean.samplesubmissions', 'mean.costsheets', 'mean.dashboards', 'mean.rawmaterials', 'mean.conversions', 'mean.htsts', 'mean.packingAndForwardings', 'mean.sampleinspectionreports', 'mean.sampleinspectionreportimages'])
+angular.module('mean', ['ngCookies', 'ngResource', 'ui.router', 'ui.bootstrap', 'ui.route', 'mean.system', 'mean.auth', 'mean.departments', 'mean.customers', 'mean.customercomments', 'mean.buyercomments', 'mean.users', 'mean.buyers', 'mean.rfqs', 'satellizer', 'angularFblogin', 'mean.watchdogs', 'mean.rfqcomments', 'mean.purchaseorders', 'mean.purchaseorderimages', 'mean.samplesubmissions', 'mean.costsheets', 'mean.dashboards', 'mean.rawmaterials', 'mean.conversions', 'mean.htsts', 'mean.packingAndForwardings', 'mean.sampleinspectionreports', 'mean.sampleinspectionreportimages','autocompleteApp'])
 .config(function ($authProvider) {
 
     $authProvider.twitter({
@@ -40,3 +40,4 @@ angular.module('mean.htsts', []);
 angular.module('mean.packingAndForwardings', []);
 angular.module('mean.sampleinspectionreports', []);
 angular.module('mean.sampleinspectionreportimages', []);
+angular.module('autocompleteApp', []);

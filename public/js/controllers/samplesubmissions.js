@@ -118,7 +118,7 @@ var app = angular.module('mean.samplesubmissions').controller('SampleSubmissions
     };
 
     $scope.findOne = function () {
-        $http.get("/rfq/samplesubmissions/" + $stateParams.rfqId).then(function (response) {
+        $http.get("/rfq/samplesubmissions/" + $stateParams.rfqId + "?partId=" + $scope.partId).then(function (response) {
             $scope.TotalSubmissionCost = 0;
             $scope.samplesubmission = response.data;
             if (response.data.length > 0) {
@@ -131,7 +131,7 @@ var app = angular.module('mean.samplesubmissions').controller('SampleSubmissions
     };
 
     $scope.findSampleSubmissionImages = function () {    
-        $http.get("/samplesubmissionimages/rfqId/" + $stateParams.rfqId).then(function (response) {
+        $http.get("/samplesubmissionimages/rfqId/" + $stateParams.rfqId + "?partId=" + $scope.partId).then(function (response) {
             for (var index = 0; index < response.data.length; index++) {
                 if (response.data[index].imagePath.indexOf(".pdf") > -1) {
                     response.data[index].displayPath = '/img/pdf.png';

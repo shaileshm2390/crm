@@ -17,7 +17,7 @@ var app = angular.module('mean.costsheets').controller('CostSheetsController', [
     };
 
     $scope.findApprovedCostSheetByRfqId = function () {
-        $http.get("/rfq/costsheets/approved/" + $stateParams.rfqId)
+        $http.get("/rfq/costsheets/approved/" + $stateParams.rfqId + "?partId=" + $stateParams.partId)
             .then(function (response) {
                 $scope.costsheet = response.data;
             }, function (error) {

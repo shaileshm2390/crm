@@ -9,6 +9,7 @@ module.exports = function (sequelize, DataTypes) {
         {
             associate: function (models) {
                 DeveloperHandover.belongsTo(models.User);
+                DeveloperHandover.belongsTo(models.RfqParts);
             }
         }
     );

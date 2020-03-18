@@ -9,6 +9,7 @@ module.exports = function (sequelize, DataTypes) {
         {
             associate: function (models) {
                 Samplesubmissionimage.belongsTo(models.Rfq);
+                Samplesubmissionimage.belongsTo(models.RfqParts);
             }
         }
     );

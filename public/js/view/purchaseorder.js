@@ -48,22 +48,31 @@
                 imagesArray.push(response.pathFromRoot);
             });
 
+            $(".ddlParts").on('change', function () {
+                if ($(this).val()) {
+                    window.location.href = "/rfq/" + $(".hdnRfqId").val() + "/purchaseorder/" + $(this).val();
+                } else {
+                    $(".purchaseOrderSection").hide();
+                }
+            });
+
             $(".btn-Save").on('click', function (e) {
                 if (validPurchaseOrderForm()) {
+                    $(this).html('<i class="fa fa-spinner fa-spin"></i>');
                     $(".hdnImages").val(imagesArray.join(",")).trigger('change');
                     rfqId = $(".hdnRfqId").val();
                     imagesString = imagesArray.join(",");
                     selectedStatus = $("#selectedStatus").val();
                     selectedApplication = $("#selectedApplication").val();
-                    $.ajax({
-                        url: '/rfq/purchaseorders/' + rfqId,
-                        method: "GET"
-                    }).done(function (response) {
-                        if ($.isEmptyObject(response)) {
+                    //$.ajax({
+                    //    url: '/rfq/purchaseorders/' + rfqId + "?partId=" + $('.ddlParts').val(),
+                    //    method: "GET"
+                    //}).done(function (response) {
+                    if ($('.hdnPurchaseorderId').val() === '') {
                             $.ajax({
                                 url: '/purchaseorders/',
                                 method: "POST",
-                                data: { status: selectedStatus, imagesString: imagesString, RfqId: rfqId, application: selectedApplication, gstNum: $(".txtGSTNumber").val(), hsnNum: $(".txtHSNNumber").val() }
+                                data: { status: selectedStatus, imagesString: imagesString, RfqId: rfqId, application: selectedApplication, gstNum: $(".txtGSTNumber").val(), hsnNum: $(".txtHSNNumber").val(), RfqPartId: parseInt($('.ddlParts').val()) }
                             }).done(function (response) {
                                 $(".lblMsg").html("<span>Saved successfully !!!</span>").removeClass("hide");
                             });
@@ -71,16 +80,17 @@
                         }
                         else {
                             $.ajax({
-                                url: '/rfq/purchaseorders/' + rfqId,
+                                url: '/rfq/purchaseorders/' + rfqId + "?partId=" + $('.ddlParts').val(),
                                 method: "PUT",
                                 data: { status: selectedStatus, imagesString: imagesString, application: selectedApplication, gstNum: $(".txtGSTNumber").val(), hsnNum: $(".txtHSNNumber").val() }
                             }).done(function (response) {
                             });
                         }
-                        window.location.reload(true);
-                    });
+                        //window.location.reload(true); 
+                    //});
                 }
                 e.stopImmediatePropagation();
+                window.location.href = '/rfq/' + $('.hdnRfqId').val() + '/purchaseorder/' + $('.ddlParts').val();
                 return false;
             });
         }

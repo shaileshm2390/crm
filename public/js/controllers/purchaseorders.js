@@ -140,7 +140,7 @@ var app = angular.module('mean.purchaseorders').controller('PurchaseordersContro
 
     $scope.findOne = function () {
 
-        $http.get("/rfq/purchaseorders/" + $stateParams.rfqId).then(function (response) {
+        $http.get("/rfq/purchaseorders/" + $stateParams.rfqId + "?partId=" + $scope.partId).then(function (response) {
 
             //console.log("response  ->  " + JSON.stringify(response));
             $scope.purchaseorder = response.data;

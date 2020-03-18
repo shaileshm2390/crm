@@ -66,7 +66,8 @@ exports.update = function (req, res) {
 
         developerHandovers.updateAttributes({
             data: req.body.data,
-            expectedLeadTime: req.body.expectedLeadTime
+            expectedLeadTime: req.body.expectedLeadTime,
+            RfqPartId: req.body.RfqPartId
         }).then(function (a) {
             var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
 
@@ -110,7 +111,7 @@ exports.getDeveloperhandovers = function (req, res) {
 
 exports.developerhandoverByRfqId = function (req, res, next, id) {
     db.DeveloperHandover.findAll({
-        where: { RfqId: id },
+        where: { RfqId: id, RfqPartId: req.query.partId },
         include: [
             {
                 model: db.User,

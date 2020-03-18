@@ -152,25 +152,34 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
 
         //purchase order
         .state('createPurchaseOrder', {
-            url: '/rfq/{rfqId}/purchaseorder',
+            url: '/rfq/{rfqId}/purchaseorder/:partId',
             controller: 'PurchaseordersController',
-            templateUrl: 'views/purchaseorders/create.html'
+            templateUrl: 'views/purchaseorders/create.html',
+            params: {
+                partId: { squash: true, value: null }
+            }
         })
 
 
         //sample submission
         .state('sampleSubmission', {
-            url: '/rfq/{rfqId}/samplesubmission',
+            url: '/rfq/{rfqId}/samplesubmission/:partId',
             controller: 'SampleSubmissionsController',
-            templateUrl: 'views/samplesubmission/create.html'
+            templateUrl: 'views/samplesubmission/create.html',
+            params: {
+                partId: { squash: true, value: null }
+            }
         })
 
 
         //sampleinspectionreport
         .state('createSampleInspectionReport', {
-            url: '/rfq/{rfqId}/sampleinspectionreport',
+            url: '/rfq/{rfqId}/sampleinspectionreport/:partId',
             controller: 'SampleInspectionReportsController',
-            templateUrl: 'views/sampleinspectionreports/create.html'
+            templateUrl: 'views/sampleinspectionreports/create.html',
+            params: {
+                partId: { squash: true, value: null }
+            }
         })
 
 
@@ -264,9 +273,12 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
 
         // Developer Handover
         .state('developerhandover', {
-            url: '/rfq/{rfqId}/developerhandover',
+            url: '/rfq/{rfqId}/developerhandover/:partId',
             controller: 'CostSheetsController',
-            templateUrl: 'views/developerhandover/create.html'
+            templateUrl: 'views/developerhandover/create.html',
+            params: {
+                partId: { squash: true, value: null }
+            }
         })
 
         // Reports

@@ -33,7 +33,7 @@
 
                         <div class="col col-lg-4 m-b-10">
                             <div class="wrapper" ng-app="autocompleteApp" ng-controller="mainController">
-                                <autocomplete choices="items" enteredtext="text"
+                                <autocomplete choices="items" placeholder="Copy Costsheet From Part" enteredtext="text"
                                               minlength="1" selected="selected"></autocomplete>
                                 <!--<pre>
                                     Entered text: {{text}}
@@ -285,7 +285,7 @@
         width: 100%;
     }
 </style>
-<!--<script src="/js/view/costsheet.js"></script>-->
+<!--<script src="/js/view/createCostsheet.js"></script>-->
 <script>
     $(document).ready(function () {
         var bindRemoveParameter = function () {
@@ -861,7 +861,7 @@
                     $(".ddlRawMaterial").trigger("change");
                     $(".ddlHtSt").trigger("change");
                     $(".ddlPackingAndForwarding").trigger("change");
-                }, 3000);
+                }, 10000);
             }
         }, 500);
     });

@@ -9,6 +9,7 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
     $scope.toDate = "";
     $scope.reports = [];
     $scope.partId = $stateParams.partId || 0;
+    $scope.copyPartId = $stateParams.copyPartId || 0;
 
     $scope.trustAsHtml = function (html) {
         return $sce.trustAsHtml(html);
@@ -44,12 +45,14 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
     };
 
 
+
     $scope.findOneByRfqId = function () {
         var url = "/rfqs/" + $stateParams.rfqId;
-        if (typeof $scope.partId !== "undefined" && $scope.partId !== "" && $scope.partId !== null) {
-            url += "?partId=" + $scope.partId;
-        }
-        //$scope.rfq = { id: $stateParams.rfqId };
+            if (typeof $scope.partId !== "undefined" && $scope.partId !== "" && $scope.partId !== null) {
+                console.log("partId = " + $scope.partId);
+                url += "?partId=" + $scope.partId;
+            }
+            //$scope.rfq = { id: $stateParams.rfqId };
         $http.get(url)
             .then(function (response) {
                 if (Object.keys(response.data).length !== 0 && response.data !== null) {
@@ -112,6 +115,46 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
                 } else {
                     $scope.rfq = { id: $stateParams.rfqId };
                     $scope.validatePermission = true;
+                }
+
+                if (typeof $scope.copyPartId !== "undefined" && $scope.copyPartId !== "" && $scope.copyPartId !== null && $scope.copyPartId !== 0) {
+                    console.log("copyPartId = " + $scope.copyPartId);
+                    $http.get("/rfq/costsheets/copycostsheet/" + $scope.copyPartId)
+                        .then(function (response) {
+                            $scope.rfq.CostSheets = response.data;
+                            if ($scope.rfq.CostSheets.length > 0) {
+                                $scope.rfq.LatestCostsheet = $scope.rfq.CostSheets[$scope.rfq.CostSheets.length - 1];
+                                //$scope.rfq.LatestCostsheet.data = JSON.parse($scope.rfq.LatestCostsheet.data);
+                                var costSheetData = $scope.RemoveSpaceFromKey($scope.rfq.LatestCostsheet.data);
+                                var RawMaterial = new Array(), Conversion = new Array(), HtSt = new Array(), PackingForwarding = new Array();
+                                $.each(costSheetData, function (key, data) {
+                                    if (data.hasOwnProperty('RawMaterial')) {
+                                        RawMaterial.push(data);
+                                    } else if (data.hasOwnProperty('Operation')) {
+                                        Conversion.push(data);
+                                    }
+                                    else if (data.hasOwnProperty('HTST')) {
+                                        HtSt.push(data);
+                                    } else if (data.hasOwnProperty('PackingForwardings')) {
+                                        PackingForwarding.push(data);
+                                    }
+                                    else if (data.hasOwnProperty("PercentageRMCost")) {
+                                        $scope.rfq.LatestCostsheet.PercentageRMCost = data.PercentageRMCost;
+                                        $scope.rfq.LatestCostsheet.ProfitonRMCost = data.ProfitonRMCost;
+                                        $scope.rfq.LatestCostsheet.PercentageConversionCost = data.PercentageConversionCost;
+                                        $scope.rfq.LatestCostsheet.ProfitonConversionCost = data.ProfitonConversionCost;
+                                    } else if (data.hasOwnProperty("Total")) {
+                                        $scope.rfq.LatestCostsheet.Total = data.Total;
+                                    } 
+                                });
+                                $scope.rfq.LatestCostsheet.RawMaterial = RawMaterial;
+                                $scope.rfq.LatestCostsheet.Conversion = Conversion;
+                                $scope.rfq.LatestCostsheet.HtSt = HtSt;
+                                $scope.rfq.LatestCostsheet.PackingForwarding = PackingForwarding;
+                            }
+                            $scope.validatePermission = true;
+                        }, function (error) {
+                        });
                 }
             }, function (error) {
                 console.log(error, $stateParams.rfqId);
@@ -195,8 +238,7 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
     $scope.isCurrentRole = function (key) {
         var currentUserRole = $window.user.role;
         return currentUserRole == key;
-    }
-
+    };
 }]);
 
 app.filter('capitalize', function () {

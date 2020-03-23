@@ -290,6 +290,29 @@ exports.costsheet = function (req, res, next, id) {
     });
 };
 
+exports.copyCostsheetById = function (req, res, next, id) {
+    console.log("copyPartId = " + id);
+    db.CostSheet.findAll({
+        where: { RfqPartId: id }
+    }).then(function (costSheets) {
+        console.log("costSheets = " + costSheets);
+        if (!costSheets) {
+            return next(new Error('Failed to load CostSheet ' + id));
+        } else {
+            console.log("costSheets.length = " + costSheets.length);
+            if (costSheets.length > 0) {
+                for (var index = 0; index < costSheets.length; index++) {
+                    costSheets[index].data = JSON.parse(costSheets[index].data);
+                }
+            }
+            req.copyCostsheet = costSheets;
+            return next();
+        }
+    }).catch(function (err) {
+        return next(err);
+    });
+};
+
 exports.costsheetsByRfqId = function (req, res) {
     return res.jsonp(req.costSheets);
 };
@@ -297,4 +320,8 @@ exports.costsheetsByRfqId = function (req, res) {
 
 exports.costsheetById = function (req, res) {
     return res.jsonp(req.costSheet);
+};
+
+exports.copyCostsheetByPartId = function (req, res) {
+    return res.jsonp(req.copyCostsheet);
 };

@@ -25,6 +25,7 @@
 
                     <div class="row">
                         <div class="col col-lg-4 m-b-10">
+                            <label class="text-muted m-b-2 f-s-12">Select Part</label>
                             <select class="form-control ddlParts">
                                 <option value="">Select Part</option>
                                 <option ng-repeat="item in rfq.RfqParts" value="{{item.id}}" ng-selected="item.id == partId">{{item.partName}}</option>
@@ -33,13 +34,14 @@
 
                         <div class="col col-lg-4 m-b-10">
                             <div class="wrapper" ng-app="autocompleteApp" ng-controller="mainController">
-                                <autocomplete choices="items" placeholder="Copy Costsheet From Part" enteredtext="text"
+                                <label class="text-muted m-b-2 f-s-12">Copy Costsheet From Part</label>
+                                <autocomplete choices="items" enteredtext="text"
                                               minlength="1" selected="selected"></autocomplete>
                                 <!--<pre>
-                                    Entered text: {{text}}
-                                    Minimum length: {{minlength}}
-                                    Selected: {{selected}}
-                                </pre>-->
+        Entered text: {{text}}
+        Minimum length: {{minlength}}
+        Selected: {{selected}}
+    </pre>-->
                             </div>
                         </div>
                     </div>
@@ -288,6 +290,12 @@
 <!--<script src="/js/view/createCostsheet.js"></script>-->
 <script>
     $(document).ready(function () {
+        $('inputtext').on('blur', function () {
+            if ($(this).val() !== "") {
+                window.location.href = "/rfq/" + $(".hdnRfqId").val() + "/costsheet/prepare/" + $('.ddlParts').val() + "/" + $(this).val();
+            }
+
+        });
         var bindRemoveParameter = function () {
             $(".lnkRemove").on('click', function () {
                 //$(this).parent().parent().parent().next().remove(".clearfix");
@@ -308,6 +316,7 @@
         };
 
         var calculateRmCost = function ($ele) {
+            console.log("calculateRmCost");
             var rate = $ele.parent().parent().find(".txtRate").val().replace(/[^\d.]/g, ''),
                 scrapRate = $ele.parent().parent().find(".txtScrapRate").val().replace(/[^\d.]/g, ''),
                 scrapRecovery = $ele.parent().parent().find(".txtScrapRecovery").val().replace(/[^\d.]/g, ''),
@@ -333,6 +342,7 @@
                     totalRmCost += parseFloat($(value).val().replace(/[^\d.]/g, ''));
                 }
             });
+            console.log("totalRmCost = " + totalRmCost.toFixed(2));
             $(".txtTotalRmCost").val("Rs " + totalRmCost.toFixed(2));
             calculateProfitRmCost();
             calculateProfitConversionCost();
@@ -623,6 +633,7 @@
             });
 
             var bindCalculationEvent = function () {
+                
                 /*********************************** RAW MATERIAL CALCULATION****************************************/
                 $(".ddlRawMaterial").on('change', function (e) {
                     $me = $(this);
@@ -630,7 +641,8 @@
                         $me.parent().parent().find('.txtRate').val($me.find('option:selected').data("rate").toFixed(2));
                         $me.parent().parent().find('.txtScrapRate').val($me.find('option:selected').data("scrap-rate").toFixed(2));
                         $me.parent().parent().find('.txtScrapRecovery').val($me.find('option:selected').data("scrap-recovery").toFixed(2));
-
+                        console.log('calculateRmCost');
+                        console.log($me);
                         calculateRmCost($me);
                     } else {
                         $me.parent().parent().find('.txtRate').val('');

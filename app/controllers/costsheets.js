@@ -293,7 +293,14 @@ exports.costsheet = function (req, res, next, id) {
 exports.copyCostsheetById = function (req, res, next, id) {
     console.log("copyPartId = " + id);
     db.CostSheet.findAll({
-        where: { RfqPartId: id }
+        where: { RfqPartId: id },
+        order: [['status', 'DESC']],
+        include: [
+            {
+                model: db.RfqParts,
+                attributes: ['id', 'partName']
+            }
+        ]
     }).then(function (costSheets) {
         console.log("costSheets = " + costSheets);
         if (!costSheets) {

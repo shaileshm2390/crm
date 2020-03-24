@@ -48,6 +48,7 @@
 
                     <div class="clear clearfix"></div>
                     <div class="row section-costsheet" ng-show="partId != 0">
+                        <input type="hidden" id="copyPartName" class="copyPartName" value="{{rfq.LatestCostsheet.RfqPart.partName}}"/>
                         <div class="col-sm-12 m-b-5">
                             <div class="separatePanel Rawmaterial">
                                 <h4 class="border-bottom p-b-10">
@@ -290,12 +291,7 @@
 <!--<script src="/js/view/createCostsheet.js"></script>-->
 <script>
     $(document).ready(function () {
-        $('inputtext').on('blur', function () {
-            if ($(this).val() !== "") {
-                window.location.href = "/rfq/" + $(".hdnRfqId").val() + "/costsheet/prepare/" + $('.ddlParts').val() + "/" + $(this).val();
-            }
-
-        });
+        
         var bindRemoveParameter = function () {
             $(".lnkRemove").on('click', function () {
                 //$(this).parent().parent().parent().next().remove(".clearfix");
@@ -873,6 +869,9 @@
                     $(".ddlRawMaterial").trigger("change");
                     $(".ddlHtSt").trigger("change");
                     $(".ddlPackingAndForwarding").trigger("change");
+                    if (typeof $('.copyPartName').val() != "undefined" && $('.copyPartName').val() != "") {
+                        $('.inputtext').val($('.copyPartName').val());
+                    }
                 }, 10000);
             }
         }, 500);

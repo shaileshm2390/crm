@@ -23,6 +23,7 @@
             $scope.selected = $scope.choices[index - 1];
             $scope.enteredtext = $scope.selected.label;
             $scope.isVisible.suggestions = false;
+            window.location.href = "/rfq/" + $(".hdnRfqId").val() + "/costsheet/prepare/" + $('.ddlParts').val() + "/" + $scope.selected.id;
         };
 
         /**

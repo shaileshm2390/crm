@@ -72,8 +72,8 @@
                 <!-- <td style="width: 16.6667%; text-align: center;"><strong>Price / pcs</strong></td> -->
             </tr>
         </thead>
-        <tbody>
-            <tr ng-repeat="item in costsheet">
+        <tbody ng-repeat="item in costsheet">
+            <tr ng-if="item.RfqPart.partName != null">
                 <td style="width: 16.6667%; text-align: center;">{{$index +1}}</td>
                 <td style="width: 16.6667%; text-align: center;">{{item.RfqPart.partName}}</td>
                 <!-- <td style="width: 16.6667%; text-align: center;">5000</td>
@@ -123,7 +123,7 @@
             <br>
         </td>
     </tr> -->
-        </tbody>
+        </tbodyng-repeat="item>
     </table>
 
     <p class="ng-scope">

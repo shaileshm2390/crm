@@ -90,7 +90,7 @@ exports.update = function (req, res) {
     var purchaseorder = req.purchaseorders;
     var previousData;
     db.PurchaseOrder.find({
-        where: { RfqId: purchaseorder.RfqId, RfqPartId: purchaseorder.RfqPartId },
+        where: { RfqId: purchaseorder.RfqId },
         include: [
             { model: db.Rfq },
             {model: db.PurchaseOrderImage,}
@@ -243,7 +243,7 @@ exports.purchaseordersByRfqId = function (req, res) {
 
 exports.purchaseorderByRfqId = function (req, res, next, id) {
     db.PurchaseOrder.find({
-        where: { RfqId: id , RfqPartId: req.query.partId},
+        where: { RfqId: id},
         include: [
             {
                 model: db.Rfq,

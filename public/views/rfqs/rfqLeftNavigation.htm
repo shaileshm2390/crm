@@ -135,25 +135,31 @@
     <div class="menubar-nav" ng-show="isFeasibilityChecked(rfq)">
         <ul>
             <li ng-class="{'menu-active':currentUrl == '/customer/'+rfq.Buyer.CustomerId+'/buyer/'+rfq.BuyerId+'/rfq/'+rfq.id }"><a href="/customer/{{rfq.Buyer.CustomerId}}/buyer/{{rfq.BuyerId}}/rfq/{{rfq.id}}"><span>RFQ Detail</span></a></li>
-            <li ng-class="{'menu-active': currentUrl.includes('costsheet') }" ng-show="!isPoReceived(rfq) && canAccess('costsheet') && ((isCurrentRole('Dev') && rfq.CostSheets.length > 0) || (!isCurrentRole('Dev') && true))">
+
+            <li ng-class="{'menu-active': currentUrl.includes('costsheet') }" ng-show="canAccess('costsheet') && ((isCurrentRole('Dev') && rfq.CostSheets.length > 0) || (!isCurrentRole('Dev') && true))">
                 <a class="has-arrow lnkCostSheetMenu" href="#" aria-expanded="false">
                     <span>Cost Sheet Preparation</span>
                 </a>
                 <ul aria-expanded="false" class="collapse costsheet">
                     <li ng-show="canAccess('prepare costsheet')" ng-class="{'submenu-active': currentUrl.includes('prepare') }"><a href="/rfq/{{rfq.id}}/costsheet/prepare">Prepare &amp; Send for Approval</a></li>
+
                     <li ng-show="canAccess('approve costsheet')" ng-class="{'submenu-active': currentUrl.includes('approval') }"><a href="/rfq/{{rfq.id}}/costsheet/approval">Compare Costsheet</a></li>
                 </ul>
             </li>
-            <li ng-show="rfq.CostSheets.length && canAccess('quotation')" ng-class="{'menu-active': currentUrl.includes('quotation') }"><a href="/rfq/{{rfq.id}}/quotation/short"><span>Quotation</span></a></li>
-            <li ng-show="displaySampleSubmission(rfq) && canAccess('developer handover')" ng-class="{'menu-active': currentUrl.includes('developerhandover') }">
+            <li ng-show="canAccess('quotation')" ng-class="{'menu-active': currentUrl.includes('quotation') }"><a href="/rfq/{{rfq.id}}/quotation/short"><span>Quotation</span></a></li>
+
+            <li ng-show="canAccess('developer handover')" ng-class="{'menu-active': currentUrl.includes('developerhandover') }">
                 <a href="/rfq/{{rfq.id}}/developerhandover"><span>Developer Handover</span></a>
                 <ul aria-expanded="false" class="collapse costsheet">
                     <li><a href="/rfq/{{rfq.id}}/costsheet/prepare">Actual Cost</a></li>
                 </ul>
             </li>
-            <li ng-show="displayReceivePO(rfq) && canAccess('PO')" ng-class="{'menu-active': currentUrl.includes('purchaseorder') }"><a href="/rfq/{{rfq.id}}/purchaseorder"><span>Receive PO</span></a></li>
-            <li ng-show="displaySampleSubmission(rfq)  && canAccess('sample submission')" ng-class="{'menu-active': currentUrl.includes('samplesubmission') }"><a href="/rfq/{{rfq.id}}/samplesubmission"><span>Sample Submission</span></a></li>
-            <li ng-show="displaySampleSubmission(rfq)  && canAccess('inspection report')" ng-class="{'menu-active': currentUrl.includes('sampleinspectionreport') }"><a href="/rfq/{{rfq.id}}/sampleinspectionreport"><span>Inspection Report</span></a></li>
+
+            <li ng-show="canAccess('PO')" ng-class="{'menu-active': currentUrl.includes('purchaseorder') }"><a href="/rfq/{{rfq.id}}/purchaseorder"><span>Receive PO</span></a></li>
+
+            <li ng-show="canAccess('sample submission')" ng-class="{'menu-active': currentUrl.includes('samplesubmission') }"><a href="/rfq/{{rfq.id}}/samplesubmission"><span>Sample Submission</span></a></li>
+
+            <li ng-show="canAccess('inspection report')" ng-class="{'menu-active': currentUrl.includes('sampleinspectionreport') }"><a href="/rfq/{{rfq.id}}/sampleinspectionreport"><span>Inspection Report</span></a></li>
         </ul>
     </div>
     <div class="col-12 text-center m-t-10 m-b-10 alert alert-info">

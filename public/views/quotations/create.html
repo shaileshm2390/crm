@@ -7,7 +7,8 @@
     </style>
     <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
 
-    <div class="row">
+    <div class="row" ng-show="rfq.CostSheets.length && canAccess('quotation')">
+
         <div class="col-lg-6 text-center" ng-show="rfq.RfqParts.length > 0" style="margin-left: 20%;">
             <table class="table table-bordered tblParts">
                 <thead>
@@ -71,7 +72,7 @@
                     <div ng-show="rfq.Quotations.length == 0">
                         <div class="txtEditor" ng-include="'views/quotations/quotation-template.html'">
                         </div>
-                        <br/>
+                        <br />
 
                         <!--<div class="clear clearfix fc-clear"></div><br />
                         <input type="checkbox" class="chkAttachCostSheet" id="chkAttachCostSheet" /> <label for="chkAttachCostSheet">Attach costsheet ?</label>-->
@@ -99,6 +100,12 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row" ng-show="!canAccess('quotation')">
+        <div class="alert alert-danger col col-lg-12">You may not have access for quatation section. Please  get an approval from admin</div>
+    </div>
+    <div class="row" ng-show="!rfq.CostSheets.length && canAccess('quotation')">
+        <div class="alert alert-danger col col-lg-12">Cost Sheet is not prepared yet. Please prepare Cost Sheet first</div>
     </div>
 
     <div class="displayCostsheet hide"></div>

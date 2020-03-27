@@ -155,7 +155,7 @@ exports.rfq = function (req, res, next, id) {
     var user = req.user,
     userCondition = { id: id },
         partCondition = {};
-    if (typeof req.query.partId !== "undefined") {
+    if (typeof req.query.partId !== "undefined" && req.query.partId !== "0") {
         partCondition = { RfqPartId: req.query.partId};
     }
     if (user.Department.name != "Admin") {

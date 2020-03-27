@@ -48,14 +48,6 @@
                 imagesArray.push(response.pathFromRoot);
             });
 
-            $(".ddlParts").on('change', function () {
-                if ($(this).val()) {
-                    window.location.href = "/rfq/" + $(".hdnRfqId").val() + "/purchaseorder/" + $(this).val();
-                } else {
-                    $(".purchaseOrderSection").hide();
-                }
-            });
-
             $(".btn-Save").on('click', function (e) {
                 if (validPurchaseOrderForm()) {
                     $(this).html('<i class="fa fa-spinner fa-spin"></i>');
@@ -72,7 +64,7 @@
                             $.ajax({
                                 url: '/purchaseorders/',
                                 method: "POST",
-                                data: { status: selectedStatus, imagesString: imagesString, RfqId: rfqId, application: selectedApplication, gstNum: $(".txtGSTNumber").val(), hsnNum: $(".txtHSNNumber").val(), RfqPartId: parseInt($('.ddlParts').val()) }
+                                data: { status: selectedStatus, imagesString: imagesString, RfqId: rfqId, application: selectedApplication, gstNum: $(".txtGSTNumber").val(), hsnNum: $(".txtHSNNumber").val()}
                             }).done(function (response) {
                                 $(".lblMsg").html("<span>Saved successfully !!!</span>").removeClass("hide");
                             });
@@ -80,17 +72,17 @@
                         }
                         else {
                             $.ajax({
-                                url: '/rfq/purchaseorders/' + rfqId + "?partId=" + $('.ddlParts').val(),
+                                url: '/rfq/purchaseorders/' + rfqId,
                                 method: "PUT",
                                 data: { status: selectedStatus, imagesString: imagesString, application: selectedApplication, gstNum: $(".txtGSTNumber").val(), hsnNum: $(".txtHSNNumber").val() }
                             }).done(function (response) {
                             });
                         }
-                        //window.location.reload(true); 
+                        window.location.reload(true); 
                     //});
                 }
                 e.stopImmediatePropagation();
-                window.location.href = '/rfq/' + $('.hdnRfqId').val() + '/purchaseorder/' + $('.ddlParts').val();
+                //window.location.href = '/rfq/' + $('.hdnRfqId').val() + '/purchaseorder';
                 return false;
             });
         }

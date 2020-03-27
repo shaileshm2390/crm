@@ -2,7 +2,7 @@
 
 var app = angular.module('mean.costsheets').controller('CostSheetsController', ['$scope', '$stateParams', 'Global', 'CostSheets', '$state', '$window', '$http', '$sce', function ($scope, $stateParams, Global, CostSheets, $state, $window, $http, $sce) {
     $scope.global = Global;
-    $scope.partId = $stateParams.partId; 
+    $scope.partId = $stateParams.partId || 0; 
 
     $scope.trustAsHtml = function (html) {
         return $sce.trustAsHtml(html);
@@ -17,7 +17,7 @@ var app = angular.module('mean.costsheets').controller('CostSheetsController', [
     };
 
     $scope.findApprovedCostSheetByRfqId = function () {
-        $http.get("/rfq/costsheets/approved/" + $stateParams.rfqId + "?partId=" + $stateParams.partId)
+        $http.get("/rfq/costsheets/approved/" + $stateParams.rfqId + "?partId=" + $scope.partId)
             .then(function (response) {
                 $scope.costsheet = response.data;
             }, function (error) {

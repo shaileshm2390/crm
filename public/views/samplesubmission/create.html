@@ -27,7 +27,7 @@
                 <div class="clear clearfix m-b-10"></div>
 
                 <!-- Earlier records-->
-                <div style="border: 1px solid #ccc; padding:10px" data-ng-controller="SampleSubmissionsController" data-ng-init="findOne()" class="m-b-10 m-t-10" id="sampleSubmissionController" ng-show="partId != 0">
+                <div style="border: 1px solid #ccc; padding:10px" data-ng-controller="SampleSubmissionsController" data-ng-init="findOne()" class="m-b-10 m-t-10" id="sampleSubmissionController" ng-show="partId != 0 && displaySampleSubmission(rfq)  && canAccess('sample submission')">
                     <!-- Update status panel -->
                     <div ng-hide="isPoReceived(rfq)" class="pnlStatusUpdate">
                         <div class="control-group m-b-10">
@@ -215,6 +215,12 @@
                     <div class="clearfix"></div><br />
 
                     <a class="btnHandOverToDeveloper btn btn-primary pull-right" href="#" ng-show="rfq.HandoverSubmitted == null && samplesubmission.length">Handover</a>
+                </div>
+                <div class="row" ng-show="partId != 0 && !canAccess('sample submission')">
+                    <div class="alert alert-danger col col-lg-12">You may not have access for Sample Submission section. Please get permission from admin</div>
+                </div>
+                <div class="row" ng-show="partId != 0 && !displaySampleSubmission(rfq)  && canAccess('sample submission')">
+                    <div class="alert alert-danger col col-lg-12">Cost Sheet is not approved yet. Please get approval first</div>
                 </div>
                 <input type="hidden" class="hdnRfqId" value="{{rfq.id}}" />
                 <br />

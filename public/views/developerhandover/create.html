@@ -19,7 +19,7 @@
         </div>
 
         <div class="clear clearfix m-b-10"></div>
-        <div class="row pnlRecord" ng-show="partId != 0">
+        <div class="row pnlRecord" ng-show="partId != 0 && displaySampleSubmission(rfq) && canAccess('developer handover')">
             <div ng-show="costsheet[0].status != 'approved'" class="alert alert-danger col col-lg-12">Cost Sheet is not yet approved. Please get an approval from admin</div>
             <div ng-init="findApprovedCostSheetByRfqId()" class="col col-lg-12">
                 <div ng-show="costsheet[0].status == 'approved'" class="row">
@@ -98,6 +98,12 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row" ng-show="partId != 0 && !canAccess('developer handover')">
+            <div class="alert alert-danger col col-lg-12">You may not have access for Developer Handover section. Please  get permission from admin</div>
+        </div>
+        <div class="row" ng-show="partId != 0 && !displaySampleSubmission(rfq) && canAccess('developer handover')">
+            <div class="alert alert-danger col col-lg-12">Cost Sheet is not approved yet. Please get approval first</div>
         </div>
 
         <input class="hdnRfqId" id="hdnRfqId" type="hidden" value="{{rfq.id}}" />

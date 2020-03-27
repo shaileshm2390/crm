@@ -5,22 +5,13 @@
         <div ng-include="'views/rfqs/rfqBasicDetail.html'"></div>
 
 
-        <div class="row">
+        <div class="row" ng-show="displayReceivePO(rfq) && canAccess('PO')">
             <div class="col col-lg-12">
                 <h3>Receive Purchase Order</h3>
                 <div class="alert alert-success lblMsg hide"></div>
                 <div class="clear clearfix"></div>
 
-                <div class="row">
-                    <div class="col col-lg-4 m-b-10">
-                        Select Part
-                        <select class="form-control ddlParts">
-                            <option value="">Select Part</option>
-                            <option ng-repeat="item in rfq.RfqParts" value="{{item.id}}" ng-selected="item.id == partId">{{item.partName}}</option>
-                        </select>
-                    </div>
-                </div>
-                <div ng-show="partId != 0" class="purchaseOrderSection">
+                <div class="purchaseOrderSection">
                     <div ng-hide="isPoReceived(rfq)" data-ng-controller="PurchaseordersController" data-ng-init="findOne()">
                         <div>
                             <div class="row">
@@ -96,6 +87,12 @@
                 <br />
 
             </div>
+        </div>
+        <div class="row" ng-show="!canAccess('PO')">
+            <div class="alert alert-danger col col-lg-12">You may not have access for Purchase Order section. Please  get permission from admin</div>
+        </div>
+        <div class="row" ng-show="!displayReceivePO(rfq) && canAccess('PO')">
+            <div class="alert alert-danger col col-lg-12">Quotation is not prepared yet. Please prepare Quotation first</div>
         </div>
     </section>
 

@@ -163,7 +163,10 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
 
     $scope.displaySampleSubmission = function (rfq) {
         if (typeof (rfq) != "undefined" && typeof (rfq.CostSheets) != "undefined") {
-            return rfq.CostSheets.length && rfq.CostSheets.some(function (o) { return o['status'] == 'approved' });
+            var resultAarray = jQuery.grep(rfq.CostSheets, function (n, i) {
+                return (n['status'] == 'approved' && n["RfqPartId"] == $scope.partId);
+            }, false);
+            return rfq.CostSheets.length && resultAarray.length;
         }
         return false;
     };
@@ -185,7 +188,7 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
 
     $scope.isPoReceived = function (rfq) {
         if (typeof (rfq) != "undefined" && typeof (rfq.PurchaseOrders) != 'undefined') {
-            return rfq.PurchaseOrders.length && rfq.PurchaseOrders.some(function (o) { return o['status'] == "Completed" });
+            return rfq.PurchaseOrders.length && rfq.PurchaseOrders.some(function (o) { return o['status'] == "Complete" });
         }
         return false;
     };

@@ -58,10 +58,10 @@ exports.create = function (req, res) {
 
 exports.approvedCostsheetByRfqId = function (req, res, next, id) {
     console.log(id, req.query.partId);
-    if (typeof req.query.partId === 'undefined' || req.query.partId === 0) {
+    if (typeof req.query.partId === 'undefined' || req.query.partId === "0") {
         db.CostSheet.findAll({
             where: [{ RfqId: id }, { status: 'approved' }],
-            order: [['createdAt', 'DESC']],
+            order: [['RfqPartId', 'DESC']],
             include: [
                 {
                     model: db.User,

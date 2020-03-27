@@ -38,56 +38,75 @@ var app = angular.module('mean.dashboards').controller('DashboardsController', [
                     $scope.myRfqs = response.data;
                     //customStatus
                     for (var index = 0; index < $scope.myRfqs.length; index++) {
-                        if (!$scope.myRfqs[index].CostSheets.length) {
-                            $scope.myRfqs[index].customStatus = "<a class='btn btn-info' href='/rfq/" + $scope.myRfqs[index].id + "/costsheet/prepare'>Prepare Cost Sheet</a>";
+                        
+                        if (!$scope.myRfqs[index].RfqParts.length) {
+                            $scope.myRfqs[index].customStatus = "<a class='btn btn-info' href='/customer/" + $scope.myRfqs[index].Buyer.CustomerId + "/buyer/" + $scope.myRfqs[index].Buyer.id + "/rfq/" + $scope.myRfqs[index].id +"'>Create Part</a>";
 
-                        }
-                        else if (!$scope.myRfqs[index].CostSheets.some(function (o) { return o["status"].toLowerCase() === "approved"; })) {
-                            $scope.myRfqs[index].customStatus = "<a class='btn btn-warning' href='/rfq/" + $scope.myRfqs[index].id + "/costsheet/approval'>Waiting for Cost Sheet Approval</a>";
-
-                        } else if (!$scope.myRfqs[index].Quotations.length) {
-                            $scope.myRfqs[index].customStatus = "<a class='btn btn-warning' href='/rfq/" + $scope.myRfqs[index].id + "/quotation/short'>Waiting for Short Quotation</a>";
-
-                        } else if (!$scope.myRfqs[index].PurchaseOrders.length) {
-                            $scope.myRfqs[index].customStatus = "<a class='btn btn-danger' href='/rfq/" + $scope.myRfqs[index].id + "/purchaseorder'>Waiting for PO</a>";
-
-                        } else if (!$scope.myRfqs[index].PurchaseOrders.some(function (o) { return o["status"].toLowerCase() === "complete"; })) {
-                            $scope.myRfqs[index].customStatus = "<a class='btn btn-warning' href='/rfq/" + $scope.myRfqs[index].id + "/purchaseorder'>Waiting for PO approval</a>";
-
-                        }
-                        else {
-                            $scope.myRfqs[index].customStatus = "<a class='btn btn-success' href='rfq/" + $scope.myRfqs[index].id + "/purchaseorder'>PO Completed</a>";
+                        } else {
+                            $scope.myRfqs[index].customStatus = "<table class='table table-hover'><thead><tr><th>Part Name</th><th>Status</th></tr></thead ><tbody>"
                         }
 
-                        if ($scope.myRfqs[index].Samplesubmissionimages.length > 0 && $scope.myRfqs[index].Samplesubmissions.length == 0) {
-                            $scope.myRfqs[index].customStatus += "&nbsp; <br /><a class='btn btn-warning m-t-5' href='rfq/" + $scope.myRfqs[index].id + "/samplesubmission'>" + $scope.myRfqs[index].Samplesubmissionimages[0].operation + " drawing completed</a>";
-                        }
-                        else if ($scope.myRfqs[index].Samplesubmissions.length) {
-                            $scope.myRfqs[index].customStatus += "&nbsp; <br /><a class='btn btn-success m-t-5' href='rfq/" + $scope.myRfqs[index].id + "/samplesubmission'>" + $scope.myRfqs[index].Samplesubmissions[0].stage + " " + $scope.myRfqs[index].Samplesubmissions[0].stageProcess + " completed</a>";
-                        }
+                        for (var partIndex = 0; partIndex < $scope.myRfqs[index].RfqParts.length; partIndex++) {
 
-                        if ($scope.myRfqs[index].HandoverSubmitted != null && $scope.myRfqs[index].DeveloperHandovers.length == 0) {
-                            $scope.myRfqs[index].customStatus = "<a class='btn btn-success' href='/rfq/" + $scope.myRfqs[index].id + "/samplesubmission'>Handover to developer</a>";
-                        }
-                        else if ($scope.myRfqs[index].HandoverSubmitted != null && $scope.myRfqs[index].DeveloperHandovers.length) {
-                            var testDate = new Date();
-                            var todayDate = new Date();
-                            var onlydate = new Date($scope.myRfqs[index].HandoverSubmitted.createdAt.split("T")[0]);
-                            var expectedLeadDate = testDate.setDate(onlydate.getDate() + ($scope.myRfqs[index].DeveloperHandovers[0].expectedLeadTime * 7));
-                            expectedLeadDate = new Date(expectedLeadDate);
+                            $scope.myRfqs[index].customStatus += "<tr><td>" + $scope.myRfqs[index].RfqParts[partIndex].partName + "</td><td>"
 
-                            var cssClass = "";
-                            if (expectedLeadDate.getTime() < todayDate.getTime()) {
-                                cssClass = "danger";
-                            } else if (expectedLeadDate.getTime() == todayDate.getTime()) {
-                                cssClass = "warning";
-                            } else {
-                                cssClass = "success";
+                            if (!$scope.myRfqs[index].RfqParts[partIndex].CostSheets.length) {
+
+                                $scope.myRfqs[index].customStatus += "<a class='btn btn-info' href='/rfq/" + $scope.myRfqs[index].id + "/costsheet/prepare'>Prepare Cost Sheet</a>";
+
                             }
-                            expectedLeadDate = expectedLeadDate.getDate() + "-" + (expectedLeadDate.getMonth() + 1) + "-" + expectedLeadDate.getFullYear();                            
-                            $scope.myRfqs[index].customStatus = "<a class='btn btn-" + cssClass + "' href='/rfq/" + $scope.myRfqs[index].id + "/developerhandover'>Expected Lead date: " + expectedLeadDate + "</a>";
+                            else if (!$scope.myRfqs[index].RfqParts[partIndex].CostSheets.some(function (o) { return o["status"].toLowerCase() === "approved"; })) {
+                                $scope.myRfqs[index].customStatus += "<a class='btn btn-warning' href='/rfq/" + $scope.myRfqs[index].id + "/costsheet/approval'>Waiting for Cost Sheet Approval</a>";
+
+                            } else if (!$scope.myRfqs[index].Quotations.length) {
+                                $scope.myRfqs[index].customStatus += "<a class='btn btn-warning' href='/rfq/" + $scope.myRfqs[index].id + "/quotation/short'>Waiting for Short Quotation</a>";
+
+                            } else if (!$scope.myRfqs[index].PurchaseOrders.length) {
+                                $scope.myRfqs[index].customStatus += "<a class='btn btn-danger' href='/rfq/" + $scope.myRfqs[index].id + "/purchaseorder'>Waiting for PO</a>";
+
+                            } else if (!$scope.myRfqs[index].PurchaseOrders.some(function (o) { return o["status"].toLowerCase() === "complete"; })) {
+                                $scope.myRfqs[index].customStatus += "<a class='btn btn-warning' href='/rfq/" + $scope.myRfqs[index].id + "/purchaseorder'>Waiting for PO approval</a>";
+
+                            }
+                            else {
+                                $scope.myRfqs[index].customStatus += "<a class='btn btn-success' href='rfq/" + $scope.myRfqs[index].id + "/purchaseorder'>PO Completed</a>";
+                            }
+
+                            if ($scope.myRfqs[index].RfqParts[partIndex].Samplesubmissionimages.length > 0 && $scope.myRfqs[index].RfqParts[partIndex].Samplesubmissions.length == 0) {
+                                $scope.myRfqs[index].customStatus += "&nbsp; <br /><a class='btn btn-warning m-t-5' href='rfq/" + $scope.myRfqs[index].id + "/samplesubmission'>" + $scope.myRfqs[index].RfqParts[partIndex].Samplesubmissionimages[0].operation + " drawing completed</a>";
+                            }
+                            else if ($scope.myRfqs[index].RfqParts[partIndex].Samplesubmissions.length) {
+                                $scope.myRfqs[index].customStatus += "&nbsp; <br /><a class='btn btn-success m-t-5' href='rfq/" + $scope.myRfqs[index].id + "/samplesubmission'>" + $scope.myRfqs[index].RfqParts[partIndex].Samplesubmissions[0].stage + " " + $scope.myRfqs[index].RfqParts[partIndex].Samplesubmissions[0].stageProcess + " completed</a>";
+                            }
+
+                            if ($scope.myRfqs[index].HandoverSubmitted != null && $scope.myRfqs[index].RfqParts[partIndex].DeveloperHandovers.length == 0) {
+                                $scope.myRfqs[index].customStatus += "<a class='btn btn-success' href='/rfq/" + $scope.myRfqs[index].id + "/samplesubmission'>Handover to developer</a>";
+                            }
+                            else if ($scope.myRfqs[index].HandoverSubmitted != null && $scope.myRfqs[index].RfqParts[partIndex].DeveloperHandovers.length) {
+                                var testDate = new Date();
+                                var todayDate = new Date();
+                                var onlydate = new Date($scope.myRfqs[index].HandoverSubmitted.createdAt.split("T")[0]);
+                                var expectedLeadDate = testDate.setDate(onlydate.getDate() + ($scope.myRfqs[index].RfqParts[partIndex].DeveloperHandovers[0].expectedLeadTime * 7));
+                                expectedLeadDate = new Date(expectedLeadDate);
+
+                                var cssClass = "";
+                                if (expectedLeadDate.getTime() < todayDate.getTime()) {
+                                    cssClass = "danger";
+                                } else if (expectedLeadDate.getTime() == todayDate.getTime()) {
+                                    cssClass = "warning";
+                                } else {
+                                    cssClass = "success";
+                                }
+                                expectedLeadDate = expectedLeadDate.getDate() + "-" + (expectedLeadDate.getMonth() + 1) + "-" + expectedLeadDate.getFullYear();
+                                $scope.myRfqs[index].customStatus += "<a class='btn btn-" + cssClass + "' href='/rfq/" + $scope.myRfqs[index].id + "/developerhandover'>Expected Lead date: " + expectedLeadDate + "</a>";
+                            }
+                            $scope.myRfqs[index].customStatus += "</td></tr>"
+                        }
+                        if ($scope.myRfqs[index].RfqParts.length) {
+                            $scope.myRfqs[index].customStatus += "</tbody></table>"
                         }
                     }
+
                 }, function (error) {
                     console.log(error);
                 });

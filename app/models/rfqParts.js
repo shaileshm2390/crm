@@ -7,7 +7,12 @@ module.exports = function (sequelize, DataTypes) {
 	},
         {
         	associate: function (models) {
-        		RfqParts.belongsTo(models.Rfq);
+                RfqParts.belongsTo(models.Rfq);
+                RfqParts.hasMany(models.CostSheet);
+                RfqParts.hasMany(models.Samplesubmission);
+                RfqParts.hasMany(models.DeveloperHandover);
+                RfqParts.hasMany(models.Samplesubmissionimage);
+                RfqParts.hasMany(models.SampleInspectionReport);
         	}
         }
     );

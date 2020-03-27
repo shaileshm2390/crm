@@ -216,37 +216,40 @@ exports.getMyRfq = function (req, res) {
                 model: db.RfqImage
             },
             {
-                model: db.CostSheet,
-                order: [['createdAt', 'DESC']],
-                limit: 1,
-            },
-            {
                 model: db.PurchaseOrder
             },
-            {
-                model: db.Samplesubmission,
-                order: [['createdAt', 'DESC']],
-                limit: 1,
-            },
-             {
-                 model: db.Samplesubmissionimage,
-                 order: [['createdAt', 'DESC']],
-                 limit: 1,
-             },
-              {
-                  model: db.DeveloperHandover
-              },
               {
                   model: db.HandoverSubmitted
-              },
-             {
-                 model: db.SampleInspectionReport
-             },
+            },
             {
                 model: db.Quotation
             },
             {
                 model: db.RfqFeasibilities
+            },
+            {
+                model: db.RfqParts,
+                include: [{
+                    model: db.CostSheet,
+                    order: [['status', 'ASC']],
+                    limit: 1,
+                },
+                    {
+                        model: db.Samplesubmission,
+                        order: [['createdAt', 'DESC']],
+                        limit: 1,
+                    },
+                    {
+                        model: db.Samplesubmissionimage,
+                        order: [['createdAt', 'DESC']],
+                        limit: 1,
+                    },
+                    {
+                        model: db.SampleInspectionReport
+                    },
+                    {
+                        model: db.DeveloperHandover
+                    }]
             }
         ]
     }).then(function (rfq) {

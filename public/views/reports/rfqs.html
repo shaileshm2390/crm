@@ -24,7 +24,8 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Subject</th>                       
+                        <th>Subject</th>   
+                        <th>Part</th>
                         <th>Assigned</th>
                         <th>Created</th>
                         <th>Feasibility</th>
@@ -44,7 +45,9 @@
                         <td>
                             {{report.subject || "-"}}
                         </td>
-                                           
+                        <td>
+                            {{report.partName || "-"}}
+                        </td>       
                         <td>
                             {{report.assignedUser || "-"}}                            
                         </td>

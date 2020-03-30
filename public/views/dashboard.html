@@ -174,7 +174,7 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <section ng-init="findMyRfq()" class="table-responsive">
-                                <table class="table table-hover">
+                                <table class="table table-hover tblMyRFQ">
                                     <thead>
                                         <tr>
                                             <th>Subject</th>
@@ -202,10 +202,11 @@
                                             <td ng-show="global.user.isAdmin">
                                                 {{(rfq.User.firstName + " " +  rfq.User.lastName).trim() || rfq.User.email || "-"}}
                                             </td>
-                                            <td ng-bind-html="trustAsHtml(rfq.customStatus)"></td>
+                                            <td class="text-center" ng-bind-html="trustAsHtml(rfq.customStatus)"></td>
                                         </tr>
                                     </tbody>
                                 </table>
+                                <input type="hidden" class="hdnMyRfqLength" value="{{myRfqs.length}}" />
                             </section>
                         </div>
                     </div>
@@ -224,7 +225,7 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <section ng-init="findOpenRfq()" class="table-responsive">
-                                <table class="table table-hover">
+                                <table class="table table-hover tblOpenRFQ">
                                     <thead>
                                         <tr>
                                             <th>Subject</th>
@@ -276,12 +277,25 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            var loadCode;
+            var loadCode, loadCode2;
             function actualFunction() {
                 if ($(".hdnRfqLength").length > 0 && $(".hdnRfqLength").val() != "") {
                     $('.loader').hide();
                     clearInterval(loadCode);
-                    $('table').DataTable({
+                    $('.tblOpenRFQ').DataTable({
+                        dom: 'lBfrtip',
+                        buttons: [
+                            'excel', 'pdf', 'print'
+                        ]
+                    });
+                }
+            }
+
+            function myActualFunction() {
+                if ($(".hdnMyRfqLength").length > 0 && $(".hdnMyRfqLength").val() != "") {
+                    $('.loader').hide();
+                    clearInterval(loadCode2);
+                    $('.tblMyRFQ').DataTable({
                         dom: 'lBfrtip',
                         buttons: [
                             'excel', 'pdf', 'print'
@@ -290,6 +304,7 @@
                 }
             }
             loadCode = setInterval(actualFunction, 500);
+            loadCode2 = setInterval(myActualFunction, 500);
         });
     </script>
 </div>

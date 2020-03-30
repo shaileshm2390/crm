@@ -40,7 +40,7 @@ var app = angular.module('mean.dashboards').controller('DashboardsController', [
                     for (var index = 0; index < $scope.myRfqs.length; index++) {
                         
                         if (!$scope.myRfqs[index].RfqParts.length) {
-                            $scope.myRfqs[index].customStatus = "<a class='btn btn-info' href='/customer/" + $scope.myRfqs[index].Buyer.CustomerId + "/buyer/" + $scope.myRfqs[index].Buyer.id + "/rfq/" + $scope.myRfqs[index].id +"'>Create Part</a>";
+                            $scope.myRfqs[index].customStatus = "<a class='btn btn-warning' href='/customer/" + $scope.myRfqs[index].Buyer.CustomerId + "/buyer/" + $scope.myRfqs[index].Buyer.id + "/rfq/" + $scope.myRfqs[index].id +"'>Check Feasibility</a>";
 
                         } else {
                             $scope.myRfqs[index].customStatus = "<table class='table table-hover'><thead><tr><th>Part Name</th><th>Status</th></tr></thead ><tbody>"
@@ -52,11 +52,11 @@ var app = angular.module('mean.dashboards').controller('DashboardsController', [
 
                             if (!$scope.myRfqs[index].RfqParts[partIndex].CostSheets.length) {
 
-                                $scope.myRfqs[index].customStatus += "<a class='btn btn-info' href='/rfq/" + $scope.myRfqs[index].id + "/costsheet/prepare'>Prepare Cost Sheet</a>";
+                                $scope.myRfqs[index].customStatus += "<a class='btn btn-info' href='/rfq/" + $scope.myRfqs[index].id + "/costsheet/prepare/" + $scope.myRfqs[index].RfqParts[partIndex].id  +"'>Prepare Cost Sheet</a>";
 
                             }
                             else if (!$scope.myRfqs[index].RfqParts[partIndex].CostSheets.some(function (o) { return o["status"].toLowerCase() === "approved"; })) {
-                                $scope.myRfqs[index].customStatus += "<a class='btn btn-warning' href='/rfq/" + $scope.myRfqs[index].id + "/costsheet/approval'>Waiting for Cost Sheet Approval</a>";
+                                $scope.myRfqs[index].customStatus += "<a class='btn btn-warning' href='/rfq/" + $scope.myRfqs[index].id + "/costsheet/approval/" + $scope.myRfqs[index].RfqParts[partIndex].id +"'>Waiting for Cost Sheet Approval</a>";
 
                             } else if (!$scope.myRfqs[index].Quotations.length) {
                                 $scope.myRfqs[index].customStatus += "<a class='btn btn-warning' href='/rfq/" + $scope.myRfqs[index].id + "/quotation/short'>Waiting for Short Quotation</a>";
@@ -73,14 +73,14 @@ var app = angular.module('mean.dashboards').controller('DashboardsController', [
                             }
 
                             if ($scope.myRfqs[index].RfqParts[partIndex].Samplesubmissionimages.length > 0 && $scope.myRfqs[index].RfqParts[partIndex].Samplesubmissions.length == 0) {
-                                $scope.myRfqs[index].customStatus += "&nbsp; <br /><a class='btn btn-warning m-t-5' href='rfq/" + $scope.myRfqs[index].id + "/samplesubmission'>" + $scope.myRfqs[index].RfqParts[partIndex].Samplesubmissionimages[0].operation + " drawing completed</a>";
+                                $scope.myRfqs[index].customStatus += "&nbsp; <br /><a class='btn btn-warning m-t-5' href='rfq/" + $scope.myRfqs[index].id + "/samplesubmission/" + $scope.myRfqs[index].RfqParts[partIndex].id +"'>" + $scope.myRfqs[index].RfqParts[partIndex].Samplesubmissionimages[0].operation + " drawing completed</a>";
                             }
                             else if ($scope.myRfqs[index].RfqParts[partIndex].Samplesubmissions.length) {
-                                $scope.myRfqs[index].customStatus += "&nbsp; <br /><a class='btn btn-success m-t-5' href='rfq/" + $scope.myRfqs[index].id + "/samplesubmission'>" + $scope.myRfqs[index].RfqParts[partIndex].Samplesubmissions[0].stage + " " + $scope.myRfqs[index].RfqParts[partIndex].Samplesubmissions[0].stageProcess + " completed</a>";
+                                $scope.myRfqs[index].customStatus += "&nbsp; <br /><a class='btn btn-success m-t-5' href='rfq/" + $scope.myRfqs[index].id + "/samplesubmission/" + $scope.myRfqs[index].RfqParts[partIndex].id +"'>" + $scope.myRfqs[index].RfqParts[partIndex].Samplesubmissions[0].stage + " " + $scope.myRfqs[index].RfqParts[partIndex].Samplesubmissions[0].stageProcess + " completed</a>";
                             }
 
                             if ($scope.myRfqs[index].HandoverSubmitted != null && $scope.myRfqs[index].RfqParts[partIndex].DeveloperHandovers.length == 0) {
-                                $scope.myRfqs[index].customStatus += "<a class='btn btn-success' href='/rfq/" + $scope.myRfqs[index].id + "/samplesubmission'>Handover to developer</a>";
+                                $scope.myRfqs[index].customStatus += "<a class='btn btn-success' href='/rfq/" + $scope.myRfqs[index].id + "/samplesubmission/" + $scope.myRfqs[index].RfqParts[partIndex].id +"'>Handover to developer</a>";
                             }
                             else if ($scope.myRfqs[index].HandoverSubmitted != null && $scope.myRfqs[index].RfqParts[partIndex].DeveloperHandovers.length) {
                                 var testDate = new Date();
@@ -98,7 +98,7 @@ var app = angular.module('mean.dashboards').controller('DashboardsController', [
                                     cssClass = "success";
                                 }
                                 expectedLeadDate = expectedLeadDate.getDate() + "-" + (expectedLeadDate.getMonth() + 1) + "-" + expectedLeadDate.getFullYear();
-                                $scope.myRfqs[index].customStatus += "<a class='btn btn-" + cssClass + "' href='/rfq/" + $scope.myRfqs[index].id + "/developerhandover'>Expected Lead date: " + expectedLeadDate + "</a>";
+                                $scope.myRfqs[index].customStatus += "<a class='btn btn-" + cssClass + "' href='/rfq/" + $scope.myRfqs[index].id + "/developerhandover/" + $scope.myRfqs[index].RfqParts[partIndex].id +"'>Expected Lead date: " + expectedLeadDate + "</a>";
                             }
                             $scope.myRfqs[index].customStatus += "</td></tr>"
                         }

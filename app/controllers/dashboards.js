@@ -128,6 +128,7 @@ exports.getRfqChartDetail = function (req, res) {
 exports.getRfqPieChartDetail = function (req, res) {
     var user = req.user,
         userCondition = "",
+        userConditionBasedOnParts = "",
         toDate, fromDate,
         dateTemp = new Date();
 
@@ -143,17 +144,20 @@ exports.getRfqPieChartDetail = function (req, res) {
     if (typeof req.body.toDate !== 'undefined' && req.body.toDate !== "") {
         toDate = req.body.toDate;
     }
+
+    userConditionBasedOnParts = " AND rp.createdAt BETWEEN '" + fromDate + "' AND '" + toDate + "' ";
      
     userCondition = " AND r.createdAt BETWEEN '" + fromDate + "' AND '" + toDate + "' ";
     if (user.Department.name !== "Admin") {
         userCondition += " AND (r.UserId = " + user.id + " OR r.marketingUserId = " + user.id + ") ";
+        userConditionBasedOnParts += " AND (r.UserId = " + user.id + " OR r.marketingUserId = " + user.id + ") ";
     }
 
-    var customQuery = "SELECT (SELECT Count(po.id) FROM `CostSheets` po INNER JOIN Rfqs r ON r.Id = po.RfqId WHERE status='approved' {CONDITION}) as CostsheetPrepared, (SELECT Count(po.id) FROM `Quotations` po INNER JOIN Rfqs r ON r.Id = po.RfqId WHERE 1=1 {CONDITION}) as Quotations, (SELECT Count(po.id) FROM `HandoverSubmitteds` po INNER JOIN Rfqs r ON r.Id = po.RfqId WHERE 1=1 {CONDITION}) as SampleSubmitted, (SELECT Count(po.id) FROM `PurchaseOrders` po INNER JOIN Rfqs r ON r.Id = po.RfqId  WHERE 1=1 {CONDITION}) as POReceived, (SELECT Count(po.id) FROM `DeveloperHandovers`  po INNER JOIN Rfqs r ON r.Id = po.RfqId WHERE 1=1 {CONDITION}) as DeveloperHandovers";
+    var customQuery = "SELECT (SELECT Count(po.id) FROM `CostSheets` po INNER JOIN Rfqs r ON r.Id = po.RfqId INNER JOIN RfqParts rp ON rp.Id = po.RfqPartId WHERE status='approved' {PARTSCONDITION}) as CostsheetPrepared, (SELECT Count(po.id) FROM `Quotations` po INNER JOIN Rfqs r ON r.Id = po.RfqId WHERE 1=1 {CONDITION}) as Quotations, (SELECT Count(po.id) FROM `HandoverSubmitteds` po INNER JOIN Rfqs r ON r.Id = po.RfqId WHERE 1=1 {CONDITION}) as SampleSubmitted, (SELECT Count(po.id) FROM `PurchaseOrders` po INNER JOIN Rfqs r ON r.Id = po.RfqId  WHERE 1=1 {CONDITION}) as POReceived, (SELECT Count(po.id) FROM `DeveloperHandovers`  po INNER JOIN Rfqs r ON r.Id = po.RfqId INNER JOIN RfqParts rp ON rp.Id = po.RfqPartId WHERE 1=1 {PARTSCONDITION}) as DeveloperHandovers";
 
     //console.log(customQuery.replace(/{CONDITION}/g, userCondition));
 
-    db.sequelize.query(customQuery.replace(/{CONDITION}/g, userCondition), { type: db.sequelize.QueryTypes.SELECT}).then(function (response) {    
+    db.sequelize.query(customQuery.replace(/{CONDITION}/g, userCondition).replace(/{PARTSCONDITION}/g, userConditionBasedOnParts), { type: db.sequelize.QueryTypes.SELECT}).then(function (response) {    
         return res.jsonp(response[0]);
     });
 };

@@ -23,7 +23,6 @@ request('http://api.ipstack.com/check?access_key=a0a80aaea559ceb4d5ebacc03c30f6d
 exports.create = function (req, res) {   
     
     db.Quotation.create(req.body).then(function (quotation) {
-        console.log("QuatitonId = " + quotation.id);
         var request, AllAttachments = [], fileArray, filePath, CostSheetIdsArray;
         if (req.body.fileString.trim() !== "") {
             fileArray = req.body.fileString.split(",");
@@ -45,18 +44,15 @@ exports.create = function (req, res) {
             }
         }
         if (req.body.CostSheetIds !== "") {
-            console.log("CostSheetIds : " + req.body.CostSheetIds);
             CostSheetIdsArray = req.body.CostSheetIds.split(",");
             
             for (var index = 0; index < CostSheetIdsArray.length; index++) {
-                console.log("CostSheetId : " + CostSheetIdsArray[index]);
                var CostSheetDetails = {
                     // imagePath: imageArray[index].replace("/temp/", "/uploads/"),
                     QuotationId: quotation.id,
                     CostSheetId: CostSheetIdsArray[index]
                 };
                 db.QuotationsCostSheet.create(CostSheetDetails).then(function (quotationCostSheets) {
-                    console.log("Created : ");
                     if (!quotationCostSheets) {
                         return res.send('/signin', { errors: new StandardError('Quotation CostSheets could not be inserted') });
                     }
@@ -92,7 +88,6 @@ exports.create = function (req, res) {
         //} else {
         //    sm.sendMail(mailObject);
         //}
-        console.log("attachments = " + AllAttachments);
         mailObject.attachments = AllAttachments;
 
         sm.sendMail(mailObject);

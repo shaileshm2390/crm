@@ -65,7 +65,6 @@ exports.update = function (req, res) {
     };
     
     db.User.find({ where: { id: req.body.UserId }, include: { model: db.Department, attributes: ['id', 'name'] } }).then(function (user) {
-        console.log(user);
         if (user !== null && user.Department.name === 'Marketing') {   
             updateObj.marketingUserId = req.body.UserId;
         }

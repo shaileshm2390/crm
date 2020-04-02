@@ -127,7 +127,6 @@
 
         $(".btnUpdate").on('click', function (e) {
             if (validConversionForm()) {
-                console.log("ello if");
                 $.when(saveConversion()).then(function (data) {
                     $(".close").trigger("click");
                     angular.element(document.getElementsByClassName('conversionAdded')).scope().find();

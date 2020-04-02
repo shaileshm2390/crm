@@ -60,10 +60,8 @@ exports.create = function (req, res) {
                 RfqPartId: req.body.data[index].RfqPartId,
                 expectedDate: req.body.data[index].expectedDate
             };
-
-            console.log(sampleSubmissionRequest);
+            
             db.Samplesubmission.create(sampleSubmissionRequest).then(function (samplesubmission) {
-                console.log("Created");
                 if (!samplesubmission) {
                     return res.send('/signin', { errors: new StandardError('sample submission could not be created') });
                 } else {

@@ -49,7 +49,6 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
     $scope.findOneByRfqId = function () {
         var url = "/rfqs/" + $stateParams.rfqId;
             if (typeof $scope.partId !== "undefined" && $scope.partId !== "" && $scope.partId !== null) {
-                console.log("partId = " + $scope.partId);
                 url += "?partId=" + $scope.partId;
             }
             //$scope.rfq = { id: $stateParams.rfqId };
@@ -118,7 +117,6 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
                 }
 
                 if (typeof $scope.copyPartId !== "undefined" && $scope.copyPartId !== "" && $scope.copyPartId !== null && $scope.copyPartId !== 0) {
-                    console.log("copyPartId = " + $scope.copyPartId);
                     $http.get("/rfq/costsheets/copycostsheet/" + $scope.copyPartId)
                         .then(function (response) {
                             $scope.rfq.CostSheets = response.data;

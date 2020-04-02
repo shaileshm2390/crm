@@ -21,7 +21,7 @@
             </div>
         </div>
         <section ng-init="findReports(6)" class="table-responsive"  id="reportSection">
-            <table class="table table-hover">
+            <table class="table table-hover tblReport">
                 <thead>
                     <tr>
                         <th>Subject</th>   
@@ -128,7 +128,7 @@
 
                     var oTable;
                     setTimeout(function () { 
-                        oTable = $('table').DataTable(jqueryDataTableOption);
+                        oTable = $('.tblReport').DataTable(jqueryDataTableOption);
                         $(".datepicker").datepicker({ format: 'yyyy-mm-dd' });                       
                     }, 1000);
                     clearInterval(loadCode);

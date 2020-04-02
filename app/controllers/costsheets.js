@@ -57,7 +57,6 @@ exports.create = function (req, res) {
 };
 
 exports.approvedCostsheetByRfqId = function (req, res, next, id) {
-    console.log(id, req.query.partId);
     if (typeof req.query.partId === 'undefined' || req.query.partId === "0") {
         db.CostSheet.findAll({
             where: [{ RfqId: id }, { status: 'approved' }],
@@ -88,7 +87,6 @@ exports.approvedCostsheetByRfqId = function (req, res, next, id) {
                 }
             ]
         }).then(function (costSheets) {
-            console.log("costSheet" + costSheets);
             if (!costSheets) {
                 return next(new Error('Failed to load CostSheet ' + id));
             } else {
@@ -291,7 +289,6 @@ exports.costsheet = function (req, res, next, id) {
 };
 
 exports.copyCostsheetById = function (req, res, next, id) {
-    console.log("copyPartId = " + id);
     db.CostSheet.findAll({
         where: { RfqPartId: id },
         order: [['status', 'DESC']],
@@ -302,11 +299,9 @@ exports.copyCostsheetById = function (req, res, next, id) {
             }
         ]
     }).then(function (costSheets) {
-        console.log("costSheets = " + costSheets);
         if (!costSheets) {
             return next(new Error('Failed to load CostSheet ' + id));
         } else {
-            console.log("costSheets.length = " + costSheets.length);
             if (costSheets.length > 0) {
                 for (var index = 0; index < costSheets.length; index++) {
                     costSheets[index].data = JSON.parse(costSheets[index].data);

@@ -114,11 +114,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <button type="button" class="close btnClose" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h3 class="modal-title" id="exampleModalCenterTitle"><strong>Approved Costsheet</strong></h3>
                 </div>
                 <div class="modal-body">
-                    <div class="col col-lg-12">
+                    <div class="alert alert-danger lblNotFoundMsg d-none">No Costsheet approved</div>
+                    <div class="col col-lg-12 pnlRecord">
                         <div class="alert alert-success lblMsg hide"></div>
                         <div class="clear clearfix"></div>
 
@@ -338,18 +339,25 @@
                         return false;
                     });
 
+                    $(".btnClose").on('click', function () {
+                        $('#myModal').modal('hide');
+                    });
+
                     $(".viewCostsheet").on('click', function () {
                         var $me = $(this);
-                        console.log($me.attr('data-id'));
                         $.when(getApprovedCostsheetByRfiIdAndPartId($me.attr('data-id'))).then(function (response) {
-                            if (response[0].id > 0) {
-                                console.log("ala re " + response[0].User.firstName + ' ' + response[0].User.lastName);
+                            //console.log("response = " + response.length);
+                            if (response.length > 0 && response[0].id > 0) {
                                 $('.costsheetUserDetails').html(response[0].User.firstName + ' ' + response[0].User.lastName);
                                 $('.costsheetUserEmail').html(response[0].User.email);
                                 $('.costsheetcreatedAt').html("<i> - " + response[0].createdAt + "</i>");
                                 $('.costsheetData').html(bindCostsheetDetails(response[0].data));
+                                $('.pnlRecord').removeClass("d-none");
+                                $('.lblNotFoundMsg').addClass("d-none");
                                 return true;
                             } else {
+                                $('.pnlRecord').addClass("d-none");
+                                $('.lblNotFoundMsg').removeClass("d-none");
                                 return false;
                             }
 

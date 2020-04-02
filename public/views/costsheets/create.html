@@ -320,7 +320,6 @@
         };
 
         var calculateRmCost = function ($ele) {
-            console.log("calculateRmCost");
             var rate = $ele.parent().parent().find(".txtRate").val().replace(/[^\d.]/g, ''),
                 scrapRate = $ele.parent().parent().find(".txtScrapRate").val().replace(/[^\d.]/g, ''),
                 scrapRecovery = $ele.parent().parent().find(".txtScrapRecovery").val().replace(/[^\d.]/g, ''),
@@ -346,7 +345,7 @@
                     totalRmCost += parseFloat($(value).val().replace(/[^\d.]/g, ''));
                 }
             });
-            console.log("totalRmCost = " + totalRmCost.toFixed(2));
+            
             $(".txtTotalRmCost").val("Rs " + totalRmCost.toFixed(2));
             calculateProfitRmCost();
             calculateProfitConversionCost();
@@ -645,7 +644,6 @@
                         $me.parent().parent().find('.txtRate').val($me.find('option:selected').data("rate").toFixed(2));
                         $me.parent().parent().find('.txtScrapRate').val($me.find('option:selected').data("scrap-rate").toFixed(2));
                         $me.parent().parent().find('.txtScrapRecovery').val($me.find('option:selected').data("scrap-recovery").toFixed(2));
-                        console.log('calculateRmCost');
                         console.log($me);
                         calculateRmCost($me);
                     } else {

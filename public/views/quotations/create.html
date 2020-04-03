@@ -110,15 +110,25 @@
 
     <div class="displayCostsheet hide"></div>
 
-    <div id="myModal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close btnClose" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h3 class="modal-title" id="exampleModalCenterTitle"><strong>Approved Costsheet</strong></h3>
-                </div>
-                <div class="modal-body">
-                    <div class="alert alert-danger lblNotFoundMsg d-none">No Costsheet approved</div>
+    
+    <input type="hidden" class="hdnDemoData" value="" />
+    <input class="hdnRfqId" id="hdnRfqId" type="hidden" value="{{rfq.id}}" />
+    <input class="hdnBuyerDetail" id="hdnBuyerDetail" type="hidden" value="{{rfq.Buyer.name}}" data-email="{{rfq.Buyer.email}}" />
+
+</section>
+
+
+<div class="modal ng-scope" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Approved Costsheet</h3>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger lblNotFoundMsg d-none">No Costsheet approved</div>
                     <div class="col col-lg-12 pnlRecord">
                         <div class="alert alert-success lblMsg hide"></div>
                         <div class="clear clearfix"></div>
@@ -154,22 +164,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default btnClose" data-dismiss="modal">Close</button>
+                </div>
 
                 </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
-    <input type="hidden" class="hdnDemoData" value="" />
-    <input class="hdnRfqId" id="hdnRfqId" type="hidden" value="{{rfq.id}}" />
-    <input class="hdnBuyerDetail" id="hdnBuyerDetail" type="hidden" value="{{rfq.Buyer.name}}" data-email="{{rfq.Buyer.email}}" />
-
-</section>
-<!--<script src="/js/view/quotation.js"></script>-->
+                </div>
+                
+<style>
+button.close {
+    right: 20px;
+    top: 10px;
+}
+</style>
 <script>
     $(document).ready(function () {
         var imagesArray = [];
@@ -228,7 +233,7 @@
                                             actualValue = '<strong>' + actualValue + '</strong>';
                                         }
 
-                                        strHtml += '<td  style="padding:5px;" width="' + 100 / parameterValueArray.length + '%">' + actualValue + '</td>';
+                                        strHtml += '<td  style="padding:5px;" width="' + (100 / parameterValueArray.length) + '%">' + actualValue + '</td>';
                                     });
                                     strHtml += '</tr></table></td>';
                                     strHtml += '</tr>';
@@ -339,9 +344,9 @@
                         return false;
                     });
 
-                    $(".btnClose").on('click', function () {
+                   /* $(".btnClose").on('click', function () {
                         $('#myModal').modal('hide');
-                    });
+                    });*/
 
                     $(".viewCostsheet").on('click', function () {
                         var $me = $(this);

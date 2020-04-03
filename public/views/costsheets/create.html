@@ -32,7 +32,7 @@
                             </select>
                         </div>
 
-                        <div class="col col-lg-4 m-b-10" ng-show="partId != 0 && !isPoReceived(rfq) && canAccess('costsheet')">
+                        <div class="col col-lg-4 m-b-10" ng-show="partId != 0 && canAccess('costsheet')">
                             <div class="wrapper" ng-app="autocompleteApp" ng-controller="mainController">
                                 <label class="text-muted m-b-2 f-s-12">Copy Costsheet From Part</label>
                                 <autocomplete choices="items" enteredtext="text"
@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="clear clearfix"></div>
-                    <div class="row section-costsheet" ng-show="partId != 0 && !isPoReceived(rfq) && canAccess('costsheet')">
+                    <div class="row section-costsheet" ng-show="partId != 0 && canAccess('costsheet')">
                         <input type="hidden" id="copyPartName" class="copyPartName" value="{{rfq.LatestCostsheet.RfqPart.partName}}" />
                         <div class="col-sm-12 m-b-5">
                             <div class="separatePanel Rawmaterial">
@@ -231,9 +231,6 @@
                     <div class="row" ng-show="partId != 0 && !canAccess('costsheet')">
                         <div class="alert alert-danger col col-lg-12">You may not have access for Cost Sheet section. Please  get permission from admin</div>
                     </div>
-                    <div class="row" ng-show="partId != 0 && isPoReceived(rfq) && canAccess('costsheet')">
-                        <div class="alert alert-danger col col-lg-12">The Purchase Order is already prepared.</div>
-                    </div>
 
                     <hr />
 
@@ -247,7 +244,7 @@
     <div class="clear clearfix"></div> <br />
     <div class="pnlParameter row">
     </div>-->
-                    <div class="row section-costsheet" ng-show="partId != 0 && !isPoReceived(rfq) && canAccess('costsheet')">
+                    <div class="row section-costsheet" ng-show="partId != 0 && canAccess('costsheet')">
                         <div class="col col-lg-3 center">
                             <a href="#" class="btnSubmit btn btn-primary">Send for Approval</a>
                         </div>

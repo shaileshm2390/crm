@@ -126,7 +126,10 @@
                     <ul class="navbar-nav mr-auto mt-md-0"  data-ng-controller="HeaderController">
                         <!-- This is  -->
                         <li class="nav-item"><a class="nav-link nav-toggler hidden-md-up text-muted  " href="javascript:void(0)"><i class="mdi mdi-menu"></i></a></li>
-                        <li class="nav-item m-l-10"   data-ng-show="global.authenticated"><a class="nav-link sidebartoggler hidden-sm-down text-muted  " href="javascript:void(0)"><i class="ti-menu"></i></a></li>
+                        <!-- <li class="nav-item m-l-10"   data-ng-show="global.authenticated"> -->
+						<!-- <a class="nav-link sidebartoggler hidden-sm-down text-muted  " href="javascript:void(0)"><i class="ti-menu"></i> -->
+						<!-- </a> -->
+						<!-- </li> -->
 						<li class="nav-item m-t-10 m-l-10"  data-ng-show="global.authenticated">
 							<a class="btn btn-primary btnImportRFQ" href="#">Import RFQ</a>
 						</li>
@@ -174,13 +177,13 @@
                 <!-- Sidebar scroll-->
                 <div class="scroll-sidebar">
                     <!-- Sidebar navigation-->
-                    <nav class="sidebar-nav">
+                    <nav class="sidebar-nav" data-ng-show="global.authenticated">>
 
-                        <ul class="sidebarnav" data-ng-show="!global.authenticated">
-                            <li class="nav-label"><a ui-sref="SignIn"  target="_self">Signin</a></li>
-                            <li class="nav-devider"></li>
-                        </ul>
-                        <ul id="sidebarnav" data-ng-show="global.authenticated">
+                        <!-- <ul class="sidebarnav" data-ng-show="!global.authenticated"> -->
+                            <!-- <li class="nav-label"><a ui-sref="SignIn"  target="_self">Signin</a></li> -->
+                            <!-- <li class="nav-devider"></li> -->
+                        <!-- </ul> -->
+                        <ul id="sidebarnav" style="background-color:#fff;" data-ng-show="global.authenticated">
                             <li class="nav-devider"></li>
                             <li class="nav-label">Home</li>
                             <li><a href="/" target="_self"><i class="fa fa-tachometer"></i><span class="hide-menu">Dashboard</span>     </a>              

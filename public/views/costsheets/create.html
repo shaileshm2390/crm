@@ -13,7 +13,7 @@
                 <div class="col col-lg-12 cost-sheet-form">
                     <h3>
                         <strong>Prepare Standard Format Cost Sheet</strong>
-                        <small>
+                        <small class="section-costsheet" ng-show="partId != 0 && canAccess('costsheet')">
                             <span class="pull-right">
                                 <strong ng-class="((rfq.LatestCostsheet.status=='approved') ? 'badge badge-success' : (rfq.LatestCostsheet.status=='rejected') ? 'badge badge-danger' : 'badge badge-warning')">{{rfq.LatestCostsheet.status | capitalize}}</strong>
                             </span>
@@ -49,6 +49,7 @@
 
                     <div class="clear clearfix"></div>
                     <div class="row section-costsheet" ng-show="partId != 0 && canAccess('costsheet')">
+
                         <input type="hidden" id="copyPartName" class="copyPartName" value="{{rfq.LatestCostsheet.RfqPart.partName}}" />
                         <div class="col-sm-12 m-b-5">
                             <div class="separatePanel Rawmaterial">
@@ -575,7 +576,7 @@
                     // save costsheet
                     console.log(JSON.stringify(nameValuePair));
                     $.when(saveCostSheet(JSON.stringify(nameValuePair))).then(function () {
-                        //window.location.href = '/rfq/' + $('.hdnRfqId').val() + '/costsheet/prepare';
+                        window.location.href = '/rfq/' + $('.hdnRfqId').val() + '/costsheet/prepare/' + $('.ddlParts').val();
                     });
                 } else {
                     nameValuePair = [];

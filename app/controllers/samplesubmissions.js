@@ -11,6 +11,7 @@ const request = require('request');
 var ipAddress;
 
 request('http://api.ipstack.com/check?access_key=a0a80aaea559ceb4d5ebacc03c30f6d3', { json: true }, (err, res, body) => {
+	
     if (err) { console.log(err); }
     ipAddress = body.ip;
 });

@@ -10,6 +10,7 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
     $scope.reports = [];
     $scope.partId = $stateParams.partId || 0;
     $scope.copyPartId = $stateParams.copyPartId || 0;
+	$scope.customerCostsheet = $stateParams.customerCostsheet || 0;
 
     $scope.trustAsHtml = function (html) {
         return $sce.trustAsHtml(html);

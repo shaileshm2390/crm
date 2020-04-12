@@ -252,6 +252,7 @@
                     </div>
                 </div>
             </div>
+			 <input type="hidden" id="customerCostsheet" value="{{customerCostsheet}}" class="customerCostsheet" /> 
         </section>
 
         <section ng-show="rfq.id == null && validatePermission">
@@ -494,7 +495,7 @@
             $.ajax({
                 url: '/costsheets/',
                 method: "POST",
-                data: { UserId: window.user.id, data: data, RfqId: rfqId, status: window.user.isAdmin ? "approved" : "pending", RfqPartId: parseInt($('.ddlParts').val()), TotalCost: $('.txtTotal').val() }
+                data: { UserId: window.user.id, data: data, RfqId: rfqId, status: window.user.isAdmin ? "approved" : "pending", RfqPartId: parseInt($('.ddlParts').val()), TotalCost: $('.txtTotal').val(), customerCostsheet: $(".customerCostsheet").val() }
             }).done(function (response) {
                 $(".lblMsg").html("<span>Saved successfully !!!</span>").removeClass("hide").show().delay(3000).fadeOut();
                 $('html, body').animate({

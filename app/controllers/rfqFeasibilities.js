@@ -60,9 +60,9 @@ exports.rfqFeasibilities = function (req, res, next, id) {
 
 exports.update = function (req, res) {
 
-    //db.RfqFeasibilities.destroy({
-    //    where: { RfqId: req.body.RfqId }
-    //}).then(function () {
+    db.RfqFeasibilities.destroy({
+        where: { RfqId: req.body.RfqId }
+    }).then(function () {
 
         var insertQuery = "INSERT INTO `RfqFeasibilities` (partName, isFeasible, RfqId, UserId,CreatedAt) VALUES";       
         var valuesArray = [];
@@ -78,14 +78,14 @@ exports.update = function (req, res) {
         };
 
     for (var index = 0; index < req.body.records.length; index++) {
-        if (req.body.records[index].partId === 0) {
+        //if (req.body.records[index].partId === 0) {
             valuesArray.push("('" + req.body.records[index].partName + "'," + (req.body.records[index].isFeasible == "true" ? 1 : 0) + ",'" + req.body.RfqId + "','" + req.body.UserId + "', '" + new Date().toMysqlFormat() + "')");
-        } else {
+        //} else {
             // update query
-        }
+        //}
     }
         insertQuery += valuesArray.join(", ");
-
+//console.log(insertQuery, req.body.records);
         db.sequelize.query(insertQuery, { type: db.sequelize.QueryTypes.INSERT }).then(function (rfqFeasibilities) {        
             // insert watchdog data
             var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
@@ -103,12 +103,9 @@ exports.update = function (req, res) {
 
             return res.jsonp(rfqFeasibilities);
         }).catch(function (err) {
-            return res.send('/signin', {
-                errors: err,
-                status: 500
-            });
+            return res.jsonp(err);
         });
-    //});
+    });
 };
 
 exports.all = function (req, res) {

@@ -35,6 +35,7 @@
 
                                 <span class="pull-right">
                                     <strong ng-class="((costsheet.status=='approved') ? 'badge badge-success' : (costsheet.status=='rejected') ? 'badge badge-danger' : 'badge badge-warning')">{{costsheet.status | capitalize}}</strong>
+									<strong class="badge badge-success mt-2 m-t-2" ng-show="{{costsheet.customerCostsheet == 1}}">Customer</strong>
                                 </span>
                             </h6>
 

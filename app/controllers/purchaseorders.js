@@ -67,7 +67,9 @@ exports.create = function (req, res) {
                 pageUrl: fullUrl,
                 userId: req.user.id,
                 previousData: "",
-                updatedData: JSON.stringify(purchaseorder)
+                updatedData: JSON.stringify(purchaseorder),
+					RfqId: req.body.RfqId, 
+					RfqPartId: req.body.RfqPartId
             });
 
             return res.jsonp(purchaseorder);
@@ -135,7 +137,9 @@ exports.update = function (req, res) {
             pageUrl: fullUrl,
             userId: req.user.id,
             previousData: JSON.stringify(previousData),
-            updatedData: JSON.stringify(updatedData)
+            updatedData: JSON.stringify(updatedData),
+					RfqId: req.body.RfqId, 
+					RfqPartId: req.body.RfqPartId
         });
         return res.jsonp(a);
     }).catch(function (err) {

@@ -82,7 +82,9 @@ exports.create = function (req, res) {
                 pageUrl: fullUrl,
                 userId: req.user.id,
                 previousData: "",
-                updatedData: JSON.stringify(SampleInspectionReport)
+                updatedData: JSON.stringify(SampleInspectionReport),
+					RfqId: req.body.RfqId, 
+					RfqPartId: req.body.RfqPartId
             });
 
             return res.jsonp(SampleInspectionReport);

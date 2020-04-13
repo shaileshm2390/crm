@@ -9,7 +9,13 @@ module.exports = function (sequelize, DataTypes) {
         userId: DataTypes.INTEGER,
         previousData: DataTypes.TEXT,
         updatedData: DataTypes.TEXT
-    }       
+    } ,
+	{
+		associate: function (models) {
+                Watchdog.belongsTo(models.Rfq);
+                Watchdog.belongsTo(models.RfqParts);
+            }	
+		}
     );
 
     return Watchdog;

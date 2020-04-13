@@ -27,7 +27,9 @@ exports.save = function (req, res) {
             pageUrl: fullUrl,
             userId: rfqParts.UserId,
             previousData: "",
-            updatedData: JSON.stringify(rfqParts)
+            updatedData: JSON.stringify(rfqParts),
+					RfqId: rfqParts.RfqId, 
+					RfqPartId: req.rfqParts.id
         });
         return res.jsonp(rfqParts);
     }).catch(function (err) {
@@ -121,7 +123,9 @@ exports.update = function (req, res) {
                 ipAddress: ipAddress,
                 pageUrl: fullUrl,
                 previousData: "",
-                updatedData: JSON.stringify(req.body.records)
+                updatedData: JSON.stringify(req.body.records),
+					RfqId: req.body.RfqId, 
+					RfqPartId: rfqParts.id
             });
 
             return res.jsonp(rfqParts);
@@ -141,7 +145,9 @@ exports.update = function (req, res) {
                 ipAddress: ipAddress,
                 pageUrl: fullUrl,
                 previousData: "",
-                updatedData: JSON.stringify(req.body.records)
+                updatedData: JSON.stringify(req.body.records),
+					RfqId: req.body.RfqId, 
+					RfqPartId: req.body.records[0].id
             });
             return res.jsonp(rfqParts);
         }).catch(function (err) {

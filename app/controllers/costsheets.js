@@ -30,7 +30,9 @@ exports.create = function (req, res) {
                     pageUrl: fullUrl,
                     userId: costSheet.UserId,
                     previousData: "",
-                    updatedData: JSON.stringify(costSheet)
+                    updatedData: JSON.stringify(costSheet),
+					RfqId: req.body.RfqId, 
+					RfqPartId: req.body.RfqPartId
                 });
                 return res.jsonp(costSheet);
             }).catch(function (err) {
@@ -47,7 +49,9 @@ exports.create = function (req, res) {
                 pageUrl: fullUrl,
                 userId: costSheet.UserId,
                 previousData: "",
-                updatedData: JSON.stringify(costSheet)
+                updatedData: JSON.stringify(costSheet),
+				RfqId: req.body.RfqId, 
+				RfqPartId: req.body.RfqPartId
             });
             return res.jsonp(costSheet);
         }).catch(function (err) {      

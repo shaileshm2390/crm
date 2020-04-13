@@ -101,7 +101,9 @@ exports.create = function (req, res) {
             pageUrl: fullUrl,
             userId: quotation.UserId,
             previousData: "",
-            updatedData: JSON.stringify(quotation)
+            updatedData: JSON.stringify(quotation),
+					RfqId: req.body.RfqId, 
+					RfqPartId: req.body.RfqPartId
         });
         return res.jsonp(quotation);
     }).catch(function (err) {

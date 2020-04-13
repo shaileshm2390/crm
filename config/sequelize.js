@@ -39,12 +39,23 @@ winston.info('Initializing Sequelize...');
 //    //logging: console.log
 //});
 
-var sequelize = new Sequelize("imorsdnq_crm", "imorsdnq_imorscrm", "!R?CTKdnRG-e", {
+/*var sequelize = new Sequelize("imorsdnq_crm", "imorsdnq_imorscrm", "!R?CTKdnRG-e", {
     host: "imorsetech.com",
         port: 3306,
         dialect: 'mysql',
         logging: config.enableSequelizeLog === 'true' ? winston.verbose : false
+});*/
+var sequelize = new Sequelize("metaforge_crm", "root", "*3:M0XoP6Nmnw5", {
+    host: "103.212.121.81",
+        dialect: 'mysql',
+        logging: config.enableSequelizeLog === 'true' ? winston.verbose : false
 });
+/*
+var sequelize = new Sequelize("metaforge_crm", "root", "", {
+    host: "localhost",
+        dialect: 'mysql',
+        logging: config.enableSequelizeLog === 'true' ? winston.verbose : false
+});*/
 
 // loop through all files in models directory ignoring hidden files and this file
 fs.readdirSync(config.modelsDir)
@@ -72,7 +83,9 @@ Object.keys(db).forEach(function (modelName) {
 sequelize
     .sync({
         force: config.FORCE_DB_SYNC === 'true',
-        logging: config.enableSequelizeLog === 'true' ? winston.verbose : false
+        logging: config.enableSequelizeLog === 'true' ? winston.verbose : false,
+		alter: true,
+		preserveColumnsOnSync: true // PLEASE recommend a better name
     })
     .then(function () {
         winston.info("Database " + (config.FORCE_DB_SYNC === 'true' ? "*DROPPED* and " : "") + "synchronized");

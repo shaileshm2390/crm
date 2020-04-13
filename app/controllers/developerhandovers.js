@@ -26,12 +26,14 @@ exports.save = function (req, res) {
             var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
 
             db.Watchdog.create({
-                message: "New Developer handover is created with id = " + developerHandover.id,
+                message: "New Developement handover is created with id = " + developerHandover.id,
                 ipAddress: ipAddress,
                 pageUrl: fullUrl,
                 userId: developerHandover.UserId,
                 previousData: "",
-                updatedData: JSON.stringify(developerHandover)
+                updatedData: JSON.stringify(developerHandover),
+					RfqId: req.body.RfqId, 
+					RfqPartId: req.body.RfqPartId
             });
             return res.jsonp(developerHandover);
         }).catch(function (err) {
@@ -74,7 +76,9 @@ exports.update = function (req, res) {
                 pageUrl: fullUrl,
                 userId: a.UserId,
                 previousData: "",
-                updatedData: JSON.stringify(a)
+                updatedData: JSON.stringify(a),
+					RfqId: req.body.RfqId, 
+					RfqPartId: req.body.RfqPartId
             });
             return res.jsonp(a);
         }).catch(function (err) {

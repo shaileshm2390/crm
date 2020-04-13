@@ -8842,3 +8842,11 @@ ul.chat li.right {
         text-align: center !important;
         color: #000 !important;
     }
+ul#sidebarnav li {
+    left: 5px
+}
+
+ul#sidebarnav li span.hide-menu {
+    left: 55px;
+    position: absolute;
+}

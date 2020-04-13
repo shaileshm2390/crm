@@ -35,10 +35,7 @@ exports.save = function (req, res) {
             });
             return res.jsonp(developerHandover);
         }).catch(function (err) {
-            return res.send('/signin', {
-                errors: err,
-                status: 500
-            });
+            return res.jsonp(err);
         });
 };
 

@@ -4,7 +4,7 @@ module.exports = function (sequelize, DataTypes) {
 
     var DeveloperHandover = sequelize.define('DeveloperHandover', {
         data: DataTypes.TEXT,
-        expectedLeadTime: DataTypes.INTEGER 
+        expectedLeadTime: DataTypes.DATE 
     },
         {
             associate: function (models) {

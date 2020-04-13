@@ -104,10 +104,13 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
 
                         $scope.validatePermission = true;
                         if ($scope.rfq.HandoverSubmitted !== null && $scope.rfq.HandoverSubmitted.id != null && $scope.rfq.DeveloperHandovers != null && $scope.rfq.DeveloperHandovers.length > 0) {
-                            var testDate = new Date();
+                           /* var testDate = new Date();
                             var onlydate = new Date($scope.rfq.HandoverSubmitted.createdAt.split("T")[0]);
                             $scope.ExpectedLeadDate = testDate.setDate(onlydate.getDate() + ($scope.rfq.DeveloperHandovers[0].expectedLeadTime * 7));
+							*/
+							$scope.ExpectedLeadDate = $scope.rfq.DeveloperHandovers[0].expectedLeadTime;
                         }
+						
                     } else {
                         window.location.href = currentUrl;
                     }

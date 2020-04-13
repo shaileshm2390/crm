@@ -276,7 +276,7 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
 
         // Developer Handover
         .state('developerhandover', {
-            url: '/rfq/{rfqId}/developerhandover/:partId',
+            url: '/rfq/{rfqId}/developmenthandover/:partId',
             controller: 'CostSheetsController',
             templateUrl: 'views/developerhandover/create.html',
             params: {

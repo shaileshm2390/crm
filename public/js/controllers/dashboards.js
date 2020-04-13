@@ -83,11 +83,10 @@ var app = angular.module('mean.dashboards').controller('DashboardsController', [
                                 $scope.myRfqs[index].customStatus += "<a class='btn btn-success' href='/rfq/" + $scope.myRfqs[index].id + "/samplesubmission/" + $scope.myRfqs[index].RfqParts[partIndex].id +"'>Handover to developer</a>";
                             }
                             else if ($scope.myRfqs[index].HandoverSubmitted != null && $scope.myRfqs[index].RfqParts[partIndex].DeveloperHandovers.length) {
-                                var testDate = new Date();
+                               // var testDate = new Date();
                                 var todayDate = new Date();
-                                var onlydate = new Date($scope.myRfqs[index].HandoverSubmitted.createdAt.split("T")[0]);
-                                var expectedLeadDate = testDate.setDate(onlydate.getDate() + ($scope.myRfqs[index].RfqParts[partIndex].DeveloperHandovers[0].expectedLeadTime * 7));
-                                expectedLeadDate = new Date(expectedLeadDate);
+                               // var onlydate = new Date($scope.myRfqs[index].HandoverSubmitted.createdAt.split("T")[0]);
+                                var expectedLeadDate = new Date($scope.myRfqs[index].RfqParts[partIndex].DeveloperHandovers[0].expectedLeadTime);
 
                                 var cssClass = "";
                                 if (expectedLeadDate.getTime() < todayDate.getTime()) {

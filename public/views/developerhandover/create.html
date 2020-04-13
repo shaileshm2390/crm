@@ -80,20 +80,17 @@
                                     <label><span class="error">*</span><strong>Expected Lead Time:</strong></label>
                                 </div>
                                 <div class="col col-lg-3">
-                                    <select class="ddlExpectedLeadTime form-control">
-                                        <option value="">Select</option>
-                                        <option value="4" ng-selected="rfq.DeveloperHandovers[0].expectedLeadTime == 4">4 weeks</option>
-                                        <option value="6" ng-selected="rfq.DeveloperHandovers[0].expectedLeadTime ==6">6 weeks</option>
-                                        <option value="8" ng-selected="rfq.DeveloperHandovers[0].expectedLeadTime == 8">8 weeks</option>
-                                    </select>
+									<input type="text" placeholder="Expected Lead Time" class="form-control ddlExpectedLeadTime datepicker txtValue" id="ddlExpectedLeadTime" value="{{rfq.DeveloperHandovers[0].expectedLeadTime | date:'dd/MM/yyyy'}}" />
                                 </div>
                             </div>
 
                             <div class="clear clearfix fc-clear"></div><br />
                             <br />
-                            <div class="errorMsg alert alert-danger m-t-10 hide">Fields are required</div>
-                            <div class="quotMsg alert alert-success m-t-10 hide">Data saved successfully.. Please wait !!</div>
+                            
                             <a class="btn btn-primary btnSubmit" href="#">Save</a>&nbsp; <i class="loader fa fa-spin fa-spinner f-s-21 hide"></i>
+							
+							<div class="errorMsg alert alert-danger m-t-10 hide">Fields are required</div>
+                            <div class="quotMsg alert alert-success m-t-10 hide">Data saved successfully</div>
                         </div>
                     </div>
                 </div>
@@ -110,10 +107,10 @@
         <input class="hdnDeveloperHandover" id="hdnDeveloperHandover" type="hidden" value="{{rfq.DeveloperHandovers[0].id}}" />
 
     </section>
+	<script src="/js/lib/datepicker/bootstrap-datepicker.min.js"></script>
     <script>
     $(document).ready(function () {
-        var rfqId,
-
+        var rfqId,		
         loadCode = setInterval(function () {
             rfqId = $(".hdnRfqId").val();
             if (rfqId.length > 0 && rfqId != "") {
@@ -134,10 +131,16 @@
                     } else {
                         method = 'PUT';
                     }
+					
+					var expectedLeadTime = "";
+					if($(".ddlExpectedLeadTime").val() != "") {
+						var dateSplit = $(".ddlExpectedLeadTime").val().split("/");
+						expectedLeadTime = dateSplit[2] + "-" + dateSplit[1] + "-" + dateSplit[0] + " 00:00:00";
+					}
                     $.ajax({
                         url: '/developerhandovers',
                         method: method,
-                        data: { UserId: window.user.id, RfqId: rfqId, data: $(".fr-element").html(), id: $(".hdnDeveloperHandover").val(), expectedLeadTime: $(".ddlExpectedLeadTime").val(), RfqPartId: parseInt($('.ddlParts').val()) }
+                        data: { UserId: window.user.id, RfqId: rfqId, data: $(".fr-element").html(), id: $(".hdnDeveloperHandover").val(), expectedLeadTime: expectedLeadTime, RfqPartId: parseInt($('.ddlParts').val()) }
                     }).done(function (response) {
                         dfd.resolve(response);
                     });
@@ -151,7 +154,7 @@
 
                 $(".ddlParts").on('change', function () {
                     if ($(this).val()) {
-                        window.location.href = "/rfq/" + $(".hdnRfqId").val() + "/developerhandover/" + $(this).val();
+                        window.location.href = "/rfq/" + $(".hdnRfqId").val() + "/developmenthandover/" + $(this).val();
                     } else {
                         $(".pnlRecord").hide();
                     }
@@ -167,7 +170,10 @@
                                 $(".loader").addClass("hide");
                                 $(".quotMsg").removeClass("hide");
                                 $(".errorMsg").addClass("hide");
-                                window.location.reload();
+								setTimeout(function(){
+									$(".quotMsg").addClass("hide");
+								}, 3000);
+                                //window.location.reload();
                             });
                         } else {
                             $me.removeClass("hide");
@@ -182,7 +188,7 @@
                 }
             }, 500);
     });
-
+$(".datepicker").datepicker({ format: 'dd/mm/yyyy' });
 
     </script>
 

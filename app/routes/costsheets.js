@@ -22,6 +22,8 @@ module.exports = function (app) {
         .post(users.requiresLogin, costsheets.sendMail);
     app.route('/rfq/costsheets/approved/:costsheetId')
         .get(users.requiresLogin, costsheets.costsheetById);
+    app.route('/rfq/costsheets/customer/:customerRfqId')
+        .get(users.requiresLogin, costsheets.costsheetById);
     //app.route('/rfq/costsheets/:rfqId2/:partid')
     //    .get(users.requiresLogin, costsheets.costsheetsByRfqIdAndPartId);
     app.route('/rfq/costsheets/copycostsheet/:copyPartId')
@@ -33,6 +35,7 @@ module.exports = function (app) {
     app.param('rfqId', costsheets.costsheetByRfqId);
     app.param('costsheetId', costsheets.approvedCostsheetByRfqId);
     app.param('copyPartId', costsheets.copyCostsheetById);
+    app.param('customerRfqId', costsheets.CustomerCostsheetByRfqId);
     //app.param('rfqId2', function (req, res, next, id) { req.rfqId2 = id; });
     //app.param('partid', function (req, res, next, id) { req.partId = id; });
 };

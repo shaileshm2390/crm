@@ -59,6 +59,14 @@ exports.create = function (req, res) {
                     db.PurchaseOrderImage.create(request);
                 }
             }
+            if (req.body.POPartDeatils.length > 0) {
+                db.POPartDetails.destroy(req.body.POPartDeatils[0]);
+                for (var index = 0; index < req.body.POPartDeatils.length; index++) {
+                    
+                    var request = req.body.POPartDeatils[index];
+                    db.POPartDetails.create(request);
+                }
+            }
             var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
 
             db.Watchdog.create({
@@ -103,7 +111,7 @@ exports.update = function (req, res) {
             return next();
         } else {
             req.purchaseorders = purchaseorder;
-            previousData = { "id": req.purchaseorders.id, "status": req.purchaseorders.status,"application" :req.purchaseorders.application,"gstNum":req.purchaseorders.gstNum,"hsnNum":req.purchaseorders.hsnNum, "RfqId": req.purchaseorders.RfqId, "updatedAt": req.purchaseorders.updatedAt, "createdAt": req.purchaseorders.createdAt };
+            previousData = { "id": req.purchaseorders.id, "status": req.purchaseorders.status, "application": req.purchaseorders.application, "gstNum": req.purchaseorders.gstNum, "hsnNum": req.purchaseorders.hsnNum, "RfqId": req.purchaseorders.RfqId, "isClosed": req.purchaseorders.isClosed, "reason": req.purchaseorders.reason, "updatedAt": req.purchaseorders.updatedAt, "createdAt": req.purchaseorders.createdAt };
             //return next();
         }
     
@@ -111,7 +119,9 @@ exports.update = function (req, res) {
         status: req.body.status,
         application : req.body.application,
         gstNum : req.body.gstNum,
-        hsnNum : req.body.hsnNum
+        hsnNum: req.body.hsnNum,
+        isClosed: req.body.isClosed,
+        reason: req.body.reason
     }).then(function (a) {
         if (req.body.imagesString.trim() !== "") {
             var imageArray = req.body.imagesString.split(",");
@@ -128,8 +138,17 @@ exports.update = function (req, res) {
                 db.PurchaseOrderImage.create(request);
             }
         }
+        console.log("req.body.POPartDeatils = " + req.body.POPartDeatils);
+        if (req.body.POPartDeatils.length > 0) {
+            var POPartDeatils = JSON.parse(req.body.POPartDeatils);
+            console.log("req.body.POPartDeatils[0] = " + POPartDeatils[0]);
+            db.POPartDetails.destroy(POPartDeatils[0]);
+            for (var index = 0; index < POPartDeatils.length; index++) {
+                db.POPartDetails.create(POPartDeatils[index]);
+            }
+        }
         var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
-        var updatedData = { "id": purchaseorder.id, "status": purchaseorder.status,"application" :purchaseorder.application,"gstNum":purchaseorder.gstNum,"hsnNum":purchaseorder.hsnNum, "RfqId": purchaseorder.RfqId, "updatedAt": purchaseorder.updatedAt, "createdAt": purchaseorder.createdAt };
+        var updatedData = { "id": purchaseorder.id, "status": purchaseorder.status, "application": purchaseorder.application, "gstNum": purchaseorder.gstNum, "hsnNum": purchaseorder.hsnNum, "RfqId": purchaseorder.RfqId, "isClosed": purchaseorder.isClosed, "reason": purchaseorder.reason, "updatedAt": purchaseorder.updatedAt, "createdAt": purchaseorder.createdAt };
 
         db.Watchdog.create({
             message: "Purchase order is updated",

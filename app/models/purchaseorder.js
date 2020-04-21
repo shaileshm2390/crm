@@ -6,7 +6,9 @@ module.exports = function (sequelize, DataTypes) {
         status: DataTypes.STRING,
         gstNum : DataTypes.STRING,
         hsnNum : DataTypes.STRING,
-        application : DataTypes.STRING
+        application: DataTypes.STRING,
+        isClosed: DataTypes.BOOLEAN,
+        reason : DataTypes.TEXT,
     },
         {
             associate: function (models) {

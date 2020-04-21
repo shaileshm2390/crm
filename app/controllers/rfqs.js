@@ -209,6 +209,9 @@ exports.rfq = function (req, res, next, id) {
             },
             {
                 model: db.RfqParts
+            },
+            {
+                model: db.POPartDetails
             }
         ]
     }).then(function (rfq) {

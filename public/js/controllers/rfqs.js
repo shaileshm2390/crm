@@ -201,6 +201,26 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
         });
     };
 
+    $scope.bindPOPartSubmissionTargetDate = function (rfqPOPartData,PartId) {
+        if (typeof (rfqPOPartData) != "undefined" && typeof (PartId) != "undefined" && rfqPOPartData.length > 0) {
+            var data = rfqPOPartData.filter(x => x.RfqPartId === PartId);
+            if (typeof (data) != "undefined" && data.length > 0 && typeof (data[0].sampleSubmissionTargetDate) != "undefined") {
+                return $.datepicker.formatDate('dd/m/yy', new Date(data[0].sampleSubmissionTargetDate)) ;
+            }
+        }
+        return '';
+    };
+
+    $scope.bindPOPartDeveloperTargetDate = function (rfqPOPartData, PartId) {
+        if (typeof (rfqPOPartData) != "undefined" && typeof (PartId) != "undefined" && rfqPOPartData.length > 0) {
+            var data = rfqPOPartData.filter(x => x.RfqPartId === PartId);
+            if (typeof (data) != "undefined" && data.length > 0 && typeof (data[0].developerTargetDate) != "undefined") {
+                return $.datepicker.formatDate('dd/m/yy', new Date(data[0].developerTargetDate));
+            }
+        }
+        return '';
+    };
+
     $scope.findReports = function (numberOfMonths) {
         if ($scope.fromDate == "" || $scope.toDate == "") {
             $scope.fromDate = new Date(new Date().setMonth(new Date().getMonth() - numberOfMonths)).toJSON().slice(0, 10).replace('T', ' ');
@@ -226,8 +246,8 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
     };
 
     $scope.canAccess = function (key) {
-        var marketingAccess = ['prepare costsheet', 'quotation', 'PO', 'costsheet'];
-        var devAccess = ['sample submission', 'inspection report', 'developer handover', 'costsheet'];
+        var marketingAccess = ['prepare costsheet', 'quotation', 'PO', 'costsheet', 'sample submission target date'];
+        var devAccess = ['sample submission', 'inspection report', 'developer handover', 'costsheet', 'devloper target date'];
         var currentUserRole = $window.user.role;
 
         if (currentUserRole === 'Dev' && devAccess.includes(key)) {

@@ -90,7 +90,7 @@ exports.getAllRfqParts = function (req, res) {
 };
 
 exports.rfqGetPartDetailById = function (req, res, next, id) {
-    db.RfqParts.find({ where: { id: id }, include: { model: db.Rfq , attributes: ['subject'], include:{
+    db.RfqParts.find({ where: { id: id }, include: { model: db.Rfq , attributes: ['id', 'subject'], include:{
                 model: db.Buyer,
                 attributes: ['id', 'name', 'contact', 'email', 'CustomerId']
             }}}).then(function (rfqParts) {

@@ -1,4 +1,5 @@
 
+
 <div class="card">
 
     <section data-ng-init="findPartDetail()" class="text-center">
@@ -18,6 +19,9 @@
 <hr />
 <input type="hidden" class="hdnPartId" value="{{partDetail.id}}" />
 </section>
+<div class="pull-right">
+<a class="btn btn-outline-primary col-md-3 pull-right" href="{{'/customer/'+partDetail.Rfq.Buyer.CustomerId + '/buyer/'+partDetail.Rfq.Buyer.id+'/rfq/'+partDetail.Rfq.id}}">View more detail</a>
+</div>
 <div id="myTimeline">
     </div>
 </div>

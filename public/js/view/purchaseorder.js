@@ -91,10 +91,20 @@
                     selectedApplication = $("#selectedApplication").val();
                     $('table.tblParts tbody tr').each(function (key, item) {
                         var itemObj = {};
+                        var sampleSubmissionTargetDate = "", developerTargetDate = "";
+                        if ($(item).find('.txtsampleSubmissionTargetDate').val() != "") {
+                            var dateSplit = $(item).find('.txtsampleSubmissionTargetDate').val().split("/");
+                            sampleSubmissionTargetDate = dateSplit[2] + "-" + dateSplit[1] + "-" + dateSplit[0] + " 00:00:00";
+                        }
+                        if ($(item).find('.txtdeveloperTargetDate').val() != "") {
+                            var dateSplit = $(item).find('.txtdeveloperTargetDate').val().split("/");
+                            developerTargetDate = dateSplit[2] + "-" + dateSplit[1] + "-" + dateSplit[0] + " 00:00:00";
+                        }
+
                         itemObj.RfqId = $(".hdnRfqId").val();
                         itemObj.RfqPartId = $(item).attr('data-id');
-                        itemObj.sampleSubmissionTargetDate = $(item).find('.txtsampleSubmissionTargetDate').val();
-                        itemObj.developerTargetDate = $(item).find('.txtdeveloperTargetDate').val();
+                        itemObj.sampleSubmissionTargetDate = sampleSubmissionTargetDate;
+                        itemObj.developerTargetDate = developerTargetDate;
                         POPartDeatils.push(itemObj);
                     });
                     

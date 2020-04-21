@@ -43,7 +43,7 @@ exports.save = function (req, res) {
 
 exports.destroy = function (req, res) {
     // create a new variable to hold the department that was placed on the req object.
-    console.log("req", req);
+    console.log("req");
     db.POPartDetails.destroy({ where: { RfqId: req.RfqId } }).then(function () {
         return res.jsonp(POPartDetails);
     }).catch(function (err) {

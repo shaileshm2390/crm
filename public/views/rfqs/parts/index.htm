@@ -1,0 +1,63 @@
+
+<div class="card">
+
+    <section data-ng-init="findPartDetail()" class="text-center">
+        <h1>
+            RFQ - <span class="rfqSubject">{{partDetail.Rfq.subject | capitalize}}</span>
+			<div><small>{{partDetail.partName}}</small></div>
+        </h1>
+		<br />
+		<div>
+			<div class="text-left">
+				<span>Created: <strong>{{partDetail.createdAt | date:'medium'}}</strong></span>
+			</div>
+			<div class="text-right">
+				<span>Buyer: <strong>{{partDetail.Rfq.Buyer.name}}</strong></span>
+			</div>
+		</div>
+<hr />
+<input type="hidden" class="hdnPartId" value="{{partDetail.id}}" />
+</section>
+<div id="myTimeline">
+    </div>
+</div>
+	
+	<script>
+	$(document).ready(function() { 
+	
+	var loadCode = setInterval(function () {
+		if ($(".hdnPartId").length > 0 && $(".hdnPartId").val() != "") {
+	
+		$.ajax({
+			url: '/watchdogs/parts/'+$(".hdnPartId").val(),
+			method: "GET"
+		}).done(function (response) {
+			console.log(response.length);
+			var data = [];
+			for(var index = 0; index <= response.length - 1; index++){
+				data.push({
+						header: "On " + response[index].pageUrl + " url",
+						time: response[index].createdAt.split("T")[0],
+						body: [
+						{
+							tag: 'div',
+							content: response[index].message
+						}],
+						footer: 'By: '+ response[index].email
+					
+				});
+			}
+			
+			$("#myTimeline").albeTimeline(data, {sortDesc: false});
+		});
+		
+			clearInterval(loadCode);
+		}
+	}, 1000);
+});
+	
+	
+	
+	//Json Object
+
+	</script>

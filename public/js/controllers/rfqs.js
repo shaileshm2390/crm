@@ -45,7 +45,12 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
         return arr;
     };
 
-
+	$scope.findPartDetail = function() { 
+		$http({ method: 'get', url: "/rfqParts/detail/"+$scope.partId}).then(function (response) {
+            $scope.partDetail = response.data;            
+            console.log($scope.partDetail);
+        });
+	};
 
     $scope.findOneByRfqId = function () {
         var url = "/rfqs/" + $stateParams.rfqId;

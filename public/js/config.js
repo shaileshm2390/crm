@@ -291,6 +291,13 @@ angular.module('mean').config(['$stateProvider','$urlRouterProvider', function($
             controller: 'RfqsController',
             templateUrl: 'views/reports/rfqs.html'
         })
+		
+		// Parts timeline
+        .state('viewPartTimeline', {
+            url: '/timeline/rfqs/parts/:partId',
+            controller: 'RfqsController',
+            templateUrl: 'views/rfqs/parts/index.htm'
+        })
 
         .state('404', {
             templateUrl: 'views/404.html'

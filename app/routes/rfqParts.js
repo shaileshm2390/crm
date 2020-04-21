@@ -23,7 +23,10 @@ module.exports = function (app) {
         
     app.route('/rfqParts/delete/:partId')
         .delete(users.requiresLogin, rfqParts.destroy);
+	app.route('/rfqParts/detail/:id')
+        .get(users.requiresLogin, rfqParts.getPartDetail);
 
     app.param('rfqId', rfqParts.rfqPartsByRfqId);
     app.param('partId', rfqParts.rfqPartsByPartId);
+	app.param('id', rfqParts.rfqGetPartDetailById);
 };

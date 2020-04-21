@@ -89,6 +89,27 @@ exports.getAllRfqParts = function (req, res) {
     });
 };
 
+exports.rfqGetPartDetailById = function (req, res, next, id) {
+    db.RfqParts.find({ where: { id: id }, include: { model: db.Rfq , attributes: ['subject'], include:{
+                model: db.Buyer,
+                attributes: ['id', 'name', 'contact', 'email', 'CustomerId']
+            }}}).then(function (rfqParts) {
+        if (!rfqParts) {
+            req.rfqParts = {};
+            return next();
+        } else {
+            req.rfqParts = rfqParts;
+            return next();
+        }
+    }).catch(function (err) {
+        return next(err);
+    });
+};
+
+exports.getPartDetail = function (req, res) {
+	return res.jsonp(req.rfqParts);
+};
+
 exports.rfqPartsByPartId = function (req, res, next, id) {
     db.RfqParts.find({ where: { id: id } }).then(function (rfqParts) {
         if (!rfqParts) {

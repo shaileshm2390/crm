@@ -12,5 +12,8 @@ module.exports = function (app) {
     // watchdogs Routes
     app.route('/watchdogs')     
         .post(users.requiresLogin, watchdogs.create); 
+	app.route('/watchdogs/parts/:partid')     
+        .get(users.requiresLogin, watchdogs.getPartTimeline);
+		app.param('partid', watchdogs.partTimeline);
 };
 

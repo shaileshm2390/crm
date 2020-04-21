@@ -23,3 +23,21 @@ exports.create = function (req, res) {
        
     });
 };
+
+exports.getPartTimeline = function (req, res) {
+    return res.jsonp(req.partsTimeline);
+};
+
+exports.partTimeline = function(req, res, next, id) {
+	db.sequelize.query("SELECT w.id, w.message, w.createdAt, w.pageUrl, u.email FROM Watchdogs w INNER JOIN Users u ON u.id = w.userId AND w.rfqPartId = "+id, { type: db.sequelize.QueryTypes.SELECT}).then(function (records) {
+        if (!records) {
+            req.partsTimeline = {};
+            return next();
+        } else {
+            req.partsTimeline = records;
+            return next();
+        }
+    }).catch(function (err) {
+        return next(err);
+    });
+}

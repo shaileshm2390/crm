@@ -209,7 +209,7 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
     $scope.bindPOPartSubmissionTargetDate = function (rfqPOPartData,PartId) {
         if (typeof (rfqPOPartData) != "undefined" && typeof (PartId) != "undefined" && rfqPOPartData.length > 0) {
             var data = rfqPOPartData.filter(x => x.RfqPartId === PartId);
-            if (typeof (data) != "undefined" && data.length > 0 && typeof (data[0].sampleSubmissionTargetDate) != "undefined") {
+            if (typeof (data) != "undefined" && data.length > 0 && typeof (data[0].sampleSubmissionTargetDate) != "undefined" && data[0].sampleSubmissionTargetDate != null) {
                 return $.datepicker.formatDate('dd/m/yy', new Date(data[0].sampleSubmissionTargetDate)) ;
             }
         }
@@ -219,11 +219,21 @@ var app = angular.module('mean.rfqs').controller('RfqsController', ['$scope', '$
     $scope.bindPOPartDeveloperTargetDate = function (rfqPOPartData, PartId) {
         if (typeof (rfqPOPartData) != "undefined" && typeof (PartId) != "undefined" && rfqPOPartData.length > 0) {
             var data = rfqPOPartData.filter(x => x.RfqPartId === PartId);
-            if (typeof (data) != "undefined" && data.length > 0 && typeof (data[0].developerTargetDate) != "undefined") {
+            if (typeof (data) != "undefined" && data.length > 0 && typeof (data[0].developerTargetDate) != "undefined" && data[0].developerTargetDate != null) {
                 return $.datepicker.formatDate('dd/m/yy', new Date(data[0].developerTargetDate));
             }
         }
         return '';
+    };
+
+    $scope.bindQuotationCostsheetCostByPart = function (costsheet, PartId) {
+        if (typeof (costsheet) != "undefined" && typeof (PartId) != "undefined" && costsheet.length > 0) {
+            var data = costsheet.filter(x => x.RfqPartId === PartId);
+            if (typeof (data) != "undefined" && data.length > 0 && typeof (data[0].TotalCost) != "undefined" && data[0].TotalCost != null) {
+                return data[0].TotalCost;
+            } 
+        }
+        return '-';
     };
 
     $scope.findReports = function (numberOfMonths) {

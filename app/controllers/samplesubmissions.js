@@ -74,8 +74,8 @@ exports.create = function (req, res) {
                         userId: req.user.id,
                         previousData: "",
                         updatedData: JSON.stringify(samplesubmission),
-					RfqId: req.body.RfqId, 
-					RfqPartId: req.body.RfqPartId
+                        RfqId: samplesubmission.RfqId, 
+                        RfqPartId: samplesubmission.RfqPartId
                     });
                     samplesubmissionList.push(samplesubmission);
                 }

@@ -72,14 +72,14 @@
                 <!-- <td style="width: 16.6667%; text-align: center;"><strong>Price / pcs</strong></td> -->
             </tr>
         </thead>
-        <tbody ng-repeat="item in costsheet">
-            <tr ng-if="item.RfqPart.partName != null">
+        <tbody>
+            <tr ng-repeat="item in rfq.RfqParts">
                 <td style="width: 16.6667%; text-align: center;">{{$index +1}}</td>
-                <td style="width: 16.6667%; text-align: center;">{{item.RfqPart.partName}}</td>
+                <td style="width: 16.6667%; text-align: center;">{{item.partName}}</td>
                 <!-- <td style="width: 16.6667%; text-align: center;">5000</td>
         <td style="width: 16.6667%; text-align: center;">INR</td> -->
                 <td style="width: 16.6667%; text-align: center;">
-                    {{item.TotalCost != null ? item.TotalCost :"-"}}
+                    {{bindQuotationCostsheetCostByPart(costsheet,item.id)}}
                 </td>
                 <!-- <td style="width: 16.6667%; text-align: center;">05.00</td> -->
             </tr>

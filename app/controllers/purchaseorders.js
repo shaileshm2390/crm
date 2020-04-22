@@ -60,31 +60,30 @@ exports.create = function (req, res) {
                 }
             }
             if (req.body.POPartDeatils.length > 0) {
-                var insertQuery = "INSERT INTO `POPartDetails` (sampleSubmissionTargetDate, developerTargetDate,RfqPartId, RfqId) VALUES";
-                var valuesArray = [];
                 var POPartDeatils = JSON.parse(req.body.POPartDeatils);
-                function twoDigits(d) {
-                    if (0 <= d && d < 10) return "0" + d.toString();
-                    if (-10 < d && d < 0) return "-0" + (-1 * d).toString();
-                    return d.toString();
-                };
-
-                Date.prototype.toMysqlFormat = function () {
-                    return this.getUTCFullYear() + "-" + twoDigits(1 + this.getUTCMonth()) + "-" + twoDigits(this.getUTCDate()) + " " + twoDigits(this.getUTCHours()) + ":" + twoDigits(this.getUTCMinutes()) + ":" + twoDigits(this.getUTCSeconds());
-                };
-
-                console.log("req.body.POPartDeatils[0] = " + POPartDeatils[0].RfqId);
-                db.POPartDetails.destroy({ where: { RfqId: POPartDeatils[0].RfqId } });
+                db.POPartDetail.destroy({ where: { RfqId: POPartDeatils[0].RfqId } });
 
                 for (var index = 0; index < POPartDeatils.length; index++) {
-                    // db.PurchaseOrder.create(POPartDeatils[index]);
-                    console.log("POPartDeatils[index].RfqId = " + POPartDeatils[index].RfqId, POPartDeatils[index].sampleSubmissionTargetDate, POPartDeatils[index].developerTargetDate, POPartDeatils[index].RfqPartId);
-                    valuesArray.push("('" + new Date(POPartDeatils[index].sampleSubmissionTargetDate).toMysqlFormat() + "','" + new Date(POPartDeatils[index].developerTargetDate).toMysqlFormat() + "','" + POPartDeatils[index].RfqPartId + "','" + POPartDeatils[index].RfqId + "')");
-                }
 
-                insertQuery += valuesArray.join(", ");
-                console.log("insertQuery = " + insertQuery);
-                db.sequelize.query(insertQuery);
+                    db.POPartDetail.create(POPartDeatils[index]).then(function (data) {
+                        if (!data) {
+                            console.log("error");
+                        } else {
+                            var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
+
+                            db.Watchdog.create({
+                                message: "New PO Part Details inserted with id = " + data.id + " for RFQ id = " + data.RfqId + " and RFQ Part id = " + data.RfqPartId,
+                                ipAddress: ipAddress,
+                                pageUrl: fullUrl,
+                                userId: req.user.id,
+                                previousData: "",
+                                updatedData: JSON.stringify(data),
+                                RfqId: data.RfqId,
+                                RfqPartId: data.RfqPartId
+                            });
+                        }
+                    });
+                }
             }
             var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
 
@@ -93,10 +92,9 @@ exports.create = function (req, res) {
                 ipAddress: ipAddress,
                 pageUrl: fullUrl,
                 userId: req.user.id,
+                RfqId: req.purchaseorders.RfqId,
                 previousData: "",
                 updatedData: JSON.stringify(purchaseorder),
-					RfqId: req.body.RfqId, 
-					RfqPartId: req.body.RfqPartId
             });
 
             return res.jsonp(purchaseorder);
@@ -157,34 +155,32 @@ exports.update = function (req, res) {
                 db.PurchaseOrderImage.create(request);
             }
         }
-        //console.log("req.body.POPartDeatils = " + req.body.POPartDeatils);
+        
         if (req.body.POPartDeatils.length > 0) {
-            var insertQuery = "INSERT INTO `POPartDetails` (sampleSubmissionTargetDate, developerTargetDate,RfqPartId, RfqId) VALUES";
-            var valuesArray = [];
             var POPartDeatils = JSON.parse(req.body.POPartDeatils);
-            function twoDigits(d) {
-                if (0 <= d && d < 10) return "0" + d.toString();
-                if (-10 < d && d < 0) return "-0" + (-1 * d).toString();
-                return d.toString();
-            };
-
-            Date.prototype.toMysqlFormat = function () {
-                return this.getUTCFullYear() + "-" + twoDigits(1 + this.getUTCMonth()) + "-" + twoDigits(this.getUTCDate()) + " " + twoDigits(this.getUTCHours()) + ":" + twoDigits(this.getUTCMinutes()) + ":" + twoDigits(this.getUTCSeconds());
-            };
-
-            console.log("req.body.POPartDeatils[0] = " + POPartDeatils[0].RfqId);
-            db.POPartDetails.destroy({ where: { RfqId: POPartDeatils[0].RfqId } });
+            db.POPartDetail.destroy({ where: { RfqId: POPartDeatils[0].RfqId } });
 
             for (var index = 0; index < POPartDeatils.length; index++) {
-               // db.PurchaseOrder.create(POPartDeatils[index]);
-                console.log("POPartDeatils[index].RfqId = " + POPartDeatils[index].RfqId, POPartDeatils[index].sampleSubmissionTargetDate, POPartDeatils[index].developerTargetDate, POPartDeatils[index].RfqPartId);
-                valuesArray.push("('" + new Date(POPartDeatils[index].sampleSubmissionTargetDate).toMysqlFormat() + "','" + new Date(POPartDeatils[index].developerTargetDate).toMysqlFormat()  + "','" + POPartDeatils[index].RfqPartId + "','" + POPartDeatils[index].RfqId + "')");
-            }
+                
+                db.POPartDetail.create(POPartDeatils[index]).then(function (data) {
+                    if (!data) {
+                        console.log("error");
+                    } else {
+                        var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
 
-            insertQuery += valuesArray.join(", ");
-            console.log("insertQuery = " + insertQuery);
-            db.sequelize.query(insertQuery);
-            
+                        db.Watchdog.create({
+                            message: "New PO Part Details inserted with id = " + data.id + " for RFQ id = " + data.RfqId + " and RFQ Part id = " + data.RfqPartId,
+                            ipAddress: ipAddress,
+                            pageUrl: fullUrl,
+                            userId: req.user.id,
+                            previousData: "",
+                            updatedData: JSON.stringify(data),
+                            RfqId: data.RfqId,
+                            RfqPartId: data.RfqPartId
+                        });
+                    }
+                });
+            }
         }
         var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
         var updatedData = { "id": purchaseorder.id, "status": purchaseorder.status, "application": purchaseorder.application, "gstNum": purchaseorder.gstNum, "hsnNum": purchaseorder.hsnNum, "RfqId": purchaseorder.RfqId, "isClosed": purchaseorder.isClosed, "reason": purchaseorder.reason, "updatedAt": purchaseorder.updatedAt, "createdAt": purchaseorder.createdAt };
@@ -194,16 +190,17 @@ exports.update = function (req, res) {
             ipAddress: ipAddress,
             pageUrl: fullUrl,
             userId: req.user.id,
+            RfqId: req.purchaseorders.RfqId,
             previousData: JSON.stringify(previousData),
             updatedData: JSON.stringify(updatedData),
-					RfqId: req.body.RfqId, 
-					RfqPartId: req.body.RfqPartId
         });
         return res.jsonp(a);
-    }).catch(function (err) {
+        }).catch(function (err) {
+            //console.log("210 ===>>>",err);
         return (err);
     });
-    }).catch(function (err) {
+        }).catch(function (err) {
+           // console.log("214 ===>>>",err);
         return res.render('error', {
             error: err,
             status: 500

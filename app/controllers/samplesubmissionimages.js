@@ -99,7 +99,9 @@ exports.insert = function (req, res) {
                         pageUrl: fullUrl,
                         userId: req.user.id,
                         previousData: "",
-                        updatedData: JSON.stringify(samplesubmissionimages)
+                        updatedData: JSON.stringify(samplesubmissionimages),
+                        RfqId: samplesubmissionimages.RfqId,
+                        RfqPartId: samplesubmissionimages.RfqPartId
                     });
                     return res.jsonp(samplesubmissionimages);
                 }

@@ -3,6 +3,11 @@
         max-height: calc(100vh - 210px);
         overflow-y: auto;
     }
+    
+    button.close {
+        right: 20px;
+        top: 10px;
+    }
 </style>
 <div class="card" ng-controller="RfqsController">
 
@@ -80,13 +85,13 @@
                         </div>
                         <br />
                         <div class="row">
-                            <div class="col col-lg-4 text-center" style="padding-top: 40px;">
-                                <input class="chkIsClose" type="checkbox" id="chkIsClose" ng-checked="purchaseorder.isClose">
-                                <label for="chkIsClose">Is Closed ?</label>
-                            </div>
-                            <div class="col col-lg-8">
+                            <div class="col col-lg-6">
                                 <label for="txtReason" class="control-label col col-lg-12">Reason</label>
                                 <textarea rows="6" class="col col-lg-12 txtReason" id="txtReason" data-ng-model="purchaseorder.reason"></textarea>
+                            </div>
+                            <div class="col col-lg-2 text-center" style="padding-top: 40px;">
+                                <input class="chkIsClose" type="checkbox" id="chkIsClose" ng-checked="purchaseorder.isClosed == true">
+                                <label for="chkIsClose">Is Closed ?</label>
                             </div>
                         </div>
                         <input type="text" style="display:none;" class="hdnImages" name="imagesString" id="imagesString" data-ng-model="imagesString" />
@@ -180,7 +185,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Approved Costsheet</h3>
-                <button type="button" class="close" data-dismiss="modal">×</button>
+                <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger lblNotFoundMsg d-none">No Costsheet approved</div>
@@ -231,10 +236,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Customer Costsheet</h3>
-                <button type="button" class="close" data-dismiss="modal">×</button>
+                <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
             </div>
             <div class="modal-body">
-                <div class="alert alert-danger lblNotFoundMsg d-none">No Customer Costsheet approved</div>
+                <div class="alert alert-danger lblNotFoundMsg d-none">No Customer Costsheet found</div>
                 <div class="col col-lg-12 pnlRecord">
                     <div class="alert alert-success lblMsg hide"></div>
                     <div class="clear clearfix"></div>
@@ -274,11 +279,6 @@
 
     </div>
 </div>
-<style>
-    button.close {
-        right: 20px;
-        top: 10px;
-    }
-</style>
+
 <script src="/js/lib/datepicker/bootstrap-datepicker.min.js"></script>
 <script type="text/javascript" src="/js/view/purchaseorder.js"></script>

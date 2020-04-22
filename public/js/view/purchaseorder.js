@@ -91,7 +91,7 @@
                     selectedApplication = $("#selectedApplication").val();
                     $('table.tblParts tbody tr').each(function (key, item) {
                         var itemObj = {};
-                        var sampleSubmissionTargetDate = "", developerTargetDate = "";
+                        var sampleSubmissionTargetDate, developerTargetDate;
                         if ($(item).find('.txtsampleSubmissionTargetDate').val() != "") {
                             var dateSplit = $(item).find('.txtsampleSubmissionTargetDate').val().split("/");
                             sampleSubmissionTargetDate = dateSplit[2] + "-" + dateSplit[1] + "-" + dateSplit[0] + " 00:00:00";

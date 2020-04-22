@@ -2,12 +2,12 @@
 
 module.exports = function (sequelize, DataTypes) {
 
-    var POPartDetails = sequelize.define('POPartDetails', {
+    var POPartDetail = sequelize.define('POPartDetail', {
         sampleSubmissionTargetDate: DataTypes.DATE,
         developerTargetDate: DataTypes.DATE,
-        RfqPartId: DataTypes.STRING,
-        RfqId: DataTypes.STRING
+        RfqPartId: DataTypes.INTEGER,
+        RfqId: DataTypes.INTEGER
     });
 
-    return POPartDetails;
+    return POPartDetail;
 };

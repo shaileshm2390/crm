@@ -24,7 +24,7 @@ module.exports = function (sequelize, DataTypes) {
                 Rfq.hasOne(models.HandoverSubmitted);
                 Rfq.hasMany(models.RfqFeasibilities);
                 Rfq.hasMany(models.RfqParts);
-                Rfq.hasMany(models.POPartDetails);
+                Rfq.hasMany(models.POPartDetail);
             }
         }
     );

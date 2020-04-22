@@ -19,7 +19,7 @@ request('http://api.ipstack.com/check?access_key=a0a80aaea559ceb4d5ebacc03c30f6d
  * Create a POPartDetails
  */
 exports.save = function (req, res) {
-    db.POPartDetails.create(req.body).then(function (POPartDetails) {
+    db.POPartDetail.create(req.body).then(function (POPartDetails) {
         // insert watchdog data
         var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
 
@@ -27,10 +27,11 @@ exports.save = function (req, res) {
             message: "New PO Part Details inserted with id = " + POPartDetails.id + " for RFQ id = " + POPartDetails.RfqId,
             ipAddress: ipAddress,
             pageUrl: fullUrl,
-            userId: '',
+            userId: req.user.id,
             previousData: "",
-            updatedData: JSON.stringify(rfqParts),
-            RfqId: POPartDetails.RfqId
+            updatedData: JSON.stringify(POPartDetails),
+            RfqId: POPartDetails.RfqId,
+            RfqPartId: POPartDetails.RfqPartId
         });
         return res.jsonp(POPartDetails);
     }).catch(function (err) {
@@ -44,7 +45,7 @@ exports.save = function (req, res) {
 exports.destroy = function (req, res) {
     // create a new variable to hold the department that was placed on the req object.
     console.log("req");
-    db.POPartDetails.destroy({ where: { RfqId: req.RfqId } }).then(function () {
+    db.POPartDetail.destroy({ where: { RfqId: req.RfqId } }).then(function () {
         return res.jsonp(POPartDetails);
     }).catch(function (err) {
         return res.render('error', {

@@ -22,14 +22,14 @@ exports.save = function (req, res) {
         var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
 
         db.Watchdog.create({
-            message: "New feasibilities check is done with id = " + rfqParts.id + " for RFQ id = " + rfqParts.RfqId,
+            message: "New RFQ Part created with id = " + rfqParts.id + " for RFQ id = " + rfqParts.RfqId,
             ipAddress: ipAddress,
             pageUrl: fullUrl,
             userId: rfqParts.UserId,
             previousData: "",
             updatedData: JSON.stringify(rfqParts),
 					RfqId: rfqParts.RfqId, 
-					RfqPartId: req.rfqParts.id
+					RfqPartId: rfqParts.id
         });
         return res.jsonp(rfqParts);
     }).catch(function (err) {

@@ -66,7 +66,7 @@ exports.update = function (req, res) {
         where: { RfqId: req.body.RfqId }
     }).then(function () {
 
-        var insertQuery = "INSERT INTO `RfqFeasibilities` (partName, isFeasible, RfqId, UserId,CreatedAt) VALUES";       
+        var insertQuery = "INSERT INTO `RfqFeasibilities` (partName, isFeasible, RfqId, UserId,CreatedAt,updatedAt) VALUES";       
         var valuesArray = [];
 
         function twoDigits(d) {
@@ -81,7 +81,7 @@ exports.update = function (req, res) {
 
     for (var index = 0; index < req.body.records.length; index++) {
         //if (req.body.records[index].partId === 0) {
-            valuesArray.push("('" + req.body.records[index].partName + "'," + (req.body.records[index].isFeasible == "true" ? 1 : 0) + ",'" + req.body.RfqId + "','" + req.body.UserId + "', '" + new Date().toMysqlFormat() + "')");
+        valuesArray.push("('" + req.body.records[index].partName + "'," + (req.body.records[index].isFeasible == "true" ? 1 : 0) + ",'" + req.body.RfqId + "','" + req.body.UserId + "', '" + new Date().toMysqlFormat() + "', '" + new Date().toMysqlFormat() + "')");
         //} else {
             // update query
         //}

@@ -62,7 +62,7 @@ exports.create = function (req, res) {
         
         var mailObject = {
             from: 'info@metaforgeindia.com',
-            to: 'yatinc@imorsetech.com',
+            to: req.body.buyerEmail,
             subject: 'Metaforge - Quotation',
             html: req.body.emailContent
         };

@@ -7,6 +7,8 @@ module.exports = function (sequelize, DataTypes) {
         ipAddress: DataTypes.STRING,
         pageUrl: DataTypes.STRING,
         userId: DataTypes.INTEGER,
+		userMessage: DataTypes.STRING,
+		action: DataTypes.STRING, 
         previousData: DataTypes.TEXT,
         updatedData: DataTypes.TEXT
     } ,

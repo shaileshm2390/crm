@@ -32,8 +32,10 @@ exports.save = function (req, res) {
                 userId: rfqFeasibilities.UserId,
                 previousData: "",
                 updatedData: JSON.stringify(rfqFeasibilities),
-					RfqId: req.body.RfqId, 
-					RfqPartId: req.body.RfqPartId
+				RfqId: req.body.RfqId, 
+				RfqPartId: req.body.RfqPartId,
+				action: "Checked",
+				userMessage: "Feasibilities check is done"
             });
             return res.jsonp(rfqFeasibilities);
         }).catch(function (err) {
@@ -99,8 +101,10 @@ exports.update = function (req, res) {
                 userId: req.body.UserId,
                 previousData: "",
                 updatedData: JSON.stringify(req.body.records),
-					RfqId: req.body.RfqId, 
-					RfqPartId: req.body.RfqPartId
+				RfqId: req.body.RfqId, 
+				RfqPartId: req.body.RfqPartId,
+				action: "Checked",
+				userMessage: "Feasibilities check is done"
             });
 
             db.sequelize.query("UPDATE `rfqs` SET `type` = '" + req.body.RfqType + "' WHERE id = '" + req.body.RfqId + "'", { type: db.sequelize.QueryTypes.UPDATE });

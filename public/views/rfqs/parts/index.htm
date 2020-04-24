@@ -40,12 +40,12 @@
 			var data = [];
 			for(var index = 0; index <= response.length - 1; index++){
 				data.push({
-						header: "On " + response[index].pageUrl + " url",
+						header: response[index].action,
 						time: response[index].createdAt.split("T")[0],
 						body: [
 						{
 							tag: 'div',
-							content: response[index].message
+							content: response[index].userMessage
 						}],
 						footer: 'By: '+ response[index].email
 					

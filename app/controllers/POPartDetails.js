@@ -31,7 +31,9 @@ exports.save = function (req, res) {
             previousData: "",
             updatedData: JSON.stringify(POPartDetails),
             RfqId: POPartDetails.RfqId,
-            RfqPartId: POPartDetails.RfqPartId
+            RfqPartId: POPartDetails.RfqPartId,
+			action: "Created",
+			userMessage: "PO Part Details is/are created and saved"
         });
         return res.jsonp(POPartDetails);
     }).catch(function (err) {

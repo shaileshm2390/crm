@@ -94,14 +94,16 @@ exports.insert = function (req, res) {
                     var fullUrl = req.originalUrl;
 
                     db.Watchdog.create({
-                        message: "New Sample Subnission Drawing is created",
+                        message: "New Sample Submission Drawing is created",
                         ipAddress: ipAddress,
                         pageUrl: fullUrl,
                         userId: req.user.id,
                         previousData: "",
                         updatedData: JSON.stringify(samplesubmissionimages),
                         RfqId: samplesubmissionimages.RfqId,
-                        RfqPartId: samplesubmissionimages.RfqPartId
+                        RfqPartId: samplesubmissionimages.RfqPartId,
+						action: "Added",
+						userMessage: "Sample Submission Drawing is created"
                     });
                     return res.jsonp(samplesubmissionimages);
                 }

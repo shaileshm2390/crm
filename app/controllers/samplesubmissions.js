@@ -75,7 +75,9 @@ exports.create = function (req, res) {
                         previousData: "",
                         updatedData: JSON.stringify(samplesubmission),
                         RfqId: samplesubmission.RfqId, 
-                        RfqPartId: samplesubmission.RfqPartId
+                        RfqPartId: samplesubmission.RfqPartId,
+						action: "Added",
+						userMessage: "Sample Submission with "+req.body.data[index].stage+" stage and "+req.body.data[index].stageProcess+" process has been created"
                     });
                     samplesubmissionList.push(samplesubmission);
                 }
@@ -142,7 +144,9 @@ exports.update = function (req, res) {
             pageUrl: fullUrl,
             userId: req.user.id,
             previousData: JSON.stringify(previousData),
-            updatedData: JSON.stringify(updatedData)
+            updatedData: JSON.stringify(updatedData),
+			action: "Updated",
+			userMessage: "Sample Submission with "+samplesubmission.stage+" stage and "+samplesubmission.stageProcess+" process has been updated"
         });
            return res.jsonp(a);
     }).catch(function (err) {

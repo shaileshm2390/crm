@@ -29,7 +29,9 @@ exports.save = function (req, res) {
                 pageUrl: fullUrl,
                 userId: handoverSubmitted.UserId,
                 previousData: "",
-                updatedData: JSON.stringify(handoverSubmitted)
+                updatedData: JSON.stringify(handoverSubmitted),
+				action: "Submitted",
+				userMessage: "Developement handover is submitted"
             });
             return res.jsonp(handoverSubmitted);
         }).catch(function (err) {

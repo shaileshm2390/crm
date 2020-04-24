@@ -29,7 +29,7 @@ exports.getPartTimeline = function (req, res) {
 };
 
 exports.partTimeline = function(req, res, next, id) {
-	db.sequelize.query("SELECT w.id, w.message, w.createdAt, w.pageUrl, u.email FROM Watchdogs w INNER JOIN Users u ON u.id = w.userId AND w.rfqPartId = "+id, { type: db.sequelize.QueryTypes.SELECT}).then(function (records) {
+	db.sequelize.query("SELECT w.*, u.email FROM Watchdogs w INNER JOIN Users u ON u.id = w.userId AND w.rfqPartId = "+id, { type: db.sequelize.QueryTypes.SELECT}).then(function (records) {
         if (!records) {
             req.partsTimeline = {};
             return next();

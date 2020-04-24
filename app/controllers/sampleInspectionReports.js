@@ -83,8 +83,10 @@ exports.create = function (req, res) {
                 userId: req.user.id,
                 previousData: "",
                 updatedData: JSON.stringify(SampleInspectionReport),
-					RfqId: req.body.RfqId, 
-					RfqPartId: req.body.RfqPartId
+				RfqId: req.body.RfqId, 
+				RfqPartId: req.body.RfqPartId,
+				action: "Added",
+				userMessage: "Sample inspection report is added"
             });
 
             return res.jsonp(SampleInspectionReport);

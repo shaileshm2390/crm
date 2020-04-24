@@ -70,17 +70,23 @@ exports.create = function (req, res) {
                             console.log("error");
                         } else {
                             var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
-
-                            db.Watchdog.create({
-                                message: "New PO Part Details inserted with id = " + data.id + " for RFQ id = " + data.RfqId + " and RFQ Part id = " + data.RfqPartId,
-                                ipAddress: ipAddress,
-                                pageUrl: fullUrl,
-                                userId: req.user.id,
-                                previousData: "",
-                                updatedData: JSON.stringify(data),
-                                RfqId: data.RfqId,
-                                RfqPartId: data.RfqPartId
-                            });
+							db.RfqParts.find({where: {id: data.RfqPartId}}).then(function(part) {
+								if (!part) {
+									db.Watchdog.create({
+										message: "New PO Part Details inserted with id = " + data.id + " for RFQ id = " + data.RfqId + " and RFQ Part id = " + data.RfqPartId,
+										ipAddress: ipAddress,
+										pageUrl: fullUrl,
+										userId: req.user.id,
+										previousData: "",
+										updatedData: JSON.stringify(data),
+										RfqId: data.RfqId,
+										RfqPartId: data.RfqPartId,
+										action: "Added",
+										userMessage: "New PO Part Details for "+part.partName+" has been added with sample Submission TargetDate = "+ POPartDeatils[index].sampleSubmissionTargetDate + " and developer target date = " + POPartDeatils[index].developerTargetDate
+									});
+								}
+							});
+                            
                         }
                     });
                 }
@@ -95,6 +101,8 @@ exports.create = function (req, res) {
                 RfqId: req.purchaseorders.RfqId,
                 previousData: "",
                 updatedData: JSON.stringify(purchaseorder),
+				action: "Added",
+				userMessage: "Purchase order has been created"
             });
 
             return res.jsonp(purchaseorder);
@@ -168,16 +176,22 @@ exports.update = function (req, res) {
                     } else {
                         var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
 
-                        db.Watchdog.create({
-                            message: "New PO Part Details inserted with id = " + data.id + " for RFQ id = " + data.RfqId + " and RFQ Part id = " + data.RfqPartId,
-                            ipAddress: ipAddress,
-                            pageUrl: fullUrl,
-                            userId: req.user.id,
-                            previousData: "",
-                            updatedData: JSON.stringify(data),
-                            RfqId: data.RfqId,
-                            RfqPartId: data.RfqPartId
-                        });
+                        db.RfqParts.find({where: {id: data.RfqPartId}}).then(function(part) {
+								if (!part) {
+									db.Watchdog.create({
+										message: "New PO Part Details inserted with id = " + data.id + " for RFQ id = " + data.RfqId + " and RFQ Part id = " + data.RfqPartId,
+										ipAddress: ipAddress,
+										pageUrl: fullUrl,
+										userId: req.user.id,
+										previousData: "",
+										updatedData: JSON.stringify(data),
+										RfqId: data.RfqId,
+										RfqPartId: data.RfqPartId,
+										action: "Added",
+										userMessage: "PO Part Details for "+part.partName+" has been updated with sample Submission TargetDate = "+ POPartDeatils[index].sampleSubmissionTargetDate + " and developer target date = " + POPartDeatils[index].developerTargetDate
+									});
+								}
+							});
                     }
                 });
             }

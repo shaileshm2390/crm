@@ -63,6 +63,7 @@ exports.create = function (req, res) {
         var mailObject = {
             from: 'info@metaforgeindia.com',
             to: req.body.buyerEmail,
+			//to: "shaileshm@imorsetech.com",
             subject: 'Metaforge - Quotation',
             html: req.body.emailContent
         };
@@ -102,8 +103,10 @@ exports.create = function (req, res) {
             userId: quotation.UserId,
             previousData: "",
             updatedData: JSON.stringify(quotation),
-					RfqId: req.body.RfqId, 
-					RfqPartId: req.body.RfqPartId
+			RfqId: req.body.RfqId, 
+			RfqPartId: req.body.RfqPartId,
+			action: "Created",
+			userMessage: "Quotation has been created and sent to buyer"
         });
         return res.jsonp(quotation);
     }).catch(function (err) {

@@ -32,8 +32,10 @@ exports.save = function (req, res) {
                 userId: developerHandover.UserId,
                 previousData: "",
                 updatedData: JSON.stringify(developerHandover),
-					RfqId: req.body.RfqId, 
-					RfqPartId: req.body.RfqPartId
+				RfqId: req.body.RfqId, 
+				RfqPartId: req.body.RfqPartId,
+				action: "Created",
+				userMessage: "Developement handover is completed"
             });
             return res.jsonp(developerHandover);
         }).catch(function (err) {
@@ -78,7 +80,9 @@ exports.update = function (req, res) {
                 previousData: "",
                 updatedData: JSON.stringify(a),
 					RfqId: req.body.RfqId, 
-					RfqPartId: req.body.RfqPartId
+					RfqPartId: req.body.RfqPartId,
+				action: "Updated",
+				userMessage: "Developement handover is updated"
             });
             return res.jsonp(a);
         }).catch(function (err) {

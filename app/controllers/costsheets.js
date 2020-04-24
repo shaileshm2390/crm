@@ -32,7 +32,9 @@ exports.create = function (req, res) {
                     previousData: "",
                     updatedData: JSON.stringify(costSheet),
 					RfqId: req.body.RfqId, 
-					RfqPartId: req.body.RfqPartId
+					RfqPartId: req.body.RfqPartId,
+					action: "Created",
+					userMessage: "New Costsheet created"
                 });
                 return res.jsonp(costSheet);
             }).catch(function (err) {
@@ -51,7 +53,9 @@ exports.create = function (req, res) {
                 previousData: "",
                 updatedData: JSON.stringify(costSheet),
 				RfqId: req.body.RfqId, 
-				RfqPartId: req.body.RfqPartId
+				RfqPartId: req.body.RfqPartId,
+				action: "Created",
+				userMessage: "New Costsheet created"
             });
             return res.jsonp(costSheet);
         }).catch(function (err) {      

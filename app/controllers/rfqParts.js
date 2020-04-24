@@ -28,8 +28,10 @@ exports.save = function (req, res) {
             userId: rfqParts.UserId,
             previousData: "",
             updatedData: JSON.stringify(rfqParts),
-					RfqId: rfqParts.RfqId, 
-					RfqPartId: rfqParts.id
+			RfqId: rfqParts.RfqId, 
+			RfqPartId: rfqParts.id,
+			action: "Created",
+			userMessage: "RFQ Part "+ rfqParts.partName +" is created"
         });
         return res.jsonp(rfqParts);
     }).catch(function (err) {
@@ -145,8 +147,10 @@ exports.update = function (req, res) {
                 pageUrl: fullUrl,
                 previousData: "",
                 updatedData: JSON.stringify(req.body.records),
-					RfqId: req.body.RfqId, 
-					RfqPartId: rfqParts.id
+				RfqId: req.body.RfqId, 
+				RfqPartId: rfqParts.id,
+				action: "Created",
+				userMessage: "RFQ Part "+ req.body.records[0].partName +" is created"
             });
 
             return res.jsonp(rfqParts);
@@ -167,8 +171,10 @@ exports.update = function (req, res) {
                 pageUrl: fullUrl,
                 previousData: "",
                 updatedData: JSON.stringify(req.body.records),
-					RfqId: req.body.RfqId, 
-					RfqPartId: req.body.records[0].id
+				RfqId: req.body.RfqId, 
+				RfqPartId: req.body.records[0].id,
+				action: "Updated",
+				userMessage: "RFQ Part "+ req.body.records[0].partName +" is updated"
             });
             return res.jsonp(rfqParts);
         }).catch(function (err) {

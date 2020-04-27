@@ -64,31 +64,7 @@ exports.create = function (req, res) {
                 db.POPartDetail.destroy({ where: { RfqId: POPartDeatils[0].RfqId } });
 
                 for (var index = 0; index < POPartDeatils.length; index++) {
-
-                    db.POPartDetail.create(POPartDeatils[index]).then(function (data) {
-                        if (!data) {
-                            console.log("error");
-                        } else {
-                            var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
-							db.RfqParts.find({where: {id: data.RfqPartId}}).then(function(part) {
-								if (!part) {
-									db.Watchdog.create({
-										message: "New PO Part Details inserted with id = " + data.id + " for RFQ id = " + data.RfqId + " and RFQ Part id = " + data.RfqPartId,
-										ipAddress: ipAddress,
-										pageUrl: fullUrl,
-										userId: req.user.id,
-										previousData: "",
-										updatedData: JSON.stringify(data),
-										RfqId: data.RfqId,
-										RfqPartId: data.RfqPartId,
-										action: "Added",
-										userMessage: "New PO Part Details for "+part.partName+" has been added with sample Submission TargetDate = "+ POPartDeatils[index].sampleSubmissionTargetDate + " and developer target date = " + POPartDeatils[index].developerTargetDate
-									});
-								}
-							});
-                            
-                        }
-                    });
+                    module.exports.maintainWatchdog(index, POPartDeatils, req); 
                 }
             }
             var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
@@ -114,6 +90,37 @@ exports.create = function (req, res) {
         //});
         console.log(err);
     });
+};
+
+
+exports.maintainWatchdog = function(index, POPartDeatils, req) {
+	setTimeout(function() { 
+		var item = POPartDeatils[index];
+		db.POPartDetail.create(POPartDeatils[index]).then(function (data) {
+			if (!data) {
+				console.log("error");
+			} else {
+				var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
+				db.RfqParts.find({where: {id: item.RfqPartId}}).then(function(part) {
+					console.log("181 ",item, part);
+						if (part) {
+							db.Watchdog.create({
+								message: "New PO Part Details inserted with id = " + data.id + " for RFQ id = " + item.RfqId + " and RFQ Part id = " + item.RfqPartId,
+								ipAddress: ipAddress,
+								pageUrl: fullUrl,
+								userId: req.user.id,
+								previousData: "",
+								updatedData: JSON.stringify(data),
+								RfqId: item.RfqId,
+								RfqPartId: item.RfqPartId,
+								action: "Added",
+								userMessage: "PO Part Details for "+part.partName+" has been updated with sample Submission TargetDate = "+ item.sampleSubmissionTargetDate + " and developer target date = " + item.developerTargetDate
+							});
+						}
+					});
+			}
+		});
+	}, 2000);
 };
 
 /**
@@ -167,33 +174,9 @@ exports.update = function (req, res) {
         if (req.body.POPartDeatils.length > 0) {
             var POPartDeatils = JSON.parse(req.body.POPartDeatils);
             db.POPartDetail.destroy({ where: { RfqId: POPartDeatils[0].RfqId } });
-
+			var item;
             for (var index = 0; index < POPartDeatils.length; index++) {
-                
-                db.POPartDetail.create(POPartDeatils[index]).then(function (data) {
-                    if (!data) {
-                        console.log("error");
-                    } else {
-                        var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
-
-                        db.RfqParts.find({where: {id: data.RfqPartId}}).then(function(part) {
-								if (!part) {
-									db.Watchdog.create({
-										message: "New PO Part Details inserted with id = " + data.id + " for RFQ id = " + data.RfqId + " and RFQ Part id = " + data.RfqPartId,
-										ipAddress: ipAddress,
-										pageUrl: fullUrl,
-										userId: req.user.id,
-										previousData: "",
-										updatedData: JSON.stringify(data),
-										RfqId: data.RfqId,
-										RfqPartId: data.RfqPartId,
-										action: "Added",
-										userMessage: "PO Part Details for "+part.partName+" has been updated with sample Submission TargetDate = "+ POPartDeatils[index].sampleSubmissionTargetDate + " and developer target date = " + POPartDeatils[index].developerTargetDate
-									});
-								}
-							});
-                    }
-                });
+				module.exports.maintainWatchdog(index, POPartDeatils, req);                
             }
         }
         var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
@@ -207,6 +190,7 @@ exports.update = function (req, res) {
             RfqId: req.purchaseorders.RfqId,
             previousData: JSON.stringify(previousData),
             updatedData: JSON.stringify(updatedData),
+			RfqId: req.purchaseorders.RfqId
         });
         return res.jsonp(a);
         }).catch(function (err) {

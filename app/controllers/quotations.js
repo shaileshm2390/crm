@@ -103,11 +103,25 @@ exports.create = function (req, res) {
             userId: quotation.UserId,
             previousData: "",
             updatedData: JSON.stringify(quotation),
-			RfqId: req.body.RfqId, 
-			RfqPartId: req.body.RfqPartId,
+			RfqId: req.body.RfqId,
 			action: "Created",
 			userMessage: "Quotation has been created and sent to buyer"
-        });
+        }).then(function(data) {
+			if(data) {
+				db.RfqParts.findAll({
+					where: { RfqId: req.body.RfqId },
+				}).then(function (rfqParts) {
+					if (rfqParts) {
+						for (var index = 0; index < rfqParts.length; index++) {
+							module.exports.maintainWatchdog(rfqParts[index], req, quotation); 
+						}
+					}
+				}).catch(function (err) {
+					return next(err);
+				});
+			}
+		});
+		
         return res.jsonp(quotation);
     }).catch(function (err) {
         return res.send('/signin', {
@@ -115,6 +129,23 @@ exports.create = function (req, res) {
             status: 500
         });
     });
+};
+
+exports.maintainWatchdog = function(part, req, quotation) {
+	setTimeout(function() { 
+		db.Watchdog.create({
+            message: "New Quotation is created with id = " + quotation.id + " for part id " + part.id,
+            ipAddress: ipAddress,
+            pageUrl: req.originalUrl,
+            userId: quotation.UserId,
+            previousData: "",
+            updatedData: JSON.stringify(quotation),
+			RfqId: req.body.RfqId,
+			RfqPartId: part.id,
+			action: "Created",
+			userMessage: "Quotation has been created and sent to buyer"
+        });
+	}, 2000);
 };
 
 exports.all = function (req, res) {

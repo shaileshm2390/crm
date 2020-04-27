@@ -35,6 +35,37 @@ exports.samplesubmission = function (req, res, next, id) {
     });
 };
 
+exports.createSampleSubmission = function(index, sampleSubmissionRequest, req) {
+	var samplesubmissionList = new Array();
+	var promise = new Promise(function(resolve, reject) {
+		var item = req.body.data[index];
+            db.Samplesubmission.create(sampleSubmissionRequest).then(function (samplesubmission) {
+                if (!samplesubmission) {
+                    return res.send('/signin', { errors: new StandardError('sample submission could not be created') });
+                } else {
+                    var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
+					console.log(item);
+                    db.Watchdog.create({
+                        message: "New Sample Submission is created",
+                        ipAddress: ipAddress,
+                        pageUrl: fullUrl,
+                        userId: req.user.id,
+                        previousData: "",
+                        updatedData: JSON.stringify(samplesubmission),
+                        RfqId: samplesubmission.RfqId, 
+                        RfqPartId: samplesubmission.RfqPartId,
+						action: "Updated",
+						userMessage: "Sample Submission with "+item.stage+" stage and "+item.stageProcess+" process has been updated"
+                    });
+                    resolve(samplesubmission);
+                }
+            }).catch(function (err) {       
+                console.log(err);
+            });
+	});
+	return promise;
+};
+
 /**
  * Create a department
  */
@@ -47,8 +78,7 @@ exports.create = function (req, res) {
         var totalData = req.body.data.length,
             sampleSubmissionRequest; 
         for (var index = 0; index < totalData; index++) {
-
-            sampleSubmissionRequest = {
+			var sampleSubmissionRequest = {
                 operation: req.body.data[index].operation,
                 stage: req.body.data[index].stage,
                 stageProcess: req.body.data[index].stageProcess,
@@ -61,29 +91,9 @@ exports.create = function (req, res) {
                 RfqPartId: req.body.data[index].RfqPartId,
                 expectedDate: req.body.data[index].expectedDate
             };
-            
-            db.Samplesubmission.create(sampleSubmissionRequest).then(function (samplesubmission) {
-                if (!samplesubmission) {
-                    return res.send('/signin', { errors: new StandardError('sample submission could not be created') });
-                } else {
-                    var fullUrl = req.originalUrl; //req.protocol + '://' + req.get('host') + req.originalUrl;
-                    db.Watchdog.create({
-                        message: "New Sample Submission is created",
-                        ipAddress: ipAddress,
-                        pageUrl: fullUrl,
-                        userId: req.user.id,
-                        previousData: "",
-                        updatedData: JSON.stringify(samplesubmission),
-                        RfqId: samplesubmission.RfqId, 
-                        RfqPartId: samplesubmission.RfqPartId,
-						action: "Added",
-						userMessage: "Sample Submission with "+req.body.data[index].stage+" stage and "+req.body.data[index].stageProcess+" process has been created"
-                    });
-                    samplesubmissionList.push(samplesubmission);
-                }
-            }).catch(function (err) {       
-                console.log(err);
-            });
+			module.exports.createSampleSubmission(index, sampleSubmissionRequest, req).then(function(data){
+				samplesubmissionList.push(data);
+			});
         }
     }
     return res.jsonp(samplesubmissionList);

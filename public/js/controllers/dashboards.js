@@ -55,7 +55,7 @@ var app = angular.module('mean.dashboards').controller('DashboardsController', [
                                 $scope.myRfqs[index].customStatus += "<a class='btn btn-info' href='/rfq/" + $scope.myRfqs[index].id + "/costsheet/prepare/" + $scope.myRfqs[index].RfqParts[partIndex].id  +"'>Prepare Cost Sheet</a>";
 
                             }
-                            else if (!$scope.myRfqs[index].RfqParts[partIndex].CostSheets.some(function (o) { return o["status"].toLowerCase() === "approved"; })) {
+                            else if (!$scope.myRfqs[index].RfqParts[partIndex].CostSheets.some(function (o) { return o["status"] !== null && o["status"].toLowerCase() === "approved"; })) {
                                 $scope.myRfqs[index].customStatus += "<a class='btn btn-warning' href='/rfq/" + $scope.myRfqs[index].id + "/costsheet/approval/" + $scope.myRfqs[index].RfqParts[partIndex].id +"'>Waiting for Cost Sheet Approval</a>";
 
                             } else if (!$scope.myRfqs[index].Quotations.length) {
@@ -64,7 +64,7 @@ var app = angular.module('mean.dashboards').controller('DashboardsController', [
                             } else if (!$scope.myRfqs[index].PurchaseOrders.length) {
                                 $scope.myRfqs[index].customStatus += "<a class='btn btn-danger' href='/rfq/" + $scope.myRfqs[index].id + "/purchaseorder'>Waiting for PO</a>";
 
-                            } else if (!$scope.myRfqs[index].PurchaseOrders.some(function (o) { return o["status"].toLowerCase() === "complete"; })) {
+                            } else if (!$scope.myRfqs[index].PurchaseOrders.some(function (o) { return o["status"] !== null && o["status"].toLowerCase() === "complete"; })) {
                                 $scope.myRfqs[index].customStatus += "<a class='btn btn-warning' href='/rfq/" + $scope.myRfqs[index].id + "/purchaseorder'>Waiting for PO approval</a>";
 
                             }

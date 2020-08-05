@@ -27,7 +27,7 @@
     "express": "^4.13.3",
     "express-dynamic-helpers-patch": "0.0.2",
     "express-ejs-extend": "0.0.1",
-    "express-fileupload": "^0.4.0",
+    "express-fileupload": "^1.1.9",
     "express-sequelize-session": "^0.4.0",
     "express-session": "^1.12.1",
     "glob": "^6.0.1",

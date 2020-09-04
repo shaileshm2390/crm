@@ -57,7 +57,7 @@
     "randomstring": "^1.1.5",
 	"html-pdf":"^2.2.0",
     "request": "^2.87.0",
-    "sequelize": "^3.13.0",
+    "sequelize": "^6.3.5",
     "serve-favicon": "^2.3.0",
     "standard-error": "^1.1.0",
     "view-helpers": "latest",
